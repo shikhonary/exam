@@ -1,0 +1,1013 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../master-client-types"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+// --- Models ---
+
+model User {
+    id            String    @id @default(uuid())
+    name          String
+    email         String    @unique
+    emailVerified Boolean   @default(false)
+    image         String?
+    role          String    @default("USER")
+    isActive      Boolean   @default(true)
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    deletedAt     DateTime?
+
+    sessions    Session[]
+    accounts    Account[]
+    memberships TenantMember[]
+    tenants     Tenant[]       @relation("TenantOwner")
+
+    @@index([email])
+    @@index([role])
+    @@map("user")
+}
+
+model Session {
+    id        String   @id @default(uuid())
+    expiresAt DateTime
+    token     String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    ipAddress String?
+    userAgent String?
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id @default(uuid())
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
+
+    @@unique([providerId, accountId])
+    @@index([userId])
+    @@map("account")
+}
+
+model Verification {
+    id         String   @id @default(uuid())
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@unique([identifier, value])
+    @@map("verification")
+}
+
+model Tenant {
+    id                   String  @id @default(uuid())
+    name                 String
+    slug                 String  @unique
+    description          String?
+    logo                 String?
+    type                 String // e.g., "EDUCATION", "GOVERNMENT"
+    email                String
+    phone                String
+    address              String
+    city                 String
+    state                String
+    postalCode           String?
+    subdomain            String? @unique
+    customDomain         String? @unique
+    customDomainVerified Boolean @default(false)
+
+    // Multi-tenancy Isolation
+    databaseName     String? @unique
+    connectionString String?
+    databaseStatus   String  @default("PENDING")
+
+    // Generalized Metrics 
+    // (You can use metadata for specific counts or rename these)
+    userCount     Int @default(0) // Replacing student/teacher count
+    recordCount   Int @default(0) // General counter for exams or tax records
+    storageUsedMB Int @default(0)
+
+    isActive      Boolean @default(true)
+    isSuspended   Boolean @default(false)
+    suspendReason String?
+
+    // Tax & Administrative Fields
+    currentFiscalYear  String? // More appropriate than AcademicYear for tax
+    registrationNumber String? // For official government/union ID
+
+    metadata Json @default("{}")
+
+    // Relations
+    createdById String?
+    owner       User?   @relation("TenantOwner", fields: [createdById], references: [id], onDelete: SetNull)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    // Flexible Limits
+    customUserLimit    Int?
+    customRecordLimit  Int?
+    customStorageLimit Int?
+
+    subscription Subscription?
+    members      TenantMember[]
+    invitations  TenantInvitation[]
+
+    @@index([slug])
+    @@map("tenant")
+}
+
+model TenantMember {
+    id        String   @id @default(uuid())
+    userId    String
+    tenantId  String
+    role      String   @default("STUDENT")
+    isActive  Boolean  @default(true)
+    joinedAt  DateTime @default(now()) @map("joinedAt")
+    // FIX: removed redundant @default(now()) — @updatedAt manages this automatically
+    updatedAt DateTime @updatedAt
+
+    // FIX: Cascade on both sides — a membership record is meaningless without its User or Tenant
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, tenantId])
+    @@index([tenantId])
+    @@index([userId])
+    @@map("tenant_member")
+}
+
+model TenantInvitation {
+    id         String    @id @default(uuid())
+    tenantId   String
+    email      String
+    role       String    @default("TEACHER")
+    token      String    @unique
+    expiresAt  DateTime
+    invitedBy  String
+    acceptedAt DateTime?
+    acceptedBy String?
+    message    String?
+    name       String?
+    status     String    @default("PENDING")
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+
+    // FIX: Cascade — invitations are owned by the tenant, delete with it
+    tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+    @@unique([email, tenantId])
+    @@index([email])
+    @@index([status])
+    @@index([tenantId])
+    @@index([token])
+    @@map("tenant_invitation")
+}
+
+model SubscriptionPlan {
+    id          String  @id @default(uuid())
+    name        String  @unique
+    displayName String
+    description String?
+
+    monthlyPriceBDT Int @default(0)
+    yearlyPriceBDT  Int @default(0)
+    monthlyPriceUSD Int @default(0)
+    yearlyPriceUSD  Int @default(0)
+
+    features  Json    @default("{}")
+    isActive  Boolean @default(true)
+    isPopular Boolean @default(false)
+
+    defaultUserLimit  Int @default(10)
+    defaultAdminLimit Int @default(2)
+    defaultRecordLimit Int @default(20)
+    defaultStorageLimit Int @default(100)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    subscriptions Subscription[]
+
+    @@map("subscription_plan")
+}
+
+model Subscription {
+    id       String @id @default(uuid())
+    tenantId String @unique
+    planId   String
+
+    status String
+
+    currentPeriodStart DateTime
+    currentPeriodEnd   DateTime
+    trialEndsAt        DateTime?
+
+    billingCycle  String @default("monthly")
+    currency      String @default("BDT")
+    pricePerMonth Int
+    pricePerYear  Int?
+
+    paymentProvider String?
+    externalId      String?
+
+    cancelAtPeriodEnd Boolean   @default(false)
+    canceledAt        DateTime?
+    cancelReason      String?
+
+    customUserLimit  Int?
+    customAdminLimit Int?
+    customRecordLimit Int?
+    customStorageLimit Int?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FIX: Cascade — subscription is owned by tenant
+    tenant Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    // FIX: Restrict — prevent deleting a plan that has active subscriptions
+    plan   SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+    history SubscriptionHistory[]
+
+    @@index([currentPeriodEnd])
+    @@index([planId])
+    @@index([status])
+    @@index([tenantId])
+    @@map("subscription")
+}
+
+model SubscriptionHistory {
+    id             String   @id @default(uuid())
+    subscriptionId String
+    event          String
+    fromPlanId     String?
+    toPlanId       String?
+    fromStatus     String?
+    toStatus       String?
+    reason         String?
+    metadata       Json     @default("{}")
+    createdBy      String?
+    createdAt      DateTime @default(now())
+
+    // FIX: Cascade — history is owned by the subscription
+    subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+    @@index([createdAt])
+    @@index([subscriptionId])
+    @@map("subscription_history")
+}
+
+model Invoice {
+    id            String @id @default(uuid())
+    tenantId      String
+    invoiceNumber String @unique
+    amount        Int
+    currency      String @default("BDT")
+    status        String @default("PENDING")
+
+    periodStart DateTime
+    periodEnd   DateTime
+    dueDate     DateTime?
+    paidAt      DateTime?
+
+    paymentMethod    String?
+    paymentProvider  String?
+    paymentReference String?
+
+    pdfUrl      String? @map("invoicePdfUrl")
+    lineItems   Json    @default("[]")
+    description String?
+    notes       String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // NOTE: tenantId is intentionally a bare FK string (no @relation) so that invoices
+    //       are retained as financial records even if the Tenant is soft-deleted.
+    //       If you want hard-delete cascade, add:
+    //         tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+    //       and add `invoices Invoice[]` to the Tenant model.
+
+    @@index([dueDate])
+    @@index([invoiceNumber])
+    @@index([status])
+    @@index([tenantId])
+    @@map("invoice")
+}
+
+// ---------------------------------------------------------------------------
+// Academic hierarchy:  Class ←→ Subject (m-n)  →  Chapter → Topic → SubTopic
+//
+// FIX: The original schema used an implicit m-n between AcademicClass and
+//      AcademicSubject. Implicit m-n relations in Prisma cannot have custom
+//      onDelete/onUpdate referential actions. We convert it to an EXPLICIT
+//      join model (AcademicClassSubject) so we can control cascade behaviour
+//      and add metadata (e.g. a position per class-subject pair) in future.
+//
+// FIX: AcademicChapter previously had an ambiguous optional `academicClassId`
+//      alongside the required `subjectId`. A chapter belongs to a subject;
+//      the subject already carries its class memberships. The direct class
+//      link on Chapter is therefore redundant and has been removed to avoid
+//      inconsistency. If you genuinely need per-chapter class scoping, add it
+//      back as a required FK with a clear business rule.
+// ---------------------------------------------------------------------------
+
+model AcademicClass {
+    id          String   @id @default(uuid())
+    name        String   @unique
+    level       String
+    displayName String
+    position    Int      @default(0)
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    classSubjects  AcademicClassSubject[]
+    questionPapers QuestionPaper[]
+
+    @@index([isActive])
+    @@index([name])
+    @@map("academic_class")
+}
+
+model AcademicSubject {
+    id          String  @id @default(uuid())
+    name        String
+    displayName String
+    code        String?
+    group       String?
+    position    Int     @default(0)
+    isActive    Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    classSubjects         AcademicClassSubject[]
+    chapters              AcademicChapter[]
+    mcqs                  Mcq[]
+    cqs                   Cq[]
+    questionPaperSubjects QuestionPaperSubject[]
+    questionTypes         SubjectQuestionType[]
+
+    @@index([isActive])
+    @@map("academic_subject")
+}
+
+// FIX: Explicit many-to-many join table for AcademicClass ↔ AcademicSubject.
+//      Cascade on both sides: removing a class or subject removes the mapping row,
+//      not the other side's data.
+model AcademicClassSubject {
+    id        String   @id @default(uuid())
+    classId   String
+    subjectId String
+    position  Int      @default(0) // optional ordering per class
+    createdAt DateTime @default(now())
+
+    academicClass   AcademicClass   @relation(fields: [classId], references: [id], onDelete: Cascade)
+    academicSubject AcademicSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+    @@unique([classId, subjectId])
+    @@index([classId])
+    @@index([subjectId])
+    @@map("academic_class_subject")
+}
+
+model AcademicChapter {
+    id          String  @id @default(uuid())
+    name        String
+    displayName String
+    position    Int     @default(0)
+    isActive    Boolean @default(true)
+    subjectId   String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FIX: Restrict — don't silently delete chapters when a subject is deleted;
+    //      require explicit cleanup so question data is not orphaned.
+    subject AcademicSubject @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+    topics AcademicTopic[]
+    mcqs   Mcq[]
+    cqs    Cq[]
+
+    @@index([isActive])
+    @@index([subjectId])
+    @@map("academic_chapter")
+}
+
+model AcademicTopic {
+    id          String  @id @default(uuid())
+    name        String
+    displayName String
+    position    Int     @default(0)
+    isActive    Boolean @default(true)
+    chapterId   String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FIX: Restrict — preserve question integrity
+    chapter AcademicChapter @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+
+    subtopics AcademicSubTopic[]
+    mcqs      Mcq[]
+    cqs       Cq[]
+
+    @@index([chapterId])
+    @@index([isActive])
+    @@map("academic_topic")
+}
+
+model AcademicSubTopic {
+    id          String  @id @default(uuid())
+    name        String
+    displayName String
+    position    Int     @default(0)
+    isActive    Boolean @default(true)
+    topicId     String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // FIX: Restrict — preserve question integrity
+    topic AcademicTopic @relation(fields: [topicId], references: [id], onDelete: Restrict)
+
+    mcqs Mcq[]
+    cqs  Cq[]
+
+    @@index([isActive])
+    @@index([topicId])
+    @@map("academic_subtopic")
+}
+
+model QuestionType {
+    id          String @id @default(uuid())
+    name        String
+    displayName String
+    label       String
+
+    subjects      SubjectQuestionType[]
+    mcqs          Mcq[]
+    cqs           Cq[]
+    distributions QuestionPaperSubjectMarkDistribution[]
+    questions     QuestionPaperQuestion[]
+
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("question_type")
+}
+
+model SubjectQuestionType {
+    id             String @id @default(uuid())
+    subjectId      String
+    questionTypeId String
+    label          String
+
+    subject      AcademicSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+    questionType QuestionType    @relation(fields: [questionTypeId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+
+    @@unique([subjectId, questionTypeId])
+    @@index([subjectId])
+    @@index([questionTypeId])
+    @@map("subject_question_type")
+}
+
+model Mcq {
+    id          String   @id @default(uuid())
+    question    String
+    answer      String
+    options     String[]
+    statements  String[] @default([])
+    type        String
+    isMath      Boolean  @default(false)
+    reference   String[] @default([])
+    explanation String?
+    session     Int
+    source      String?
+    questionUrl String?
+    context     String?
+    contextUrl  String?
+
+    subjectId  String
+    chapterId  String
+    topicId    String?
+    subTopicId String?
+
+    // FIX: Restrict on required FKs — do not silently delete thousands of questions
+    //      when an academic hierarchy node is removed. Force explicit cleanup.
+    subject  AcademicSubject   @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+    chapter  AcademicChapter   @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+    // FIX: SetNull on optional FKs — topic/subtopic can be removed without losing the question
+    topic    AcademicTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
+    subtopic AcademicSubTopic? @relation(fields: [subTopicId], references: [id], onDelete: SetNull)
+
+    questionTypeId String?
+    questionType   QuestionType? @relation(fields: [questionTypeId], references: [id], onDelete: SetNull)
+
+    isActive Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    questionPapers QuestionPaperQuestion[]
+
+    @@index([chapterId])
+    @@index([chapterId, type])
+    @@index([isMath])
+    @@index([session])
+    @@index([subjectId, chapterId])
+    @@index([subjectId])
+    @@index([subjectId, type])
+    @@index([type])
+    @@index([type, session])
+    @@map("Mcq")
+}
+
+model Cq {
+    id        String   @id @default(uuid())
+    questionA String
+    questionB String
+    questionC String
+    questionD String
+    context   String?
+    marks     Float    @default(10)
+    isActive  Boolean  @default(true)
+    reference String[] @default([])
+    session   Int?
+    source    String?
+
+    subjectId  String
+    chapterId  String
+    topicId    String?
+    subTopicId String?
+
+    // FIX: Restrict on required FKs, SetNull on optional FKs (same rationale as Mcq)
+    subject  AcademicSubject   @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+    chapter  AcademicChapter   @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+    topic    AcademicTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
+    subtopic AcademicSubTopic? @relation(fields: [subTopicId], references: [id], onDelete: SetNull)
+
+    questionTypeId String?
+    questionType   QuestionType? @relation(fields: [questionTypeId], references: [id], onDelete: SetNull)
+
+    // --- Added Relations ---
+    attachments    CqAttachment[]
+    answer         CqAnswer?
+    questionPapers QuestionPaperQuestion[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([chapterId])
+    @@index([isActive])
+    @@index([subjectId])
+    @@map("cq")
+}
+
+model CqAttachment {
+    id   String @id @default(uuid())
+    cqId String
+    cq   Cq     @relation(fields: [cqId], references: [id], onDelete: Cascade)
+
+    url      String
+    type     String  @default("image") // "image", "pdf", etc.
+    caption  String?
+    position Int     @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([cqId])
+    @@map("cq_attachment")
+}
+
+model CqAnswer {
+    id   String @id @default(uuid())
+    cqId String @unique
+    cq   Cq     @relation(fields: [cqId], references: [id], onDelete: Cascade)
+
+    answerA     String?
+    answerB     String?
+    answerC     String?
+    answerD     String?
+    explanation String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("cq_answer")
+}
+
+// NOTE: AuditLog and Notification intentionally use bare String FKs for
+//       userId / tenantId rather than @relation. This is the correct pattern
+//       for append-only log/notification tables: records must survive the
+//       deletion of the user or tenant they reference.
+model AuditLog {
+    id          String  @id @default(uuid())
+    action      String
+    entity      String
+    entityId    String?
+    description String?
+    metadata    Json?   @default("{}")
+    ipAddress   String?
+    userAgent   String?
+    userId      String?
+    tenantId    String?
+
+    createdAt DateTime @default(now())
+
+    @@index([action])
+    @@index([createdAt])
+    @@index([entity])
+    @@index([tenantId])
+    @@index([userId])
+    @@map("audit_log")
+}
+
+model SystemSetting {
+    id          String  @id @default(uuid())
+    key         String  @unique
+    value       String
+    type        String  @default("string")
+    description String?
+    category    String? @map("category")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([category])
+    @@map("system_setting")
+}
+
+model Notification {
+    id          String  @id @default(uuid())
+    title       String
+    message     String
+    type        String  @default("info")
+    read        Boolean @default(false)
+    actionUrl   String?
+    actionLabel String?
+    userId      String?
+    tenantId    String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([createdAt])
+    @@index([read])
+    @@index([tenantId])
+    @@index([userId])
+    @@map("notification")
+}
+
+// ---------------------------------------------------------------------------
+// PDF Ingestion & Content Pipeline
+// Book → Chapter → ContentBlock → ContentBlockMedia (images)
+//                               → AudioCache        (TTS mp3)
+// PdfIngestionJob tracks the Inngest-driven extraction workflow per Book.
+// ---------------------------------------------------------------------------
+
+/// Tracks a single Inngest-driven PDF extraction job for one Book.
+model PdfIngestionJob {
+    id     String @id @default(uuid())
+    bookId String @unique
+    book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+    /// PENDING | PROCESSING | COMPLETED | FAILED
+    status String @default("PENDING")
+
+    fileName      String
+    fileUrl       String
+    fileSizeBytes Int
+
+    totalPages      Int?
+    processedPages  Int  @default(0)
+    chaptersFound   Int  @default(0)
+    blocksExtracted Int  @default(0)
+    figuresCropped  Int  @default(0)
+
+    /// Inngest event ID — used for tracing in the Inngest dashboard
+    inngestEventId String?
+    /// Which Gemini model was used, e.g. "gemini-2.0-flash"
+    geminiModel    String?
+    errorMessage   String?
+    uploadedById   String?
+
+    startedAt   DateTime?
+    completedAt DateTime?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@index([status])
+    @@map("pdf_ingestion_job")
+}
+
+/// A textbook registered in the system (e.g. NCTB Class 9 Physics — Bangla version).
+model Book {
+    id          String  @id @default(uuid())
+    title       String
+    /// e.g. 9, 10, 11
+    classLevel  Int
+    /// "Bangla" | "English"
+    version     String
+    coverUrl    String?
+    description String?
+    isActive    Boolean @default(true)
+
+    /// Optional links into the existing academic hierarchy
+    academicClassId   String?
+    academicSubjectId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    chapters     Chapter[]
+    ingestionJob PdfIngestionJob?
+
+    @@index([classLevel])
+    @@index([academicClassId])
+    @@index([academicSubjectId])
+    @@map("book")
+}
+
+/// A chapter extracted from a Book's PDF.
+model Chapter {
+    id     String @id @default(uuid())
+    bookId String
+    book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+    chapterNo   Int
+    chapterName String
+    pageStart   Int?
+    pageEnd     Int?
+    /// Display ordering within the book
+    position    Int    @default(0)
+
+    /// Optional link to the existing AcademicChapter node (set manually by admin)
+    academicChapterId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    blocks ContentBlock[]
+
+    @@unique([bookId, chapterNo])
+    @@index([bookId])
+    @@index([academicChapterId])
+    @@map("chapter")
+}
+
+/// A single logical unit of content within a chapter.
+/// type: "heading" | "paragraph" | "figure" | "formula" | "table"
+model ContentBlock {
+    id        String  @id @default(uuid())
+    chapterId String
+    chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+    /// "heading" | "paragraph" | "figure" | "formula" | "table"
+    type String
+
+    /// Extracted Bangla/English text (all types except pure figure blocks)
+    rawText       String?
+    /// Gemini-generated Bangla description for figures — used by TTS voice feature
+    aiDescription String?
+
+    /// Fractional index so blocks can be re-ordered without renumbering (midpoint algorithm)
+    orderIndex Float
+    pageNumber Int
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    /// Zero-to-many cropped images (supports compound figures like Fig 3.1a, 3.1b, 3.1c)
+    media      ContentBlockMedia[]
+    audioCache AudioCache[]
+
+    @@index([chapterId])
+    @@index([chapterId, orderIndex])
+    @@index([type])
+    @@index([pageNumber])
+    @@map("content_block")
+}
+
+/// One cropped image belonging to a ContentBlock.
+/// A single "figure" ContentBlock can have multiple rows here
+/// (e.g. a compound figure with sub-diagrams 3.1a, 3.1b, 3.1c).
+model ContentBlockMedia {
+    id      String       @id @default(uuid())
+    blockId String
+    block   ContentBlock @relation(fields: [blockId], references: [id], onDelete: Cascade)
+
+    /// Relative VPS path: /uploads/images/diagrams/{uuid}.png
+    mediaPath String
+    mimeType  String @default("image/png")
+
+    /// e.g. "চিত্র ৩.১ক — ঘর্ষণ বল"
+    caption String?
+    /// Per-image Gemini description (separate from block-level aiDescription)
+    altText String?
+
+    pageNumber  Int?
+    /// PDF coordinate bounding box used for the crop: { x, y, width, height }
+    boundingBox Json?
+    /// Ordering within the block (0 = first sub-image)
+    position    Int   @default(0)
+
+    widthPx  Int?
+    heightPx Int?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([blockId])
+    @@map("content_block_media")
+}
+
+/// Caches TTS-generated .mp3 files to avoid duplicate API calls.
+/// textHash (SHA-256 of the text) is the deduplication key.
+model AudioCache {
+    id      String       @id @default(uuid())
+    blockId String
+    block   ContentBlock @relation(fields: [blockId], references: [id], onDelete: Cascade)
+
+    /// SHA-256 of rawText or aiDescription — same text = same cached file
+    textHash String @unique
+    /// Relative VPS path: /uploads/audio/{hash}.mp3
+    vpsPath  String
+    /// Audio duration in seconds
+    duration Int?
+    language String @default("bn")
+
+    createdAt DateTime @default(now())
+
+    @@index([blockId])
+    @@index([textHash])
+    @@map("audio_cache")
+}
+
+// ─────────────────────────────────────────────────────────────
+//  QuestionPaper  –  improved data model with mark breakdown
+// ─────────────────────────────────────────────────────────────
+
+model QuestionPaper {
+    id          String  @id @default(uuid())
+    title       String
+    examName    String
+    description String?
+
+    classId       String
+    academicClass AcademicClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+    // Full paper-level settings JSON (layout, typography, header toggles, etc.)
+    settings Json    @default("{}")
+    status   String  @default("Draft") // "Draft" | "Published"
+    isActive Boolean @default(true)
+
+    // ── Aggregate totals (denormalised for fast reads) ──────────
+    //    Recomputed whenever subjects / distributions change.
+    total         Float @default(0)
+    timeInMinutes Int   @default(0)
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    // ── Relations ───────────────────────────────────────────────
+    questions QuestionPaperQuestion[]
+    subjects  QuestionPaperSubject[]
+
+    @@index([status])
+    @@index([isActive])
+    @@index([createdAt])
+    @@map("question_paper")
+}
+
+// ── One row per (paper × subject) ──────────────────────────────
+model QuestionPaperSubject {
+    id              String @id @default(uuid())
+    questionPaperId String
+    subjectId       String
+
+    // Denormalised subject-level total (sum of all distributions below)
+    subjectTotal Float @default(0)
+
+    questionPaper QuestionPaper   @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
+    subject       AcademicSubject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+    // The per-question-type breakdown rows live here
+    distributions QuestionPaperSubjectMarkDistribution[]
+    questions     QuestionPaperQuestion[]
+
+    @@unique([questionPaperId, subjectId])
+    @@index([questionPaperId])
+    @@index([subjectId])
+    @@map("question_paper_subject")
+}
+
+// ── One row per question-type within a subject ─────────────────
+//
+//  type examples:
+//    "MCQ"              – multiple-choice
+//    "CQ"               – creative / comprehension question
+//    "Short"            – short-answer
+//    "Practical"        – lab / hands-on
+//    "Viva"             – oral examination
+//    "Essay"            – long-form written
+//    "Fill-in-the-Blank"
+//    "True/False"
+//
+model QuestionPaperSubjectMarkDistribution {
+    id String @id @default(uuid())
+
+    questionTypeId String
+    questionType   QuestionType @relation(fields: [questionTypeId], references: [id], onDelete: Cascade)
+
+    paperSubjectId String
+    paperSubject   QuestionPaperSubject @relation(fields: [paperSubjectId], references: [id], onDelete: Cascade)
+
+    // ── Marks ───────────────────────────────────────────────────
+    marksPerQuestion Float @default(0) // marks awarded per single question
+    questionCount    Int   @default(0) // total questions of this type
+
+    // Derived: totalMarks = marksPerQuestion × questionCount
+    // Stored for fast aggregation; kept in sync by the service layer.
+    totalMarks Float @default(0)
+
+    // ── Optional attempt rules ──────────────────────────────────
+    //    e.g. "answer 5 out of 8 questions"
+    questionsToAttempt Int? // null means all must be attempted
+
+    // ── Per-distribution ordering ───────────────────────────────
+    orderIndex Int                     @default(0)
+    questions  QuestionPaperQuestion[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([paperSubjectId])
+    @@map("question_paper_subject_mark_distribution")
+}
+
+// ── Junction: which MCQs belong to a paper, in what order ──────
+model QuestionPaperQuestion {
+    id              String        @id @default(uuid())
+    questionPaperId String
+    questionPaper   QuestionPaper @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
+
+    mcqId String?
+    mcq   Mcq?    @relation(fields: [mcqId], references: [id], onDelete: Cascade)
+
+    cqId String?
+    cq   Cq?     @relation(fields: [cqId], references: [id], onDelete: Cascade)
+
+    // TRACKING: Associate with subject and distribution breakdown
+    paperSubjectId String?
+    paperSubject   QuestionPaperSubject? @relation(fields: [paperSubjectId], references: [id], onDelete: SetNull)
+
+    distributionId String?
+    distribution   QuestionPaperSubjectMarkDistribution? @relation(fields: [distributionId], references: [id], onDelete: SetNull)
+
+    // Optional: track question type explicitly for easier filtering
+    questionTypeId String?
+    questionType   QuestionType? @relation(fields: [questionTypeId], references: [id], onDelete: SetNull)
+
+    orderIndex Int  @default(0)
+    overrides  Json @default("{}") // per-question style / mark overrides
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([questionPaperId, mcqId])
+    @@unique([questionPaperId, cqId])
+    @@index([questionPaperId])
+    @@index([mcqId])
+    @@index([cqId])
+    @@map("question_paper_question")
+}
