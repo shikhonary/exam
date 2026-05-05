@@ -282,15 +282,15 @@ export const AcceptInvitationView = () => {
               <Building2 className="h-7 w-7" />
             </div>
             <div>
-              <p className="text-sm opacity-90">You're invited to join</p>
+              <p className="text-sm opacity-90">Invitation to Manage</p>
               <h1 className="text-2xl font-bold">{invitation.tenantName}</h1>
             </div>
           </div>
           <p className="text-sm opacity-90">
             <span className="font-medium">
-              {invitation.invitedBy || "An Admin"}
+              {invitation.invitedBy || "The Platform Admin"}
             </span>{" "}
-            has invited you to be a Tenant Administrator
+            has invited you to be a Union Administrator for the UP-Hub platform.
           </p>
         </div>
 
@@ -298,12 +298,12 @@ export const AcceptInvitationView = () => {
           <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50 border border-border">
             <ShieldCheck className="h-5 w-5 text-primary" />
             <div className="flex-1">
-              <p className="text-sm font-medium">Your Role</p>
+              <p className="text-sm font-medium">Administrative Access</p>
               <p className="text-xs text-muted-foreground">
-                Full administrative access
+                Manage citizens, services, and administrative tasks
               </p>
             </div>
-            <Badge className="capitalize">Admin</Badge>
+            <Badge className="capitalize bg-primary/10 text-primary border-primary/20">Secretary / Admin</Badge>
           </div>
 
           <div className="space-y-2">

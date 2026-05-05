@@ -200,9 +200,9 @@ model SubscriptionPlan {
     isActive  Boolean @default(true)
     isPopular Boolean @default(false)
 
-    defaultUserLimit  Int @default(10)
-    defaultAdminLimit Int @default(2)
-    defaultRecordLimit Int @default(20)
+    defaultUserLimit    Int @default(10)
+    defaultAdminLimit   Int @default(2)
+    defaultRecordLimit  Int @default(20)
     defaultStorageLimit Int @default(100)
 
     createdAt DateTime @default(now())
@@ -236,9 +236,9 @@ model Subscription {
     canceledAt        DateTime?
     cancelReason      String?
 
-    customUserLimit  Int?
-    customAdminLimit Int?
-    customRecordLimit Int?
+    customUserLimit    Int?
+    customAdminLimit   Int?
+    customRecordLimit  Int?
     customStorageLimit Int?
 
     createdAt DateTime @default(now())

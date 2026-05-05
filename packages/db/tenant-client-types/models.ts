@@ -8,6 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/CitizenApplication'
+export type * from './models/Citizen'
+export type * from './models/Ward'
+export type * from './models/Village'
 export type * from './models/Student'
 export type * from './models/Batch'
 export type * from './models/Teacher'

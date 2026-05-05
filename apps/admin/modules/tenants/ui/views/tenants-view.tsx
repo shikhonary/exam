@@ -156,15 +156,15 @@ export const TenantsView = () => {
           <p className="text-xs text-muted-foreground">
             Showing{" "}
             <span className="font-medium text-foreground">
-              {tenantsData?.items.length ?? 0}
+              {tenantsData?.data?.items?.length ?? 0}
             </span>{" "}
             of{" "}
             <span className="font-medium text-foreground">
-              {tenantsData?.meta.total ?? 0}
+              {tenantsData?.data?.total ?? 0}
             </span>{" "}
             tenants
           </p>
-          <Pagination totalItem={tenantsData?.meta.total ?? 0} />
+          <Pagination totalItem={tenantsData?.data?.total ?? 0} />
         </div>
       </motion.div>
     </motion.div>

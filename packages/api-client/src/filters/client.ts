@@ -18,6 +18,9 @@ import {
   counterFilterSchema,
   admissionFeeFilterSchema,
   monthlyFeeFilterSchema,
+  wardFilterSchema,
+  villageFilterSchema,
+  citizenApplicationFilterSchema,
 } from "./schema";
 
 export const useAcademicClassFilters = () =>
@@ -47,3 +50,7 @@ export const useAdmissionFeeFilters = () =>
   useQueryStates(admissionFeeFilterSchema);
 export const useMonthlyFeeFilters = () =>
   useQueryStates(monthlyFeeFilterSchema);
+export const useWardFilters = () => useQueryStates(wardFilterSchema);
+export const useVillageFilters = () => useQueryStates(villageFilterSchema);
+export const useCitizenApplicationFilters = () =>
+  useQueryStates(citizenApplicationFilterSchema);

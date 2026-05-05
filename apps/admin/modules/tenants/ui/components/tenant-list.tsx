@@ -295,17 +295,17 @@ export function TenantList({
   const { data: tenantsData } = useTenants();
 
   const allSelected =
-    (tenantsData?.items?.length ?? 0) > 0 &&
-    selectedIds.length === (tenantsData?.items?.length ?? 0);
+    (tenantsData?.data?.items?.length ?? 0) > 0 &&
+    selectedIds.length === (tenantsData?.data?.items?.length ?? 0);
   const someSelected =
     selectedIds.length > 0 &&
-    selectedIds.length < (tenantsData?.items?.length ?? 0);
+    selectedIds.length < (tenantsData?.data?.items?.length ?? 0);
 
   const handleSelectAll = () => {
     if (allSelected) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(tenantsData?.items.map((item) => item.id) ?? []);
+      setSelectedIds(tenantsData?.data?.items.map((item) => item.id) ?? []);
     }
   };
 
@@ -325,7 +325,7 @@ export function TenantList({
     }
   };
 
-  if (!tenantsData?.items?.length) {
+  if (!tenantsData?.data?.items?.length) {
     return (
       <div className="bg-card/40 backdrop-blur-xl rounded-3xl border border-dashed border-border/50 p-16 text-center shadow-soft">
         <div className="size-20 bg-muted/50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-border/50">
@@ -375,7 +375,7 @@ export function TenantList({
           </tr>
         </thead>
         <tbody className="divide-y divide-border/50">
-          {tenantsData?.items.map((item) => (
+          {tenantsData?.data?.items.map((item) => (
             <tr
               key={item.id}
               className={cn(

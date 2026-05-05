@@ -576,15 +576,12 @@ export class TenantService {
         // We already verified email matches (it's from the invitation)
         // Skip the redundant DB lookup — go straight to membership creation
       } else {
-        // Existing user path: verify user exists and email matches
+        // Existing user path: verify user exists
         const user = await this.db.user.findUnique({
           where: { id: processUserId },
         });
 
         if (!user) throw new Error("User not found");
-        if (user.email.toLowerCase() !== invitation.email.toLowerCase()) {
-          throw new Error("User email does not match invitation email");
-        }
       }
 
       // Create membership and update invitation in a transaction

@@ -51,6 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  CitizenApplication: 'CitizenApplication',
+  Citizen: 'Citizen',
+  Ward: 'Ward',
+  Village: 'Village',
   Student: 'Student',
   Batch: 'Batch',
   Teacher: 'Teacher',
@@ -82,6 +86,126 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CitizenApplicationScalarFieldEnum = {
+  id: 'id',
+  fullNameEn: 'fullNameEn',
+  fullNameBn: 'fullNameBn',
+  nid: 'nid',
+  birthRegistrationNo: 'birthRegistrationNo',
+  passportNo: 'passportNo',
+  dateOfBirth: 'dateOfBirth',
+  fatherNameEn: 'fatherNameEn',
+  fatherNameBn: 'fatherNameBn',
+  motherNameEn: 'motherNameEn',
+  motherNameBn: 'motherNameBn',
+  occupation: 'occupation',
+  residentStatus: 'residentStatus',
+  educationalQualification: 'educationalQualification',
+  religion: 'religion',
+  gender: 'gender',
+  maritalStatus: 'maritalStatus',
+  presentVillageEn: 'presentVillageEn',
+  presentVillageBn: 'presentVillageBn',
+  presentRoadBlockSectorEn: 'presentRoadBlockSectorEn',
+  presentRoadBlockSectorBn: 'presentRoadBlockSectorBn',
+  presentHoldingNo: 'presentHoldingNo',
+  presentWardNo: 'presentWardNo',
+  presentDistrict: 'presentDistrict',
+  presentUpazila: 'presentUpazila',
+  presentPostOffice: 'presentPostOffice',
+  permanentVillageEn: 'permanentVillageEn',
+  permanentVillageBn: 'permanentVillageBn',
+  permanentRoadBlockSectorEn: 'permanentRoadBlockSectorEn',
+  permanentRoadBlockSectorBn: 'permanentRoadBlockSectorBn',
+  permanentHoldingNo: 'permanentHoldingNo',
+  permanentWardNo: 'permanentWardNo',
+  permanentDistrict: 'permanentDistrict',
+  permanentUpazila: 'permanentUpazila',
+  permanentPostOffice: 'permanentPostOffice',
+  mobile: 'mobile',
+  email: 'email',
+  commentsEn: 'commentsEn',
+  commentsBn: 'commentsBn',
+  status: 'status',
+  citizenId: 'citizenId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CitizenApplicationScalarFieldEnum = (typeof CitizenApplicationScalarFieldEnum)[keyof typeof CitizenApplicationScalarFieldEnum]
+
+
+export const CitizenScalarFieldEnum = {
+  id: 'id',
+  fullNameEn: 'fullNameEn',
+  fullNameBn: 'fullNameBn',
+  nid: 'nid',
+  birthRegistrationNo: 'birthRegistrationNo',
+  passportNo: 'passportNo',
+  dateOfBirth: 'dateOfBirth',
+  fatherNameEn: 'fatherNameEn',
+  fatherNameBn: 'fatherNameBn',
+  motherNameEn: 'motherNameEn',
+  motherNameBn: 'motherNameBn',
+  occupation: 'occupation',
+  residentStatus: 'residentStatus',
+  educationalQualification: 'educationalQualification',
+  religion: 'religion',
+  gender: 'gender',
+  maritalStatus: 'maritalStatus',
+  presentVillageEn: 'presentVillageEn',
+  presentVillageBn: 'presentVillageBn',
+  presentRoadBlockSectorEn: 'presentRoadBlockSectorEn',
+  presentRoadBlockSectorBn: 'presentRoadBlockSectorBn',
+  presentHoldingNo: 'presentHoldingNo',
+  presentWardNo: 'presentWardNo',
+  presentDistrict: 'presentDistrict',
+  presentUpazila: 'presentUpazila',
+  presentPostOffice: 'presentPostOffice',
+  permanentVillageEn: 'permanentVillageEn',
+  permanentVillageBn: 'permanentVillageBn',
+  permanentRoadBlockSectorEn: 'permanentRoadBlockSectorEn',
+  permanentRoadBlockSectorBn: 'permanentRoadBlockSectorBn',
+  permanentHoldingNo: 'permanentHoldingNo',
+  permanentWardNo: 'permanentWardNo',
+  permanentDistrict: 'permanentDistrict',
+  permanentUpazila: 'permanentUpazila',
+  permanentPostOffice: 'permanentPostOffice',
+  mobile: 'mobile',
+  email: 'email',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CitizenScalarFieldEnum = (typeof CitizenScalarFieldEnum)[keyof typeof CitizenScalarFieldEnum]
+
+
+export const WardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  displayName: 'displayName',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WardScalarFieldEnum = (typeof WardScalarFieldEnum)[keyof typeof WardScalarFieldEnum]
+
+
+export const VillageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  displayName: 'displayName',
+  wardId: 'wardId',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeof VillageScalarFieldEnum]
 
 
 export const StudentScalarFieldEnum = {

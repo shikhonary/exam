@@ -161,7 +161,7 @@ export function useActivateTenant() {
             queryKey: trpc.tenant.list.queryKey(),
           }),
           queryClient.invalidateQueries({
-            queryKey: trpc.tenant.getById.queryKey({ id: variables.id }),
+            queryKey: trpc.tenant.getById.queryKey(variables.id),
           }),
         ]);
       } else {
@@ -173,9 +173,9 @@ export function useActivateTenant() {
   return {
     ...mutation,
     mutate: (vars: { id: string }) =>
-      mutation.mutate({ id: vars.id, data: { isActive: true } }),
+      mutation.mutate({ id: vars.id, isActive: true }),
     mutateAsync: (vars: { id: string }) =>
-      mutation.mutateAsync({ id: vars.id, data: { isActive: true } }),
+      mutation.mutateAsync({ id: vars.id, isActive: true }),
   };
 }
 
@@ -199,7 +199,7 @@ export function useDeactivateTenant() {
             queryKey: trpc.tenant.list.queryKey(),
           }),
           queryClient.invalidateQueries({
-            queryKey: trpc.tenant.getById.queryKey({ id: variables.id }),
+            queryKey: trpc.tenant.getById.queryKey(variables.id),
           }),
         ]);
       } else {
@@ -211,9 +211,9 @@ export function useDeactivateTenant() {
   return {
     ...mutation,
     mutate: (vars: { id: string }) =>
-      mutation.mutate({ id: vars.id, data: { isActive: false } }),
+      mutation.mutate({ id: vars.id, isActive: false }),
     mutateAsync: (vars: { id: string }) =>
-      mutation.mutateAsync({ id: vars.id, data: { isActive: false } }),
+      mutation.mutateAsync({ id: vars.id, isActive: false }),
   };
 }
 

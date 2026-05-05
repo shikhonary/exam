@@ -34,6 +34,7 @@ export type { Context, TRPCContext, PrismaClient, TenantPrismaClient };
 // ---------------------------------------------------------------------------
 
 const isAuthed = t.middleware(({ next, ctx }) => {
+  console.log("user", ctx.user);
   if (!ctx.user || !ctx.userId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }

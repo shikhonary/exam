@@ -43,7 +43,7 @@ export const academicClassFilterSchema = {
   level: parseAsStringEnum(Object.values(ACADEMIC_LEVEL)).withOptions({
     clearOnDefault: true,
   }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
   sort: parseAsStringEnum(Object.values(SORT_WITH_POSITION)).withOptions({
@@ -57,7 +57,7 @@ export const academicClassFilterSchema = {
 export const academicSubjectFilterSchema = {
   ...baseFilterSchema,
   classId: parseAsString.withOptions({ clearOnDefault: true }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
   sort: parseAsStringEnum(Object.values(SORT_WITH_POSITION)).withOptions({
@@ -72,7 +72,7 @@ export const academicChapterFilterSchema = {
   ...baseFilterSchema,
   classId: parseAsString.withOptions({ clearOnDefault: true }),
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
   sort: parseAsStringEnum(Object.values(SORT_WITH_POSITION)).withOptions({
@@ -88,7 +88,7 @@ export const academicTopicFilterSchema = {
   classId: parseAsString.withOptions({ clearOnDefault: true }),
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
   chapterId: parseAsString.withOptions({ clearOnDefault: true }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
   sort: parseAsStringEnum(Object.values(SORT_WITH_POSITION)).withOptions({
@@ -105,7 +105,7 @@ export const academicSubTopicFilterSchema = {
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
   chapterId: parseAsString.withOptions({ clearOnDefault: true }),
   topicId: parseAsString.withOptions({ clearOnDefault: true }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
   sort: parseAsStringEnum(Object.values(SORT_WITH_POSITION)).withOptions({
@@ -139,7 +139,7 @@ export const mcqFilterSchema = {
 export const questionTypeFilterSchema = {
   ...baseFilterSchema,
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
 };
@@ -152,7 +152,7 @@ export const studentFilterSchema = {
   batchId: parseAsString.withOptions({ clearOnDefault: true }),
   classId: parseAsString.withOptions({ clearOnDefault: true }),
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
 };
@@ -165,7 +165,7 @@ export const tenantFilterSchema = {
   type: parseAsStringEnum(Object.values(TENANT_TYPE)).withOptions({
     clearOnDefault: true,
   }),
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
 };
@@ -175,7 +175,7 @@ export const tenantFilterSchema = {
  */
 export const subscriptionPlanFilterSchema = {
   ...baseFilterSchema,
-  isActive: parseAsStringEnum(ACTIVE_STATUS).withOptions({
+  isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
 };
@@ -233,4 +233,30 @@ export const monthlyFeeFilterSchema = {
   ...baseFilterSchema,
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
   academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
+};
+
+/**
+ * Ward Filters
+ */
+export const wardFilterSchema = {
+  ...baseFilterSchema,
+  isActive: parseAsBoolean.withOptions({ clearOnDefault: true }),
+};
+
+/**
+ * Village Filters
+ */
+export const villageFilterSchema = {
+  ...baseFilterSchema,
+  wardId: parseAsString.withOptions({ clearOnDefault: true }),
+  isActive: parseAsBoolean.withOptions({ clearOnDefault: true }),
+};
+
+/**
+ * Citizen Application Filters
+ */
+export const citizenApplicationFilterSchema = {
+  ...baseFilterSchema,
+  status: parseAsString.withOptions({ clearOnDefault: true }),
+  wardNo: parseAsInteger.withOptions({ clearOnDefault: true }),
 };

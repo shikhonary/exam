@@ -174,10 +174,7 @@ export function useBulkDeleteBatches() {
 export function useBatches() {
   const trpc = useTRPC();
   const [filters] = useBatchFilters();
-  return useQuery({
-    ...trpc.batch.list.queryOptions(filters),
-    select: (data) => data.data,
-  });
+  return useSuspenseQuery(trpc.batch.list.queryOptions(filters));
 }
 
 /**

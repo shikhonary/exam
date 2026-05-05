@@ -9,6 +9,148 @@ datasource db {
 
 // --- Models ---
 
+model CitizenApplication {
+    id                  String    @id @default(uuid())
+    fullNameEn          String?
+    fullNameBn          String
+    nid                 String
+    birthRegistrationNo String?
+    passportNo          String?
+    dateOfBirth         DateTime?
+    fatherNameEn        String?
+    fatherNameBn        String
+    motherNameEn        String?
+    motherNameBn        String
+    occupation          String?
+
+    residentStatus           String
+    educationalQualification String?
+    religion                 String
+    gender                   String
+    maritalStatus            String
+
+    // Present Address
+    presentVillageEn         String?
+    presentVillageBn         String
+    presentRoadBlockSectorEn String?
+    presentRoadBlockSectorBn String?
+    presentHoldingNo         String?
+    presentWardNo            Int
+    presentDistrict          String
+    presentUpazila           String
+    presentPostOffice        String
+
+    // Permanent Address
+    permanentVillageEn         String?
+    permanentVillageBn         String
+    permanentRoadBlockSectorEn String?
+    permanentRoadBlockSectorBn String?
+    permanentHoldingNo         String?
+    permanentWardNo            Int
+    permanentDistrict          String
+    permanentUpazila           String
+    permanentPostOffice        String
+
+    // Contact
+    mobile     String
+    email      String?
+    commentsEn String?
+    commentsBn String?
+
+    // Lifecycle
+    status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+    citizenId String?
+    citizen   Citizen? @relation(fields: [citizenId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("citizen_application")
+}
+
+model Citizen {
+    id                  String   @id @default(uuid())
+    fullNameEn          String?
+    fullNameBn          String
+    nid                 String   @unique // Required and Unique
+    birthRegistrationNo String?
+    passportNo          String?
+    dateOfBirth         DateTime
+    fatherNameEn        String?
+    fatherNameBn        String
+    motherNameEn        String?
+    motherNameBn        String
+    occupation          String?
+
+    residentStatus           String
+    educationalQualification String?
+    religion                 String
+    gender                   String
+    maritalStatus            String
+
+    // Present Address
+    presentVillageEn         String?
+    presentVillageBn         String
+    presentRoadBlockSectorEn String?
+    presentRoadBlockSectorBn String?
+    presentHoldingNo         String?
+    presentWardNo            Int
+    presentDistrict          String
+    presentUpazila           String
+    presentPostOffice        String
+
+    // Permanent Address
+    permanentVillageEn         String?
+    permanentVillageBn         String
+    permanentRoadBlockSectorEn String?
+    permanentRoadBlockSectorBn String?
+    permanentHoldingNo         String?
+    permanentWardNo            Int
+    permanentDistrict          String
+    permanentUpazila           String
+    permanentPostOffice        String
+
+    // Contact
+    mobile String
+    email  String?
+
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    applications CitizenApplication[]
+
+    @@map("citizen")
+}
+
+model Ward {
+    id          String   @id @default(uuid())
+    name        String
+    displayName String
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    villages Village[]
+
+    @@map("ward")
+}
+
+model Village {
+    id          String @id @default(uuid())
+    name        String
+    displayName String
+
+    wardId String
+    ward   Ward   @relation(fields: [wardId], references: [id], onDelete: Cascade)
+
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("village")
+}
+
 model Student {
     id               String    @id @default(uuid())
     studentId        String

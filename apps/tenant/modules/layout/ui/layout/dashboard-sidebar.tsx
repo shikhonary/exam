@@ -4,6 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@workspace/ui/components/accordion";
+import { ChevronDown } from "lucide-react";
+import {
   LayoutDashboard,
   Users,
   GraduationCap,
@@ -33,6 +40,9 @@ import {
   Activity,
   Lock,
   Hash,
+  Building2,
+  MapPin,
+  UserPlus,
 } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
@@ -56,6 +66,7 @@ interface NavItem {
   title: string;
   url: string;
   icon: React.ComponentType<{ className?: string }>;
+  subItems?: { title: string; url: string; icon?: React.ComponentType<{ className?: string }> }[];
 }
 
 interface NavSection {
@@ -65,103 +76,74 @@ interface NavSection {
 
 const navSections: NavSection[] = [
   {
-    label: "Main",
-    items: [{ title: "Dashboard", url: "/", icon: LayoutDashboard }],
-  },
-  {
-    label: "People",
+    label: "Core",
     items: [
-      { title: "Students", url: "/students", icon: GraduationCap },
-      { title: "Teachers", url: "/teachers", icon: UserCheck },
-      { title: "Guardians", url: "/guardians", icon: Shield },
-      { title: "Staff", url: "/staff", icon: Briefcase },
-      { title: "Batches", url: "/batches", icon: Users },
-    ],
-  },
-  {
-    label: "Academics",
-    items: [
-      { title: "Academic Years", url: "/academic-years", icon: Calendar },
-      { title: "Timetable", url: "/timetable", icon: CalendarDays },
-    ],
-  },
-  {
-    label: "Utils",
-    items: [{ title: "Counters", url: "/counters", icon: Hash }],
-  },
-  {
-    label: "Fees",
-    items: [
-      { title: "Admission Fee", url: "/admission-fees", icon: DollarSign },
-      { title: "Monthly Fee", url: "/monthly-fees", icon: DollarSign },
-    ],
-  },
-  {
-    label: "Examinations",
-    items: [
-      { title: "All Exams", url: "/exams", icon: ClipboardList },
-      { title: "Create Exam", url: "/exams/new", icon: FileText },
-      { title: "Question Bank", url: "/question-bank", icon: BookOpen },
+      { title: "Dashboard", url: "/", icon: LayoutDashboard },
       {
-        title: "Paper Builder",
-        url: "/question-paper-builder",
-        icon: FileEdit,
-      },
-      { title: "Results", url: "/results", icon: TrendingUp },
-      { title: "Report Cards", url: "/report-cards", icon: FileSpreadsheet },
-    ],
-  },
-  {
-    label: "Attendance",
-    items: [
-      { title: "Student Attendance", url: "/attendance", icon: CalendarDays },
-      {
-        title: "Teacher Attendance",
-        url: "/teacher-attendance",
-        icon: UserCheck,
-      },
-      {
-        title: "Mark Attendance",
-        url: "/mark-attendance",
-        icon: ClipboardList,
+        title: "Household Survey",
+        url: "/household-dashboard",
+        icon: BarChart3,
       },
     ],
   },
   {
-    label: "Fees & Payments",
+    label: "Geographic",
     items: [
-      { title: "Fee Structure", url: "/fee-structure", icon: DollarSign },
+      { title: "Wards", url: "/wards", icon: MapPin },
+      { title: "Villages", url: "/villages", icon: Building2 },
+    ],
+  },
+  {
+    label: "Citizen Services",
+    items: [
+      {
+        title: "Citizens",
+        url: "/citizens",
+        icon: Users,
+        subItems: [
+          { title: "Citizen List", url: "/citizens", icon: ClipboardList },
+          { title: "Applications", url: "/citizens/applications", icon: FileEdit },
+          { title: "New Citizen", url: "/citizens/new", icon: UserPlus },
+        ],
+      },
+      {
+        title: "Holding Tax",
+        url: "/holding-tax",
+        icon: Building2,
+      },
+      {
+        title: "Trade License",
+        url: "/trade-license",
+        icon: Briefcase,
+      },
+      { title: "Inheritance", url: "/inheritance", icon: GraduationCap },
+      { title: "Family Management", url: "/family", icon: UserCheck },
+      { title: "Certificates", url: "/certificates", icon: FileText },
+    ],
+  },
+  {
+    label: "Administration",
+    items: [
+      { title: "HR Management", url: "/hr", icon: Briefcase },
+      { title: "Attendance", url: "/attendance", icon: CalendarDays },
+      { title: "Registers", url: "/registers", icon: ClipboardList },
+      { title: "Duty Allocation", url: "/duty-allocation", icon: Shield },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      { title: "Accounts", url: "/accounts", icon: DollarSign },
       { title: "Payments", url: "/payments", icon: CreditCard },
-      { title: "Reminders", url: "/fee-reminders", icon: SendHorizonal },
     ],
   },
   {
-    label: "Analytics",
+    label: "System",
     items: [
-      { title: "Overview", url: "/analytics", icon: BarChart3 },
-      { title: "Reports", url: "/reports", icon: FileSpreadsheet },
-      { title: "Calendar", url: "/calendar", icon: Calendar },
-    ],
-  },
-  {
-    label: "Communication",
-    items: [
-      { title: "Communications", url: "/communications", icon: Megaphone },
+      { title: "Complaints", url: "/complaints", icon: Megaphone },
       { title: "Announcements", url: "/announcements", icon: Bell },
+      { title: "Settings", url: "/settings", icon: Settings },
     ],
-  },
-  {
-    label: "Operations",
-    items: [
-      { title: "Library", url: "/library", icon: BookCopy },
-      { title: "Transport", url: "/transport", icon: Bus },
-      { title: "Audit Log", url: "/audit-log", icon: Activity },
-      { title: "Roles", url: "/roles", icon: Lock },
-    ],
-  },
-  {
-    label: "Settings",
-    items: [{ title: "Settings", url: "/settings", icon: Settings }],
   },
 ];
 
@@ -233,6 +215,55 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
               )}
               <div className="space-y-1">
                 {section.items.map((item) => {
+                  const hasSubItems = item.subItems && item.subItems.length > 0;
+                  const isSectionActive = isActive(item.url);
+
+                  if (hasSubItems && !collapsed) {
+                    return (
+                      <Accordion
+                        key={item.title}
+                        type="single"
+                        collapsible
+                        defaultValue={isSectionActive ? item.title : undefined}
+                      >
+                        <AccordionItem value={item.title} className="border-none">
+                          <AccordionTrigger
+                            className={cn(
+                              "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:no-underline",
+                              isSectionActive
+                                ? "bg-primary/5 text-primary"
+                                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                            )}
+                          >
+                            <div className="flex items-center gap-3">
+                              <item.icon className="w-4 h-4 flex-shrink-0" />
+                              <span>{item.title}</span>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="pb-1 pt-1 ml-4 border-l border-border/50">
+                            <div className="pl-4 space-y-1 mt-1">
+                              {item.subItems?.map((subItem) => (
+                                <Link
+                                  key={subItem.title}
+                                  href={subItem.url}
+                                  className={cn(
+                                    "flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-colors",
+                                    pathname === subItem.url
+                                      ? "text-primary bg-primary/10"
+                                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                                  )}
+                                >
+                                  {subItem.icon && <subItem.icon className="w-3.5 h-3.5" />}
+                                  <span>{subItem.title}</span>
+                                </Link>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    );
+                  }
+
                   const linkContent = (
                     <Link
                       key={item.title}

@@ -143,7 +143,11 @@ export const provisionTenantDb = async (tenantId: string): Promise<void> => {
       .resolve(rootDir, "packages/db/prisma-tenant/prisma.config.ts")
       .replace(/\\/g, "/");
 
-    const migrateCommand = `npx prisma db push --schema "${schemaPath}" --config "${configPath}"`;
+    const prismaPath = path
+      .resolve(rootDir, "node_modules/.pnpm/prisma@7.2.0_@types+react@1_a99f622586ef03bec06266798856d205/node_modules/prisma/build/index.js")
+      .replace(/\\/g, "/");
+
+    const migrateCommand = `node "${prismaPath}" db push --schema "${schemaPath}" --config "${configPath}"`;
 
     try {
       const { stdout, stderr } = await execAsync(migrateCommand, {

@@ -512,14 +512,6 @@ export type BatchUpdateOneWithoutStudentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BatchUpdateToOneWithWhereWithoutStudentsInput, Prisma.BatchUpdateWithoutStudentsInput>, Prisma.BatchUncheckedUpdateWithoutStudentsInput>
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type BatchCreateNestedOneWithoutExamsInput = {
   create?: Prisma.XOR<Prisma.BatchCreateWithoutExamsInput, Prisma.BatchUncheckedCreateWithoutExamsInput>
   connectOrCreate?: Prisma.BatchCreateOrConnectWithoutExamsInput
