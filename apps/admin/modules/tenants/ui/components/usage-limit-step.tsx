@@ -32,19 +32,19 @@ export function UsageLimitsStep({ form }: UsageLimitsStepProps) {
         <Settings2 className="size-5 shrink-0" />
         <p>
           Usage limits are inherited from the selected plan by default. Override
-          these only for special union or administrative requirements.
+          these only for enterprise or special institutional requirements.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* User Limit */}
+        {/* Student Limit */}
         <FormField
           control={form.control}
-          name="customUserLimit"
+          name="customStudentLimit"
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel className={labelClasses}>
-                Custom User Limit
+                Custom Student Limit
               </FormLabel>
               <FormControl>
                 <Input
@@ -61,14 +61,14 @@ export function UsageLimitsStep({ form }: UsageLimitsStepProps) {
           )}
         />
 
-        {/* Admin Limit */}
+        {/* Teacher Limit */}
         <FormField
           control={form.control}
-          name="customAdminLimit"
+          name="customTeacherLimit"
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel className={labelClasses}>
-                Custom Admin Limit
+                Custom Teacher Limit
               </FormLabel>
               <FormControl>
                 <Input
@@ -87,13 +87,13 @@ export function UsageLimitsStep({ form }: UsageLimitsStepProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Record Limit */}
+        {/* Exam Limit */}
         <FormField
           control={form.control}
-          name="customRecordLimit"
+          name="customExamLimit"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className={labelClasses}>Custom Record Limit</FormLabel>
+              <FormLabel className={labelClasses}>Custom Exam Limit</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -150,7 +150,7 @@ export function UsageLimitsStep({ form }: UsageLimitsStepProps) {
                 )}
               </FormLabel>
               <FormDescription className="text-muted-foreground font-medium">
-                Union portal will be functional and accessible immediately after
+                Tenant will be functional and accessible immediately after
                 creation.
               </FormDescription>
             </div>
@@ -178,7 +178,7 @@ export function UsageLimitsStep({ form }: UsageLimitsStepProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { label: "Union Name", value: form.watch("name") || "Not set" },
+            { label: "Institution", value: form.watch("name") || "Not set" },
             {
               label: "Primary URL",
               value: form.watch("subdomain")

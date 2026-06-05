@@ -183,7 +183,6 @@ export type UnionWhereInput = {
   geoCode?: Prisma.StringNullableFilter<"Union"> | string | null
   upazilaId?: Prisma.StringFilter<"Union"> | string
   upazila?: Prisma.XOR<Prisma.UpazilaScalarRelationFilter, Prisma.UpazilaWhereInput>
-  tenants?: Prisma.TenantListRelationFilter
 }
 
 export type UnionOrderByWithRelationInput = {
@@ -193,7 +192,6 @@ export type UnionOrderByWithRelationInput = {
   geoCode?: Prisma.SortOrderInput | Prisma.SortOrder
   upazilaId?: Prisma.SortOrder
   upazila?: Prisma.UpazilaOrderByWithRelationInput
-  tenants?: Prisma.TenantOrderByRelationAggregateInput
 }
 
 export type UnionWhereUniqueInput = Prisma.AtLeast<{
@@ -206,7 +204,6 @@ export type UnionWhereUniqueInput = Prisma.AtLeast<{
   geoCode?: Prisma.StringNullableFilter<"Union"> | string | null
   upazilaId?: Prisma.StringFilter<"Union"> | string
   upazila?: Prisma.XOR<Prisma.UpazilaScalarRelationFilter, Prisma.UpazilaWhereInput>
-  tenants?: Prisma.TenantListRelationFilter
 }, "id">
 
 export type UnionOrderByWithAggregationInput = {
@@ -237,7 +234,6 @@ export type UnionCreateInput = {
   nameBn: string
   geoCode?: string | null
   upazila: Prisma.UpazilaCreateNestedOneWithoutUnionsInput
-  tenants?: Prisma.TenantCreateNestedManyWithoutUnionInput
 }
 
 export type UnionUncheckedCreateInput = {
@@ -246,7 +242,6 @@ export type UnionUncheckedCreateInput = {
   nameBn: string
   geoCode?: string | null
   upazilaId: string
-  tenants?: Prisma.TenantUncheckedCreateNestedManyWithoutUnionInput
 }
 
 export type UnionUpdateInput = {
@@ -255,7 +250,6 @@ export type UnionUpdateInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upazila?: Prisma.UpazilaUpdateOneRequiredWithoutUnionsNestedInput
-  tenants?: Prisma.TenantUpdateManyWithoutUnionNestedInput
 }
 
 export type UnionUncheckedUpdateInput = {
@@ -264,7 +258,6 @@ export type UnionUncheckedUpdateInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upazilaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenants?: Prisma.TenantUncheckedUpdateManyWithoutUnionNestedInput
 }
 
 export type UnionCreateManyInput = {
@@ -288,11 +281,6 @@ export type UnionUncheckedUpdateManyInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upazilaId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type UnionScalarRelationFilter = {
-  is?: Prisma.UnionWhereInput
-  isNot?: Prisma.UnionWhereInput
 }
 
 export type UnionListRelationFilter = {
@@ -327,20 +315,6 @@ export type UnionMinOrderByAggregateInput = {
   nameBn?: Prisma.SortOrder
   geoCode?: Prisma.SortOrder
   upazilaId?: Prisma.SortOrder
-}
-
-export type UnionCreateNestedOneWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.UnionCreateWithoutTenantsInput, Prisma.UnionUncheckedCreateWithoutTenantsInput>
-  connectOrCreate?: Prisma.UnionCreateOrConnectWithoutTenantsInput
-  connect?: Prisma.UnionWhereUniqueInput
-}
-
-export type UnionUpdateOneRequiredWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.UnionCreateWithoutTenantsInput, Prisma.UnionUncheckedCreateWithoutTenantsInput>
-  connectOrCreate?: Prisma.UnionCreateOrConnectWithoutTenantsInput
-  upsert?: Prisma.UnionUpsertWithoutTenantsInput
-  connect?: Prisma.UnionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UnionUpdateToOneWithWhereWithoutTenantsInput, Prisma.UnionUpdateWithoutTenantsInput>, Prisma.UnionUncheckedUpdateWithoutTenantsInput>
 }
 
 export type UnionCreateNestedManyWithoutUpazilaInput = {
@@ -385,60 +359,11 @@ export type UnionUncheckedUpdateManyWithoutUpazilaNestedInput = {
   deleteMany?: Prisma.UnionScalarWhereInput | Prisma.UnionScalarWhereInput[]
 }
 
-export type UnionCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  nameBn: string
-  geoCode?: string | null
-  upazila: Prisma.UpazilaCreateNestedOneWithoutUnionsInput
-}
-
-export type UnionUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  nameBn: string
-  geoCode?: string | null
-  upazilaId: string
-}
-
-export type UnionCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.UnionWhereUniqueInput
-  create: Prisma.XOR<Prisma.UnionCreateWithoutTenantsInput, Prisma.UnionUncheckedCreateWithoutTenantsInput>
-}
-
-export type UnionUpsertWithoutTenantsInput = {
-  update: Prisma.XOR<Prisma.UnionUpdateWithoutTenantsInput, Prisma.UnionUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.UnionCreateWithoutTenantsInput, Prisma.UnionUncheckedCreateWithoutTenantsInput>
-  where?: Prisma.UnionWhereInput
-}
-
-export type UnionUpdateToOneWithWhereWithoutTenantsInput = {
-  where?: Prisma.UnionWhereInput
-  data: Prisma.XOR<Prisma.UnionUpdateWithoutTenantsInput, Prisma.UnionUncheckedUpdateWithoutTenantsInput>
-}
-
-export type UnionUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
-  geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  upazila?: Prisma.UpazilaUpdateOneRequiredWithoutUnionsNestedInput
-}
-
-export type UnionUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
-  geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  upazilaId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
 export type UnionCreateWithoutUpazilaInput = {
   id?: string
   name: string
   nameBn: string
   geoCode?: string | null
-  tenants?: Prisma.TenantCreateNestedManyWithoutUnionInput
 }
 
 export type UnionUncheckedCreateWithoutUpazilaInput = {
@@ -446,7 +371,6 @@ export type UnionUncheckedCreateWithoutUpazilaInput = {
   name: string
   nameBn: string
   geoCode?: string | null
-  tenants?: Prisma.TenantUncheckedCreateNestedManyWithoutUnionInput
 }
 
 export type UnionCreateOrConnectWithoutUpazilaInput = {
@@ -498,7 +422,6 @@ export type UnionUpdateWithoutUpazilaInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenants?: Prisma.TenantUpdateManyWithoutUnionNestedInput
 }
 
 export type UnionUncheckedUpdateWithoutUpazilaInput = {
@@ -506,7 +429,6 @@ export type UnionUncheckedUpdateWithoutUpazilaInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenants?: Prisma.TenantUncheckedUpdateManyWithoutUnionNestedInput
 }
 
 export type UnionUncheckedUpdateManyWithoutUpazilaInput = {
@@ -517,35 +439,6 @@ export type UnionUncheckedUpdateManyWithoutUpazilaInput = {
 }
 
 
-/**
- * Count Type UnionCountOutputType
- */
-
-export type UnionCountOutputType = {
-  tenants: number
-}
-
-export type UnionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenants?: boolean | UnionCountOutputTypeCountTenantsArgs
-}
-
-/**
- * UnionCountOutputType without action
- */
-export type UnionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UnionCountOutputType
-   */
-  select?: Prisma.UnionCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * UnionCountOutputType without action
- */
-export type UnionCountOutputTypeCountTenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TenantWhereInput
-}
-
 
 export type UnionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -554,8 +447,6 @@ export type UnionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   geoCode?: boolean
   upazilaId?: boolean
   upazila?: boolean | Prisma.UpazilaDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.Union$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.UnionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["union"]>
 
 export type UnionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -587,8 +478,6 @@ export type UnionSelectScalar = {
 export type UnionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "nameBn" | "geoCode" | "upazilaId", ExtArgs["result"]["union"]>
 export type UnionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   upazila?: boolean | Prisma.UpazilaDefaultArgs<ExtArgs>
-  tenants?: boolean | Prisma.Union$tenantsArgs<ExtArgs>
-  _count?: boolean | Prisma.UnionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   upazila?: boolean | Prisma.UpazilaDefaultArgs<ExtArgs>
@@ -601,7 +490,6 @@ export type $UnionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Union"
   objects: {
     upazila: Prisma.$UpazilaPayload<ExtArgs>
-    tenants: Prisma.$TenantPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1004,7 +892,6 @@ readonly fields: UnionFieldRefs;
 export interface Prisma__UnionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   upazila<T extends Prisma.UpazilaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UpazilaDefaultArgs<ExtArgs>>): Prisma.Prisma__UpazilaClient<runtime.Types.Result.GetResult<Prisma.$UpazilaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tenants<T extends Prisma.Union$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Union$tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1432,30 +1319,6 @@ export type UnionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Unions to delete.
    */
   limit?: number
-}
-
-/**
- * Union.tenants
- */
-export type Union$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Tenant
-   */
-  select?: Prisma.TenantSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Tenant
-   */
-  omit?: Prisma.TenantOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TenantInclude<ExtArgs> | null
-  where?: Prisma.TenantWhereInput
-  orderBy?: Prisma.TenantOrderByWithRelationInput | Prisma.TenantOrderByWithRelationInput[]
-  cursor?: Prisma.TenantWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TenantScalarFieldEnum | Prisma.TenantScalarFieldEnum[]
 }
 
 /**

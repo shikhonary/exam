@@ -28,13 +28,13 @@ export function Pagination({ total }: PaginationProps) {
   if (total === 0) return null;
 
   return (
-    <div className="px-8 py-5 flex items-center justify-between border-t border-slate-100 bg-white">
+    <div className="px-8 py-5 flex items-center justify-between border-t border-white/[0.05] bg-card">
       <div className="flex items-center gap-3">
-        <div className="px-3 py-1 bg-slate-50 border border-slate-100 rounded-lg">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            Showing <span className="text-emerald-600">{startRange}</span> -{" "}
-            <span className="text-emerald-600">{endRange}</span> of{" "}
-            <span className="text-slate-600">{total}</span>
+        <div className="px-3 py-1 bg-white/[0.04] border border-white/[0.06] rounded-lg">
+          <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+            দেখাচ্ছে <span className="text-primary">{startRange}</span> -{" "}
+            <span className="text-primary">{endRange}</span>, সর্বমোট{" "}
+            <span className="text-foreground">{total}</span>
           </p>
         </div>
       </div>
@@ -45,10 +45,10 @@ export function Pagination({ total }: PaginationProps) {
           size="sm"
           disabled={currentPage <= 1}
           onClick={() => handlePageChange(currentPage - 1)}
-          className="h-9 px-3 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-transparent font-bold text-xs gap-1"
+          className="h-9 px-3 text-muted-foreground hover:text-primary hover:bg-[rgba(0,229,160,0.08)] rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-transparent font-bold text-xs gap-1"
         >
           <ChevronLeft className="w-4 h-4" />
-          Previous
+          পূর্ববর্তী
         </Button>
 
         <div className="flex items-center gap-1 mx-2">
@@ -63,8 +63,8 @@ export function Pagination({ total }: PaginationProps) {
                 className={cn(
                   "w-9 h-9 rounded-lg font-bold text-xs transition-all",
                   currentPage === pageNum
-                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20 hover:bg-emerald-700"
-                    : "text-slate-400 hover:text-slate-600 hover:bg-slate-50",
+                    ? "bg-[#131B2C] text-white border border-white/[0.05] shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:bg-[#1A243A]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-white/[0.06]",
                 )}
               >
                 {pageNum}
@@ -78,9 +78,9 @@ export function Pagination({ total }: PaginationProps) {
           size="sm"
           disabled={currentPage >= totalPages}
           onClick={() => handlePageChange(currentPage + 1)}
-          className="h-9 px-3 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-transparent font-bold text-xs gap-1"
+          className="h-9 px-3 text-muted-foreground hover:text-primary hover:bg-[rgba(0,229,160,0.08)] rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-transparent font-bold text-xs gap-1"
         >
-          Next
+          পরবর্তী
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>

@@ -10,13 +10,13 @@ interface TabsProps {
 
 export const Tabs = ({ activeTab, onTabChange }: TabsProps) => {
   const tabs: { id: TabMode; label: string }[] = [
-    { id: "overview", label: "Overview" },
-    { id: "students", label: "Students" },
-    { id: "exams", label: "Exams" },
+    { id: "overview", label: "ওভারভিউ" },
+    { id: "students", label: "শিক্ষার্থী" },
+    { id: "exams", label: "পরীক্ষা" },
   ];
 
   return (
-    <div className="sticky top-16 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <div className="sticky top-16 z-40 bg-background/95 backdrop-blur-md border-b border-white/[0.06]">
       <nav className="flex max-w-md mx-auto px-4 overflow-x-auto no-scrollbar">
         {tabs.map((tab) => (
           <button
@@ -25,13 +25,13 @@ export const Tabs = ({ activeTab, onTabChange }: TabsProps) => {
             className={cn(
               "flex-1 relative py-4 text-center text-[13px] font-bold tracking-tight transition-all active:scale-95 whitespace-nowrap px-6",
               activeTab === tab.id
-                ? "text-emerald-700"
-                : "text-slate-400 font-semibold"
+                ? "text-primary"
+                : "text-muted-foreground"
             )}
           >
             {tab.label}
             {activeTab === tab.id && (
-              <span className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-600 rounded-t-full mx-6" />
+              <span className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-t-full mx-6" />
             )}
           </button>
         ))}

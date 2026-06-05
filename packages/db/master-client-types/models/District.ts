@@ -184,7 +184,6 @@ export type DistrictWhereInput = {
   divisionId?: Prisma.StringFilter<"District"> | string
   division?: Prisma.XOR<Prisma.DivisionScalarRelationFilter, Prisma.DivisionWhereInput>
   upazilas?: Prisma.UpazilaListRelationFilter
-  tenants?: Prisma.TenantListRelationFilter
 }
 
 export type DistrictOrderByWithRelationInput = {
@@ -195,7 +194,6 @@ export type DistrictOrderByWithRelationInput = {
   divisionId?: Prisma.SortOrder
   division?: Prisma.DivisionOrderByWithRelationInput
   upazilas?: Prisma.UpazilaOrderByRelationAggregateInput
-  tenants?: Prisma.TenantOrderByRelationAggregateInput
 }
 
 export type DistrictWhereUniqueInput = Prisma.AtLeast<{
@@ -209,7 +207,6 @@ export type DistrictWhereUniqueInput = Prisma.AtLeast<{
   divisionId?: Prisma.StringFilter<"District"> | string
   division?: Prisma.XOR<Prisma.DivisionScalarRelationFilter, Prisma.DivisionWhereInput>
   upazilas?: Prisma.UpazilaListRelationFilter
-  tenants?: Prisma.TenantListRelationFilter
 }, "id">
 
 export type DistrictOrderByWithAggregationInput = {
@@ -241,7 +238,6 @@ export type DistrictCreateInput = {
   geoCode?: string | null
   division: Prisma.DivisionCreateNestedOneWithoutDistrictsInput
   upazilas?: Prisma.UpazilaCreateNestedManyWithoutDistrictInput
-  tenants?: Prisma.TenantCreateNestedManyWithoutDistrictInput
 }
 
 export type DistrictUncheckedCreateInput = {
@@ -251,7 +247,6 @@ export type DistrictUncheckedCreateInput = {
   geoCode?: string | null
   divisionId: string
   upazilas?: Prisma.UpazilaUncheckedCreateNestedManyWithoutDistrictInput
-  tenants?: Prisma.TenantUncheckedCreateNestedManyWithoutDistrictInput
 }
 
 export type DistrictUpdateInput = {
@@ -261,7 +256,6 @@ export type DistrictUpdateInput = {
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   division?: Prisma.DivisionUpdateOneRequiredWithoutDistrictsNestedInput
   upazilas?: Prisma.UpazilaUpdateManyWithoutDistrictNestedInput
-  tenants?: Prisma.TenantUpdateManyWithoutDistrictNestedInput
 }
 
 export type DistrictUncheckedUpdateInput = {
@@ -271,7 +265,6 @@ export type DistrictUncheckedUpdateInput = {
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   divisionId?: Prisma.StringFieldUpdateOperationsInput | string
   upazilas?: Prisma.UpazilaUncheckedUpdateManyWithoutDistrictNestedInput
-  tenants?: Prisma.TenantUncheckedUpdateManyWithoutDistrictNestedInput
 }
 
 export type DistrictCreateManyInput = {
@@ -295,11 +288,6 @@ export type DistrictUncheckedUpdateManyInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   divisionId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type DistrictScalarRelationFilter = {
-  is?: Prisma.DistrictWhereInput
-  isNot?: Prisma.DistrictWhereInput
 }
 
 export type DistrictListRelationFilter = {
@@ -336,18 +324,9 @@ export type DistrictMinOrderByAggregateInput = {
   divisionId?: Prisma.SortOrder
 }
 
-export type DistrictCreateNestedOneWithoutTenantsInput = {
-  create?: Prisma.XOR<Prisma.DistrictCreateWithoutTenantsInput, Prisma.DistrictUncheckedCreateWithoutTenantsInput>
-  connectOrCreate?: Prisma.DistrictCreateOrConnectWithoutTenantsInput
-  connect?: Prisma.DistrictWhereUniqueInput
-}
-
-export type DistrictUpdateOneRequiredWithoutTenantsNestedInput = {
-  create?: Prisma.XOR<Prisma.DistrictCreateWithoutTenantsInput, Prisma.DistrictUncheckedCreateWithoutTenantsInput>
-  connectOrCreate?: Prisma.DistrictCreateOrConnectWithoutTenantsInput
-  upsert?: Prisma.DistrictUpsertWithoutTenantsInput
-  connect?: Prisma.DistrictWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DistrictUpdateToOneWithWhereWithoutTenantsInput, Prisma.DistrictUpdateWithoutTenantsInput>, Prisma.DistrictUncheckedUpdateWithoutTenantsInput>
+export type DistrictScalarRelationFilter = {
+  is?: Prisma.DistrictWhereInput
+  isNot?: Prisma.DistrictWhereInput
 }
 
 export type DistrictCreateNestedManyWithoutDivisionInput = {
@@ -406,65 +385,12 @@ export type DistrictUpdateOneRequiredWithoutUpazilasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DistrictUpdateToOneWithWhereWithoutUpazilasInput, Prisma.DistrictUpdateWithoutUpazilasInput>, Prisma.DistrictUncheckedUpdateWithoutUpazilasInput>
 }
 
-export type DistrictCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  nameBn: string
-  geoCode?: string | null
-  division: Prisma.DivisionCreateNestedOneWithoutDistrictsInput
-  upazilas?: Prisma.UpazilaCreateNestedManyWithoutDistrictInput
-}
-
-export type DistrictUncheckedCreateWithoutTenantsInput = {
-  id?: string
-  name: string
-  nameBn: string
-  geoCode?: string | null
-  divisionId: string
-  upazilas?: Prisma.UpazilaUncheckedCreateNestedManyWithoutDistrictInput
-}
-
-export type DistrictCreateOrConnectWithoutTenantsInput = {
-  where: Prisma.DistrictWhereUniqueInput
-  create: Prisma.XOR<Prisma.DistrictCreateWithoutTenantsInput, Prisma.DistrictUncheckedCreateWithoutTenantsInput>
-}
-
-export type DistrictUpsertWithoutTenantsInput = {
-  update: Prisma.XOR<Prisma.DistrictUpdateWithoutTenantsInput, Prisma.DistrictUncheckedUpdateWithoutTenantsInput>
-  create: Prisma.XOR<Prisma.DistrictCreateWithoutTenantsInput, Prisma.DistrictUncheckedCreateWithoutTenantsInput>
-  where?: Prisma.DistrictWhereInput
-}
-
-export type DistrictUpdateToOneWithWhereWithoutTenantsInput = {
-  where?: Prisma.DistrictWhereInput
-  data: Prisma.XOR<Prisma.DistrictUpdateWithoutTenantsInput, Prisma.DistrictUncheckedUpdateWithoutTenantsInput>
-}
-
-export type DistrictUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
-  geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.DivisionUpdateOneRequiredWithoutDistrictsNestedInput
-  upazilas?: Prisma.UpazilaUpdateManyWithoutDistrictNestedInput
-}
-
-export type DistrictUncheckedUpdateWithoutTenantsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
-  geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  divisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  upazilas?: Prisma.UpazilaUncheckedUpdateManyWithoutDistrictNestedInput
-}
-
 export type DistrictCreateWithoutDivisionInput = {
   id?: string
   name: string
   nameBn: string
   geoCode?: string | null
   upazilas?: Prisma.UpazilaCreateNestedManyWithoutDistrictInput
-  tenants?: Prisma.TenantCreateNestedManyWithoutDistrictInput
 }
 
 export type DistrictUncheckedCreateWithoutDivisionInput = {
@@ -473,7 +399,6 @@ export type DistrictUncheckedCreateWithoutDivisionInput = {
   nameBn: string
   geoCode?: string | null
   upazilas?: Prisma.UpazilaUncheckedCreateNestedManyWithoutDistrictInput
-  tenants?: Prisma.TenantUncheckedCreateNestedManyWithoutDistrictInput
 }
 
 export type DistrictCreateOrConnectWithoutDivisionInput = {
@@ -519,7 +444,6 @@ export type DistrictCreateWithoutUpazilasInput = {
   nameBn: string
   geoCode?: string | null
   division: Prisma.DivisionCreateNestedOneWithoutDistrictsInput
-  tenants?: Prisma.TenantCreateNestedManyWithoutDistrictInput
 }
 
 export type DistrictUncheckedCreateWithoutUpazilasInput = {
@@ -528,7 +452,6 @@ export type DistrictUncheckedCreateWithoutUpazilasInput = {
   nameBn: string
   geoCode?: string | null
   divisionId: string
-  tenants?: Prisma.TenantUncheckedCreateNestedManyWithoutDistrictInput
 }
 
 export type DistrictCreateOrConnectWithoutUpazilasInput = {
@@ -553,7 +476,6 @@ export type DistrictUpdateWithoutUpazilasInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   division?: Prisma.DivisionUpdateOneRequiredWithoutDistrictsNestedInput
-  tenants?: Prisma.TenantUpdateManyWithoutDistrictNestedInput
 }
 
 export type DistrictUncheckedUpdateWithoutUpazilasInput = {
@@ -562,7 +484,6 @@ export type DistrictUncheckedUpdateWithoutUpazilasInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   divisionId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenants?: Prisma.TenantUncheckedUpdateManyWithoutDistrictNestedInput
 }
 
 export type DistrictCreateManyDivisionInput = {
@@ -578,7 +499,6 @@ export type DistrictUpdateWithoutDivisionInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upazilas?: Prisma.UpazilaUpdateManyWithoutDistrictNestedInput
-  tenants?: Prisma.TenantUpdateManyWithoutDistrictNestedInput
 }
 
 export type DistrictUncheckedUpdateWithoutDivisionInput = {
@@ -587,7 +507,6 @@ export type DistrictUncheckedUpdateWithoutDivisionInput = {
   nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   geoCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   upazilas?: Prisma.UpazilaUncheckedUpdateManyWithoutDistrictNestedInput
-  tenants?: Prisma.TenantUncheckedUpdateManyWithoutDistrictNestedInput
 }
 
 export type DistrictUncheckedUpdateManyWithoutDivisionInput = {
@@ -604,12 +523,10 @@ export type DistrictUncheckedUpdateManyWithoutDivisionInput = {
 
 export type DistrictCountOutputType = {
   upazilas: number
-  tenants: number
 }
 
 export type DistrictCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   upazilas?: boolean | DistrictCountOutputTypeCountUpazilasArgs
-  tenants?: boolean | DistrictCountOutputTypeCountTenantsArgs
 }
 
 /**
@@ -629,13 +546,6 @@ export type DistrictCountOutputTypeCountUpazilasArgs<ExtArgs extends runtime.Typ
   where?: Prisma.UpazilaWhereInput
 }
 
-/**
- * DistrictCountOutputType without action
- */
-export type DistrictCountOutputTypeCountTenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TenantWhereInput
-}
-
 
 export type DistrictSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -645,7 +555,6 @@ export type DistrictSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   divisionId?: boolean
   division?: boolean | Prisma.DivisionDefaultArgs<ExtArgs>
   upazilas?: boolean | Prisma.District$upazilasArgs<ExtArgs>
-  tenants?: boolean | Prisma.District$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.DistrictCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["district"]>
 
@@ -679,7 +588,6 @@ export type DistrictOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type DistrictInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   division?: boolean | Prisma.DivisionDefaultArgs<ExtArgs>
   upazilas?: boolean | Prisma.District$upazilasArgs<ExtArgs>
-  tenants?: boolean | Prisma.District$tenantsArgs<ExtArgs>
   _count?: boolean | Prisma.DistrictCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DistrictIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -694,7 +602,6 @@ export type $DistrictPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     division: Prisma.$DivisionPayload<ExtArgs>
     upazilas: Prisma.$UpazilaPayload<ExtArgs>[]
-    tenants: Prisma.$TenantPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1098,7 +1005,6 @@ export interface Prisma__DistrictClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   division<T extends Prisma.DivisionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DivisionDefaultArgs<ExtArgs>>): Prisma.Prisma__DivisionClient<runtime.Types.Result.GetResult<Prisma.$DivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   upazilas<T extends Prisma.District$upazilasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.District$upazilasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UpazilaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tenants<T extends Prisma.District$tenantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.District$tenantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1550,30 +1456,6 @@ export type District$upazilasArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.UpazilaScalarFieldEnum | Prisma.UpazilaScalarFieldEnum[]
-}
-
-/**
- * District.tenants
- */
-export type District$tenantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Tenant
-   */
-  select?: Prisma.TenantSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Tenant
-   */
-  omit?: Prisma.TenantOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TenantInclude<ExtArgs> | null
-  where?: Prisma.TenantWhereInput
-  orderBy?: Prisma.TenantOrderByWithRelationInput | Prisma.TenantOrderByWithRelationInput[]
-  cursor?: Prisma.TenantWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TenantScalarFieldEnum | Prisma.TenantScalarFieldEnum[]
 }
 
 /**

@@ -12,7 +12,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="h-screen flex w-full bg-background relative overflow-hidden">
+    <div className="h-screen print:h-auto flex w-full bg-background relative overflow-hidden print:overflow-visible">
       {/* Decorative Background Elements — fixed so they don't affect scroll */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]" />
@@ -20,14 +20,16 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="absolute -bottom-[10%] left-[20%] w-[35%] h-[35%] rounded-full bg-primary/5 blur-[110px]" />
       </div>
 
-      <DashboardSidebar
-        collapsed={sidebarCollapsed}
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
+      <div className="print:hidden">
+        <DashboardSidebar
+          collapsed={sidebarCollapsed}
+          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        />
+      </div>
 
       {/* main is now the scroll container — this makes sticky header work */}
-      <main className="flex-1 min-w-0 flex flex-col relative z-10 h-screen overflow-y-auto overflow-x-hidden">
-        <div className="flex-1 flex flex-col animate-fade-in animate-duration-500">
+      <main className="flex-1 min-w-0 flex flex-col relative z-10 h-screen print:h-auto overflow-y-auto print:overflow-visible overflow-x-hidden">
+        <div className="flex-1 flex flex-col animate-fade-in animate-duration-500 print:block">
           {children}
         </div>
       </main>

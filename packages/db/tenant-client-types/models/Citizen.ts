@@ -1501,10 +1501,6 @@ export type CitizenUpdateOneWithoutApplicationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CitizenUpdateToOneWithWhereWithoutApplicationsInput, Prisma.CitizenUpdateWithoutApplicationsInput>, Prisma.CitizenUncheckedUpdateWithoutApplicationsInput>
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type CitizenCreateNestedOneWithoutFamilyApplicationsInput = {
   create?: Prisma.XOR<Prisma.CitizenCreateWithoutFamilyApplicationsInput, Prisma.CitizenUncheckedCreateWithoutFamilyApplicationsInput>
   connectOrCreate?: Prisma.CitizenCreateOrConnectWithoutFamilyApplicationsInput

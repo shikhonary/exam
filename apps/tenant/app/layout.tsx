@@ -38,7 +38,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <Providers>
               {children}
-              <NextTopLoader showSpinner={false} />
+              <NextTopLoader showSpinner={false} color="#00e5a0" shadow="0 0 10px #00e5a0, 0 0 5px #00e5a0" />
               <Toaster position="top-right" />
               <DeleteConfirmModal />
             </Providers>

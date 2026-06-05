@@ -5,8 +5,10 @@ import {
   academicClassFilterSchema,
   academicSubjectFilterSchema,
   academicChapterFilterSchema,
-  academicTopicFilterSchema,
+  academicChapterTopicFilterSchema,
   academicSubTopicFilterSchema,
+  cqFilterSchema,
+  shortAnswerFilterSchema,
   mcqFilterSchema,
   studentFilterSchema,
   batchFilterSchema,
@@ -23,13 +25,18 @@ import {
   citizenApplicationFilterSchema,
   citizenFilterSchema,
   assessmentFilterSchema,
-  fiscalYearFilterSchema,
+
   holdingTaxFilterSchema,
   certificateCounterFilterSchema,
   tradeLicenseCategoryFilterSchema,
   tradeLicenseApplicationFilterSchema,
   tradeLicenseFilterSchema,
   successionApplicationFilterSchema,
+  questionPaperFilterSchema,
+  userFilterSchema,
+  settingFilterSchema,
+  auditLogFilterSchema,
+  notificationFilterSchema,
 } from "./schema";
 
 export const useAcademicClassFilters = () =>
@@ -38,11 +45,14 @@ export const useAcademicSubjectFilters = () =>
   useQueryStates(academicSubjectFilterSchema);
 export const useAcademicChapterFilters = () =>
   useQueryStates(academicChapterFilterSchema);
-export const useAcademicTopicFilters = () =>
-  useQueryStates(academicTopicFilterSchema);
+export const useAcademicChapterTopicFilters = () =>
+  useQueryStates(academicChapterTopicFilterSchema);
 export const useAcademicSubTopicFilters = () =>
   useQueryStates(academicSubTopicFilterSchema);
+export const useCqFilters = () => useQueryStates(cqFilterSchema);
+export const useShortAnswerFilters = () => useQueryStates(shortAnswerFilterSchema);
 export const useMCQFilters = () => useQueryStates(mcqFilterSchema);
+export const useQuestionPaperFilters = () => useQueryStates(questionPaperFilterSchema);
 export const useStudentFilters = () => useQueryStates(studentFilterSchema);
 export const useBatchFilters = () => useQueryStates(batchFilterSchema);
 export const useTenantFilters = () => useQueryStates(tenantFilterSchema);
@@ -66,8 +76,7 @@ export const useCitizenApplicationFilters = () =>
 export const useCitizenFilters = () => useQueryStates(citizenFilterSchema);
 export const useAssessmentFilters = () =>
   useQueryStates(assessmentFilterSchema);
-export const useFiscalYearFilters = () =>
-  useQueryStates(fiscalYearFilterSchema);
+
 export const useHoldingTaxFilters = () =>
   useQueryStates(holdingTaxFilterSchema);
 export const useCertificateCounterFilters = () =>
@@ -80,3 +89,7 @@ export const useTradeLicenseFilters = () =>
   useQueryStates(tradeLicenseFilterSchema);
 export const useSuccessionApplicationFilters = () =>
   useQueryStates(successionApplicationFilterSchema);
+export const useUserFilters = () => useQueryStates(userFilterSchema);
+export const useSettingFilters = () => useQueryStates(settingFilterSchema);
+export const useAuditLogFilters = () => useQueryStates(auditLogFilterSchema);
+export const useNotificationFilters = () => useQueryStates(notificationFilterSchema);

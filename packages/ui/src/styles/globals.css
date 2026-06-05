@@ -12,26 +12,31 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* 1. Define Design Tokens - Atmospheric Precision */
+/* ============================================================
+   VOID LIGHTNING — Premium Dark Theme System
+   EdTech SaaS for Bangladesh | Shikhonary Tenant
+   ============================================================ */
+
+/* 1. Light Mode Design Tokens (kept for admin/fallback) */
 :root {
   /* --- Atmospheric Surface Colors --- */
   --surface: #f8f9ff;
   --surface-container-lowest: #ffffff;
   --surface-container-low: #eff4ff;
   --surface-container: #e5eeff;
-  --surface-container-highest: color-mix(in srgb, #e5eeff 50%, transparent); /* Used for glass style */
+  --surface-container-highest: color-mix(in srgb, #e5eeff 50%, transparent);
 
-  /* --- Emerald & Slate --- */
+  /* --- Brand Colors --- */
   --primary: #006c49;
   --primary-container: #10b981;
   --on-primary: #ffffff;
-  
+
   --on-surface: #0b1c30;
   --on-surface-variant: #3c4a42;
-  
+
   --outline-variant: #bbcabf;
-  
-  --primary-fixed-glow: #10b981; /* Primary fixed for glow */
+
+  --primary-fixed-glow: #10b981;
 
   /* --- Mapped to Shadcn Base --- */
   --background: var(--surface);
@@ -57,13 +62,12 @@
   --destructive: oklch(0.68 0.2 25);
   --destructive-foreground: oklch(1 0 0);
 
-  /* The "Ghost Border" Fallback */
   --border: color-mix(in srgb, var(--outline-variant) 20%, transparent);
   --input: color-mix(in srgb, var(--outline-variant) 20%, transparent);
   --ring: var(--primary);
 
-  --radius: 0.75rem; /* 12px default */
-  --radius-lg: 1rem; /* 16px */
+  --radius: 0.75rem;
+  --radius-lg: 1rem;
 
   /* --- Sidebar --- */
   --sidebar: var(--surface-container-lowest);
@@ -72,7 +76,7 @@
   --sidebar-primary-foreground: var(--on-primary);
   --sidebar-accent: var(--surface-container);
   --sidebar-accent-foreground: var(--on-surface);
-  --sidebar-border: transparent; /* No lines rule */
+  --sidebar-border: transparent;
   --sidebar-ring: var(--primary);
 
   /* --- Charts --- */
@@ -83,36 +87,120 @@
   --chart-5: oklch(0.85 0.15 85);
 
   /* --- Gradient Definitions --- */
-  --gradient-signature: linear-gradient(
-    135deg,
-    var(--primary) 0%,
-    var(--primary-container) 100%
-  );
-  
-  --gradient-background: linear-gradient(
-    180deg,
-    var(--surface) 0%,
-    var(--surface-container-low) 100%
-  );
+  --gradient-signature: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+  --gradient-background: linear-gradient(180deg, var(--surface) 0%, var(--surface-container-low) 100%);
 
   /* --- Shadow Definitions --- */
-  /* Ambient shadow: Blur 24px, Spread -4px, Opacity 6%, color derived from #0b1c30 */
   --shadow-ambient: 0 12px 24px -4px rgba(11, 28, 48, 0.06);
   --shadow-glass: 0 8px 32px 0 rgba(11, 28, 48, 0.04);
   --shadow-glow: 0 0 16px -4px color-mix(in srgb, var(--primary-fixed-glow) 40%, transparent);
 }
 
+/* ============================================================
+   VOID LIGHTNING — Dark Mode
+   Base: #080d14 near-black blue void
+   Accent: #00e5a0 electric emerald lightning
+   ============================================================ */
 .dark {
-  --background: oklch(0.18 0.02 260);
-  --foreground: oklch(0.95 0.01 85);
-  --card: oklch(0.2 0.02 260);
-  --card-foreground: oklch(0.95 0.01 85);
-  --primary: #10b981;
-  --primary-foreground: #006c49;
-  --accent: oklch(0.65 0.18 35);
-  --border: color-mix(in srgb, #bbcabf 20%, transparent);
-  --sidebar: oklch(0.2 0.02 260);
-  --sidebar-foreground: oklch(0.95 0.01 260);
+  /* ── Core Surfaces ── */
+  --void-base:       #080d14;   /* deepest background */
+  --void-surface:    #0d1422;   /* cards, panels */
+  --void-surface-hi: #111b2e;   /* elevated surfaces */
+  --void-surface-3:  #15213a;   /* highest elevation */
+  --void-rim:        #1e2d47;   /* borders, dividers */
+
+  /* ── Electric Emerald Lightning ── */
+  --lightning:       #00e5a0;   /* primary electric accent */
+  --lightning-dim:   #00b37a;   /* slightly muted */
+  --lightning-muted: rgba(0, 229, 160, 0.05); /* very faint tint */
+  --lightning-glow:  transparent; /* NO GLOW - User requested removal */
+  --lightning-pulse: rgba(0, 229, 160, 0.08); /* active bg */
+
+  /* ── Secondary Sky Spark ── */
+  --spark:           #38bdf8;   /* sky blue secondary */
+  --spark-muted:     rgba(56, 189, 248, 0.1);
+
+  /* ── Text Hierarchy ── */
+  --text-primary:    #e2eaf5;   /* headings, key content */
+  --text-secondary:  #8ba0bc;   /* labels, metadata */
+  --text-tertiary:   #4a607d;   /* placeholders, disabled */
+
+  /* ── Mapped Shadcn Variables ── */
+  --background:        var(--void-base);
+  --foreground:        var(--text-primary);
+
+  --card:              var(--void-surface);
+  --card-foreground:   var(--text-primary);
+
+  --popover:           var(--void-surface-hi);
+  --popover-foreground: var(--text-primary);
+
+  --primary:           var(--lightning);
+  --primary-foreground: #001a0f;
+  --primary-container: var(--lightning-dim);
+
+  --secondary:         var(--void-surface-hi);
+  --secondary-foreground: var(--text-primary);
+
+  --muted:             var(--void-surface-hi);
+  --muted-foreground:  var(--text-secondary);
+
+  --accent:            var(--spark);
+  --accent-foreground: #001a2e;
+
+  --destructive:       #ff4757;
+  --destructive-foreground: #ffffff;
+
+  --border:            rgba(255, 255, 255, 0.02); /* Extremely subtle, rely on shadows instead */
+  --input:             rgba(255, 255, 255, 0.04);
+  --ring:              transparent; /* Remove focus ring glow */
+
+  /* ── Sidebar Dark ── */
+  --sidebar:                    var(--void-surface);
+  --sidebar-foreground:         var(--text-primary);
+  --sidebar-primary:            var(--lightning);
+  --sidebar-primary-foreground: #001a0f;
+  --sidebar-accent:             var(--void-surface-hi);
+  --sidebar-accent-foreground:  var(--text-primary);
+  --sidebar-border:             transparent;
+  --sidebar-ring:               var(--lightning);
+
+  /* ── Surface hierarchy for custom classes ── */
+  --surface:                    var(--void-base);
+  --surface-container-lowest:   var(--void-surface);
+  --surface-container-low:      var(--void-surface-hi);
+  --surface-container:          var(--void-surface-3);
+  --surface-container-highest:  rgba(21, 33, 58, 0.6);
+
+  --on-surface:                 var(--text-primary);
+  --on-surface-variant:         var(--text-secondary);
+  --on-primary:                 #001a0f;
+  --outline-variant:            var(--void-rim);
+
+  /* ── Primary Glow ── */
+  --primary-fixed-glow:         var(--lightning);
+
+  /* ── Gradients ── */
+  --gradient-signature: linear-gradient(135deg, var(--lightning-dim) 0%, var(--lightning) 100%);
+  --gradient-background: linear-gradient(160deg, #080d14 0%, #0a1020 50%, #0d1628 100%);
+  --gradient-void-mesh:
+    radial-gradient(ellipse 50% 40% at 10% 0%, rgba(0, 229, 160, 0.02) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 90% 20%, rgba(56, 189, 248, 0.015) 0%, transparent 70%),
+    linear-gradient(160deg, #080d14 0%, #080f1a 100%);
+
+  /* ── Shadows (Depth over Glow) ── */
+  --shadow-ambient:   0 12px 32px -4px rgba(0, 0, 0, 0.6);
+  --shadow-glass:     0 4px 16px 0 rgba(0, 0, 0, 0.4);
+  --shadow-glow:      0 8px 24px -4px rgba(0, 0, 0, 0.5); /* Replaced color glow with deep structural shadow */
+  --shadow-glow-lg:   0 16px 40px -8px rgba(0, 0, 0, 0.7); /* Deep drop shadow */
+  --shadow-spark:     0 4px 12px rgba(0, 0, 0, 0.3);
+
+  /* ── Charts ── */
+  --chart-1: var(--lightning);
+  --chart-2: var(--spark);
+  --chart-3: #a78bfa;
+  --chart-4: #f59e0b;
+  --chart-5: #f43f5e;
 }
 
 /* 2. Map Variables to Tailwind Theme */
@@ -128,7 +216,7 @@
   --color-surface-container-low: var(--surface-container-low);
   --color-surface-container: var(--surface-container);
   --color-surface-container-highest: var(--surface-container-highest);
-  
+
   --color-on-surface: var(--on-surface);
   --color-on-surface-variant: var(--on-surface-variant);
   --color-on-primary: var(--on-primary);
@@ -148,6 +236,10 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
+  --color-input: var(--input);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -158,9 +250,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-
+  --radius-sm: 0.5rem;
+  --radius: 0.75rem;
   --radius-lg: var(--radius-lg);
   --radius-xl: calc(var(--radius-lg) + 4px);
   --radius-full: 9999px;
@@ -169,176 +260,358 @@
   --text-display-lg: 3.5rem;
   --text-label-sm: 0.6875rem;
 
-  /* Mapping for automatic utility generation: e.g., bg-gradient-signature */
-  --background-image-gradient-signature: var(--gradient-signature);
+  /* Gradient utilities */
+  --background-image-gradient-signature:  var(--gradient-signature);
   --background-image-gradient-background: var(--gradient-background);
+  --background-image-gradient-void-mesh:  var(--gradient-void-mesh);
 
-  --shadow-ambient: var(--shadow-ambient);
-  --shadow-glass: var(--shadow-glass);
-  --shadow-glow: var(--shadow-glow);
+  /* Shadow utilities */
+  --shadow-ambient:  var(--shadow-ambient);
+  --shadow-glass:    var(--shadow-glass);
+  --shadow-glow:     var(--shadow-glow);
+  --shadow-glow-lg:  var(--shadow-glow-lg);
+  --shadow-spark:    var(--shadow-spark);
 
   /* Z-index layers */
-  --z-base: 0;
-  --z-main: 10;
-  --z-header: 40;
+  --z-base:    0;
+  --z-main:    10;
+  --z-header:  40;
   --z-sidebar: 50;
-  --z-modal: 100;
+  --z-modal:   100;
   --z-popover: 110;
   --z-tooltip: 120;
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-fade-in: fadeIn 0.5s ease-out forwards;
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+  /* Animations */
+  --animate-float:            float 6s ease-in-out infinite;
+  --animate-fade-in:          fadeIn 0.5s ease-out forwards;
+  --animate-pulse-glow:       pulseGlow 2.5s ease-in-out infinite;
+  --animate-lightning-strike: lightningStrike 3s ease-in-out infinite;
+  --animate-accordion-down:   accordion-down 0.2s ease-out;
+  --animate-accordion-up:     accordion-up 0.2s ease-out;
   --animate-collapsible-down: collapsible-down 0.2s ease-out;
-  --animate-collapsible-up: collapsible-up 0.2s ease-out;
+  --animate-collapsible-up:   collapsible-up 0.2s ease-out;
 
   @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
   }
 
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 12px -4px rgba(0, 229, 160, 0.25); }
+    50%       { box-shadow: 0 0 28px -4px rgba(0, 229, 160, 0.5); }
+  }
+
+  @keyframes lightningStrike {
+    0%, 90%, 100% { opacity: 0.7; }
+    95%            { opacity: 1; filter: brightness(1.2); }
   }
 
   @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
+    from { height: 0; }
+    to   { height: var(--radix-accordion-content-height); }
   }
   @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
+    from { height: var(--radix-accordion-content-height); }
+    to   { height: 0; }
   }
   @keyframes collapsible-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-collapsible-content-height);
-    }
+    from { height: 0; }
+    to   { height: var(--radix-collapsible-content-height); }
   }
   @keyframes collapsible-up {
-    from {
-      height: var(--radix-collapsible-content-height);
-    }
-    to {
-      height: 0;
-    }
+    from { height: var(--radix-collapsible-content-height); }
+    to   { height: 0; }
+  }
+
+  /* Grain texture keyframe */
+  @keyframes grain {
+    0%, 100% { background-position: 0% 0%; }
+    10%       { background-position: -5% -10%; }
+    20%       { background-position: -15% 5%; }
+    30%       { background-position: 7% -25%; }
+    40%       { background-position: 20% 25%; }
+    50%       { background-position: -25% 10%; }
+    60%       { background-position: 15% 5%; }
+    70%       { background-position: 0% 15%; }
+    80%       { background-position: 25% 35%; }
+    90%       { background-position: -10% 10%; }
   }
 }
 
 /* 3. Base Styles */
 @layer base {
   * {
-    /* 'Ghost Border' applied at root level */
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground font-body antialiased tracking-normal;
   }
-  h1,
-  h2,
-  h3,
+
+  /* Dark mode body gets the void mesh gradient + grain */
+  .dark body {
+    background: var(--gradient-void-mesh);
+    background-attachment: fixed;
+  }
+
+  /* Noise grain overlay on dark mode */
+  .dark body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    animation: grain 8s steps(10) infinite;
+  }
+
+  h1, h2, h3,
   .display-lg,
   .headline-sm {
     @apply font-display tracking-[-0.02em];
   }
-  
-  /* Fallback components for No line policy -> override border to transparent mostly */
+
   .no-lines {
     @apply border-transparent;
+  }
+
+  /* Scrollbar styling for dark mode */
+  .dark ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .dark ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 160, 0.15);
+    border-radius: 9999px;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 229, 160, 0.3);
   }
 }
 
 /* 4. Manual Utilities */
 @layer utilities {
+  /* ── Gradient utilities ── */
   .gradient-signature {
     background: var(--gradient-signature);
   }
-  
+  .gradient-void-mesh {
+    background: var(--gradient-void-mesh);
+  }
+
+  /* ── Glass morphism ── */
   .glassmorphism {
     @apply bg-background/80 backdrop-blur-md border border-border;
   }
-  
-  .text-on-surface {
-    color: var(--on-surface);
-  }
-  .text-on-surface-variant {
-    color: var(--on-surface-variant);
+
+  /* ── Dark glass — premium card style ── */
+  .dark .glass-void {
+    background: rgba(13, 20, 34, 0.75);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   }
 
-  /* code.html exact matches */
+  /* ── Lightning glow border ── */
+  .dark .glow-border {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .dark .glow-border:hover {
+    border-color: rgba(0, 229, 160, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── Lightning text glow ── */
+  .dark .text-lightning {
+    color: var(--lightning);
+    text-shadow: 0 0 20px rgba(0, 229, 160, 0.5);
+  }
+
+  /* ── Text utilities ── */
+  .text-on-surface         { color: var(--on-surface); }
+  .text-on-surface-variant { color: var(--on-surface-variant); }
+
+  /* ── Existing compatibility ── */
   .glass-panel {
     @apply bg-[#f8f9ff]/80 backdrop-blur-[16px] border border-emerald-500/10;
   }
+  .dark .glass-panel {
+    background: rgba(13, 20, 34, 0.75);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 229, 160, 0.1);
+  }
+
   .signature-gradient {
     background: linear-gradient(135deg, #006c49 0%, #10b981 100%);
   }
-  .tonal-shift-bg {
-    background-color: #f8f9ff;
+  .dark .signature-gradient {
+    background: linear-gradient(135deg, var(--lightning-dim) 0%, var(--lightning) 100%);
   }
+
+  .tonal-shift-bg         { background-color: #f8f9ff; }
+  .dark .tonal-shift-bg   { background-color: var(--void-surface); }
+
   .shadow-soft {
     box-shadow: 0 24px 48px -12px rgba(11, 28, 48, 0.06);
+  }
+  .dark .shadow-soft {
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ── Sidebar glow indicator ── */
+  .dark .nav-item-active {
+    background: var(--lightning-pulse);
+    color: var(--lightning);
+    box-shadow: inset 3px 0 0 var(--lightning);
+  }
+
+  /* ── Lightning pulse animation ── */
+  .animate-pulse-glow {
+    animation: pulseGlow 2.5s ease-in-out infinite;
   }
 }
 
 /* 5. Custom Components */
 @layer components {
-  /* Cards */
+  /* ── Cards ── */
   .surface-card {
     @apply bg-surface-container-lowest rounded-lg;
     box-shadow: none;
     border: none;
   }
+  .dark .surface-card {
+    background: var(--void-surface);
+    border: 1px solid var(--lightning-muted);
+  }
+
   .surface-layered {
     @apply bg-surface-container-lowest shadow-ambient border-none;
   }
+  .dark .surface-layered {
+    background: var(--void-surface);
+    box-shadow: var(--shadow-glass);
+    border: 1px solid rgba(0, 229, 160, 0.08);
+  }
+
   .surface-floating {
     @apply bg-surface/80 backdrop-blur-[16px] shadow-glass border border-border;
   }
+  .dark .surface-floating {
+    background: rgba(13, 20, 34, 0.8);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-glass);
+    border: 1px solid rgba(0, 229, 160, 0.12);
+  }
 
-  /* Buttons */
+  /* ── Premium Void Card ── */
+  .dark .void-card {
+    background: var(--void-surface);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .dark .void-card:hover {
+    border-color: rgba(0, 229, 160, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  /* ── Buttons ── */
   .btn-primary-sc {
     @apply bg-primary text-primary-foreground border-none rounded-lg font-medium transition-all duration-300;
   }
   .btn-primary-sc:hover {
     @apply bg-gradient-to-br from-primary to-primary-container shadow-ambient;
   }
+  .dark .btn-primary-sc {
+    background: var(--lightning);
+    color: #001a0f;
+    box-shadow: none;
+  }
+  .dark .btn-primary-sc:hover {
+    background: linear-gradient(135deg, var(--lightning-dim), var(--lightning));
+    box-shadow: 0 4px 16px rgba(0, 229, 160, 0.2);
+  }
+
   .btn-secondary-sc {
     @apply bg-surface-container-highest/50 border-none rounded-lg text-foreground transition-colors duration-200;
   }
+  .dark .btn-secondary-sc {
+    background: rgba(17, 27, 46, 0.8);
+    border: 1px solid rgba(0, 229, 160, 0.1);
+    color: var(--text-primary);
+  }
+  .dark .btn-secondary-sc:hover {
+    border-color: rgba(0, 229, 160, 0.25);
+    background: rgba(0, 229, 160, 0.05);
+  }
 
-  /* Inputs */
+  /* ── Inputs ── */
   .input-sc-container {
     @apply rounded-lg bg-surface-container-low border border-transparent transition-all duration-200 outline-none;
   }
   .input-sc-container:focus-within {
     @apply border-primary/40 shadow-glow bg-surface-container-lowest;
   }
+  .dark .input-sc-container {
+    background: rgba(17, 27, 46, 0.6);
+    border: 1px solid rgba(30, 45, 71, 0.8);
+  }
+  .dark .input-sc-container:focus-within {
+    border-color: rgba(0, 229, 160, 0.3);
+    box-shadow: 0 0 0 2px rgba(0, 229, 160, 0.06);
+    background: rgba(8, 13, 20, 0.9);
+  }
 
-  /* Status Chips */
+  /* ── Status Chips ── */
   .chip-active {
     @apply bg-primary-container text-on-surface rounded-full text-[0.875rem] font-medium px-3 py-1;
+  }
+  .dark .chip-active {
+    background: rgba(0, 229, 160, 0.12);
+    color: var(--lightning);
+    border: 1px solid rgba(0, 229, 160, 0.2);
+  }
+
+  /* ── Sidebar dark styles ── */
+  .dark .sidebar-nav-link {
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border-radius: var(--radius);
+  }
+  .dark .sidebar-nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(0, 229, 160, 0.06);
+  }
+  .dark .sidebar-nav-link.active {
+    color: var(--lightning);
+    background: rgba(0, 229, 160, 0.1);
+    box-shadow: inset 3px 0 0 var(--lightning);
+  }
+
+  /* ── Section labels in sidebar ── */
+  .dark .sidebar-section-label {
+    color: var(--text-tertiary);
+    letter-spacing: 0.1em;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0;
   }
 }

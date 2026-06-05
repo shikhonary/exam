@@ -8,6 +8,13 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Batch'
+export type * from './models/Student'
+export type * from './models/Exam'
+export type * from './models/ClassRoutine'
+export type * from './models/Assignment'
+export type * from './models/StudyMaterial'
+export type * from './models/LiveClass'
 export type * from './models/CitizenApplication'
 export type * from './models/Citizen'
 export type * from './models/Ward'

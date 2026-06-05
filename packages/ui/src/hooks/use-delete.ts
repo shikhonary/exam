@@ -11,7 +11,7 @@ export type DeleteEntityType =
   | "tenant"
   | "subscriptionPlan"
   | "subscription"
-  | "mcq"
+  | "academicClass"
   | "academicYear"
   | "batch"
   | "counter"

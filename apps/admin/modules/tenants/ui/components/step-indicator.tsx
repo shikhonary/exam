@@ -5,7 +5,7 @@ import {
   Building2,
   Mail,
   Globe,
-  MapPin,
+  CreditCard,
   Settings2,
 } from "lucide-react";
 
@@ -16,17 +16,17 @@ export const steps = [
     id: 1,
     title: "Basic Info",
     icon: Building2,
-    description: "Union details",
+    description: "Tenant details",
   },
+  { id: 2, title: "Contact", icon: Mail, description: "Contact information" },
+  { id: 3, title: "Domain", icon: Globe, description: "Domain configuration" },
   {
-    id: 2,
-    title: "Geography",
-    icon: MapPin,
-    description: "Location details",
+    id: 4,
+    title: "Subscription",
+    icon: CreditCard,
+    description: "Plan & billing",
   },
-  { id: 3, title: "Contact", icon: Mail, description: "Official contact" },
-  { id: 4, title: "Domain", icon: Globe, description: "Portal configuration" },
-  { id: 5, title: "Limits", icon: Settings2, description: "System limits" },
+  { id: 5, title: "Limits", icon: Settings2, description: "Usage limits" },
 ];
 
 interface StepIndicatorProps {

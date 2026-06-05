@@ -16,7 +16,7 @@ import {
   useAcademicYearsForSelection,
   useBatchFilters,
 } from "@workspace/api-client";
-import { useDebounce } from "@workspace/ui/hooks/use-debounce";
+import { useDebounceCallback } from "@workspace/ui/hooks/use-debounce";
 import { Badge } from "@workspace/ui/components/badge";
 import { motion, AnimatePresence } from "framer-motion";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@workspace/utils/constants";
@@ -28,48 +28,58 @@ interface FiltersProps {
 }
 
 export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
-  const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
   const [filters, setFilters] = useBatchFilters();
+  const [search, setSearch] = useState(filters.search ?? "");
+
+  const debouncedSetFilters = useDebounceCallback((value: string) => {
+    setFilters({ search: value || null, page: 1 });
+  }, 500);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearch(value);
+    debouncedSetFilters(value);
+  };
 
   const { data: years } = useAcademicYearsForSelection();
   const { data: classes } = useAcademicClassesForSelection();
 
   const year_options =
     years?.map((item) => ({
-      label: item.name,
+      label: item.label,
       value: item.id,
     })) ?? [];
 
   const class_options =
     classes?.map((item) => ({
-      label: item.displayName,
+      label: item.nameBn || item.nameEn,
       value: item.id,
     })) ?? [];
 
+  // Sync external search changes (e.g. from mobile view or clear button)
   useEffect(() => {
-    setFilters({ ...filters, search: debouncedSearch || null });
-  }, [debouncedSearch, setFilters]);
+    setSearch(filters.search ?? "");
+  }, [filters.search]);
 
   const handleAcademicYearChange = (id: string) => {
     setFilters({
-      ...filters,
       academicYearId: id === "all" ? null : id,
+      page: 1,
     });
   };
 
   const handleAcademicClassChange = (id: string) => {
     setFilters({
-      ...filters,
       academicClassId: id === "all" ? null : id,
+      page: 1,
     });
   };
 
   const handleStatusChange = (status: "all" | "active" | "inactive") => {
     setFilters({
-      ...filters,
       isActive:
         status === "active" ? true : status === "inactive" ? false : null,
+      page: 1,
     });
   };
 
@@ -96,57 +106,70 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
   };
 
   return (
-    <div className="bg-white overflow-hidden">
-      <div className="bg-white p-4 flex flex-wrap items-center gap-4">
+    <div className="bg-card overflow-hidden border-b border-white/[0.06]">
+      <div className="p-4 flex flex-wrap items-center gap-4">
         <div className="relative flex-grow min-w-[300px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0b1c30]/50" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            className="w-full bg-[#f8f9ff] py-2.5 pl-10 pr-4 rounded-[12px] border-slate-200 focus:border-none focus:ring-2 focus:ring-primary/60 text-sm text-[#0b1c30] placeholder:text-[#0b1c30]/40 h-10 transition-all"
-            placeholder="Search batches..."
+            type="search"
+            className="w-full bg-white/[0.05] py-2.5 pl-10 pr-10 rounded-xl border-white/[0.08] focus:border-[rgba(0,229,160,0.30)] focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] text-sm text-foreground placeholder:text-muted-foreground h-10 transition-all [&::-webkit-search-cancel-button]:hidden"
+            placeholder="ব্যাচ খুঁজুন..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
           />
+          {search && (
+            <button
+              onClick={() => {
+                setSearch("");
+                setFilters({ search: null, page: 1 });
+              }}
+              aria-label="Clear search"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white/[0.1] text-muted-foreground flex items-center justify-center hover:bg-white/[0.15] transition-colors text-[10px] font-bold leading-none"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
-        <div className="flex items-center bg-[#f1f5f9]/50 p-1 rounded-[12px] border border-slate-100">
+        <div className="flex items-center border border-white/[0.06] rounded-lg p-0.5">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => handleStatusChange("all")}
             className={cn(
-              "h-8 px-4 rounded-lg text-xs font-bold transition-all duration-200",
+              "h-8 px-4 rounded-md text-xs font-bold transition-all duration-200",
               filters.isActive === null
-                ? "bg-white text-emerald-700 shadow-sm"
-                : "text-slate-500 hover:text-slate-700 hover:bg-white/50",
+                ? "bg-white/[0.08] text-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-transparent",
             )}
           >
-            All
+            সব
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => handleStatusChange("active")}
             className={cn(
-              "h-8 px-4 rounded-lg text-xs font-bold transition-all duration-200",
+              "h-8 px-4 rounded-md text-xs font-bold transition-all duration-200",
               filters.isActive === true
-                ? "bg-white text-emerald-700 shadow-sm"
-                : "text-slate-500 hover:text-slate-700 hover:bg-white/50",
+                ? "bg-white/[0.08] text-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-transparent",
             )}
           >
-            Active
+            অ্যাক্টিভ
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => handleStatusChange("inactive")}
             className={cn(
-              "h-8 px-4 rounded-lg text-xs font-bold transition-all duration-200",
+              "h-8 px-4 rounded-md text-xs font-bold transition-all duration-200",
               filters.isActive === false
-                ? "bg-white text-emerald-700 shadow-sm"
-                : "text-slate-500 hover:text-slate-700 hover:bg-white/50",
+                ? "bg-white/[0.08] text-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-transparent",
             )}
           >
-            Inactive
+            ইনঅ্যাক্টিভ
           </Button>
         </div>
 
@@ -155,13 +178,13 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
             value={filters.academicYearId ?? "all"}
             onValueChange={handleAcademicYearChange}
           >
-            <SelectTrigger className="bg-[#eff4ff] border-none rounded-[12px] text-sm font-semibold text-[#0b1c30] w-[150px] h-10 px-4 focus:ring-2 focus:ring-primary/20 transition-all hover:bg-[#e5eeff]">
-              <SelectValue placeholder="All Years" />
+            <SelectTrigger className="bg-white/[0.05] border-white/[0.08] rounded-xl text-sm font-semibold text-foreground w-[150px] h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all">
+              <SelectValue placeholder="সব বছর" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl border-slate-100 shadow-ambient bg-white/95 backdrop-blur-md">
-              <SelectItem value="all">All Years</SelectItem>
+            <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] text-foreground">
+              <SelectItem value="all">সব বছর</SelectItem>
               {year_options.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
+                <SelectItem key={item.value} value={item.value} className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
                   {item.label}
                 </SelectItem>
               ))}
@@ -172,47 +195,61 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
             value={filters.academicClassId ?? "all"}
             onValueChange={handleAcademicClassChange}
           >
-            <SelectTrigger className="bg-[#eff4ff] border-none rounded-[12px] text-sm font-semibold text-[#0b1c30] w-[150px] h-10 px-4 focus:ring-2 focus:ring-primary/20 transition-all hover:bg-[#e5eeff]">
-              <SelectValue placeholder="All Classes" />
+            <SelectTrigger className="bg-white/[0.05] border-white/[0.08] rounded-xl text-sm font-semibold text-foreground w-[150px] h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all">
+              <SelectValue placeholder="সব ক্লাস" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl border-slate-100 shadow-ambient bg-white/95 backdrop-blur-md">
-              <SelectItem value="all">All Classes</SelectItem>
+            <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] text-foreground">
+              <SelectItem value="all">সব ক্লাস</SelectItem>
               {class_options.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
+                <SelectItem key={item.value} value={item.value} className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
                   {item.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
+
+          <Select
+            value={filters.sortBy && filters.sortOrder ? `${filters.sortBy}-${filters.sortOrder}` : "createdAt-desc"}
+            onValueChange={(value) => {
+              const [sortBy, sortOrder] = value.split("-") as [string, "asc" | "desc"];
+              setFilters({ sortBy, sortOrder, page: 1 });
+            }}
+          >
+            <SelectTrigger className="bg-white/[0.05] border-white/[0.08] rounded-xl text-sm font-semibold text-foreground w-[150px] h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all">
+              <SelectValue placeholder="সাজান" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] text-foreground">
+              <SelectItem value="createdAt-desc" className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">নতুন</SelectItem>
+              <SelectItem value="createdAt-asc" className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">পুরোনো</SelectItem>
+              <SelectItem value="name-asc" className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">নাম (এ-জেড)</SelectItem>
+              <SelectItem value="name-desc" className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">নাম (জেড-এ)</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="ml-auto flex items-center bg-[#f1f5f9]/50 p-1 rounded-[12px] border border-slate-100">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onViewModeChange("grid")}
-            className={cn(
-              "h-8 w-8 rounded-lg transition-all duration-200",
-              viewMode === "grid"
-                ? "bg-white shadow-sm text-emerald-600"
-                : "text-slate-400 hover:text-slate-600 hover:bg-white/50",
-            )}
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
+        <div className="ml-auto flex items-center border border-white/[0.06] rounded-lg p-0.5">
+          <button
             onClick={() => onViewModeChange("table")}
             className={cn(
-              "h-8 w-8 rounded-lg transition-all duration-200",
+              "p-1.5 rounded-md transition-colors",
               viewMode === "table"
-                ? "bg-white shadow-sm text-emerald-600"
-                : "text-slate-400 hover:text-slate-600 hover:bg-white/50",
+                ? "bg-white/[0.08] text-foreground"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             <ListIcon className="w-4 h-4" />
-          </Button>
+          </button>
+          <button
+            onClick={() => onViewModeChange("grid")}
+            className={cn(
+              "p-1.5 rounded-md transition-colors",
+              viewMode === "grid"
+                ? "bg-white/[0.08] text-foreground"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -228,10 +265,10 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
               {filters.search && (
                 <Badge
                   variant="secondary"
-                  className="flex items-center gap-1.5 px-3 py-1 bg-white border border-emerald-100 text-xs text-emerald-700 shadow-sm rounded-lg hover:bg-white"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(0,229,160,0.08)] border border-[rgba(0,229,160,0.20)] text-xs text-primary shadow-sm rounded-lg hover:bg-[rgba(0,229,160,0.12)]"
                 >
                   <span className="font-bold text-[10px] uppercase opacity-50 mr-1">
-                    Search:
+                    খুঁজুন:
                   </span>
                   <span className="font-bold text-[11px]">
                     {filters.search}
@@ -239,7 +276,7 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
                   <button
                     onClick={() => {
                       setSearch("");
-                      setFilters({ ...filters, search: null });
+                      setFilters({ search: null, page: 1 });
                     }}
                     className="hover:text-rose-500 transition-colors ml-1"
                   >
@@ -251,16 +288,16 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
               {filters.isActive !== null && filters.isActive !== undefined && (
                 <Badge
                   variant="secondary"
-                  className="flex items-center gap-1.5 px-3 py-1 bg-white border border-emerald-100 text-xs text-emerald-700 shadow-sm rounded-lg hover:bg-white"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(0,229,160,0.08)] border border-[rgba(0,229,160,0.20)] text-xs text-primary shadow-sm rounded-lg hover:bg-[rgba(0,229,160,0.12)]"
                 >
                   <span className="font-bold text-[10px] uppercase opacity-50 mr-1">
-                    Status:
+                    অবস্থা:
                   </span>
                   <span className="font-bold text-[11px]">
-                    {filters.isActive ? "Active" : "Inactive"}
+                    {filters.isActive ? "অ্যাক্টিভ" : "ইনঅ্যাক্টিভ"}
                   </span>
                   <button
-                    onClick={() => setFilters({ ...filters, isActive: null })}
+                    onClick={() => setFilters({ isActive: null, page: 1 })}
                     className="hover:text-rose-500 transition-colors ml-1"
                   >
                     <X className="w-3 h-3 stroke-[3]" />
@@ -271,10 +308,10 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
               {filters.academicYearId && (
                 <Badge
                   variant="secondary"
-                  className="flex items-center gap-1.5 px-3 py-1 bg-white border border-emerald-100 text-xs text-emerald-700 shadow-sm rounded-lg hover:bg-white"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(0,229,160,0.08)] border border-[rgba(0,229,160,0.20)] text-xs text-primary shadow-sm rounded-lg hover:bg-[rgba(0,229,160,0.12)]"
                 >
                   <span className="font-bold text-[10px] uppercase opacity-50 mr-1">
-                    Year:
+                    বছর:
                   </span>
                   <span className="font-bold text-[11px]">
                     {
@@ -285,7 +322,7 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
                   </span>
                   <button
                     onClick={() =>
-                      setFilters({ ...filters, academicYearId: null })
+                      setFilters({ academicYearId: null, page: 1 })
                     }
                     className="hover:text-rose-500 transition-colors ml-1"
                   >
@@ -297,10 +334,10 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
               {filters.academicClassId && (
                 <Badge
                   variant="secondary"
-                  className="flex items-center gap-1.5 px-3 py-1 bg-white border border-emerald-100 text-xs text-emerald-700 shadow-sm rounded-lg hover:bg-white"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(0,229,160,0.08)] border border-[rgba(0,229,160,0.20)] text-xs text-primary shadow-sm rounded-lg hover:bg-[rgba(0,229,160,0.12)]"
                 >
                   <span className="font-bold text-[10px] uppercase opacity-50 mr-1">
-                    Class:
+                    ক্লাস:
                   </span>
                   <span className="font-bold text-[11px]">
                     {
@@ -311,8 +348,37 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
                   </span>
                   <button
                     onClick={() =>
-                      setFilters({ ...filters, academicClassId: null })
+                      setFilters({ academicClassId: null, page: 1 })
                     }
+                    className="hover:text-rose-500 transition-colors ml-1"
+                  >
+                    <X className="w-3 h-3 stroke-[3]" />
+                  </button>
+                </Badge>
+              )}
+
+              {(filters.sortBy || filters.sortOrder) && (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(0,229,160,0.08)] border border-[rgba(0,229,160,0.20)] text-xs text-primary shadow-sm rounded-lg hover:bg-[rgba(0,229,160,0.12)]"
+                >
+                  <span className="font-bold text-[10px] uppercase opacity-50 mr-1">
+                    সাজান:
+                  </span>
+                  <span className="font-bold text-[11px]">
+                    {(() => {
+                      const sortLabels = {
+                        "createdAt-desc": "নতুন",
+                        "createdAt-asc": "পুরোনো",
+                        "name-asc": "নাম (এ-জেড)",
+                        "name-desc": "নাম (জেড-এ)",
+                      } as const;
+                      const key = `${filters.sortBy || "createdAt"}-${filters.sortOrder || "desc"}`;
+                      return sortLabels[key as keyof typeof sortLabels] ?? "নতুন";
+                    })()}
+                  </span>
+                  <button
+                    onClick={() => setFilters({ sortBy: null, sortOrder: null, page: 1 })}
                     className="hover:text-rose-500 transition-colors ml-1"
                   >
                     <X className="w-3 h-3 stroke-[3]" />
@@ -324,10 +390,10 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
                 variant="ghost"
                 size="sm"
                 onClick={handleResetFilters}
-                className="ml-auto text-[10px] font-bold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-all flex items-center gap-1.5 px-3 h-8 rounded-lg text-destructive"
+                className="ml-auto text-[10px] font-bold text-muted-foreground hover:text-[#ff4757] hover:bg-[rgba(255,71,87,0.08)] transition-all flex items-center gap-1.5 px-3 h-8 rounded-lg"
               >
-                <RotateCcw className="w-3 h-3 text-destructive" />
-                Reset All
+                <RotateCcw className="w-3 h-3" />
+                সব রিসেট করুন
               </Button>
             </div>
           </motion.div>

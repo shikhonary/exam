@@ -4,9 +4,10 @@ import { enumToOptions } from "../enum-utils";
  * Tenant classification categories
  */
 export enum TENANT_TYPE {
-  UNION = "UNION",
-  MUNICIPALITY = "MUNICIPALITY",
-  WARD = "WARD",
+  SCHOOL = "SCHOOL",
+  COACHING_CENTER = "COACHING_CENTER",
+  INDIVIDUAL = "INDIVIDUAL",
+  TRAINING_CENTER = "TRAINING_CENTER",
   OTHER = "OTHER",
 }
 
@@ -28,24 +29,29 @@ export enum TENANT_INVITATION_STATUS {
 
 export const tenantTypeOptions = [
   {
-    value: TENANT_TYPE.UNION,
-    label: "Union Parishad",
-    description: "Lowest tier of regional administration",
+    value: TENANT_TYPE.SCHOOL,
+    label: "School",
+    description: "General education schools (K-12)",
   },
   {
-    value: TENANT_TYPE.MUNICIPALITY,
-    label: "Municipality (Paurashava)",
-    description: "Urban local government",
+    value: TENANT_TYPE.COACHING_CENTER,
+    label: "Coaching Center",
+    description: "Test prep or supplementary education",
   },
   {
-    value: TENANT_TYPE.WARD,
-    label: "Ward",
-    description: "Smaller administrative division",
+    value: TENANT_TYPE.INDIVIDUAL,
+    label: "Individual",
+    description: "Private tutors or independent instructors",
+  },
+  {
+    value: TENANT_TYPE.TRAINING_CENTER,
+    label: "Training Center",
+    description: "Vocational or professional training",
   },
   {
     value: TENANT_TYPE.OTHER,
     label: "Other",
-    description: "Other administrative units",
+    description: "Other educational organizations",
   },
 ] as const;
 

@@ -20,20 +20,8 @@ export type CqModel = runtime.Types.Result.DefaultSelection<Prisma.$CqPayload>
 
 export type AggregateCq = {
   _count: CqCountAggregateOutputType | null
-  _avg: CqAvgAggregateOutputType | null
-  _sum: CqSumAggregateOutputType | null
   _min: CqMinAggregateOutputType | null
   _max: CqMaxAggregateOutputType | null
-}
-
-export type CqAvgAggregateOutputType = {
-  marks: number | null
-  session: number | null
-}
-
-export type CqSumAggregateOutputType = {
-  marks: number | null
-  session: number | null
 }
 
 export type CqMinAggregateOutputType = {
@@ -43,10 +31,6 @@ export type CqMinAggregateOutputType = {
   questionC: string | null
   questionD: string | null
   context: string | null
-  marks: number | null
-  isActive: boolean | null
-  session: number | null
-  source: string | null
   subjectId: string | null
   chapterId: string | null
   topicId: string | null
@@ -63,10 +47,6 @@ export type CqMaxAggregateOutputType = {
   questionC: string | null
   questionD: string | null
   context: string | null
-  marks: number | null
-  isActive: boolean | null
-  session: number | null
-  source: string | null
   subjectId: string | null
   chapterId: string | null
   topicId: string | null
@@ -83,11 +63,7 @@ export type CqCountAggregateOutputType = {
   questionC: number
   questionD: number
   context: number
-  marks: number
-  isActive: number
   reference: number
-  session: number
-  source: number
   subjectId: number
   chapterId: number
   topicId: number
@@ -99,16 +75,6 @@ export type CqCountAggregateOutputType = {
 }
 
 
-export type CqAvgAggregateInputType = {
-  marks?: true
-  session?: true
-}
-
-export type CqSumAggregateInputType = {
-  marks?: true
-  session?: true
-}
-
 export type CqMinAggregateInputType = {
   id?: true
   questionA?: true
@@ -116,10 +82,6 @@ export type CqMinAggregateInputType = {
   questionC?: true
   questionD?: true
   context?: true
-  marks?: true
-  isActive?: true
-  session?: true
-  source?: true
   subjectId?: true
   chapterId?: true
   topicId?: true
@@ -136,10 +98,6 @@ export type CqMaxAggregateInputType = {
   questionC?: true
   questionD?: true
   context?: true
-  marks?: true
-  isActive?: true
-  session?: true
-  source?: true
   subjectId?: true
   chapterId?: true
   topicId?: true
@@ -156,11 +114,7 @@ export type CqCountAggregateInputType = {
   questionC?: true
   questionD?: true
   context?: true
-  marks?: true
-  isActive?: true
   reference?: true
-  session?: true
-  source?: true
   subjectId?: true
   chapterId?: true
   topicId?: true
@@ -209,18 +163,6 @@ export type CqAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: CqAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: CqSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: CqMinAggregateInputType
@@ -251,8 +193,6 @@ export type CqGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   take?: number
   skip?: number
   _count?: CqCountAggregateInputType | true
-  _avg?: CqAvgAggregateInputType
-  _sum?: CqSumAggregateInputType
   _min?: CqMinAggregateInputType
   _max?: CqMaxAggregateInputType
 }
@@ -262,13 +202,9 @@ export type CqGroupByOutputType = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD: string | null
   context: string | null
-  marks: number
-  isActive: boolean
   reference: string[]
-  session: number | null
-  source: string | null
   subjectId: string
   chapterId: string
   topicId: string | null
@@ -277,8 +213,6 @@ export type CqGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: CqCountAggregateOutputType | null
-  _avg: CqAvgAggregateOutputType | null
-  _sum: CqSumAggregateOutputType | null
   _min: CqMinAggregateOutputType | null
   _max: CqMaxAggregateOutputType | null
 }
@@ -306,13 +240,9 @@ export type CqWhereInput = {
   questionA?: Prisma.StringFilter<"Cq"> | string
   questionB?: Prisma.StringFilter<"Cq"> | string
   questionC?: Prisma.StringFilter<"Cq"> | string
-  questionD?: Prisma.StringFilter<"Cq"> | string
+  questionD?: Prisma.StringNullableFilter<"Cq"> | string | null
   context?: Prisma.StringNullableFilter<"Cq"> | string | null
-  marks?: Prisma.FloatFilter<"Cq"> | number
-  isActive?: Prisma.BoolFilter<"Cq"> | boolean
   reference?: Prisma.StringNullableListFilter<"Cq">
-  session?: Prisma.IntNullableFilter<"Cq"> | number | null
-  source?: Prisma.StringNullableFilter<"Cq"> | string | null
   subjectId?: Prisma.StringFilter<"Cq"> | string
   chapterId?: Prisma.StringFilter<"Cq"> | string
   topicId?: Prisma.StringNullableFilter<"Cq"> | string | null
@@ -322,7 +252,7 @@ export type CqWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Cq"> | Date | string
   subject?: Prisma.XOR<Prisma.AcademicSubjectScalarRelationFilter, Prisma.AcademicSubjectWhereInput>
   chapter?: Prisma.XOR<Prisma.AcademicChapterScalarRelationFilter, Prisma.AcademicChapterWhereInput>
-  topic?: Prisma.XOR<Prisma.AcademicTopicNullableScalarRelationFilter, Prisma.AcademicTopicWhereInput> | null
+  topic?: Prisma.XOR<Prisma.AcademicChapterTopicNullableScalarRelationFilter, Prisma.AcademicChapterTopicWhereInput> | null
   subtopic?: Prisma.XOR<Prisma.AcademicSubTopicNullableScalarRelationFilter, Prisma.AcademicSubTopicWhereInput> | null
   questionType?: Prisma.XOR<Prisma.QuestionTypeNullableScalarRelationFilter, Prisma.QuestionTypeWhereInput> | null
   attachments?: Prisma.CqAttachmentListRelationFilter
@@ -335,13 +265,9 @@ export type CqOrderByWithRelationInput = {
   questionA?: Prisma.SortOrder
   questionB?: Prisma.SortOrder
   questionC?: Prisma.SortOrder
-  questionD?: Prisma.SortOrder
+  questionD?: Prisma.SortOrderInput | Prisma.SortOrder
   context?: Prisma.SortOrderInput | Prisma.SortOrder
-  marks?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   reference?: Prisma.SortOrder
-  session?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrderInput | Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   topicId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -351,7 +277,7 @@ export type CqOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   subject?: Prisma.AcademicSubjectOrderByWithRelationInput
   chapter?: Prisma.AcademicChapterOrderByWithRelationInput
-  topic?: Prisma.AcademicTopicOrderByWithRelationInput
+  topic?: Prisma.AcademicChapterTopicOrderByWithRelationInput
   subtopic?: Prisma.AcademicSubTopicOrderByWithRelationInput
   questionType?: Prisma.QuestionTypeOrderByWithRelationInput
   attachments?: Prisma.CqAttachmentOrderByRelationAggregateInput
@@ -367,13 +293,9 @@ export type CqWhereUniqueInput = Prisma.AtLeast<{
   questionA?: Prisma.StringFilter<"Cq"> | string
   questionB?: Prisma.StringFilter<"Cq"> | string
   questionC?: Prisma.StringFilter<"Cq"> | string
-  questionD?: Prisma.StringFilter<"Cq"> | string
+  questionD?: Prisma.StringNullableFilter<"Cq"> | string | null
   context?: Prisma.StringNullableFilter<"Cq"> | string | null
-  marks?: Prisma.FloatFilter<"Cq"> | number
-  isActive?: Prisma.BoolFilter<"Cq"> | boolean
   reference?: Prisma.StringNullableListFilter<"Cq">
-  session?: Prisma.IntNullableFilter<"Cq"> | number | null
-  source?: Prisma.StringNullableFilter<"Cq"> | string | null
   subjectId?: Prisma.StringFilter<"Cq"> | string
   chapterId?: Prisma.StringFilter<"Cq"> | string
   topicId?: Prisma.StringNullableFilter<"Cq"> | string | null
@@ -383,7 +305,7 @@ export type CqWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Cq"> | Date | string
   subject?: Prisma.XOR<Prisma.AcademicSubjectScalarRelationFilter, Prisma.AcademicSubjectWhereInput>
   chapter?: Prisma.XOR<Prisma.AcademicChapterScalarRelationFilter, Prisma.AcademicChapterWhereInput>
-  topic?: Prisma.XOR<Prisma.AcademicTopicNullableScalarRelationFilter, Prisma.AcademicTopicWhereInput> | null
+  topic?: Prisma.XOR<Prisma.AcademicChapterTopicNullableScalarRelationFilter, Prisma.AcademicChapterTopicWhereInput> | null
   subtopic?: Prisma.XOR<Prisma.AcademicSubTopicNullableScalarRelationFilter, Prisma.AcademicSubTopicWhereInput> | null
   questionType?: Prisma.XOR<Prisma.QuestionTypeNullableScalarRelationFilter, Prisma.QuestionTypeWhereInput> | null
   attachments?: Prisma.CqAttachmentListRelationFilter
@@ -396,13 +318,9 @@ export type CqOrderByWithAggregationInput = {
   questionA?: Prisma.SortOrder
   questionB?: Prisma.SortOrder
   questionC?: Prisma.SortOrder
-  questionD?: Prisma.SortOrder
+  questionD?: Prisma.SortOrderInput | Prisma.SortOrder
   context?: Prisma.SortOrderInput | Prisma.SortOrder
-  marks?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   reference?: Prisma.SortOrder
-  session?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrderInput | Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   topicId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -411,10 +329,8 @@ export type CqOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CqCountOrderByAggregateInput
-  _avg?: Prisma.CqAvgOrderByAggregateInput
   _max?: Prisma.CqMaxOrderByAggregateInput
   _min?: Prisma.CqMinOrderByAggregateInput
-  _sum?: Prisma.CqSumOrderByAggregateInput
 }
 
 export type CqScalarWhereWithAggregatesInput = {
@@ -425,13 +341,9 @@ export type CqScalarWhereWithAggregatesInput = {
   questionA?: Prisma.StringWithAggregatesFilter<"Cq"> | string
   questionB?: Prisma.StringWithAggregatesFilter<"Cq"> | string
   questionC?: Prisma.StringWithAggregatesFilter<"Cq"> | string
-  questionD?: Prisma.StringWithAggregatesFilter<"Cq"> | string
+  questionD?: Prisma.StringNullableWithAggregatesFilter<"Cq"> | string | null
   context?: Prisma.StringNullableWithAggregatesFilter<"Cq"> | string | null
-  marks?: Prisma.FloatWithAggregatesFilter<"Cq"> | number
-  isActive?: Prisma.BoolWithAggregatesFilter<"Cq"> | boolean
   reference?: Prisma.StringNullableListFilter<"Cq">
-  session?: Prisma.IntNullableWithAggregatesFilter<"Cq"> | number | null
-  source?: Prisma.StringNullableWithAggregatesFilter<"Cq"> | string | null
   subjectId?: Prisma.StringWithAggregatesFilter<"Cq"> | string
   chapterId?: Prisma.StringWithAggregatesFilter<"Cq"> | string
   topicId?: Prisma.StringNullableWithAggregatesFilter<"Cq"> | string | null
@@ -446,18 +358,14 @@ export type CqCreateInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
@@ -470,13 +378,9 @@ export type CqUncheckedCreateInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -494,18 +398,14 @@ export type CqUpdateInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
@@ -518,13 +418,9 @@ export type CqUncheckedUpdateInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -542,13 +438,9 @@ export type CqCreateManyInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -563,13 +455,9 @@ export type CqUpdateManyMutationInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -579,13 +467,9 @@ export type CqUncheckedUpdateManyInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -612,11 +496,7 @@ export type CqCountOrderByAggregateInput = {
   questionC?: Prisma.SortOrder
   questionD?: Prisma.SortOrder
   context?: Prisma.SortOrder
-  marks?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   reference?: Prisma.SortOrder
-  session?: Prisma.SortOrder
-  source?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
@@ -626,11 +506,6 @@ export type CqCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type CqAvgOrderByAggregateInput = {
-  marks?: Prisma.SortOrder
-  session?: Prisma.SortOrder
-}
-
 export type CqMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   questionA?: Prisma.SortOrder
@@ -638,10 +513,6 @@ export type CqMaxOrderByAggregateInput = {
   questionC?: Prisma.SortOrder
   questionD?: Prisma.SortOrder
   context?: Prisma.SortOrder
-  marks?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  session?: Prisma.SortOrder
-  source?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
@@ -658,10 +529,6 @@ export type CqMinOrderByAggregateInput = {
   questionC?: Prisma.SortOrder
   questionD?: Prisma.SortOrder
   context?: Prisma.SortOrder
-  marks?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
-  session?: Prisma.SortOrder
-  source?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
@@ -669,11 +536,6 @@ export type CqMinOrderByAggregateInput = {
   questionTypeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type CqSumOrderByAggregateInput = {
-  marks?: Prisma.SortOrder
-  session?: Prisma.SortOrder
 }
 
 export type CqScalarRelationFilter = {
@@ -900,14 +762,6 @@ export type CqCreatereferenceInput = {
   set: string[]
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type CqUpdatereferenceInput = {
   set?: string[]
   push?: string | string[]
@@ -962,17 +816,13 @@ export type CqCreateWithoutSubjectInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
@@ -985,13 +835,9 @@ export type CqUncheckedCreateWithoutSubjectInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   chapterId: string
   topicId?: string | null
   subTopicId?: string | null
@@ -1037,13 +883,9 @@ export type CqScalarWhereInput = {
   questionA?: Prisma.StringFilter<"Cq"> | string
   questionB?: Prisma.StringFilter<"Cq"> | string
   questionC?: Prisma.StringFilter<"Cq"> | string
-  questionD?: Prisma.StringFilter<"Cq"> | string
+  questionD?: Prisma.StringNullableFilter<"Cq"> | string | null
   context?: Prisma.StringNullableFilter<"Cq"> | string | null
-  marks?: Prisma.FloatFilter<"Cq"> | number
-  isActive?: Prisma.BoolFilter<"Cq"> | boolean
   reference?: Prisma.StringNullableListFilter<"Cq">
-  session?: Prisma.IntNullableFilter<"Cq"> | number | null
-  source?: Prisma.StringNullableFilter<"Cq"> | string | null
   subjectId?: Prisma.StringFilter<"Cq"> | string
   chapterId?: Prisma.StringFilter<"Cq"> | string
   topicId?: Prisma.StringNullableFilter<"Cq"> | string | null
@@ -1058,17 +900,13 @@ export type CqCreateWithoutChapterInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
@@ -1081,13 +919,9 @@ export type CqUncheckedCreateWithoutChapterInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   topicId?: string | null
   subTopicId?: string | null
@@ -1130,13 +964,9 @@ export type CqCreateWithoutTopicInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
@@ -1153,13 +983,9 @@ export type CqUncheckedCreateWithoutTopicInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   subTopicId?: string | null
@@ -1202,18 +1028,14 @@ export type CqCreateWithoutSubtopicInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
   answer?: Prisma.CqAnswerCreateNestedOneWithoutCqInput
@@ -1225,13 +1047,9 @@ export type CqUncheckedCreateWithoutSubtopicInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -1274,18 +1092,14 @@ export type CqCreateWithoutQuestionTypeInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
   answer?: Prisma.CqAnswerCreateNestedOneWithoutCqInput
@@ -1297,13 +1111,9 @@ export type CqUncheckedCreateWithoutQuestionTypeInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -1346,18 +1156,14 @@ export type CqCreateWithoutAttachmentsInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   answer?: Prisma.CqAnswerCreateNestedOneWithoutCqInput
@@ -1369,13 +1175,9 @@ export type CqUncheckedCreateWithoutAttachmentsInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -1408,18 +1210,14 @@ export type CqUpdateWithoutAttachmentsInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   answer?: Prisma.CqAnswerUpdateOneWithoutCqNestedInput
@@ -1431,13 +1229,9 @@ export type CqUncheckedUpdateWithoutAttachmentsInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1454,18 +1248,14 @@ export type CqCreateWithoutAnswerInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
@@ -1477,13 +1267,9 @@ export type CqUncheckedCreateWithoutAnswerInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -1516,18 +1302,14 @@ export type CqUpdateWithoutAnswerInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
@@ -1539,13 +1321,9 @@ export type CqUncheckedUpdateWithoutAnswerInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1562,18 +1340,14 @@ export type CqCreateWithoutQuestionPapersInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.AcademicSubjectCreateNestedOneWithoutCqsInput
   chapter: Prisma.AcademicChapterCreateNestedOneWithoutCqsInput
-  topic?: Prisma.AcademicTopicCreateNestedOneWithoutCqsInput
+  topic?: Prisma.AcademicChapterTopicCreateNestedOneWithoutCqsInput
   subtopic?: Prisma.AcademicSubTopicCreateNestedOneWithoutCqsInput
   questionType?: Prisma.QuestionTypeCreateNestedOneWithoutCqsInput
   attachments?: Prisma.CqAttachmentCreateNestedManyWithoutCqInput
@@ -1585,13 +1359,9 @@ export type CqUncheckedCreateWithoutQuestionPapersInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -1624,18 +1394,14 @@ export type CqUpdateWithoutQuestionPapersInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
@@ -1647,13 +1413,9 @@ export type CqUncheckedUpdateWithoutQuestionPapersInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1670,13 +1432,9 @@ export type CqCreateManySubjectInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   chapterId: string
   topicId?: string | null
   subTopicId?: string | null
@@ -1690,17 +1448,13 @@ export type CqUpdateWithoutSubjectInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
@@ -1713,13 +1467,9 @@ export type CqUncheckedUpdateWithoutSubjectInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subTopicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1736,13 +1486,9 @@ export type CqUncheckedUpdateManyWithoutSubjectInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subTopicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1756,13 +1502,9 @@ export type CqCreateManyChapterInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   topicId?: string | null
   subTopicId?: string | null
@@ -1776,17 +1518,13 @@ export type CqUpdateWithoutChapterInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
@@ -1799,13 +1537,9 @@ export type CqUncheckedUpdateWithoutChapterInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subTopicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1822,13 +1556,9 @@ export type CqUncheckedUpdateManyWithoutChapterInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subTopicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1842,13 +1572,9 @@ export type CqCreateManyTopicInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   subTopicId?: string | null
@@ -1862,13 +1588,9 @@ export type CqUpdateWithoutTopicInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
@@ -1885,13 +1607,9 @@ export type CqUncheckedUpdateWithoutTopicInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   subTopicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1908,13 +1626,9 @@ export type CqUncheckedUpdateManyWithoutTopicInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   subTopicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1928,13 +1642,9 @@ export type CqCreateManySubtopicInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -1948,18 +1658,14 @@ export type CqUpdateWithoutSubtopicInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   questionType?: Prisma.QuestionTypeUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
   answer?: Prisma.CqAnswerUpdateOneWithoutCqNestedInput
@@ -1971,13 +1677,9 @@ export type CqUncheckedUpdateWithoutSubtopicInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1994,13 +1696,9 @@ export type CqUncheckedUpdateManyWithoutSubtopicInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2014,13 +1712,9 @@ export type CqCreateManyQuestionTypeInput = {
   questionA: string
   questionB: string
   questionC: string
-  questionD: string
+  questionD?: string | null
   context?: string | null
-  marks?: number
-  isActive?: boolean
   reference?: Prisma.CqCreatereferenceInput | string[]
-  session?: number | null
-  source?: string | null
   subjectId: string
   chapterId: string
   topicId?: string | null
@@ -2034,18 +1728,14 @@ export type CqUpdateWithoutQuestionTypeInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.AcademicSubjectUpdateOneRequiredWithoutCqsNestedInput
   chapter?: Prisma.AcademicChapterUpdateOneRequiredWithoutCqsNestedInput
-  topic?: Prisma.AcademicTopicUpdateOneWithoutCqsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneWithoutCqsNestedInput
   subtopic?: Prisma.AcademicSubTopicUpdateOneWithoutCqsNestedInput
   attachments?: Prisma.CqAttachmentUpdateManyWithoutCqNestedInput
   answer?: Prisma.CqAnswerUpdateOneWithoutCqNestedInput
@@ -2057,13 +1747,9 @@ export type CqUncheckedUpdateWithoutQuestionTypeInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2080,13 +1766,9 @@ export type CqUncheckedUpdateManyWithoutQuestionTypeInput = {
   questionA?: Prisma.StringFieldUpdateOperationsInput | string
   questionB?: Prisma.StringFieldUpdateOperationsInput | string
   questionC?: Prisma.StringFieldUpdateOperationsInput | string
-  questionD?: Prisma.StringFieldUpdateOperationsInput | string
+  questionD?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   context?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  marks?: Prisma.FloatFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reference?: Prisma.CqUpdatereferenceInput | string[]
-  session?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   topicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2142,11 +1824,7 @@ export type CqSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
   questionC?: boolean
   questionD?: boolean
   context?: boolean
-  marks?: boolean
-  isActive?: boolean
   reference?: boolean
-  session?: boolean
-  source?: boolean
   subjectId?: boolean
   chapterId?: boolean
   topicId?: boolean
@@ -2172,11 +1850,7 @@ export type CqSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   questionC?: boolean
   questionD?: boolean
   context?: boolean
-  marks?: boolean
-  isActive?: boolean
   reference?: boolean
-  session?: boolean
-  source?: boolean
   subjectId?: boolean
   chapterId?: boolean
   topicId?: boolean
@@ -2198,11 +1872,7 @@ export type CqSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   questionC?: boolean
   questionD?: boolean
   context?: boolean
-  marks?: boolean
-  isActive?: boolean
   reference?: boolean
-  session?: boolean
-  source?: boolean
   subjectId?: boolean
   chapterId?: boolean
   topicId?: boolean
@@ -2224,11 +1894,7 @@ export type CqSelectScalar = {
   questionC?: boolean
   questionD?: boolean
   context?: boolean
-  marks?: boolean
-  isActive?: boolean
   reference?: boolean
-  session?: boolean
-  source?: boolean
   subjectId?: boolean
   chapterId?: boolean
   topicId?: boolean
@@ -2238,7 +1904,7 @@ export type CqSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CqOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "questionA" | "questionB" | "questionC" | "questionD" | "context" | "marks" | "isActive" | "reference" | "session" | "source" | "subjectId" | "chapterId" | "topicId" | "subTopicId" | "questionTypeId" | "createdAt" | "updatedAt", ExtArgs["result"]["cq"]>
+export type CqOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "questionA" | "questionB" | "questionC" | "questionD" | "context" | "reference" | "subjectId" | "chapterId" | "topicId" | "subTopicId" | "questionTypeId" | "createdAt" | "updatedAt", ExtArgs["result"]["cq"]>
 export type CqInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.AcademicSubjectDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.AcademicChapterDefaultArgs<ExtArgs>
@@ -2270,7 +1936,7 @@ export type $CqPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   objects: {
     subject: Prisma.$AcademicSubjectPayload<ExtArgs>
     chapter: Prisma.$AcademicChapterPayload<ExtArgs>
-    topic: Prisma.$AcademicTopicPayload<ExtArgs> | null
+    topic: Prisma.$AcademicChapterTopicPayload<ExtArgs> | null
     subtopic: Prisma.$AcademicSubTopicPayload<ExtArgs> | null
     questionType: Prisma.$QuestionTypePayload<ExtArgs> | null
     attachments: Prisma.$CqAttachmentPayload<ExtArgs>[]
@@ -2282,13 +1948,9 @@ export type $CqPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     questionA: string
     questionB: string
     questionC: string
-    questionD: string
+    questionD: string | null
     context: string | null
-    marks: number
-    isActive: boolean
     reference: string[]
-    session: number | null
-    source: string | null
     subjectId: string
     chapterId: string
     topicId: string | null
@@ -2692,7 +2354,7 @@ export interface Prisma__CqClient<T, Null = never, ExtArgs extends runtime.Types
   readonly [Symbol.toStringTag]: "PrismaPromise"
   subject<T extends Prisma.AcademicSubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicSubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicSubjectClient<runtime.Types.Result.GetResult<Prisma.$AcademicSubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   chapter<T extends Prisma.AcademicChapterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicChapterDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicChapterClient<runtime.Types.Result.GetResult<Prisma.$AcademicChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  topic<T extends Prisma.Cq$topicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cq$topicArgs<ExtArgs>>): Prisma.Prisma__AcademicTopicClient<runtime.Types.Result.GetResult<Prisma.$AcademicTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  topic<T extends Prisma.Cq$topicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cq$topicArgs<ExtArgs>>): Prisma.Prisma__AcademicChapterTopicClient<runtime.Types.Result.GetResult<Prisma.$AcademicChapterTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   subtopic<T extends Prisma.Cq$subtopicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cq$subtopicArgs<ExtArgs>>): Prisma.Prisma__AcademicSubTopicClient<runtime.Types.Result.GetResult<Prisma.$AcademicSubTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   questionType<T extends Prisma.Cq$questionTypeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cq$questionTypeArgs<ExtArgs>>): Prisma.Prisma__QuestionTypeClient<runtime.Types.Result.GetResult<Prisma.$QuestionTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   attachments<T extends Prisma.Cq$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cq$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CqAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2733,11 +2395,7 @@ export interface CqFieldRefs {
   readonly questionC: Prisma.FieldRef<"Cq", 'String'>
   readonly questionD: Prisma.FieldRef<"Cq", 'String'>
   readonly context: Prisma.FieldRef<"Cq", 'String'>
-  readonly marks: Prisma.FieldRef<"Cq", 'Float'>
-  readonly isActive: Prisma.FieldRef<"Cq", 'Boolean'>
   readonly reference: Prisma.FieldRef<"Cq", 'String[]'>
-  readonly session: Prisma.FieldRef<"Cq", 'Int'>
-  readonly source: Prisma.FieldRef<"Cq", 'String'>
   readonly subjectId: Prisma.FieldRef<"Cq", 'String'>
   readonly chapterId: Prisma.FieldRef<"Cq", 'String'>
   readonly topicId: Prisma.FieldRef<"Cq", 'String'>
@@ -3145,18 +2803,18 @@ export type CqDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
  */
 export type Cq$topicArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the AcademicTopic
+   * Select specific fields to fetch from the AcademicChapterTopic
    */
-  select?: Prisma.AcademicTopicSelect<ExtArgs> | null
+  select?: Prisma.AcademicChapterTopicSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the AcademicTopic
+   * Omit specific fields from the AcademicChapterTopic
    */
-  omit?: Prisma.AcademicTopicOmit<ExtArgs> | null
+  omit?: Prisma.AcademicChapterTopicOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AcademicTopicInclude<ExtArgs> | null
-  where?: Prisma.AcademicTopicWhereInput
+  include?: Prisma.AcademicChapterTopicInclude<ExtArgs> | null
+  where?: Prisma.AcademicChapterTopicWhereInput
 }
 
 /**

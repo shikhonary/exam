@@ -11,146 +11,154 @@ interface BatchWithRelations extends TenantTypes.Batch {
   _count: {
     students: number;
   };
-  academicYear: {
-    name: string;
-  };
 }
+
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 interface OverviewProps {
-  batch: BatchWithRelations;
+  batch?: BatchWithRelations;
+  isLoading?: boolean;
 }
 
-export const Overview = ({ batch }: OverviewProps) => {
-  const studentCount = batch._count?.students || 0;
-  const capacity = batch.capacity || 0;
+export const Overview = ({ batch, isLoading }: OverviewProps) => {
+  const studentCount = batch?._count?.students || 0;
+  const capacity = batch?.capacity || 0;
   const utilization =
     capacity > 0 ? Math.round((studentCount / capacity) * 100) : 0;
 
   return (
     <div className="space-y-8">
       {/* Batch Information Card */}
-      <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.02),0_10px_30px_-5px_rgba(0,0,0,0.03)] p-8 border border-slate-100">
+      <div className="bg-[#131B2C] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] p-8 border border-white/[0.02]">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-bold tracking-tight text-slate-900">
-            Batch Information
+          <h2 className="text-lg font-bold tracking-tight text-foreground">
+            ব্যাচের তথ্য
           </h2>
-          <span
-            className={cn(
-              "ring-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.05em]",
-              batch.isActive
-                ? "bg-emerald-50 text-emerald-700 ring-emerald-200/50"
-                : "bg-slate-50 text-slate-500 ring-slate-200/50",
-            )}
-          >
-            {batch.isActive ? "Active Unit" : "Inactive Unit"}
-          </span>
+          {isLoading ? (
+            <Skeleton className="h-6 w-24 rounded-full bg-white/[0.04]" />
+          ) : (
+            <span
+              className={cn(
+                "ring-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.05em]",
+                batch?.isActive
+                  ? "bg-[rgba(0,229,160,0.1)] text-primary ring-[rgba(0,229,160,0.2)]"
+                  : "bg-white/[0.04] text-muted-foreground ring-white/[0.06]",
+              )}
+            >
+              {batch?.isActive ? "অ্যাক্টিভ ইউনিট" : "ইনঅ্যাক্টিভ ইউনিট"}
+            </span>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-16">
-          <InfoItem label="Batch Name" value={batch.name} />
-          <InfoItem label="Class" value={batch.className || "Not Assigned"} />
+          <InfoItem label="ব্যাচের নাম" value={batch?.name} isLoading={isLoading} />
+          <InfoItem label="শ্রেণী" value={batch?.className || "নির্ধারিত নয়"} isLoading={isLoading} />
           <InfoItem
-            label="Academic Year"
-            value={batch.academicYear?.name || "Not Assigned"}
+            label="শিক্ষাবর্ষ"
+            value={batch?.academicYear || "নির্ধারিত নয়"}
+            isLoading={isLoading}
           />
           <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-              Current Status
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              বর্তমান অবস্থা
             </label>
             <div className="flex items-center gap-2.5">
-              <span
-                className={cn(
-                  "w-1.5 h-1.5 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]",
-                  batch.isActive
-                    ? "bg-emerald-500"
-                    : "bg-slate-400 shadow-none",
-                )}
-              ></span>
-              <p className="text-slate-900 font-semibold text-[15px]">
-                {batch.isActive ? "Currently Active" : "Inactive"}
-              </p>
+              {isLoading ? <Skeleton className="h-5 w-20 bg-white/[0.04]" /> : (
+                <>
+                  <span
+                    className={cn(
+                      "w-1.5 h-1.5 rounded-full shadow-[0_0_8px_rgba(0,229,160,0.5)]",
+                      batch?.isActive ? "bg-primary" : "bg-white/[0.2]",
+                    )}
+                  ></span>
+                  <span className="text-sm font-bold text-foreground">
+                    {batch?.isActive ? "সক্রিয়" : "নিষ্ক্রিয়"}
+                  </span>
+                </>
+              )}
             </div>
           </div>
           <InfoItem
-            label="Current Enrollment"
-            value={`${studentCount} Students`}
+            label="বর্তমান ভর্তি"
+            value={`${studentCount} জন শিক্ষার্থী`}
+            isLoading={isLoading}
           />
           <InfoItem
-            label="Institutional Limit"
-            value={`${capacity} Students`}
+            label="প্রাতিষ্ঠানিক সীমা"
+            value={`${capacity} জন শিক্ষার্থী`}
+            isLoading={isLoading}
           />
         </div>
 
-        <div className="mt-4 pt-4 border-t border-slate-50 space-y-5">
+        <div className="mt-4 pt-4 border-t border-white/[0.06] space-y-5">
           <div className="flex justify-between items-end">
             <div className="flex flex-col gap-1">
-              <span className="text-sm font-bold text-slate-900">
-                Capacity Utilization
+              <span className="text-sm font-bold text-foreground">
+                ধারণক্ষমতার ব্যবহার
               </span>
-              <span className="text-[11px] text-slate-400 font-medium italic">
+              <span className="text-[11px] text-muted-foreground font-medium italic">
                 {utilization >= 90
-                  ? "Critically full"
+                  ? "প্রায় পূর্ণ"
                   : utilization >= 70
-                    ? "Approaching full capacity"
-                    : "Available space"}
+                    ? "ধারণক্ষমতার কাছাকাছি"
+                    : "পর্যাপ্ত জায়গা"}
               </span>
             </div>
-            <span className="text-sm font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+            <span className="text-sm font-black text-primary bg-[rgba(0,229,160,0.1)] px-2.5 py-1 rounded-lg">
               {studentCount} / {capacity}
             </span>
           </div>
-          <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-[2px]">
+          <div className="w-full bg-white/[0.04] h-2.5 rounded-full overflow-hidden p-[2px]">
             <div
-              className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400 h-full rounded-full transition-all duration-700"
+              className="bg-gradient-to-r from-[#00b37a] to-[#00e5a0] h-full rounded-full transition-all duration-700"
               style={{ width: `${utilization}%` }}
             ></div>
           </div>
-          <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5">
-            <InfoIcon className="w-3.5 h-3.5 text-emerald-500" />
-            {capacity - studentCount} vacancies remaining in this batch for the
-            current academic session.
+          <p className="text-[11px] text-muted-foreground font-medium flex items-center gap-1.5">
+            <InfoIcon className="w-3.5 h-3.5 text-primary" />
+            বর্তমান শিক্ষাবর্ষের জন্য এই ব্যাচে {Math.max(capacity - studentCount, 0)} টি শূন্যপদ বাকি আছে।
           </p>
         </div>
       </div>
 
       {/* Top Performers Card */}
-      <div className="bg-white rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.02),0_10px_30px_-5px_rgba(0,0,0,0.03)] p-8 border border-slate-100 space-y-8">
+      <div className="bg-[#131B2C] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] p-8 border border-white/[0.02] space-y-8">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold tracking-tight text-slate-900">
-            Top Performers
+          <h2 className="text-lg font-bold tracking-tight text-foreground">
+            শীর্ষ পারফর্মার
           </h2>
-          <button className="text-emerald-600 text-xs font-bold hover:text-emerald-700 transition-colors hover:underline underline-offset-4">
-            View Analytics
+          <button className="text-primary text-xs font-bold hover:text-[#00b37a] transition-colors hover:underline underline-offset-4">
+            অ্যানালিটিক্স দেখুন
           </button>
         </div>
         <div className="space-y-2">
           {/* Static placeholders for now as per design */}
           <PerformerItem
-            name="Rahim Ahmed"
+            name="রহিম আহমেদ"
             id="#1024-01"
-            major="Science"
-            score="94.8%"
-            rank="01"
+            major="বিজ্ঞান"
+            score="৯৪.৮%"
+            rank="০১"
             initial="RA"
             color="emerald"
             premium
           />
           <PerformerItem
-            name="Fatima Begum"
+            name="ফাতেমা বেগম"
             id="#1024-05"
-            major="Humanities"
-            score="89.2%"
-            rank="02"
+            major="মানবিক"
+            score="৮৯.২%"
+            rank="০২"
             initial="FB"
             color="blue"
             premium={false}
           />
           <PerformerItem
-            name="Nusrat Jahan"
+            name="নুসরাত জাহান"
             id="#1024-08"
-            major="Commerce"
-            score="87.5%"
-            rank="03"
+            major="বাণিজ্য"
+            score="৮৭.৫%"
+            rank="০৩"
             initial="NJ"
             color="purple"
             premium={false}
@@ -161,14 +169,30 @@ export const Overview = ({ batch }: OverviewProps) => {
   );
 };
 
-const InfoItem = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex flex-col gap-2">
-    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-      {label}
-    </label>
-    <p className="text-slate-900 font-semibold text-[15px]">{value}</p>
-  </div>
-);
+function InfoItem({
+  label,
+  value,
+  isLoading,
+}: {
+  label: string;
+  value?: string;
+  isLoading?: boolean;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+        {label}
+      </label>
+      {isLoading ? (
+        <Skeleton className="h-5 w-32 bg-white/[0.04]" />
+      ) : (
+        <span className="text-sm font-bold text-foreground tracking-tight">
+          {value}
+        </span>
+      )}
+    </div>
+  );
+}
 
 interface PerformerItemProps {
   name: string;
@@ -192,53 +216,53 @@ const PerformerItem = ({
   premium,
 }: PerformerItemProps) => {
   const colorMap: Record<string, string> = {
-    emerald: "bg-emerald-100 text-emerald-700",
-    blue: "bg-blue-50 text-blue-700",
-    purple: "bg-purple-50 text-purple-700",
+    emerald: "bg-[rgba(0,229,160,0.1)] text-primary ring-[rgba(0,229,160,0.2)]",
+    blue: "bg-blue-500/10 text-blue-400 ring-blue-500/20",
+    purple: "bg-purple-500/10 text-purple-400 ring-purple-500/20",
   };
 
   return (
-    <div className="flex items-center justify-between p-4 rounded-xl hover:bg-emerald-50/40 transition-all group border border-transparent hover:border-emerald-100/50 cursor-pointer">
+    <div className="flex items-center justify-between p-4 rounded-xl hover:bg-white/[0.02] transition-all group border border-transparent hover:border-white/[0.06] cursor-pointer">
       <div className="flex items-center gap-4">
         <div className="relative">
           <div
             className={cn(
-              "w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-sm ring-4 ring-white shadow-sm transition-transform group-hover:scale-105",
+              "w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-sm ring-1 shadow-sm transition-transform group-hover:scale-105",
               colorMap[color],
             )}
           >
             {initial}
           </div>
           {premium && (
-            <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-white rounded-lg shadow-sm flex items-center justify-center ring-1 ring-slate-100">
+            <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-[#131B2C] rounded-lg shadow-sm flex items-center justify-center ring-1 ring-white/[0.06]">
               <span className="text-[12px]">⭐</span>
             </div>
           )}
         </div>
         <div>
-          <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+          <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
             {name}
           </h4>
-          <p className="text-[11px] text-slate-400 font-medium tracking-wide">
+          <p className="text-[11px] text-muted-foreground font-medium tracking-wide">
             ID: {id} • {major}
           </p>
         </div>
       </div>
       <div className="flex items-center gap-3">
         <div className="text-right">
-          <span className="block text-[15px] font-black text-slate-900">
+          <span className="block text-[15px] font-black text-foreground">
             {score}
           </span>
           <span
             className={cn(
               "block text-[9px] font-bold uppercase tracking-tighter",
-              `text-${color}-600`,
+              color === "emerald" ? "text-primary" : `text-${color}-400`,
             )}
           >
-            Rank {rank}
+            র‍্যাঙ্ক {rank}
           </span>
         </div>
-        <ChevronRightIcon className="w-5 h-5 text-slate-300 group-hover:text-emerald-300 transition-colors" />
+        <ChevronRightIcon className="w-5 h-5 text-muted-foreground/50 group-hover:text-primary transition-colors" />
       </div>
     </div>
   );

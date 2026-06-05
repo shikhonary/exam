@@ -504,9 +504,9 @@ export type QuestionPaperSubjectMarkDistributionSumOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
 }
 
-export type QuestionPaperSubjectMarkDistributionNullableScalarRelationFilter = {
-  is?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput | null
-  isNot?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput | null
+export type QuestionPaperSubjectMarkDistributionScalarRelationFilter = {
+  is?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput
+  isNot?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput
 }
 
 export type QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput = {
@@ -599,12 +599,10 @@ export type QuestionPaperSubjectMarkDistributionCreateNestedOneWithoutQuestionsI
   connect?: Prisma.QuestionPaperSubjectMarkDistributionWhereUniqueInput
 }
 
-export type QuestionPaperSubjectMarkDistributionUpdateOneWithoutQuestionsNestedInput = {
+export type QuestionPaperSubjectMarkDistributionUpdateOneRequiredWithoutQuestionsNestedInput = {
   create?: Prisma.XOR<Prisma.QuestionPaperSubjectMarkDistributionCreateWithoutQuestionsInput, Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateWithoutQuestionsInput>
   connectOrCreate?: Prisma.QuestionPaperSubjectMarkDistributionCreateOrConnectWithoutQuestionsInput
   upsert?: Prisma.QuestionPaperSubjectMarkDistributionUpsertWithoutQuestionsInput
-  disconnect?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput | boolean
-  delete?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput | boolean
   connect?: Prisma.QuestionPaperSubjectMarkDistributionWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionPaperSubjectMarkDistributionUpdateToOneWithWhereWithoutQuestionsInput, Prisma.QuestionPaperSubjectMarkDistributionUpdateWithoutQuestionsInput>, Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateWithoutQuestionsInput>
 }

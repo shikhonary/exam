@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more CitizenApplications
- * const citizenApplications = await prisma.citizenApplication.findMany()
+ * // Fetch zero or more Batches
+ * const batches = await prisma.batch.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,6 +39,41 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model Batch
+ * 
+ */
+export type Batch = Prisma.BatchModel
+/**
+ * Model Student
+ * 
+ */
+export type Student = Prisma.StudentModel
+/**
+ * Model Exam
+ * 
+ */
+export type Exam = Prisma.ExamModel
+/**
+ * Model ClassRoutine
+ * 
+ */
+export type ClassRoutine = Prisma.ClassRoutineModel
+/**
+ * Model Assignment
+ * 
+ */
+export type Assignment = Prisma.AssignmentModel
+/**
+ * Model StudyMaterial
+ * 
+ */
+export type StudyMaterial = Prisma.StudyMaterialModel
+/**
+ * Model LiveClass
+ * 
+ */
+export type LiveClass = Prisma.LiveClassModel
 /**
  * Model CitizenApplication
  * 

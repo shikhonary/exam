@@ -31,9 +31,9 @@ export type SubscriptionPlanAvgAggregateOutputType = {
   yearlyPriceBDT: number | null
   monthlyPriceUSD: number | null
   yearlyPriceUSD: number | null
-  defaultUserLimit: number | null
-  defaultAdminLimit: number | null
-  defaultRecordLimit: number | null
+  defaultStudentLimit: number | null
+  defaultTeacherLimit: number | null
+  defaultExamLimit: number | null
   defaultStorageLimit: number | null
 }
 
@@ -42,9 +42,9 @@ export type SubscriptionPlanSumAggregateOutputType = {
   yearlyPriceBDT: number | null
   monthlyPriceUSD: number | null
   yearlyPriceUSD: number | null
-  defaultUserLimit: number | null
-  defaultAdminLimit: number | null
-  defaultRecordLimit: number | null
+  defaultStudentLimit: number | null
+  defaultTeacherLimit: number | null
+  defaultExamLimit: number | null
   defaultStorageLimit: number | null
 }
 
@@ -59,9 +59,9 @@ export type SubscriptionPlanMinAggregateOutputType = {
   yearlyPriceUSD: number | null
   isActive: boolean | null
   isPopular: boolean | null
-  defaultUserLimit: number | null
-  defaultAdminLimit: number | null
-  defaultRecordLimit: number | null
+  defaultStudentLimit: number | null
+  defaultTeacherLimit: number | null
+  defaultExamLimit: number | null
   defaultStorageLimit: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -78,9 +78,9 @@ export type SubscriptionPlanMaxAggregateOutputType = {
   yearlyPriceUSD: number | null
   isActive: boolean | null
   isPopular: boolean | null
-  defaultUserLimit: number | null
-  defaultAdminLimit: number | null
-  defaultRecordLimit: number | null
+  defaultStudentLimit: number | null
+  defaultTeacherLimit: number | null
+  defaultExamLimit: number | null
   defaultStorageLimit: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -98,9 +98,9 @@ export type SubscriptionPlanCountAggregateOutputType = {
   features: number
   isActive: number
   isPopular: number
-  defaultUserLimit: number
-  defaultAdminLimit: number
-  defaultRecordLimit: number
+  defaultStudentLimit: number
+  defaultTeacherLimit: number
+  defaultExamLimit: number
   defaultStorageLimit: number
   createdAt: number
   updatedAt: number
@@ -113,9 +113,9 @@ export type SubscriptionPlanAvgAggregateInputType = {
   yearlyPriceBDT?: true
   monthlyPriceUSD?: true
   yearlyPriceUSD?: true
-  defaultUserLimit?: true
-  defaultAdminLimit?: true
-  defaultRecordLimit?: true
+  defaultStudentLimit?: true
+  defaultTeacherLimit?: true
+  defaultExamLimit?: true
   defaultStorageLimit?: true
 }
 
@@ -124,9 +124,9 @@ export type SubscriptionPlanSumAggregateInputType = {
   yearlyPriceBDT?: true
   monthlyPriceUSD?: true
   yearlyPriceUSD?: true
-  defaultUserLimit?: true
-  defaultAdminLimit?: true
-  defaultRecordLimit?: true
+  defaultStudentLimit?: true
+  defaultTeacherLimit?: true
+  defaultExamLimit?: true
   defaultStorageLimit?: true
 }
 
@@ -141,9 +141,9 @@ export type SubscriptionPlanMinAggregateInputType = {
   yearlyPriceUSD?: true
   isActive?: true
   isPopular?: true
-  defaultUserLimit?: true
-  defaultAdminLimit?: true
-  defaultRecordLimit?: true
+  defaultStudentLimit?: true
+  defaultTeacherLimit?: true
+  defaultExamLimit?: true
   defaultStorageLimit?: true
   createdAt?: true
   updatedAt?: true
@@ -160,9 +160,9 @@ export type SubscriptionPlanMaxAggregateInputType = {
   yearlyPriceUSD?: true
   isActive?: true
   isPopular?: true
-  defaultUserLimit?: true
-  defaultAdminLimit?: true
-  defaultRecordLimit?: true
+  defaultStudentLimit?: true
+  defaultTeacherLimit?: true
+  defaultExamLimit?: true
   defaultStorageLimit?: true
   createdAt?: true
   updatedAt?: true
@@ -180,9 +180,9 @@ export type SubscriptionPlanCountAggregateInputType = {
   features?: true
   isActive?: true
   isPopular?: true
-  defaultUserLimit?: true
-  defaultAdminLimit?: true
-  defaultRecordLimit?: true
+  defaultStudentLimit?: true
+  defaultTeacherLimit?: true
+  defaultExamLimit?: true
   defaultStorageLimit?: true
   createdAt?: true
   updatedAt?: true
@@ -287,9 +287,9 @@ export type SubscriptionPlanGroupByOutputType = {
   features: runtime.JsonValue
   isActive: boolean
   isPopular: boolean
-  defaultUserLimit: number
-  defaultAdminLimit: number
-  defaultRecordLimit: number
+  defaultStudentLimit: number
+  defaultTeacherLimit: number
+  defaultExamLimit: number
   defaultStorageLimit: number
   createdAt: Date
   updatedAt: Date
@@ -330,9 +330,9 @@ export type SubscriptionPlanWhereInput = {
   features?: Prisma.JsonFilter<"SubscriptionPlan">
   isActive?: Prisma.BoolFilter<"SubscriptionPlan"> | boolean
   isPopular?: Prisma.BoolFilter<"SubscriptionPlan"> | boolean
-  defaultUserLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
-  defaultAdminLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
-  defaultRecordLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
+  defaultStudentLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
+  defaultTeacherLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
+  defaultExamLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
   defaultStorageLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
   createdAt?: Prisma.DateTimeFilter<"SubscriptionPlan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubscriptionPlan"> | Date | string
@@ -351,9 +351,9 @@ export type SubscriptionPlanOrderByWithRelationInput = {
   features?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -375,9 +375,9 @@ export type SubscriptionPlanWhereUniqueInput = Prisma.AtLeast<{
   features?: Prisma.JsonFilter<"SubscriptionPlan">
   isActive?: Prisma.BoolFilter<"SubscriptionPlan"> | boolean
   isPopular?: Prisma.BoolFilter<"SubscriptionPlan"> | boolean
-  defaultUserLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
-  defaultAdminLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
-  defaultRecordLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
+  defaultStudentLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
+  defaultTeacherLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
+  defaultExamLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
   defaultStorageLimit?: Prisma.IntFilter<"SubscriptionPlan"> | number
   createdAt?: Prisma.DateTimeFilter<"SubscriptionPlan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubscriptionPlan"> | Date | string
@@ -396,9 +396,9 @@ export type SubscriptionPlanOrderByWithAggregationInput = {
   features?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -424,9 +424,9 @@ export type SubscriptionPlanScalarWhereWithAggregatesInput = {
   features?: Prisma.JsonWithAggregatesFilter<"SubscriptionPlan">
   isActive?: Prisma.BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
   isPopular?: Prisma.BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
-  defaultUserLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
-  defaultAdminLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
-  defaultRecordLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
+  defaultStudentLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
+  defaultTeacherLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
+  defaultExamLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
   defaultStorageLimit?: Prisma.IntWithAggregatesFilter<"SubscriptionPlan"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
@@ -444,9 +444,9 @@ export type SubscriptionPlanCreateInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: number
-  defaultAdminLimit?: number
-  defaultRecordLimit?: number
+  defaultStudentLimit?: number
+  defaultTeacherLimit?: number
+  defaultExamLimit?: number
   defaultStorageLimit?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -465,9 +465,9 @@ export type SubscriptionPlanUncheckedCreateInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: number
-  defaultAdminLimit?: number
-  defaultRecordLimit?: number
+  defaultStudentLimit?: number
+  defaultTeacherLimit?: number
+  defaultExamLimit?: number
   defaultStorageLimit?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -486,9 +486,9 @@ export type SubscriptionPlanUpdateInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPopular?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  defaultUserLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultAdminLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultRecordLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultStudentLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultTeacherLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultExamLimit?: Prisma.IntFieldUpdateOperationsInput | number
   defaultStorageLimit?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -507,9 +507,9 @@ export type SubscriptionPlanUncheckedUpdateInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPopular?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  defaultUserLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultAdminLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultRecordLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultStudentLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultTeacherLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultExamLimit?: Prisma.IntFieldUpdateOperationsInput | number
   defaultStorageLimit?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -528,9 +528,9 @@ export type SubscriptionPlanCreateManyInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: number
-  defaultAdminLimit?: number
-  defaultRecordLimit?: number
+  defaultStudentLimit?: number
+  defaultTeacherLimit?: number
+  defaultExamLimit?: number
   defaultStorageLimit?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -548,9 +548,9 @@ export type SubscriptionPlanUpdateManyMutationInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPopular?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  defaultUserLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultAdminLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultRecordLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultStudentLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultTeacherLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultExamLimit?: Prisma.IntFieldUpdateOperationsInput | number
   defaultStorageLimit?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -568,9 +568,9 @@ export type SubscriptionPlanUncheckedUpdateManyInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPopular?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  defaultUserLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultAdminLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultRecordLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultStudentLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultTeacherLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultExamLimit?: Prisma.IntFieldUpdateOperationsInput | number
   defaultStorageLimit?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -588,9 +588,9 @@ export type SubscriptionPlanCountOrderByAggregateInput = {
   features?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -601,9 +601,9 @@ export type SubscriptionPlanAvgOrderByAggregateInput = {
   yearlyPriceBDT?: Prisma.SortOrder
   monthlyPriceUSD?: Prisma.SortOrder
   yearlyPriceUSD?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
 }
 
@@ -618,9 +618,9 @@ export type SubscriptionPlanMaxOrderByAggregateInput = {
   yearlyPriceUSD?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -637,9 +637,9 @@ export type SubscriptionPlanMinOrderByAggregateInput = {
   yearlyPriceUSD?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   isPopular?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -650,9 +650,9 @@ export type SubscriptionPlanSumOrderByAggregateInput = {
   yearlyPriceBDT?: Prisma.SortOrder
   monthlyPriceUSD?: Prisma.SortOrder
   yearlyPriceUSD?: Prisma.SortOrder
-  defaultUserLimit?: Prisma.SortOrder
-  defaultAdminLimit?: Prisma.SortOrder
-  defaultRecordLimit?: Prisma.SortOrder
+  defaultStudentLimit?: Prisma.SortOrder
+  defaultTeacherLimit?: Prisma.SortOrder
+  defaultExamLimit?: Prisma.SortOrder
   defaultStorageLimit?: Prisma.SortOrder
 }
 
@@ -687,9 +687,9 @@ export type SubscriptionPlanCreateWithoutSubscriptionsInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: number
-  defaultAdminLimit?: number
-  defaultRecordLimit?: number
+  defaultStudentLimit?: number
+  defaultTeacherLimit?: number
+  defaultExamLimit?: number
   defaultStorageLimit?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -707,9 +707,9 @@ export type SubscriptionPlanUncheckedCreateWithoutSubscriptionsInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: number
-  defaultAdminLimit?: number
-  defaultRecordLimit?: number
+  defaultStudentLimit?: number
+  defaultTeacherLimit?: number
+  defaultExamLimit?: number
   defaultStorageLimit?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -743,9 +743,9 @@ export type SubscriptionPlanUpdateWithoutSubscriptionsInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPopular?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  defaultUserLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultAdminLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultRecordLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultStudentLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultTeacherLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultExamLimit?: Prisma.IntFieldUpdateOperationsInput | number
   defaultStorageLimit?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -763,9 +763,9 @@ export type SubscriptionPlanUncheckedUpdateWithoutSubscriptionsInput = {
   features?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isPopular?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  defaultUserLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultAdminLimit?: Prisma.IntFieldUpdateOperationsInput | number
-  defaultRecordLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultStudentLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultTeacherLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultExamLimit?: Prisma.IntFieldUpdateOperationsInput | number
   defaultStorageLimit?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -814,9 +814,9 @@ export type SubscriptionPlanSelect<ExtArgs extends runtime.Types.Extensions.Inte
   features?: boolean
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: boolean
-  defaultAdminLimit?: boolean
-  defaultRecordLimit?: boolean
+  defaultStudentLimit?: boolean
+  defaultTeacherLimit?: boolean
+  defaultExamLimit?: boolean
   defaultStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -836,9 +836,9 @@ export type SubscriptionPlanSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   features?: boolean
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: boolean
-  defaultAdminLimit?: boolean
-  defaultRecordLimit?: boolean
+  defaultStudentLimit?: boolean
+  defaultTeacherLimit?: boolean
+  defaultExamLimit?: boolean
   defaultStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -856,9 +856,9 @@ export type SubscriptionPlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   features?: boolean
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: boolean
-  defaultAdminLimit?: boolean
-  defaultRecordLimit?: boolean
+  defaultStudentLimit?: boolean
+  defaultTeacherLimit?: boolean
+  defaultExamLimit?: boolean
   defaultStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -876,15 +876,15 @@ export type SubscriptionPlanSelectScalar = {
   features?: boolean
   isActive?: boolean
   isPopular?: boolean
-  defaultUserLimit?: boolean
-  defaultAdminLimit?: boolean
-  defaultRecordLimit?: boolean
+  defaultStudentLimit?: boolean
+  defaultTeacherLimit?: boolean
+  defaultExamLimit?: boolean
   defaultStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SubscriptionPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "displayName" | "description" | "monthlyPriceBDT" | "yearlyPriceBDT" | "monthlyPriceUSD" | "yearlyPriceUSD" | "features" | "isActive" | "isPopular" | "defaultUserLimit" | "defaultAdminLimit" | "defaultRecordLimit" | "defaultStorageLimit" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
+export type SubscriptionPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "displayName" | "description" | "monthlyPriceBDT" | "yearlyPriceBDT" | "monthlyPriceUSD" | "yearlyPriceUSD" | "features" | "isActive" | "isPopular" | "defaultStudentLimit" | "defaultTeacherLimit" | "defaultExamLimit" | "defaultStorageLimit" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
 export type SubscriptionPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subscriptions?: boolean | Prisma.SubscriptionPlan$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.SubscriptionPlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -909,9 +909,9 @@ export type $SubscriptionPlanPayload<ExtArgs extends runtime.Types.Extensions.In
     features: runtime.JsonValue
     isActive: boolean
     isPopular: boolean
-    defaultUserLimit: number
-    defaultAdminLimit: number
-    defaultRecordLimit: number
+    defaultStudentLimit: number
+    defaultTeacherLimit: number
+    defaultExamLimit: number
     defaultStorageLimit: number
     createdAt: Date
     updatedAt: Date
@@ -1350,9 +1350,9 @@ export interface SubscriptionPlanFieldRefs {
   readonly features: Prisma.FieldRef<"SubscriptionPlan", 'Json'>
   readonly isActive: Prisma.FieldRef<"SubscriptionPlan", 'Boolean'>
   readonly isPopular: Prisma.FieldRef<"SubscriptionPlan", 'Boolean'>
-  readonly defaultUserLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
-  readonly defaultAdminLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
-  readonly defaultRecordLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
+  readonly defaultStudentLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
+  readonly defaultTeacherLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
+  readonly defaultExamLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
   readonly defaultStorageLimit: Prisma.FieldRef<"SubscriptionPlan", 'Int'>
   readonly createdAt: Prisma.FieldRef<"SubscriptionPlan", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SubscriptionPlan", 'DateTime'>

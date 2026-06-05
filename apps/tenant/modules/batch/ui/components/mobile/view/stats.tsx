@@ -1,6 +1,9 @@
 "use client";
 
-import { Users, FileText, TrendingUp, PieChart } from "lucide-react";
+import { motion } from "framer-motion";
+import { cn } from "@workspace/ui/lib/utils";
+
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 interface StatsProps {
   stats: {
@@ -9,73 +12,59 @@ interface StatsProps {
     totalExams: number;
   };
   capacity: number;
+  isLoading?: boolean;
 }
 
-export const Stats = ({ stats, capacity }: StatsProps) => {
+export const Stats = ({ stats, capacity, isLoading }: StatsProps) => {
   const studentCount = stats.totalStudents;
   const capacityPercentage =
     capacity > 0 ? Math.round((studentCount / capacity) * 100) : 0;
 
-  const statConfig = [
-    {
-      label: "Students",
-      value: studentCount,
-      icon: Users,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-    },
-    {
-      label: "Exams",
-      value: stats.totalExams,
-      icon: FileText,
-      color: "text-slate-600",
-      bg: "bg-slate-50",
-    },
-    {
-      label: "Avg. Score",
-      value: "18%", // Placeholder as per design
-      icon: TrendingUp,
-      color: "text-rose-500",
-      bg: "bg-rose-50",
-    },
-    {
-      label: "Capacity",
-      value: `${capacityPercentage}%`,
-      icon: PieChart,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-      isProgress: true,
-    },
-  ];
-
   return (
-    <section className="grid grid-cols-2 gap-3">
-      {statConfig.map((item, idx) => (
-        <div
-          key={idx}
-          className="bg-white p-4 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,108,73,0.05)] flex flex-col justify-between h-28 border border-slate-100/50"
-        >
-          <div className="flex justify-between items-start">
-            <item.icon size={20} className={item.color} />
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">
-              {item.label}
-            </span>
-          </div>
-          <div>
-            <div className="text-2xl font-black text-slate-900 leading-none">
-              {item.value}
-            </div>
-            {item.isProgress && (
-              <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
-                <div
-                  className="bg-emerald-500 h-full rounded-full transition-all duration-1000"
-                  style={{ width: `${Math.min(capacityPercentage, 100)}%` }}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
-    </section>
+    <div className="flex overflow-x-auto hide-scrollbar gap-3 px-6 pb-2">
+      <>
+        <StatPill label="শিক্ষার্থী" value={studentCount} index={0} isLoading={isLoading} />
+        <StatPill label="পরীক্ষা" value={stats.totalExams} index={1} isLoading={isLoading} />
+        <StatPill label="গড় স্কোর" value="18%" accent index={2} isLoading={isLoading} />
+        <StatPill label="ধারণক্ষমতা" value={`${capacityPercentage}%`} index={3} isLoading={isLoading} />
+      </>
+    </div>
   );
 };
+
+function StatPill({
+  label,
+  value,
+  accent = false,
+  index = 0,
+  isLoading,
+}: {
+  label: string;
+  value: string | number;
+  accent?: boolean;
+  index?: number;
+  isLoading?: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
+      className={cn(
+        "flex-shrink-0 px-4 py-2 rounded-full border flex items-center gap-2 whitespace-nowrap",
+        accent
+          ? "bg-[rgba(0,229,160,0.08)] text-primary border-[rgba(0,229,160,0.20)]"
+          : "bg-[#131B2C] text-foreground border-white/[0.02] shadow-[0_4px_15px_rgba(0,0,0,0.5)]"
+      )}
+    >
+      <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </span>
+      {isLoading ? (
+        <Skeleton className="h-4 w-6 bg-white/[0.04] rounded-sm" />
+      ) : (
+        <span className="text-sm font-bold">{value}</span>
+      )}
+    </motion.div>
+  );
+}

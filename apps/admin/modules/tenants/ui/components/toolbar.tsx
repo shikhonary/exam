@@ -15,7 +15,7 @@ export const Toolbar = () => {
       <div className="relative flex-1 max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
-          placeholder="Search unions..."
+          placeholder="Search tenants..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-9"
@@ -29,7 +29,7 @@ export const Toolbar = () => {
         <Button size="sm" className="gap-2" asChild>
           <Link href="/tenants/new">
             <Plus className="w-4 h-4" />
-            <span className="hidden sm:inline">Add Union</span>
+            <span className="hidden sm:inline">Add Tenant</span>
           </Link>
         </Button>
       </div>

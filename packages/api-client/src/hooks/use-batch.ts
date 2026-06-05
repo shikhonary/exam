@@ -174,7 +174,10 @@ export function useBulkDeleteBatches() {
 export function useBatches() {
   const trpc = useTRPC();
   const [filters] = useBatchFilters();
-  return useSuspenseQuery(trpc.batch.list.queryOptions(filters));
+  return useQuery({
+    ...trpc.batch.list.queryOptions(filters),
+    select: (res) => res.data,
+  });
 }
 
 /**
@@ -182,7 +185,7 @@ export function useBatches() {
  */
 export function useBatchById(id: string) {
   const trpc = useTRPC();
-  return useSuspenseQuery({
+  return useQuery({
     ...trpc.batch.getById.queryOptions(id),
     select: (data) => data.data,
   });
@@ -193,7 +196,7 @@ export function useBatchById(id: string) {
  */
 export function useBatchDetails(id: string) {
   const trpc = useTRPC();
-  return useSuspenseQuery({
+  return useQuery({
     ...trpc.batch.getDetails.queryOptions(id),
     select: (data) => data.data,
   });

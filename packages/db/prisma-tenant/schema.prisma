@@ -9,6 +9,134 @@ datasource db {
 
 // --- Models ---
 
+// ----------------------------------------------------------------
+// Education Core: Batch → Student, Exam, ClassRoutine, etc.
+// ----------------------------------------------------------------
+
+model Batch {
+    id             String   @id @default(uuid())
+    name           String
+    academicYearId String   // FK to master AcademicYear (stored as plain ID)
+    academicYear   String   // Denormalised year label, e.g. "2025"
+    academicClassId String  // FK to master AcademicClass (stored as plain ID)
+    className      String   // Denormalised class name
+    capacity       Int      @default(50)
+    isActive       Boolean  @default(true)
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    students      Student[]
+    exams         Exam[]
+    classRoutines ClassRoutine[]
+    assignments   Assignment[]
+    studyMaterials StudyMaterial[]
+    liveClasses   LiveClass[]
+
+    @@index([isActive])
+    @@index([academicYearId])
+    @@index([academicClassId])
+    @@map("batch")
+}
+
+model Student {
+    id        String   @id @default(uuid())
+    name      String
+    roll      String?
+    email     String?
+    phone     String?
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    batchId String
+    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+    @@index([batchId])
+    @@index([isActive])
+    @@map("student")
+}
+
+model Exam {
+    id        String   @id @default(uuid())
+    name      String
+    date      DateTime?
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    batchId String
+    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+    @@index([batchId])
+    @@map("exam")
+}
+
+model ClassRoutine {
+    id        String   @id @default(uuid())
+    day       String
+    startTime String
+    endTime   String
+    subject   String?
+    teacher   String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    batchId String
+    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+    @@index([batchId])
+    @@map("class_routine")
+}
+
+model Assignment {
+    id          String    @id @default(uuid())
+    title       String
+    description String?
+    dueDate     DateTime?
+    isActive    Boolean   @default(true)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    batchId String
+    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+    @@index([batchId])
+    @@map("assignment")
+}
+
+model StudyMaterial {
+    id        String   @id @default(uuid())
+    title     String
+    url       String?
+    type      String   @default("document")
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    batchId String
+    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+    @@index([batchId])
+    @@map("study_material")
+}
+
+model LiveClass {
+    id          String    @id @default(uuid())
+    title       String
+    url         String?
+    scheduledAt DateTime?
+    isActive    Boolean   @default(true)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    batchId String
+    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+    @@index([batchId])
+    @@map("live_class")
+}
+
+
 model CitizenApplication {
     id                  String    @id @default(uuid())
     fullNameEn          String?

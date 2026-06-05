@@ -45,11 +45,6 @@ export class BatchService {
           ...pagination,
           include: {
             _count: { select: { students: true } },
-            academicYear: {
-              select: {
-                name: true,
-              },
-            },
           },
         }),
         this.db.batch.count({ where }),
@@ -70,11 +65,14 @@ export class BatchService {
       return await this.db.batch.findUnique({
         where: { id: validatedId },
         include: {
-          academicYear: true,
           _count: {
             select: {
               students: true,
               exams: true,
+              classRoutines: true,
+              assignments: true,
+              studyMaterials: true,
+              liveClasses: true,
             },
           },
         },
@@ -91,11 +89,14 @@ export class BatchService {
       const batch = await this.db.batch.findUnique({
         where: { id: validatedId },
         include: {
-          academicYear: true,
           _count: {
             select: {
               students: true,
               exams: true,
+              classRoutines: true,
+              assignments: true,
+              studyMaterials: true,
+              liveClasses: true,
             },
           },
         },
@@ -125,15 +126,26 @@ export class BatchService {
   async create(input: BatchFormValues) {
     try {
       const { academicYear, ...data } = batchFormSchema.parse(input);
+      
+      const existingBatch = await this.db.batch.findFirst({
+        where: { 
+          name: data.name,
+          academicClassId: data.academicClassId
+        },
+      });
+      if (existingBatch) {
+        throw new Error("এই ক্লাসের অধীনে এই নামের একটি ব্যাচ ইতিমধ্যে বিদ্যমান।");
+      }
+
       const academicClass = await this.mainDb.academicClass.findUnique({
         where: { id: data.academicClassId },
       });
       if (!academicClass) throw new Error("Academic class not found");
-      // Prisma expects academicYearId, which is already in 'data'
       return await this.db.batch.create({
         data: {
           ...data,
-          className: academicClass.name,
+          academicYear, // denormalized label string
+          className: academicClass.nameEn, // AcademicClass uses nameEn/nameBn
         },
       });
     } catch (error) {
@@ -144,9 +156,43 @@ export class BatchService {
   async update(input: updateBatchInputType) {
     try {
       const { id, academicYear, ...data } = input;
+      
+      if (data.name !== undefined || data.academicClassId !== undefined) {
+        const currentBatch = await this.db.batch.findUnique({ where: { id } });
+        if (!currentBatch) throw new Error("Batch not found");
+
+        const nameToCheck = data.name !== undefined ? data.name : currentBatch.name;
+        const classIdToCheck = data.academicClassId !== undefined ? data.academicClassId : currentBatch.academicClassId;
+
+        const existingBatch = await this.db.batch.findFirst({
+          where: { 
+            name: nameToCheck,
+            academicClassId: classIdToCheck,
+            id: { not: id }
+          },
+        });
+        if (existingBatch) {
+          throw new Error("এই ক্লাসের অধীনে এই নামের একটি ব্যাচ ইতিমধ্যে বিদ্যমান।");
+        }
+      }
+
+      // If academicClassId is being updated, we should also update className
+      let classNameToUpdate: string | undefined = undefined;
+      if (data.academicClassId !== undefined) {
+        const academicClass = await this.mainDb.academicClass.findUnique({
+          where: { id: data.academicClassId },
+        });
+        if (academicClass) {
+          classNameToUpdate = academicClass.nameEn;
+        }
+      }
+
       return await this.db.batch.update({
         where: { id },
-        data,
+        data: {
+          ...data,
+          ...(classNameToUpdate ? { className: classNameToUpdate } : {}),
+        },
       });
     } catch (error) {
       handlePrismaError(error);

@@ -517,6 +517,14 @@ export type ContentBlockUncheckedUpdateManyWithoutChapterNestedInput = {
   deleteMany?: Prisma.ContentBlockScalarWhereInput | Prisma.ContentBlockScalarWhereInput[]
 }
 
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ContentBlockCreateNestedOneWithoutMediaInput = {
   create?: Prisma.XOR<Prisma.ContentBlockCreateWithoutMediaInput, Prisma.ContentBlockUncheckedCreateWithoutMediaInput>
   connectOrCreate?: Prisma.ContentBlockCreateOrConnectWithoutMediaInput

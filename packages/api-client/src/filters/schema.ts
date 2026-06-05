@@ -56,7 +56,8 @@ export const academicClassFilterSchema = {
  */
 export const academicSubjectFilterSchema = {
   ...baseFilterSchema,
-  classId: parseAsString.withOptions({ clearOnDefault: true }),
+  academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
+  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
@@ -70,7 +71,7 @@ export const academicSubjectFilterSchema = {
  */
 export const academicChapterFilterSchema = {
   ...baseFilterSchema,
-  classId: parseAsString.withOptions({ clearOnDefault: true }),
+  academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
@@ -81,11 +82,11 @@ export const academicChapterFilterSchema = {
 };
 
 /**
- * Academic Topic Filters
+ * Academic Chapter Topic Filters
  */
-export const academicTopicFilterSchema = {
+export const academicChapterTopicFilterSchema = {
   ...baseFilterSchema,
-  classId: parseAsString.withOptions({ clearOnDefault: true }),
+  academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
   chapterId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({
@@ -134,6 +135,37 @@ export const mcqFilterSchema = {
 };
 
 /**
+ * CQ Filters
+ */
+export const cqFilterSchema = {
+  ...baseFilterSchema,
+  subjectId: parseAsString.withOptions({ clearOnDefault: true }),
+  chapterId: parseAsString.withOptions({ clearOnDefault: true }),
+  topicId: parseAsString.withOptions({ clearOnDefault: true }),
+  subtopicId: parseAsString.withOptions({ clearOnDefault: true }),
+  questionTypeId: parseAsString.withOptions({ clearOnDefault: true }),
+  reference: parseAsString.withOptions({ clearOnDefault: true }),
+  sort: parseAsStringEnum(Object.values(SORT)).withOptions({
+    clearOnDefault: true,
+  }),
+};
+
+/**
+ * Short Answer Filters
+ */
+export const shortAnswerFilterSchema = {
+  ...baseFilterSchema,
+  subjectId: parseAsString.withOptions({ clearOnDefault: true }),
+  chapterId: parseAsString.withOptions({ clearOnDefault: true }),
+  topicId: parseAsString.withOptions({ clearOnDefault: true }),
+  questionTypeId: parseAsString.withOptions({ clearOnDefault: true }),
+  reference: parseAsString.withOptions({ clearOnDefault: true }),
+  sort: parseAsStringEnum(Object.values(SORT)).withOptions({
+    clearOnDefault: true,
+  }),
+};
+
+/**
  * Question Type Filters
  */
 export const questionTypeFilterSchema = {
@@ -142,6 +174,15 @@ export const questionTypeFilterSchema = {
   isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
+};
+
+/**
+ * Question Paper Filters
+ */
+export const questionPaperFilterSchema = {
+  ...baseFilterSchema,
+  status: parseAsString.withOptions({ clearOnDefault: true }),
+  classId: parseAsString.withOptions({ clearOnDefault: true }),
 };
 
 /**
@@ -163,6 +204,22 @@ export const studentFilterSchema = {
 export const tenantFilterSchema = {
   ...baseFilterSchema,
   type: parseAsStringEnum(Object.values(TENANT_TYPE)).withOptions({
+    clearOnDefault: true,
+  }),
+  isActive: parseAsBoolean.withOptions({
+    clearOnDefault: true,
+  }),
+  planId: parseAsString.withOptions({
+    clearOnDefault: true,
+  }),
+};
+
+/**
+ * User Filters
+ */
+export const userFilterSchema = {
+  ...baseFilterSchema,
+  role: parseAsString.withOptions({
     clearOnDefault: true,
   }),
   isActive: parseAsBoolean.withOptions({
@@ -282,14 +339,7 @@ export const assessmentFilterSchema = {
   fiscalYearId: parseAsString.withOptions({ clearOnDefault: true }),
 };
 
-/**
- * Fiscal Year Filters
- */
-export const fiscalYearFilterSchema = {
-  ...baseFilterSchema,
-  isActive: parseAsBoolean.withOptions({ clearOnDefault: true }),
-  isCurrent: parseAsBoolean.withOptions({ clearOnDefault: true }),
-};
+
 
 /**
  * Holding Tax Filters
@@ -345,4 +395,34 @@ export const successionApplicationFilterSchema = {
   ...baseFilterSchema,
   wardNo: parseAsInteger.withOptions({ clearOnDefault: true }),
   status: parseAsString.withOptions({ clearOnDefault: true }),
+};
+
+/**
+ * Setting Filters
+ */
+export const settingFilterSchema = {
+  ...baseFilterSchema,
+  category: parseAsString.withOptions({ clearOnDefault: true }),
+};
+
+/**
+ * Audit Log Filters
+ */
+export const auditLogFilterSchema = {
+  ...baseFilterSchema,
+  action: parseAsString.withOptions({ clearOnDefault: true }),
+  entity: parseAsString.withOptions({ clearOnDefault: true }),
+  userId: parseAsString.withOptions({ clearOnDefault: true }),
+  tenantId: parseAsString.withOptions({ clearOnDefault: true }),
+};
+
+/**
+ * Notification Filters
+ */
+export const notificationFilterSchema = {
+  ...baseFilterSchema,
+  read: parseAsBoolean.withOptions({ clearOnDefault: true }),
+  type: parseAsString.withOptions({ clearOnDefault: true }),
+  userId: parseAsString.withOptions({ clearOnDefault: true }),
+  tenantId: parseAsString.withOptions({ clearOnDefault: true }),
 };

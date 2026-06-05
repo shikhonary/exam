@@ -22,8 +22,7 @@ import { FormNavigation } from "../components/form-navigation";
 import { BasicInfoStep } from "../components/basic-info-step";
 import { ContactInfoStep } from "../components/contact-info-step";
 import { DomainConfigStep } from "../components/domain-config-step";
-import { AdministrativeGeographyStep } from "../components/administrative-geography-step";
-
+import { SubscriptionStep } from "../components/subscription-step";
 import { UsageLimitsStep } from "../components/usage-limit-step";
 import { useMultiStepForm } from "../hooks/use-multi-step-form";
 import { useCreateTenant } from "@workspace/api-client";
@@ -57,22 +56,22 @@ interface ProvisionStep {
 const provisionSteps: ProvisionStep[] = [
   {
     id: 1,
-    label: "Creating union record",
-    description: "Saving union details to the database",
+    label: "Creating tenant record",
+    description: "Saving tenant details and subscription to the database",
     icon: Server,
     durationMs: 1500,
   },
   {
     id: 2,
     label: "Provisioning database",
-    description: "Creating a dedicated PostgreSQL database for this union",
+    description: "Creating a dedicated PostgreSQL database for this tenant",
     icon: Database,
     durationMs: 8000,
   },
   {
     id: 3,
     label: "Applying schema",
-    description: "Pushing the union schema and running migrations",
+    description: "Pushing the tenant schema and running migrations",
     icon: ShieldCheck,
     durationMs: 12000,
   },
@@ -108,16 +107,16 @@ function ProvisioningScreen({
               <Database className="h-4 w-4" />
             </div>
             {status === "success"
-              ? "Union Ready!"
+              ? "Tenant Ready!"
               : status === "error"
-                ? "Setup Failed"
-                : "Setting Up Union Portal"}
+                ? "Provisioning Failed"
+                : "Setting Up Tenant"}
           </CardTitle>
           <CardDescription className="text-muted-foreground font-medium pl-1">
             {status === "success"
-              ? `"${tenantName}" portal is now live and ready for use.`
+              ? `"${tenantName}" has been created and its database is live.`
               : status === "error"
-                ? "Something went wrong during union provisioning."
+                ? "Something went wrong during provisioning."
                 : `Provisioning "${tenantName}" — this takes about 15–30 seconds.`}
           </CardDescription>
         </CardHeader>
@@ -247,13 +246,15 @@ function ProvisioningScreen({
                   className="h-12 px-8 bg-primary text-primary-foreground rounded-xl shadow-glow font-bold hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <Check className="mr-2 h-4 w-4 stroke-[3]" />
-                  View All Unions
+                  View All Tenants
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               )}
-              <p className="text-xs text-muted-foreground italic">
-                Please wait — establishing the union portal…
-              </p>
+              {status === "pending" && (
+                <p className="text-xs text-muted-foreground italic">
+                  Please wait — do not close this page…
+                </p>
+              )}
             </div>
           </div>
         </CardContent>
@@ -332,11 +333,11 @@ export function TenantForm() {
       case 1:
         return <BasicInfoStep form={form} />;
       case 2:
-        return <AdministrativeGeographyStep form={form} />;
-      case 3:
         return <ContactInfoStep form={form} />;
-      case 4:
+      case 3:
         return <DomainConfigStep form={form} />;
+      case 4:
+        return <SubscriptionStep form={form} />;
       case 5:
         return <UsageLimitsStep form={form} />;
       default:

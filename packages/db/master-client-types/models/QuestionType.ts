@@ -26,9 +26,8 @@ export type AggregateQuestionType = {
 
 export type QuestionTypeMinAggregateOutputType = {
   id: string | null
-  name: string | null
-  displayName: string | null
-  label: string | null
+  nameEn: string | null
+  nameBn: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -36,9 +35,8 @@ export type QuestionTypeMinAggregateOutputType = {
 
 export type QuestionTypeMaxAggregateOutputType = {
   id: string | null
-  name: string | null
-  displayName: string | null
-  label: string | null
+  nameEn: string | null
+  nameBn: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,9 +44,8 @@ export type QuestionTypeMaxAggregateOutputType = {
 
 export type QuestionTypeCountAggregateOutputType = {
   id: number
-  name: number
-  displayName: number
-  label: number
+  nameEn: number
+  nameBn: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -58,9 +55,8 @@ export type QuestionTypeCountAggregateOutputType = {
 
 export type QuestionTypeMinAggregateInputType = {
   id?: true
-  name?: true
-  displayName?: true
-  label?: true
+  nameEn?: true
+  nameBn?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -68,9 +64,8 @@ export type QuestionTypeMinAggregateInputType = {
 
 export type QuestionTypeMaxAggregateInputType = {
   id?: true
-  name?: true
-  displayName?: true
-  label?: true
+  nameEn?: true
+  nameBn?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -78,9 +73,8 @@ export type QuestionTypeMaxAggregateInputType = {
 
 export type QuestionTypeCountAggregateInputType = {
   id?: true
-  name?: true
-  displayName?: true
-  label?: true
+  nameEn?: true
+  nameBn?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -161,9 +155,8 @@ export type QuestionTypeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 
 export type QuestionTypeGroupByOutputType = {
   id: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -192,32 +185,30 @@ export type QuestionTypeWhereInput = {
   OR?: Prisma.QuestionTypeWhereInput[]
   NOT?: Prisma.QuestionTypeWhereInput | Prisma.QuestionTypeWhereInput[]
   id?: Prisma.StringFilter<"QuestionType"> | string
-  name?: Prisma.StringFilter<"QuestionType"> | string
-  displayName?: Prisma.StringFilter<"QuestionType"> | string
-  label?: Prisma.StringFilter<"QuestionType"> | string
+  nameEn?: Prisma.StringFilter<"QuestionType"> | string
+  nameBn?: Prisma.StringFilter<"QuestionType"> | string
   isActive?: Prisma.BoolFilter<"QuestionType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"QuestionType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"QuestionType"> | Date | string
   subjects?: Prisma.SubjectQuestionTypeListRelationFilter
   mcqs?: Prisma.McqListRelationFilter
   cqs?: Prisma.CqListRelationFilter
+  shortAnswers?: Prisma.ShortAnswerListRelationFilter
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionListRelationFilter
-  questions?: Prisma.QuestionPaperQuestionListRelationFilter
 }
 
 export type QuestionTypeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
-  label?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameBn?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   subjects?: Prisma.SubjectQuestionTypeOrderByRelationAggregateInput
   mcqs?: Prisma.McqOrderByRelationAggregateInput
   cqs?: Prisma.CqOrderByRelationAggregateInput
+  shortAnswers?: Prisma.ShortAnswerOrderByRelationAggregateInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionOrderByRelationAggregateInput
-  questions?: Prisma.QuestionPaperQuestionOrderByRelationAggregateInput
 }
 
 export type QuestionTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -225,24 +216,22 @@ export type QuestionTypeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.QuestionTypeWhereInput | Prisma.QuestionTypeWhereInput[]
   OR?: Prisma.QuestionTypeWhereInput[]
   NOT?: Prisma.QuestionTypeWhereInput | Prisma.QuestionTypeWhereInput[]
-  name?: Prisma.StringFilter<"QuestionType"> | string
-  displayName?: Prisma.StringFilter<"QuestionType"> | string
-  label?: Prisma.StringFilter<"QuestionType"> | string
+  nameEn?: Prisma.StringFilter<"QuestionType"> | string
+  nameBn?: Prisma.StringFilter<"QuestionType"> | string
   isActive?: Prisma.BoolFilter<"QuestionType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"QuestionType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"QuestionType"> | Date | string
   subjects?: Prisma.SubjectQuestionTypeListRelationFilter
   mcqs?: Prisma.McqListRelationFilter
   cqs?: Prisma.CqListRelationFilter
+  shortAnswers?: Prisma.ShortAnswerListRelationFilter
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionListRelationFilter
-  questions?: Prisma.QuestionPaperQuestionListRelationFilter
 }, "id">
 
 export type QuestionTypeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
-  label?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameBn?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -256,9 +245,8 @@ export type QuestionTypeScalarWhereWithAggregatesInput = {
   OR?: Prisma.QuestionTypeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.QuestionTypeScalarWhereWithAggregatesInput | Prisma.QuestionTypeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"QuestionType"> | string
-  name?: Prisma.StringWithAggregatesFilter<"QuestionType"> | string
-  displayName?: Prisma.StringWithAggregatesFilter<"QuestionType"> | string
-  label?: Prisma.StringWithAggregatesFilter<"QuestionType"> | string
+  nameEn?: Prisma.StringWithAggregatesFilter<"QuestionType"> | string
+  nameBn?: Prisma.StringWithAggregatesFilter<"QuestionType"> | string
   isActive?: Prisma.BoolWithAggregatesFilter<"QuestionType"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"QuestionType"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"QuestionType"> | Date | string
@@ -266,69 +254,64 @@ export type QuestionTypeScalarWhereWithAggregatesInput = {
 
 export type QuestionTypeCreateInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeCreateNestedManyWithoutQuestionTypeInput
   mcqs?: Prisma.McqCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeUncheckedCreateInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedCreateNestedManyWithoutQuestionTypeInput
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUpdateManyWithoutQuestionTypeNestedInput
   mcqs?: Prisma.McqUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedUpdateManyWithoutQuestionTypeNestedInput
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeCreateManyInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -336,9 +319,8 @@ export type QuestionTypeCreateManyInput = {
 
 export type QuestionTypeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -346,9 +328,8 @@ export type QuestionTypeUpdateManyMutationInput = {
 
 export type QuestionTypeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -356,9 +337,8 @@ export type QuestionTypeUncheckedUpdateManyInput = {
 
 export type QuestionTypeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
-  label?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameBn?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -366,9 +346,8 @@ export type QuestionTypeCountOrderByAggregateInput = {
 
 export type QuestionTypeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
-  label?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameBn?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -376,9 +355,8 @@ export type QuestionTypeMaxOrderByAggregateInput = {
 
 export type QuestionTypeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  displayName?: Prisma.SortOrder
-  label?: Prisma.SortOrder
+  nameEn?: Prisma.SortOrder
+  nameBn?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -440,6 +418,22 @@ export type QuestionTypeUpdateOneWithoutCqsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionTypeUpdateToOneWithWhereWithoutCqsInput, Prisma.QuestionTypeUpdateWithoutCqsInput>, Prisma.QuestionTypeUncheckedUpdateWithoutCqsInput>
 }
 
+export type QuestionTypeCreateNestedOneWithoutShortAnswersInput = {
+  create?: Prisma.XOR<Prisma.QuestionTypeCreateWithoutShortAnswersInput, Prisma.QuestionTypeUncheckedCreateWithoutShortAnswersInput>
+  connectOrCreate?: Prisma.QuestionTypeCreateOrConnectWithoutShortAnswersInput
+  connect?: Prisma.QuestionTypeWhereUniqueInput
+}
+
+export type QuestionTypeUpdateOneWithoutShortAnswersNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionTypeCreateWithoutShortAnswersInput, Prisma.QuestionTypeUncheckedCreateWithoutShortAnswersInput>
+  connectOrCreate?: Prisma.QuestionTypeCreateOrConnectWithoutShortAnswersInput
+  upsert?: Prisma.QuestionTypeUpsertWithoutShortAnswersInput
+  disconnect?: Prisma.QuestionTypeWhereInput | boolean
+  delete?: Prisma.QuestionTypeWhereInput | boolean
+  connect?: Prisma.QuestionTypeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionTypeUpdateToOneWithWhereWithoutShortAnswersInput, Prisma.QuestionTypeUpdateWithoutShortAnswersInput>, Prisma.QuestionTypeUncheckedUpdateWithoutShortAnswersInput>
+}
+
 export type QuestionTypeCreateNestedOneWithoutDistributionsInput = {
   create?: Prisma.XOR<Prisma.QuestionTypeCreateWithoutDistributionsInput, Prisma.QuestionTypeUncheckedCreateWithoutDistributionsInput>
   connectOrCreate?: Prisma.QuestionTypeCreateOrConnectWithoutDistributionsInput
@@ -454,48 +448,30 @@ export type QuestionTypeUpdateOneRequiredWithoutDistributionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionTypeUpdateToOneWithWhereWithoutDistributionsInput, Prisma.QuestionTypeUpdateWithoutDistributionsInput>, Prisma.QuestionTypeUncheckedUpdateWithoutDistributionsInput>
 }
 
-export type QuestionTypeCreateNestedOneWithoutQuestionsInput = {
-  create?: Prisma.XOR<Prisma.QuestionTypeCreateWithoutQuestionsInput, Prisma.QuestionTypeUncheckedCreateWithoutQuestionsInput>
-  connectOrCreate?: Prisma.QuestionTypeCreateOrConnectWithoutQuestionsInput
-  connect?: Prisma.QuestionTypeWhereUniqueInput
-}
-
-export type QuestionTypeUpdateOneWithoutQuestionsNestedInput = {
-  create?: Prisma.XOR<Prisma.QuestionTypeCreateWithoutQuestionsInput, Prisma.QuestionTypeUncheckedCreateWithoutQuestionsInput>
-  connectOrCreate?: Prisma.QuestionTypeCreateOrConnectWithoutQuestionsInput
-  upsert?: Prisma.QuestionTypeUpsertWithoutQuestionsInput
-  disconnect?: Prisma.QuestionTypeWhereInput | boolean
-  delete?: Prisma.QuestionTypeWhereInput | boolean
-  connect?: Prisma.QuestionTypeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionTypeUpdateToOneWithWhereWithoutQuestionsInput, Prisma.QuestionTypeUpdateWithoutQuestionsInput>, Prisma.QuestionTypeUncheckedUpdateWithoutQuestionsInput>
-}
-
 export type QuestionTypeCreateWithoutSubjectsInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   mcqs?: Prisma.McqCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeUncheckedCreateWithoutSubjectsInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeCreateOrConnectWithoutSubjectsInput = {
@@ -516,58 +492,54 @@ export type QuestionTypeUpdateToOneWithWhereWithoutSubjectsInput = {
 
 export type QuestionTypeUpdateWithoutSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mcqs?: Prisma.McqUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeUncheckedUpdateWithoutSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeCreateWithoutMcqsInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeUncheckedCreateWithoutMcqsInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeCreateOrConnectWithoutMcqsInput = {
@@ -588,58 +560,54 @@ export type QuestionTypeUpdateToOneWithWhereWithoutMcqsInput = {
 
 export type QuestionTypeUpdateWithoutMcqsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeUncheckedUpdateWithoutMcqsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeCreateWithoutCqsInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeCreateNestedManyWithoutQuestionTypeInput
   mcqs?: Prisma.McqCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeUncheckedCreateWithoutCqsInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedCreateNestedManyWithoutQuestionTypeInput
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutQuestionTypeInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeCreateOrConnectWithoutCqsInput = {
@@ -660,58 +628,122 @@ export type QuestionTypeUpdateToOneWithWhereWithoutCqsInput = {
 
 export type QuestionTypeUpdateWithoutCqsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUpdateManyWithoutQuestionTypeNestedInput
   mcqs?: Prisma.McqUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeUncheckedUpdateWithoutCqsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedUpdateManyWithoutQuestionTypeNestedInput
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutQuestionTypeNestedInput
   distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedUpdateManyWithoutQuestionTypeNestedInput
 }
 
-export type QuestionTypeCreateWithoutDistributionsInput = {
+export type QuestionTypeCreateWithoutShortAnswersInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeCreateNestedManyWithoutQuestionTypeInput
   mcqs?: Prisma.McqCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionCreateNestedManyWithoutQuestionTypeInput
+  distributions?: Prisma.QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput
 }
 
-export type QuestionTypeUncheckedCreateWithoutDistributionsInput = {
+export type QuestionTypeUncheckedCreateWithoutShortAnswersInput = {
   id?: string
-  name: string
-  displayName: string
-  label: string
+  nameEn: string
+  nameBn: string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedCreateNestedManyWithoutQuestionTypeInput
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutQuestionTypeInput
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutQuestionTypeInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedCreateNestedManyWithoutQuestionTypeInput
+  distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateNestedManyWithoutQuestionTypeInput
+}
+
+export type QuestionTypeCreateOrConnectWithoutShortAnswersInput = {
+  where: Prisma.QuestionTypeWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuestionTypeCreateWithoutShortAnswersInput, Prisma.QuestionTypeUncheckedCreateWithoutShortAnswersInput>
+}
+
+export type QuestionTypeUpsertWithoutShortAnswersInput = {
+  update: Prisma.XOR<Prisma.QuestionTypeUpdateWithoutShortAnswersInput, Prisma.QuestionTypeUncheckedUpdateWithoutShortAnswersInput>
+  create: Prisma.XOR<Prisma.QuestionTypeCreateWithoutShortAnswersInput, Prisma.QuestionTypeUncheckedCreateWithoutShortAnswersInput>
+  where?: Prisma.QuestionTypeWhereInput
+}
+
+export type QuestionTypeUpdateToOneWithWhereWithoutShortAnswersInput = {
+  where?: Prisma.QuestionTypeWhereInput
+  data: Prisma.XOR<Prisma.QuestionTypeUpdateWithoutShortAnswersInput, Prisma.QuestionTypeUncheckedUpdateWithoutShortAnswersInput>
+}
+
+export type QuestionTypeUpdateWithoutShortAnswersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subjects?: Prisma.SubjectQuestionTypeUpdateManyWithoutQuestionTypeNestedInput
+  mcqs?: Prisma.McqUpdateManyWithoutQuestionTypeNestedInput
+  cqs?: Prisma.CqUpdateManyWithoutQuestionTypeNestedInput
+  distributions?: Prisma.QuestionPaperSubjectMarkDistributionUpdateManyWithoutQuestionTypeNestedInput
+}
+
+export type QuestionTypeUncheckedUpdateWithoutShortAnswersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subjects?: Prisma.SubjectQuestionTypeUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  mcqs?: Prisma.McqUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  cqs?: Prisma.CqUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateManyWithoutQuestionTypeNestedInput
+}
+
+export type QuestionTypeCreateWithoutDistributionsInput = {
+  id?: string
+  nameEn: string
+  nameBn: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subjects?: Prisma.SubjectQuestionTypeCreateNestedManyWithoutQuestionTypeInput
+  mcqs?: Prisma.McqCreateNestedManyWithoutQuestionTypeInput
+  cqs?: Prisma.CqCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutQuestionTypeInput
+}
+
+export type QuestionTypeUncheckedCreateWithoutDistributionsInput = {
+  id?: string
+  nameEn: string
+  nameBn: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subjects?: Prisma.SubjectQuestionTypeUncheckedCreateNestedManyWithoutQuestionTypeInput
+  mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutQuestionTypeInput
+  cqs?: Prisma.CqUncheckedCreateNestedManyWithoutQuestionTypeInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutQuestionTypeInput
 }
 
 export type QuestionTypeCreateOrConnectWithoutDistributionsInput = {
@@ -732,102 +764,28 @@ export type QuestionTypeUpdateToOneWithWhereWithoutDistributionsInput = {
 
 export type QuestionTypeUpdateWithoutDistributionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUpdateManyWithoutQuestionTypeNestedInput
   mcqs?: Prisma.McqUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutQuestionTypeNestedInput
 }
 
 export type QuestionTypeUncheckedUpdateWithoutDistributionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  nameEn?: Prisma.StringFieldUpdateOperationsInput | string
+  nameBn?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectQuestionTypeUncheckedUpdateManyWithoutQuestionTypeNestedInput
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutQuestionTypeNestedInput
   cqs?: Prisma.CqUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  questions?: Prisma.QuestionPaperQuestionUncheckedUpdateManyWithoutQuestionTypeNestedInput
-}
-
-export type QuestionTypeCreateWithoutQuestionsInput = {
-  id?: string
-  name: string
-  displayName: string
-  label: string
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  subjects?: Prisma.SubjectQuestionTypeCreateNestedManyWithoutQuestionTypeInput
-  mcqs?: Prisma.McqCreateNestedManyWithoutQuestionTypeInput
-  cqs?: Prisma.CqCreateNestedManyWithoutQuestionTypeInput
-  distributions?: Prisma.QuestionPaperSubjectMarkDistributionCreateNestedManyWithoutQuestionTypeInput
-}
-
-export type QuestionTypeUncheckedCreateWithoutQuestionsInput = {
-  id?: string
-  name: string
-  displayName: string
-  label: string
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  subjects?: Prisma.SubjectQuestionTypeUncheckedCreateNestedManyWithoutQuestionTypeInput
-  mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutQuestionTypeInput
-  cqs?: Prisma.CqUncheckedCreateNestedManyWithoutQuestionTypeInput
-  distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedCreateNestedManyWithoutQuestionTypeInput
-}
-
-export type QuestionTypeCreateOrConnectWithoutQuestionsInput = {
-  where: Prisma.QuestionTypeWhereUniqueInput
-  create: Prisma.XOR<Prisma.QuestionTypeCreateWithoutQuestionsInput, Prisma.QuestionTypeUncheckedCreateWithoutQuestionsInput>
-}
-
-export type QuestionTypeUpsertWithoutQuestionsInput = {
-  update: Prisma.XOR<Prisma.QuestionTypeUpdateWithoutQuestionsInput, Prisma.QuestionTypeUncheckedUpdateWithoutQuestionsInput>
-  create: Prisma.XOR<Prisma.QuestionTypeCreateWithoutQuestionsInput, Prisma.QuestionTypeUncheckedCreateWithoutQuestionsInput>
-  where?: Prisma.QuestionTypeWhereInput
-}
-
-export type QuestionTypeUpdateToOneWithWhereWithoutQuestionsInput = {
-  where?: Prisma.QuestionTypeWhereInput
-  data: Prisma.XOR<Prisma.QuestionTypeUpdateWithoutQuestionsInput, Prisma.QuestionTypeUncheckedUpdateWithoutQuestionsInput>
-}
-
-export type QuestionTypeUpdateWithoutQuestionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjects?: Prisma.SubjectQuestionTypeUpdateManyWithoutQuestionTypeNestedInput
-  mcqs?: Prisma.McqUpdateManyWithoutQuestionTypeNestedInput
-  cqs?: Prisma.CqUpdateManyWithoutQuestionTypeNestedInput
-  distributions?: Prisma.QuestionPaperSubjectMarkDistributionUpdateManyWithoutQuestionTypeNestedInput
-}
-
-export type QuestionTypeUncheckedUpdateWithoutQuestionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjects?: Prisma.SubjectQuestionTypeUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  mcqs?: Prisma.McqUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  cqs?: Prisma.CqUncheckedUpdateManyWithoutQuestionTypeNestedInput
-  distributions?: Prisma.QuestionPaperSubjectMarkDistributionUncheckedUpdateManyWithoutQuestionTypeNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutQuestionTypeNestedInput
 }
 
 
@@ -839,16 +797,16 @@ export type QuestionTypeCountOutputType = {
   subjects: number
   mcqs: number
   cqs: number
+  shortAnswers: number
   distributions: number
-  questions: number
 }
 
 export type QuestionTypeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subjects?: boolean | QuestionTypeCountOutputTypeCountSubjectsArgs
   mcqs?: boolean | QuestionTypeCountOutputTypeCountMcqsArgs
   cqs?: boolean | QuestionTypeCountOutputTypeCountCqsArgs
+  shortAnswers?: boolean | QuestionTypeCountOutputTypeCountShortAnswersArgs
   distributions?: boolean | QuestionTypeCountOutputTypeCountDistributionsArgs
-  questions?: boolean | QuestionTypeCountOutputTypeCountQuestionsArgs
 }
 
 /**
@@ -885,39 +843,37 @@ export type QuestionTypeCountOutputTypeCountCqsArgs<ExtArgs extends runtime.Type
 /**
  * QuestionTypeCountOutputType without action
  */
-export type QuestionTypeCountOutputTypeCountDistributionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput
+export type QuestionTypeCountOutputTypeCountShortAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShortAnswerWhereInput
 }
 
 /**
  * QuestionTypeCountOutputType without action
  */
-export type QuestionTypeCountOutputTypeCountQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QuestionPaperQuestionWhereInput
+export type QuestionTypeCountOutputTypeCountDistributionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuestionPaperSubjectMarkDistributionWhereInput
 }
 
 
 export type QuestionTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  displayName?: boolean
-  label?: boolean
+  nameEn?: boolean
+  nameBn?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   subjects?: boolean | Prisma.QuestionType$subjectsArgs<ExtArgs>
   mcqs?: boolean | Prisma.QuestionType$mcqsArgs<ExtArgs>
   cqs?: boolean | Prisma.QuestionType$cqsArgs<ExtArgs>
+  shortAnswers?: boolean | Prisma.QuestionType$shortAnswersArgs<ExtArgs>
   distributions?: boolean | Prisma.QuestionType$distributionsArgs<ExtArgs>
-  questions?: boolean | Prisma.QuestionType$questionsArgs<ExtArgs>
   _count?: boolean | Prisma.QuestionTypeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["questionType"]>
 
 export type QuestionTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  displayName?: boolean
-  label?: boolean
+  nameEn?: boolean
+  nameBn?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -925,9 +881,8 @@ export type QuestionTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
 
 export type QuestionTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  displayName?: boolean
-  label?: boolean
+  nameEn?: boolean
+  nameBn?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -935,21 +890,20 @@ export type QuestionTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
 
 export type QuestionTypeSelectScalar = {
   id?: boolean
-  name?: boolean
-  displayName?: boolean
-  label?: boolean
+  nameEn?: boolean
+  nameBn?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type QuestionTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "displayName" | "label" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["questionType"]>
+export type QuestionTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nameEn" | "nameBn" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["questionType"]>
 export type QuestionTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subjects?: boolean | Prisma.QuestionType$subjectsArgs<ExtArgs>
   mcqs?: boolean | Prisma.QuestionType$mcqsArgs<ExtArgs>
   cqs?: boolean | Prisma.QuestionType$cqsArgs<ExtArgs>
+  shortAnswers?: boolean | Prisma.QuestionType$shortAnswersArgs<ExtArgs>
   distributions?: boolean | Prisma.QuestionType$distributionsArgs<ExtArgs>
-  questions?: boolean | Prisma.QuestionType$questionsArgs<ExtArgs>
   _count?: boolean | Prisma.QuestionTypeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type QuestionTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -961,14 +915,13 @@ export type $QuestionTypePayload<ExtArgs extends runtime.Types.Extensions.Intern
     subjects: Prisma.$SubjectQuestionTypePayload<ExtArgs>[]
     mcqs: Prisma.$McqPayload<ExtArgs>[]
     cqs: Prisma.$CqPayload<ExtArgs>[]
+    shortAnswers: Prisma.$ShortAnswerPayload<ExtArgs>[]
     distributions: Prisma.$QuestionPaperSubjectMarkDistributionPayload<ExtArgs>[]
-    questions: Prisma.$QuestionPaperQuestionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    name: string
-    displayName: string
-    label: string
+    nameEn: string
+    nameBn: string
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1369,8 +1322,8 @@ export interface Prisma__QuestionTypeClient<T, Null = never, ExtArgs extends run
   subjects<T extends Prisma.QuestionType$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionType$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectQuestionTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   mcqs<T extends Prisma.QuestionType$mcqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionType$mcqsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$McqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cqs<T extends Prisma.QuestionType$cqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionType$cqsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shortAnswers<T extends Prisma.QuestionType$shortAnswersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionType$shortAnswersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShortAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   distributions<T extends Prisma.QuestionType$distributionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionType$distributionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPaperSubjectMarkDistributionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  questions<T extends Prisma.QuestionType$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuestionType$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPaperQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1401,9 +1354,8 @@ export interface Prisma__QuestionTypeClient<T, Null = never, ExtArgs extends run
  */
 export interface QuestionTypeFieldRefs {
   readonly id: Prisma.FieldRef<"QuestionType", 'String'>
-  readonly name: Prisma.FieldRef<"QuestionType", 'String'>
-  readonly displayName: Prisma.FieldRef<"QuestionType", 'String'>
-  readonly label: Prisma.FieldRef<"QuestionType", 'String'>
+  readonly nameEn: Prisma.FieldRef<"QuestionType", 'String'>
+  readonly nameBn: Prisma.FieldRef<"QuestionType", 'String'>
   readonly isActive: Prisma.FieldRef<"QuestionType", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"QuestionType", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"QuestionType", 'DateTime'>
@@ -1867,6 +1819,30 @@ export type QuestionType$cqsArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * QuestionType.shortAnswers
+ */
+export type QuestionType$shortAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShortAnswer
+   */
+  select?: Prisma.ShortAnswerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShortAnswer
+   */
+  omit?: Prisma.ShortAnswerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShortAnswerInclude<ExtArgs> | null
+  where?: Prisma.ShortAnswerWhereInput
+  orderBy?: Prisma.ShortAnswerOrderByWithRelationInput | Prisma.ShortAnswerOrderByWithRelationInput[]
+  cursor?: Prisma.ShortAnswerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShortAnswerScalarFieldEnum | Prisma.ShortAnswerScalarFieldEnum[]
+}
+
+/**
  * QuestionType.distributions
  */
 export type QuestionType$distributionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1888,30 +1864,6 @@ export type QuestionType$distributionsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.QuestionPaperSubjectMarkDistributionScalarFieldEnum | Prisma.QuestionPaperSubjectMarkDistributionScalarFieldEnum[]
-}
-
-/**
- * QuestionType.questions
- */
-export type QuestionType$questionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the QuestionPaperQuestion
-   */
-  select?: Prisma.QuestionPaperQuestionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the QuestionPaperQuestion
-   */
-  omit?: Prisma.QuestionPaperQuestionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.QuestionPaperQuestionInclude<ExtArgs> | null
-  where?: Prisma.QuestionPaperQuestionWhereInput
-  orderBy?: Prisma.QuestionPaperQuestionOrderByWithRelationInput | Prisma.QuestionPaperQuestionOrderByWithRelationInput[]
-  cursor?: Prisma.QuestionPaperQuestionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.QuestionPaperQuestionScalarFieldEnum | Prisma.QuestionPaperQuestionScalarFieldEnum[]
 }
 
 /**

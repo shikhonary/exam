@@ -5,6 +5,7 @@ import { tenantFormSchema, updateTenantSchema } from "@workspace/schema";
 export const listTenantInput = baseListInputSchema.extend({
   isActive: z.boolean().optional().nullable(),
   type: z.string().optional().nullable(),
+  planId: z.string().optional().nullable(),
 });
 
 export type listTenantInputType = z.infer<typeof listTenantInput>;

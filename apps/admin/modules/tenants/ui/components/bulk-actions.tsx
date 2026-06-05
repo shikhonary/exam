@@ -31,7 +31,7 @@ export const BulkActions = ({
           initial={{ opacity: 0, y: 10, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 10, scale: 0.98 }}
-          className="w-full"
+          className="w-full px-4 pt-4"
         >
           <Card className="bg-primary/[0.03] backdrop-blur-xl border-primary/20 rounded-2xl overflow-hidden shadow-glow p-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">

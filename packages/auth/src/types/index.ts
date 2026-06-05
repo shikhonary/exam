@@ -1,6 +1,6 @@
 import type { Session, User } from "../lib/auth";
 import type { Role } from "../lib/roles";
-import type { TenantTypes } from "@workspace/db";
+import type { TenantClient } from "@workspace/db";
 
 /**
  * Extended User with Role
@@ -28,6 +28,6 @@ export type TenantContext = {
     isActive: boolean;
     isSuspended: boolean;
   } | null;
-  tenantClient: TenantTypes.PrismaClient | null;
+  tenantClient: TenantClient | null;
   isSuperAdmin: boolean;
 };

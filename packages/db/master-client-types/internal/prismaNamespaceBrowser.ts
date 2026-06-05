@@ -66,14 +66,16 @@ export const ModelName = {
   AcademicSubject: 'AcademicSubject',
   AcademicClassSubject: 'AcademicClassSubject',
   AcademicChapter: 'AcademicChapter',
-  AcademicTopic: 'AcademicTopic',
+  AcademicChapterTopic: 'AcademicChapterTopic',
   AcademicSubTopic: 'AcademicSubTopic',
   QuestionType: 'QuestionType',
   SubjectQuestionType: 'SubjectQuestionType',
+  QuestionContext: 'QuestionContext',
   Mcq: 'Mcq',
   Cq: 'Cq',
   CqAttachment: 'CqAttachment',
   CqAnswer: 'CqAnswer',
+  ShortAnswer: 'ShortAnswer',
   AuditLog: 'AuditLog',
   SystemSetting: 'SystemSetting',
   Notification: 'Notification',
@@ -91,7 +93,10 @@ export const ModelName = {
   District: 'District',
   Upazila: 'Upazila',
   Union: 'Union',
-  PostOffice: 'PostOffice'
+  PostOffice: 'PostOffice',
+  AcademicYear: 'AcademicYear',
+  AcademicSession: 'AcademicSession',
+  AcademicSessionClass: 'AcademicSessionClass'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -187,30 +192,25 @@ export const TenantScalarFieldEnum = {
   subdomain: 'subdomain',
   customDomain: 'customDomain',
   customDomainVerified: 'customDomainVerified',
-  divisionId: 'divisionId',
-  districtId: 'districtId',
-  upazilaId: 'upazilaId',
-  unionId: 'unionId',
-  geoCode: 'geoCode',
   databaseName: 'databaseName',
   connectionString: 'connectionString',
   databaseStatus: 'databaseStatus',
-  userCount: 'userCount',
-  recordCount: 'recordCount',
+  studentCount: 'studentCount',
+  teacherCount: 'teacherCount',
+  examCount: 'examCount',
   storageUsedMB: 'storageUsedMB',
   isActive: 'isActive',
   isSuspended: 'isSuspended',
   suspendReason: 'suspendReason',
-  currentFiscalYear: 'currentFiscalYear',
-  registrationNumber: 'registrationNumber',
   metadata: 'metadata',
+  currentAcademicYearId: 'currentAcademicYearId',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  customUserLimit: 'customUserLimit',
-  customAdminLimit: 'customAdminLimit',
-  customRecordLimit: 'customRecordLimit',
+  customStudentLimit: 'customStudentLimit',
+  customTeacherLimit: 'customTeacherLimit',
+  customExamLimit: 'customExamLimit',
   customStorageLimit: 'customStorageLimit'
 } as const
 
@@ -262,9 +262,9 @@ export const SubscriptionPlanScalarFieldEnum = {
   features: 'features',
   isActive: 'isActive',
   isPopular: 'isPopular',
-  defaultUserLimit: 'defaultUserLimit',
-  defaultAdminLimit: 'defaultAdminLimit',
-  defaultRecordLimit: 'defaultRecordLimit',
+  defaultStudentLimit: 'defaultStudentLimit',
+  defaultTeacherLimit: 'defaultTeacherLimit',
+  defaultExamLimit: 'defaultExamLimit',
   defaultStorageLimit: 'defaultStorageLimit',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -290,9 +290,9 @@ export const SubscriptionScalarFieldEnum = {
   cancelAtPeriodEnd: 'cancelAtPeriodEnd',
   canceledAt: 'canceledAt',
   cancelReason: 'cancelReason',
-  customUserLimit: 'customUserLimit',
-  customAdminLimit: 'customAdminLimit',
-  customRecordLimit: 'customRecordLimit',
+  customStudentLimit: 'customStudentLimit',
+  customTeacherLimit: 'customTeacherLimit',
+  customExamLimit: 'customExamLimit',
   customStorageLimit: 'customStorageLimit',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -345,9 +345,9 @@ export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeo
 
 export const AcademicClassScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  nameBn: 'nameBn',
+  nameEn: 'nameEn',
   level: 'level',
-  displayName: 'displayName',
   position: 'position',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -359,12 +359,12 @@ export type AcademicClassScalarFieldEnum = (typeof AcademicClassScalarFieldEnum)
 
 export const AcademicSubjectScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  displayName: 'displayName',
+  nameBn: 'nameBn',
+  nameEn: 'nameEn',
   code: 'code',
   group: 'group',
-  position: 'position',
   isActive: 'isActive',
+  academicYearId: 'academicYearId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -385,11 +385,12 @@ export type AcademicClassSubjectScalarFieldEnum = (typeof AcademicClassSubjectSc
 
 export const AcademicChapterScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  displayName: 'displayName',
+  nameBn: 'nameBn',
+  nameEn: 'nameEn',
   position: 'position',
   isActive: 'isActive',
   subjectId: 'subjectId',
+  academicYearId: 'academicYearId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -397,10 +398,10 @@ export const AcademicChapterScalarFieldEnum = {
 export type AcademicChapterScalarFieldEnum = (typeof AcademicChapterScalarFieldEnum)[keyof typeof AcademicChapterScalarFieldEnum]
 
 
-export const AcademicTopicScalarFieldEnum = {
+export const AcademicChapterTopicScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  displayName: 'displayName',
+  nameEn: 'nameEn',
+  nameBn: 'nameBn',
   position: 'position',
   isActive: 'isActive',
   chapterId: 'chapterId',
@@ -408,7 +409,7 @@ export const AcademicTopicScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type AcademicTopicScalarFieldEnum = (typeof AcademicTopicScalarFieldEnum)[keyof typeof AcademicTopicScalarFieldEnum]
+export type AcademicChapterTopicScalarFieldEnum = (typeof AcademicChapterTopicScalarFieldEnum)[keyof typeof AcademicChapterTopicScalarFieldEnum]
 
 
 export const AcademicSubTopicScalarFieldEnum = {
@@ -427,9 +428,8 @@ export type AcademicSubTopicScalarFieldEnum = (typeof AcademicSubTopicScalarFiel
 
 export const QuestionTypeScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  displayName: 'displayName',
-  label: 'label',
+  nameEn: 'nameEn',
+  nameBn: 'nameBn',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -449,6 +449,18 @@ export const SubjectQuestionTypeScalarFieldEnum = {
 export type SubjectQuestionTypeScalarFieldEnum = (typeof SubjectQuestionTypeScalarFieldEnum)[keyof typeof SubjectQuestionTypeScalarFieldEnum]
 
 
+export const QuestionContextScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  url: 'url',
+  title: 'title',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuestionContextScalarFieldEnum = (typeof QuestionContextScalarFieldEnum)[keyof typeof QuestionContextScalarFieldEnum]
+
+
 export const McqScalarFieldEnum = {
   id: 'id',
   question: 'question',
@@ -462,8 +474,7 @@ export const McqScalarFieldEnum = {
   session: 'session',
   source: 'source',
   questionUrl: 'questionUrl',
-  context: 'context',
-  contextUrl: 'contextUrl',
+  contextId: 'contextId',
   subjectId: 'subjectId',
   chapterId: 'chapterId',
   topicId: 'topicId',
@@ -484,11 +495,7 @@ export const CqScalarFieldEnum = {
   questionC: 'questionC',
   questionD: 'questionD',
   context: 'context',
-  marks: 'marks',
-  isActive: 'isActive',
   reference: 'reference',
-  session: 'session',
-  source: 'source',
   subjectId: 'subjectId',
   chapterId: 'chapterId',
   topicId: 'topicId',
@@ -528,6 +535,23 @@ export const CqAnswerScalarFieldEnum = {
 } as const
 
 export type CqAnswerScalarFieldEnum = (typeof CqAnswerScalarFieldEnum)[keyof typeof CqAnswerScalarFieldEnum]
+
+
+export const ShortAnswerScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  reference: 'reference',
+  subjectId: 'subjectId',
+  chapterId: 'chapterId',
+  topicId: 'topicId',
+  subTopicId: 'subTopicId',
+  questionTypeId: 'questionTypeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShortAnswerScalarFieldEnum = (typeof ShortAnswerScalarFieldEnum)[keyof typeof ShortAnswerScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
@@ -689,6 +713,7 @@ export const QuestionPaperScalarFieldEnum = {
   examName: 'examName',
   description: 'description',
   classId: 'classId',
+  academicYearId: 'academicYearId',
   settings: 'settings',
   status: 'status',
   isActive: 'isActive',
@@ -733,10 +758,10 @@ export const QuestionPaperQuestionScalarFieldEnum = {
   questionPaperId: 'questionPaperId',
   mcqId: 'mcqId',
   cqId: 'cqId',
-  paperSubjectId: 'paperSubjectId',
+  shortAnswerId: 'shortAnswerId',
   distributionId: 'distributionId',
-  questionTypeId: 'questionTypeId',
   orderIndex: 'orderIndex',
+  assignedMarks: 'assignedMarks',
   overrides: 'overrides',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -798,6 +823,45 @@ export const PostOfficeScalarFieldEnum = {
 } as const
 
 export type PostOfficeScalarFieldEnum = (typeof PostOfficeScalarFieldEnum)[keyof typeof PostOfficeScalarFieldEnum]
+
+
+export const AcademicYearScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  slug: 'slug',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isCurrent: 'isCurrent',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
+
+
+export const AcademicSessionScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  name: 'name',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AcademicSessionScalarFieldEnum = (typeof AcademicSessionScalarFieldEnum)[keyof typeof AcademicSessionScalarFieldEnum]
+
+
+export const AcademicSessionClassScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  classId: 'classId',
+  createdAt: 'createdAt'
+} as const
+
+export type AcademicSessionClassScalarFieldEnum = (typeof AcademicSessionClassScalarFieldEnum)[keyof typeof AcademicSessionClassScalarFieldEnum]
 
 
 export const SortOrder = {

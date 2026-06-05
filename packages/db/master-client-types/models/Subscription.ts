@@ -29,18 +29,18 @@ export type AggregateSubscription = {
 export type SubscriptionAvgAggregateOutputType = {
   pricePerMonth: number | null
   pricePerYear: number | null
-  customUserLimit: number | null
-  customAdminLimit: number | null
-  customRecordLimit: number | null
+  customStudentLimit: number | null
+  customTeacherLimit: number | null
+  customExamLimit: number | null
   customStorageLimit: number | null
 }
 
 export type SubscriptionSumAggregateOutputType = {
   pricePerMonth: number | null
   pricePerYear: number | null
-  customUserLimit: number | null
-  customAdminLimit: number | null
-  customRecordLimit: number | null
+  customStudentLimit: number | null
+  customTeacherLimit: number | null
+  customExamLimit: number | null
   customStorageLimit: number | null
 }
 
@@ -61,9 +61,9 @@ export type SubscriptionMinAggregateOutputType = {
   cancelAtPeriodEnd: boolean | null
   canceledAt: Date | null
   cancelReason: string | null
-  customUserLimit: number | null
-  customAdminLimit: number | null
-  customRecordLimit: number | null
+  customStudentLimit: number | null
+  customTeacherLimit: number | null
+  customExamLimit: number | null
   customStorageLimit: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -86,9 +86,9 @@ export type SubscriptionMaxAggregateOutputType = {
   cancelAtPeriodEnd: boolean | null
   canceledAt: Date | null
   cancelReason: string | null
-  customUserLimit: number | null
-  customAdminLimit: number | null
-  customRecordLimit: number | null
+  customStudentLimit: number | null
+  customTeacherLimit: number | null
+  customExamLimit: number | null
   customStorageLimit: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -111,9 +111,9 @@ export type SubscriptionCountAggregateOutputType = {
   cancelAtPeriodEnd: number
   canceledAt: number
   cancelReason: number
-  customUserLimit: number
-  customAdminLimit: number
-  customRecordLimit: number
+  customStudentLimit: number
+  customTeacherLimit: number
+  customExamLimit: number
   customStorageLimit: number
   createdAt: number
   updatedAt: number
@@ -124,18 +124,18 @@ export type SubscriptionCountAggregateOutputType = {
 export type SubscriptionAvgAggregateInputType = {
   pricePerMonth?: true
   pricePerYear?: true
-  customUserLimit?: true
-  customAdminLimit?: true
-  customRecordLimit?: true
+  customStudentLimit?: true
+  customTeacherLimit?: true
+  customExamLimit?: true
   customStorageLimit?: true
 }
 
 export type SubscriptionSumAggregateInputType = {
   pricePerMonth?: true
   pricePerYear?: true
-  customUserLimit?: true
-  customAdminLimit?: true
-  customRecordLimit?: true
+  customStudentLimit?: true
+  customTeacherLimit?: true
+  customExamLimit?: true
   customStorageLimit?: true
 }
 
@@ -156,9 +156,9 @@ export type SubscriptionMinAggregateInputType = {
   cancelAtPeriodEnd?: true
   canceledAt?: true
   cancelReason?: true
-  customUserLimit?: true
-  customAdminLimit?: true
-  customRecordLimit?: true
+  customStudentLimit?: true
+  customTeacherLimit?: true
+  customExamLimit?: true
   customStorageLimit?: true
   createdAt?: true
   updatedAt?: true
@@ -181,9 +181,9 @@ export type SubscriptionMaxAggregateInputType = {
   cancelAtPeriodEnd?: true
   canceledAt?: true
   cancelReason?: true
-  customUserLimit?: true
-  customAdminLimit?: true
-  customRecordLimit?: true
+  customStudentLimit?: true
+  customTeacherLimit?: true
+  customExamLimit?: true
   customStorageLimit?: true
   createdAt?: true
   updatedAt?: true
@@ -206,9 +206,9 @@ export type SubscriptionCountAggregateInputType = {
   cancelAtPeriodEnd?: true
   canceledAt?: true
   cancelReason?: true
-  customUserLimit?: true
-  customAdminLimit?: true
-  customRecordLimit?: true
+  customStudentLimit?: true
+  customTeacherLimit?: true
+  customExamLimit?: true
   customStorageLimit?: true
   createdAt?: true
   updatedAt?: true
@@ -318,9 +318,9 @@ export type SubscriptionGroupByOutputType = {
   cancelAtPeriodEnd: boolean
   canceledAt: Date | null
   cancelReason: string | null
-  customUserLimit: number | null
-  customAdminLimit: number | null
-  customRecordLimit: number | null
+  customStudentLimit: number | null
+  customTeacherLimit: number | null
+  customExamLimit: number | null
   customStorageLimit: number | null
   createdAt: Date
   updatedAt: Date
@@ -366,9 +366,9 @@ export type SubscriptionWhereInput = {
   cancelAtPeriodEnd?: Prisma.BoolFilter<"Subscription"> | boolean
   canceledAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   cancelReason?: Prisma.StringNullableFilter<"Subscription"> | string | null
-  customUserLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
-  customAdminLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
-  customRecordLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customStudentLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customTeacherLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customExamLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
   customStorageLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
@@ -394,9 +394,9 @@ export type SubscriptionOrderByWithRelationInput = {
   cancelAtPeriodEnd?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrderInput | Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrderInput | Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrderInput | Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -425,9 +425,9 @@ export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   cancelAtPeriodEnd?: Prisma.BoolFilter<"Subscription"> | boolean
   canceledAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   cancelReason?: Prisma.StringNullableFilter<"Subscription"> | string | null
-  customUserLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
-  customAdminLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
-  customRecordLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customStudentLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customTeacherLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customExamLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
   customStorageLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
@@ -453,9 +453,9 @@ export type SubscriptionOrderByWithAggregationInput = {
   cancelAtPeriodEnd?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrderInput | Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrderInput | Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrderInput | Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -486,9 +486,9 @@ export type SubscriptionScalarWhereWithAggregatesInput = {
   cancelAtPeriodEnd?: Prisma.BoolWithAggregatesFilter<"Subscription"> | boolean
   canceledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
   cancelReason?: Prisma.StringNullableWithAggregatesFilter<"Subscription"> | string | null
-  customUserLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
-  customAdminLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
-  customRecordLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
+  customStudentLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
+  customTeacherLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
+  customExamLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
   customStorageLimit?: Prisma.IntNullableWithAggregatesFilter<"Subscription"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Subscription"> | Date | string
@@ -509,9 +509,9 @@ export type SubscriptionCreateInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -537,9 +537,9 @@ export type SubscriptionUncheckedCreateInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -561,9 +561,9 @@ export type SubscriptionUpdateInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -589,9 +589,9 @@ export type SubscriptionUncheckedUpdateInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -615,9 +615,9 @@ export type SubscriptionCreateManyInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -638,9 +638,9 @@ export type SubscriptionUpdateManyMutationInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -663,9 +663,9 @@ export type SubscriptionUncheckedUpdateManyInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -703,9 +703,9 @@ export type SubscriptionCountOrderByAggregateInput = {
   cancelAtPeriodEnd?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -714,9 +714,9 @@ export type SubscriptionCountOrderByAggregateInput = {
 export type SubscriptionAvgOrderByAggregateInput = {
   pricePerMonth?: Prisma.SortOrder
   pricePerYear?: Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrder
 }
 
@@ -737,9 +737,9 @@ export type SubscriptionMaxOrderByAggregateInput = {
   cancelAtPeriodEnd?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -762,9 +762,9 @@ export type SubscriptionMinOrderByAggregateInput = {
   cancelAtPeriodEnd?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -773,9 +773,9 @@ export type SubscriptionMinOrderByAggregateInput = {
 export type SubscriptionSumOrderByAggregateInput = {
   pricePerMonth?: Prisma.SortOrder
   pricePerYear?: Prisma.SortOrder
-  customUserLimit?: Prisma.SortOrder
-  customAdminLimit?: Prisma.SortOrder
-  customRecordLimit?: Prisma.SortOrder
+  customStudentLimit?: Prisma.SortOrder
+  customTeacherLimit?: Prisma.SortOrder
+  customExamLimit?: Prisma.SortOrder
   customStorageLimit?: Prisma.SortOrder
 }
 
@@ -887,9 +887,9 @@ export type SubscriptionCreateWithoutTenantInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -913,9 +913,9 @@ export type SubscriptionUncheckedCreateWithoutTenantInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -953,9 +953,9 @@ export type SubscriptionUpdateWithoutTenantInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -979,9 +979,9 @@ export type SubscriptionUncheckedUpdateWithoutTenantInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1003,9 +1003,9 @@ export type SubscriptionCreateWithoutPlanInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1029,9 +1029,9 @@ export type SubscriptionUncheckedCreateWithoutPlanInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1084,9 +1084,9 @@ export type SubscriptionScalarWhereInput = {
   cancelAtPeriodEnd?: Prisma.BoolFilter<"Subscription"> | boolean
   canceledAt?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   cancelReason?: Prisma.StringNullableFilter<"Subscription"> | string | null
-  customUserLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
-  customAdminLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
-  customRecordLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customStudentLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customTeacherLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
+  customExamLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
   customStorageLimit?: Prisma.IntNullableFilter<"Subscription"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
@@ -1107,9 +1107,9 @@ export type SubscriptionCreateWithoutHistoryInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1134,9 +1134,9 @@ export type SubscriptionUncheckedCreateWithoutHistoryInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1173,9 +1173,9 @@ export type SubscriptionUpdateWithoutHistoryInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1200,9 +1200,9 @@ export type SubscriptionUncheckedUpdateWithoutHistoryInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1224,9 +1224,9 @@ export type SubscriptionCreateManyPlanInput = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: Date | string | null
   cancelReason?: string | null
-  customUserLimit?: number | null
-  customAdminLimit?: number | null
-  customRecordLimit?: number | null
+  customStudentLimit?: number | null
+  customTeacherLimit?: number | null
+  customExamLimit?: number | null
   customStorageLimit?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1247,9 +1247,9 @@ export type SubscriptionUpdateWithoutPlanInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1273,9 +1273,9 @@ export type SubscriptionUncheckedUpdateWithoutPlanInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1298,9 +1298,9 @@ export type SubscriptionUncheckedUpdateManyWithoutPlanInput = {
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  customUserLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customAdminLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  customRecordLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customStudentLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customTeacherLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  customExamLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customStorageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1354,9 +1354,9 @@ export type SubscriptionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   cancelAtPeriodEnd?: boolean
   canceledAt?: boolean
   cancelReason?: boolean
-  customUserLimit?: boolean
-  customAdminLimit?: boolean
-  customRecordLimit?: boolean
+  customStudentLimit?: boolean
+  customTeacherLimit?: boolean
+  customExamLimit?: boolean
   customStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1383,9 +1383,9 @@ export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   cancelAtPeriodEnd?: boolean
   canceledAt?: boolean
   cancelReason?: boolean
-  customUserLimit?: boolean
-  customAdminLimit?: boolean
-  customRecordLimit?: boolean
+  customStudentLimit?: boolean
+  customTeacherLimit?: boolean
+  customExamLimit?: boolean
   customStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1410,9 +1410,9 @@ export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   cancelAtPeriodEnd?: boolean
   canceledAt?: boolean
   cancelReason?: boolean
-  customUserLimit?: boolean
-  customAdminLimit?: boolean
-  customRecordLimit?: boolean
+  customStudentLimit?: boolean
+  customTeacherLimit?: boolean
+  customExamLimit?: boolean
   customStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1437,15 +1437,15 @@ export type SubscriptionSelectScalar = {
   cancelAtPeriodEnd?: boolean
   canceledAt?: boolean
   cancelReason?: boolean
-  customUserLimit?: boolean
-  customAdminLimit?: boolean
-  customRecordLimit?: boolean
+  customStudentLimit?: boolean
+  customTeacherLimit?: boolean
+  customExamLimit?: boolean
   customStorageLimit?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "planId" | "status" | "currentPeriodStart" | "currentPeriodEnd" | "trialEndsAt" | "billingCycle" | "currency" | "pricePerMonth" | "pricePerYear" | "paymentProvider" | "externalId" | "cancelAtPeriodEnd" | "canceledAt" | "cancelReason" | "customUserLimit" | "customAdminLimit" | "customRecordLimit" | "customStorageLimit" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
+export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "planId" | "status" | "currentPeriodStart" | "currentPeriodEnd" | "trialEndsAt" | "billingCycle" | "currency" | "pricePerMonth" | "pricePerYear" | "paymentProvider" | "externalId" | "cancelAtPeriodEnd" | "canceledAt" | "cancelReason" | "customStudentLimit" | "customTeacherLimit" | "customExamLimit" | "customStorageLimit" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
 export type SubscriptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.SubscriptionPlanDefaultArgs<ExtArgs>
@@ -1485,9 +1485,9 @@ export type $SubscriptionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     cancelAtPeriodEnd: boolean
     canceledAt: Date | null
     cancelReason: string | null
-    customUserLimit: number | null
-    customAdminLimit: number | null
-    customRecordLimit: number | null
+    customStudentLimit: number | null
+    customTeacherLimit: number | null
+    customExamLimit: number | null
     customStorageLimit: number | null
     createdAt: Date
     updatedAt: Date
@@ -1933,9 +1933,9 @@ export interface SubscriptionFieldRefs {
   readonly cancelAtPeriodEnd: Prisma.FieldRef<"Subscription", 'Boolean'>
   readonly canceledAt: Prisma.FieldRef<"Subscription", 'DateTime'>
   readonly cancelReason: Prisma.FieldRef<"Subscription", 'String'>
-  readonly customUserLimit: Prisma.FieldRef<"Subscription", 'Int'>
-  readonly customAdminLimit: Prisma.FieldRef<"Subscription", 'Int'>
-  readonly customRecordLimit: Prisma.FieldRef<"Subscription", 'Int'>
+  readonly customStudentLimit: Prisma.FieldRef<"Subscription", 'Int'>
+  readonly customTeacherLimit: Prisma.FieldRef<"Subscription", 'Int'>
+  readonly customExamLimit: Prisma.FieldRef<"Subscription", 'Int'>
   readonly customStorageLimit: Prisma.FieldRef<"Subscription", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Subscription", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Subscription", 'DateTime'>

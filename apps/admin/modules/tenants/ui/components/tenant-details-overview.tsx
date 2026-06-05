@@ -8,6 +8,11 @@ import {
   FileText,
   GraduationCap,
   Users,
+  Globe,
+  ExternalLink,
+  Link2,
+  ShieldCheck,
+  Clock,
 } from "lucide-react";
 
 import {
@@ -124,22 +129,22 @@ export const TenantDetailsOverview = ({
           <div className="grid grid-cols-2 gap-6 pt-2">
             {[
               {
-                label: "Users",
-                value: tenant.userCount,
+                label: "Students",
+                value: tenant.studentCount,
                 icon: GraduationCap,
                 color: "text-blue-500",
                 bg: "bg-blue-500/10",
               },
               {
-                label: "Admins",
-                value: tenant.recordCount,
+                label: "Teachers",
+                value: tenant.teacherCount,
                 icon: Users,
                 color: "text-green-500",
                 bg: "bg-green-500/10",
               },
               {
-                label: "Transactions",
-                value: tenant.recordCount,
+                label: "Exams",
+                value: tenant.examCount,
                 icon: FileText,
                 color: "text-purple-500",
                 bg: "bg-purple-500/10",
@@ -179,6 +184,105 @@ export const TenantDetailsOverview = ({
         </CardContent>
       </Card>
 
+      {/* Domain Configuration */}
+      <Card className="bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl overflow-hidden shadow-soft group hover:shadow-medium transition-all duration-300">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg font-black tracking-tight flex items-center gap-2.5">
+            <div className="p-2 bg-primary/10 rounded-xl text-primary border border-primary/20">
+              <Globe className="w-4 h-4" />
+            </div>
+            Domain Configuration
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 pt-2">
+          {/* Subdomain */}
+          <div className="flex items-center gap-4 group/item">
+            <div className="size-9 rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center text-muted-foreground group-hover/item:text-primary group-hover/item:bg-primary/5 transition-all">
+              <Link2 className="w-4 h-4" />
+            </div>
+            <div className="flex flex-col flex-1 min-w-0">
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                Subdomain
+              </span>
+              <span className="text-sm font-bold text-foreground font-mono truncate">
+                {tenant.subdomain
+                  ? `${tenant.subdomain}.shikhonary.com`
+                  : "Not configured"}
+              </span>
+            </div>
+            <Badge
+              variant="outline"
+              className="shrink-0 bg-green-500/10 text-green-600 border-green-500/20 text-[9px] font-black uppercase tracking-widest rounded-md"
+            >
+              Active
+            </Badge>
+          </div>
+
+          {/* Custom Domain */}
+          {tenant.customDomain ? (
+            <div className="flex items-center gap-4 group/item">
+              <div
+                className={`size-9 rounded-xl border flex items-center justify-center transition-all ${
+                  tenant.customDomainVerified
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-500"
+                    : "bg-amber-500/10 border-amber-500/20 text-amber-500"
+                }`}
+              >
+                <ExternalLink className="w-4 h-4" />
+              </div>
+              <div className="flex flex-col flex-1 min-w-0">
+                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                  Custom Domain
+                </span>
+                <a
+                  href={
+                    tenant.customDomainVerified
+                      ? `https://${tenant.customDomain}`
+                      : undefined
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-bold text-foreground hover:text-primary transition-colors font-mono truncate"
+                >
+                  {tenant.customDomain}
+                </a>
+              </div>
+              {tenant.customDomainVerified ? (
+                <Badge
+                  variant="outline"
+                  className="shrink-0 bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[9px] font-black uppercase tracking-widest rounded-md flex items-center gap-1"
+                >
+                  <ShieldCheck className="w-3 h-3" />
+                  Verified
+                </Badge>
+              ) : (
+                <Badge
+                  variant="outline"
+                  className="shrink-0 bg-amber-500/10 text-amber-600 border-amber-500/20 text-[9px] font-black uppercase tracking-widest rounded-md flex items-center gap-1 animate-pulse"
+                >
+                  <Clock className="w-3 h-3" />
+                  Pending
+                </Badge>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-4 group/item opacity-50">
+              <div className="size-9 rounded-xl bg-muted/50 border border-dashed border-border/50 flex items-center justify-center text-muted-foreground">
+                <ExternalLink className="w-4 h-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                  Custom Domain
+                </span>
+                <span className="text-sm font-medium text-muted-foreground italic">
+                  No custom domain configured
+                </span>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Metadata */}
       {tenant.metadata && Object.keys(tenant.metadata).length > 0 && (
         <Card className="bg-card/40 backdrop-blur-xl border-border/50 rounded-3xl overflow-hidden shadow-soft group hover:shadow-medium transition-all duration-300">
@@ -192,16 +296,16 @@ export const TenantDetailsOverview = ({
           </CardHeader>
           <CardContent>
             <div className="divide-y divide-border/50 bg-muted/20 border border-border/50 rounded-2xl overflow-hidden">
-              {tenant.currentFiscalYear && (
+              {tenant.currentAcademicYear && (
                 <div className="flex justify-between items-center p-4">
                   <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">
-                    Fiscal Year
+                    Academic Year
                   </span>
                   <Badge
                     variant="outline"
                     className="font-bold text-xs rounded-lg border-primary/20 text-primary bg-primary/5"
                   >
-                    {tenant.currentFiscalYear}
+                    {tenant.currentAcademicYear}
                   </Badge>
                 </div>
               )}

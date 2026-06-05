@@ -39,6 +39,12 @@ export class TenantService {
         where.type = input.type;
       }
 
+      if (input.planId) {
+        where.subscription = {
+          planId: input.planId
+        };
+      }
+
       const orderBy = buildOrderBy(input);
       const pagination = buildPagination(input);
 
@@ -50,6 +56,11 @@ export class TenantService {
           include: {
             _count: {
               select: { members: true },
+            },
+            subscription: {
+              include: {
+                plan: true,
+              },
             },
           },
         }),
@@ -98,12 +109,13 @@ export class TenantService {
   async create(input: TenantFormValues) {
     try {
       const data = tenantFormSchema.parse(input);
-      const { planId, ...tenantData } = data;
+      const { planId, currentAcademicYear, ...tenantData } = data;
 
       const tenant = await this.db.$transaction(async (tx) => {
         const createdTenant = await tx.tenant.create({
           data: {
             ...tenantData,
+            ...(currentAcademicYear ? { currentAcademicYearId: currentAcademicYear } : {}),
             databaseStatus: "PENDING",
             metadata: tenantData.metadata || {},
           },
@@ -131,9 +143,9 @@ export class TenantService {
                 billingCycle: "monthly",
                 currency: "BDT",
                 // Apply per-tenant overrides from the form (fall back to plan defaults)
-                customUserLimit: tenantData.customUserLimit ?? undefined,
-                customAdminLimit: tenantData.customAdminLimit ?? undefined,
-                customRecordLimit: tenantData.customRecordLimit ?? undefined,
+                customStudentLimit: tenantData.customStudentLimit ?? undefined,
+                customTeacherLimit: tenantData.customTeacherLimit ?? undefined,
+                customExamLimit: tenantData.customExamLimit ?? undefined,
                 customStorageLimit: tenantData.customStorageLimit ?? undefined,
               },
             });
@@ -167,11 +179,12 @@ export class TenantService {
    */
   async update(input: updateTenantInputType) {
     try {
-      const { id, planId, ...data } = input;
+      const { id, planId, currentAcademicYear, ...data } = input;
       return await this.db.tenant.update({
         where: { id },
         data: {
           ...data,
+          ...(currentAcademicYear !== undefined ? { currentAcademicYearId: currentAcademicYear || null } : {}),
           metadata: data.metadata || undefined,
         },
       });

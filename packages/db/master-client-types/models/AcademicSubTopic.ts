@@ -240,9 +240,10 @@ export type AcademicSubTopicWhereInput = {
   topicId?: Prisma.StringFilter<"AcademicSubTopic"> | string
   createdAt?: Prisma.DateTimeFilter<"AcademicSubTopic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AcademicSubTopic"> | Date | string
-  topic?: Prisma.XOR<Prisma.AcademicTopicScalarRelationFilter, Prisma.AcademicTopicWhereInput>
+  topic?: Prisma.XOR<Prisma.AcademicChapterTopicScalarRelationFilter, Prisma.AcademicChapterTopicWhereInput>
   mcqs?: Prisma.McqListRelationFilter
   cqs?: Prisma.CqListRelationFilter
+  shortAnswers?: Prisma.ShortAnswerListRelationFilter
 }
 
 export type AcademicSubTopicOrderByWithRelationInput = {
@@ -254,9 +255,10 @@ export type AcademicSubTopicOrderByWithRelationInput = {
   topicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  topic?: Prisma.AcademicTopicOrderByWithRelationInput
+  topic?: Prisma.AcademicChapterTopicOrderByWithRelationInput
   mcqs?: Prisma.McqOrderByRelationAggregateInput
   cqs?: Prisma.CqOrderByRelationAggregateInput
+  shortAnswers?: Prisma.ShortAnswerOrderByRelationAggregateInput
 }
 
 export type AcademicSubTopicWhereUniqueInput = Prisma.AtLeast<{
@@ -271,9 +273,10 @@ export type AcademicSubTopicWhereUniqueInput = Prisma.AtLeast<{
   topicId?: Prisma.StringFilter<"AcademicSubTopic"> | string
   createdAt?: Prisma.DateTimeFilter<"AcademicSubTopic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AcademicSubTopic"> | Date | string
-  topic?: Prisma.XOR<Prisma.AcademicTopicScalarRelationFilter, Prisma.AcademicTopicWhereInput>
+  topic?: Prisma.XOR<Prisma.AcademicChapterTopicScalarRelationFilter, Prisma.AcademicChapterTopicWhereInput>
   mcqs?: Prisma.McqListRelationFilter
   cqs?: Prisma.CqListRelationFilter
+  shortAnswers?: Prisma.ShortAnswerListRelationFilter
 }, "id">
 
 export type AcademicSubTopicOrderByWithAggregationInput = {
@@ -314,9 +317,10 @@ export type AcademicSubTopicCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  topic: Prisma.AcademicTopicCreateNestedOneWithoutSubtopicsInput
+  topic: Prisma.AcademicChapterTopicCreateNestedOneWithoutSubtopicsInput
   mcqs?: Prisma.McqCreateNestedManyWithoutSubtopicInput
   cqs?: Prisma.CqCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicUncheckedCreateInput = {
@@ -330,6 +334,7 @@ export type AcademicSubTopicUncheckedCreateInput = {
   updatedAt?: Date | string
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutSubtopicInput
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicUpdateInput = {
@@ -340,9 +345,10 @@ export type AcademicSubTopicUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  topic?: Prisma.AcademicTopicUpdateOneRequiredWithoutSubtopicsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneRequiredWithoutSubtopicsNestedInput
   mcqs?: Prisma.McqUpdateManyWithoutSubtopicNestedInput
   cqs?: Prisma.CqUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicUncheckedUpdateInput = {
@@ -356,6 +362,7 @@ export type AcademicSubTopicUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutSubtopicNestedInput
   cqs?: Prisma.CqUncheckedUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicCreateManyInput = {
@@ -520,6 +527,22 @@ export type AcademicSubTopicUpdateOneWithoutCqsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicSubTopicUpdateToOneWithWhereWithoutCqsInput, Prisma.AcademicSubTopicUpdateWithoutCqsInput>, Prisma.AcademicSubTopicUncheckedUpdateWithoutCqsInput>
 }
 
+export type AcademicSubTopicCreateNestedOneWithoutShortAnswersInput = {
+  create?: Prisma.XOR<Prisma.AcademicSubTopicCreateWithoutShortAnswersInput, Prisma.AcademicSubTopicUncheckedCreateWithoutShortAnswersInput>
+  connectOrCreate?: Prisma.AcademicSubTopicCreateOrConnectWithoutShortAnswersInput
+  connect?: Prisma.AcademicSubTopicWhereUniqueInput
+}
+
+export type AcademicSubTopicUpdateOneWithoutShortAnswersNestedInput = {
+  create?: Prisma.XOR<Prisma.AcademicSubTopicCreateWithoutShortAnswersInput, Prisma.AcademicSubTopicUncheckedCreateWithoutShortAnswersInput>
+  connectOrCreate?: Prisma.AcademicSubTopicCreateOrConnectWithoutShortAnswersInput
+  upsert?: Prisma.AcademicSubTopicUpsertWithoutShortAnswersInput
+  disconnect?: Prisma.AcademicSubTopicWhereInput | boolean
+  delete?: Prisma.AcademicSubTopicWhereInput | boolean
+  connect?: Prisma.AcademicSubTopicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicSubTopicUpdateToOneWithWhereWithoutShortAnswersInput, Prisma.AcademicSubTopicUpdateWithoutShortAnswersInput>, Prisma.AcademicSubTopicUncheckedUpdateWithoutShortAnswersInput>
+}
+
 export type AcademicSubTopicCreateWithoutTopicInput = {
   id?: string
   name: string
@@ -530,6 +553,7 @@ export type AcademicSubTopicCreateWithoutTopicInput = {
   updatedAt?: Date | string
   mcqs?: Prisma.McqCreateNestedManyWithoutSubtopicInput
   cqs?: Prisma.CqCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicUncheckedCreateWithoutTopicInput = {
@@ -542,6 +566,7 @@ export type AcademicSubTopicUncheckedCreateWithoutTopicInput = {
   updatedAt?: Date | string
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutSubtopicInput
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicCreateOrConnectWithoutTopicInput = {
@@ -592,8 +617,9 @@ export type AcademicSubTopicCreateWithoutMcqsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  topic: Prisma.AcademicTopicCreateNestedOneWithoutSubtopicsInput
+  topic: Prisma.AcademicChapterTopicCreateNestedOneWithoutSubtopicsInput
   cqs?: Prisma.CqCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicUncheckedCreateWithoutMcqsInput = {
@@ -606,6 +632,7 @@ export type AcademicSubTopicUncheckedCreateWithoutMcqsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   cqs?: Prisma.CqUncheckedCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicCreateOrConnectWithoutMcqsInput = {
@@ -632,8 +659,9 @@ export type AcademicSubTopicUpdateWithoutMcqsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  topic?: Prisma.AcademicTopicUpdateOneRequiredWithoutSubtopicsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneRequiredWithoutSubtopicsNestedInput
   cqs?: Prisma.CqUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicUncheckedUpdateWithoutMcqsInput = {
@@ -646,6 +674,7 @@ export type AcademicSubTopicUncheckedUpdateWithoutMcqsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cqs?: Prisma.CqUncheckedUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicCreateWithoutCqsInput = {
@@ -656,8 +685,9 @@ export type AcademicSubTopicCreateWithoutCqsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  topic: Prisma.AcademicTopicCreateNestedOneWithoutSubtopicsInput
+  topic: Prisma.AcademicChapterTopicCreateNestedOneWithoutSubtopicsInput
   mcqs?: Prisma.McqCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicUncheckedCreateWithoutCqsInput = {
@@ -670,6 +700,7 @@ export type AcademicSubTopicUncheckedCreateWithoutCqsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutSubtopicInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedCreateNestedManyWithoutSubtopicInput
 }
 
 export type AcademicSubTopicCreateOrConnectWithoutCqsInput = {
@@ -696,8 +727,9 @@ export type AcademicSubTopicUpdateWithoutCqsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  topic?: Prisma.AcademicTopicUpdateOneRequiredWithoutSubtopicsNestedInput
+  topic?: Prisma.AcademicChapterTopicUpdateOneRequiredWithoutSubtopicsNestedInput
   mcqs?: Prisma.McqUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicUncheckedUpdateWithoutCqsInput = {
@@ -710,6 +742,75 @@ export type AcademicSubTopicUncheckedUpdateWithoutCqsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutSubtopicNestedInput
+}
+
+export type AcademicSubTopicCreateWithoutShortAnswersInput = {
+  id?: string
+  name: string
+  displayName: string
+  position?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  topic: Prisma.AcademicChapterTopicCreateNestedOneWithoutSubtopicsInput
+  mcqs?: Prisma.McqCreateNestedManyWithoutSubtopicInput
+  cqs?: Prisma.CqCreateNestedManyWithoutSubtopicInput
+}
+
+export type AcademicSubTopicUncheckedCreateWithoutShortAnswersInput = {
+  id?: string
+  name: string
+  displayName: string
+  position?: number
+  isActive?: boolean
+  topicId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  mcqs?: Prisma.McqUncheckedCreateNestedManyWithoutSubtopicInput
+  cqs?: Prisma.CqUncheckedCreateNestedManyWithoutSubtopicInput
+}
+
+export type AcademicSubTopicCreateOrConnectWithoutShortAnswersInput = {
+  where: Prisma.AcademicSubTopicWhereUniqueInput
+  create: Prisma.XOR<Prisma.AcademicSubTopicCreateWithoutShortAnswersInput, Prisma.AcademicSubTopicUncheckedCreateWithoutShortAnswersInput>
+}
+
+export type AcademicSubTopicUpsertWithoutShortAnswersInput = {
+  update: Prisma.XOR<Prisma.AcademicSubTopicUpdateWithoutShortAnswersInput, Prisma.AcademicSubTopicUncheckedUpdateWithoutShortAnswersInput>
+  create: Prisma.XOR<Prisma.AcademicSubTopicCreateWithoutShortAnswersInput, Prisma.AcademicSubTopicUncheckedCreateWithoutShortAnswersInput>
+  where?: Prisma.AcademicSubTopicWhereInput
+}
+
+export type AcademicSubTopicUpdateToOneWithWhereWithoutShortAnswersInput = {
+  where?: Prisma.AcademicSubTopicWhereInput
+  data: Prisma.XOR<Prisma.AcademicSubTopicUpdateWithoutShortAnswersInput, Prisma.AcademicSubTopicUncheckedUpdateWithoutShortAnswersInput>
+}
+
+export type AcademicSubTopicUpdateWithoutShortAnswersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  topic?: Prisma.AcademicChapterTopicUpdateOneRequiredWithoutSubtopicsNestedInput
+  mcqs?: Prisma.McqUpdateManyWithoutSubtopicNestedInput
+  cqs?: Prisma.CqUpdateManyWithoutSubtopicNestedInput
+}
+
+export type AcademicSubTopicUncheckedUpdateWithoutShortAnswersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  topicId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  mcqs?: Prisma.McqUncheckedUpdateManyWithoutSubtopicNestedInput
+  cqs?: Prisma.CqUncheckedUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicCreateManyTopicInput = {
@@ -732,6 +833,7 @@ export type AcademicSubTopicUpdateWithoutTopicInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mcqs?: Prisma.McqUpdateManyWithoutSubtopicNestedInput
   cqs?: Prisma.CqUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicUncheckedUpdateWithoutTopicInput = {
@@ -744,6 +846,7 @@ export type AcademicSubTopicUncheckedUpdateWithoutTopicInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mcqs?: Prisma.McqUncheckedUpdateManyWithoutSubtopicNestedInput
   cqs?: Prisma.CqUncheckedUpdateManyWithoutSubtopicNestedInput
+  shortAnswers?: Prisma.ShortAnswerUncheckedUpdateManyWithoutSubtopicNestedInput
 }
 
 export type AcademicSubTopicUncheckedUpdateManyWithoutTopicInput = {
@@ -764,11 +867,13 @@ export type AcademicSubTopicUncheckedUpdateManyWithoutTopicInput = {
 export type AcademicSubTopicCountOutputType = {
   mcqs: number
   cqs: number
+  shortAnswers: number
 }
 
 export type AcademicSubTopicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   mcqs?: boolean | AcademicSubTopicCountOutputTypeCountMcqsArgs
   cqs?: boolean | AcademicSubTopicCountOutputTypeCountCqsArgs
+  shortAnswers?: boolean | AcademicSubTopicCountOutputTypeCountShortAnswersArgs
 }
 
 /**
@@ -795,6 +900,13 @@ export type AcademicSubTopicCountOutputTypeCountCqsArgs<ExtArgs extends runtime.
   where?: Prisma.CqWhereInput
 }
 
+/**
+ * AcademicSubTopicCountOutputType without action
+ */
+export type AcademicSubTopicCountOutputTypeCountShortAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShortAnswerWhereInput
+}
+
 
 export type AcademicSubTopicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -805,9 +917,10 @@ export type AcademicSubTopicSelect<ExtArgs extends runtime.Types.Extensions.Inte
   topicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  topic?: boolean | Prisma.AcademicTopicDefaultArgs<ExtArgs>
+  topic?: boolean | Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>
   mcqs?: boolean | Prisma.AcademicSubTopic$mcqsArgs<ExtArgs>
   cqs?: boolean | Prisma.AcademicSubTopic$cqsArgs<ExtArgs>
+  shortAnswers?: boolean | Prisma.AcademicSubTopic$shortAnswersArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicSubTopicCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicSubTopic"]>
 
@@ -820,7 +933,7 @@ export type AcademicSubTopicSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   topicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  topic?: boolean | Prisma.AcademicTopicDefaultArgs<ExtArgs>
+  topic?: boolean | Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicSubTopic"]>
 
 export type AcademicSubTopicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -832,7 +945,7 @@ export type AcademicSubTopicSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   topicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  topic?: boolean | Prisma.AcademicTopicDefaultArgs<ExtArgs>
+  topic?: boolean | Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicSubTopic"]>
 
 export type AcademicSubTopicSelectScalar = {
@@ -848,24 +961,26 @@ export type AcademicSubTopicSelectScalar = {
 
 export type AcademicSubTopicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "displayName" | "position" | "isActive" | "topicId" | "createdAt" | "updatedAt", ExtArgs["result"]["academicSubTopic"]>
 export type AcademicSubTopicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  topic?: boolean | Prisma.AcademicTopicDefaultArgs<ExtArgs>
+  topic?: boolean | Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>
   mcqs?: boolean | Prisma.AcademicSubTopic$mcqsArgs<ExtArgs>
   cqs?: boolean | Prisma.AcademicSubTopic$cqsArgs<ExtArgs>
+  shortAnswers?: boolean | Prisma.AcademicSubTopic$shortAnswersArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicSubTopicCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AcademicSubTopicIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  topic?: boolean | Prisma.AcademicTopicDefaultArgs<ExtArgs>
+  topic?: boolean | Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>
 }
 export type AcademicSubTopicIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  topic?: boolean | Prisma.AcademicTopicDefaultArgs<ExtArgs>
+  topic?: boolean | Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>
 }
 
 export type $AcademicSubTopicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AcademicSubTopic"
   objects: {
-    topic: Prisma.$AcademicTopicPayload<ExtArgs>
+    topic: Prisma.$AcademicChapterTopicPayload<ExtArgs>
     mcqs: Prisma.$McqPayload<ExtArgs>[]
     cqs: Prisma.$CqPayload<ExtArgs>[]
+    shortAnswers: Prisma.$ShortAnswerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1270,9 +1385,10 @@ readonly fields: AcademicSubTopicFieldRefs;
  */
 export interface Prisma__AcademicSubTopicClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  topic<T extends Prisma.AcademicTopicDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicTopicDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicTopicClient<runtime.Types.Result.GetResult<Prisma.$AcademicTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  topic<T extends Prisma.AcademicChapterTopicDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicChapterTopicDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicChapterTopicClient<runtime.Types.Result.GetResult<Prisma.$AcademicChapterTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   mcqs<T extends Prisma.AcademicSubTopic$mcqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicSubTopic$mcqsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$McqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cqs<T extends Prisma.AcademicSubTopic$cqsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicSubTopic$cqsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shortAnswers<T extends Prisma.AcademicSubTopic$shortAnswersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicSubTopic$shortAnswersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShortAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1751,6 +1867,30 @@ export type AcademicSubTopic$cqsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.CqScalarFieldEnum | Prisma.CqScalarFieldEnum[]
+}
+
+/**
+ * AcademicSubTopic.shortAnswers
+ */
+export type AcademicSubTopic$shortAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShortAnswer
+   */
+  select?: Prisma.ShortAnswerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShortAnswer
+   */
+  omit?: Prisma.ShortAnswerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShortAnswerInclude<ExtArgs> | null
+  where?: Prisma.ShortAnswerWhereInput
+  orderBy?: Prisma.ShortAnswerOrderByWithRelationInput | Prisma.ShortAnswerOrderByWithRelationInput[]
+  cursor?: Prisma.ShortAnswerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShortAnswerScalarFieldEnum | Prisma.ShortAnswerScalarFieldEnum[]
 }
 
 /**

@@ -76,121 +76,76 @@ interface NavSection {
 
 const navSections: NavSection[] = [
   {
-    label: "মূল কার্যক্রম",
+    label: "মূল",
+    items: [{ title: "ড্যাশবোর্ড", url: "/", icon: LayoutDashboard }],
+  },
+  {
+    label: "প্রোফাইল ও জনবল",
     items: [
-      { title: "ড্যাশবোর্ড", url: "/", icon: LayoutDashboard },
-      {
-        title: "খানা জরিপ",
-        url: "/household-dashboard",
-        icon: BarChart3,
-      },
+      { title: "শিক্ষার্থী", url: "/students", icon: GraduationCap },
+      { title: "শিক্ষক", url: "/teachers", icon: UserCheck },
+      { title: "অভিভাবক", url: "/guardians", icon: Shield },
+      { title: "স্টাফ", url: "/staff", icon: Briefcase },
+      { title: "ছুটির আবেদন", url: "/leaves", icon: ClipboardList },
     ],
   },
   {
-    label: "ভৌগোলিক তথ্য",
+    label: "একাডেমিক ও ক্লাস",
     items: [
-      { title: "ওয়ার্ডসমূহ", url: "/wards", icon: MapPin },
-      { title: "গ্রামসমূহ", url: "/villages", icon: Building2 },
+      { title: "ব্যাচ", url: "/batches", icon: Users },
+      { title: "ক্লাস রুটিন", url: "/timetable", icon: CalendarDays },
+      { title: "লাইভ ক্লাস", url: "/live-classes", icon: Activity },
+      { title: "অ্যাসাইনমেন্ট", url: "/assignments", icon: FileEdit },
+      { title: "স্টাডি ম্যাটেরিয়াল", url: "/study-materials", icon: BookOpen },
     ],
   },
   {
-    label: "নাগরিক সেবা",
+    label: "পরীক্ষা",
     items: [
-      {
-        title: "নাগরিক ব্যবস্থাপনা",
-        url: "/citizens",
-        icon: Users,
-        subItems: [
-          { title: "নতুন আবেদন", url: "/citizens/applications/apply", icon: UserPlus },
-          { title: "আবেদনসমূহ", url: "/citizens/applications", icon: FileEdit },
-          { title: "নাগরিক তালিকা", url: "/citizens", icon: ClipboardList },
-        ],
-      },
-      {
-        title: "হোল্ডিং ট্যাক্স ব্যবস্থাপনা",
-        url: "/holding-tax",
-        icon: Building2,
-        subItems: [
-          { title: "ট্যাক্স ডাটা", url: "/holding-tax/records", icon: ClipboardList },
-          {
-            title: "খানা জরিপ ফর্ম",
-            url: "/holding-tax/assessments/apply",
-            icon: UserPlus,
-          },
-          {
-            title: "খানা জরিপ তালিকা",
-            url: "/holding-tax/assessments",
-            icon: FileSpreadsheet,
-          },
-          {
-            title: "ট্যাক্স জেনারেট",
-            url: "/holding-tax/assessments/bulk-generate",
-            icon: Calculator,
-          },
-          {
-            title: "রিপোর্ট ও অ্যানালিটিক্স",
-            url: "/holding-tax/analytics",
-            icon: BarChart3,
-          },
-        ],
-      },
-      {
-        title: "ট্রেড লাইসেন্স",
-        url: "/trade-license",
-        icon: Briefcase,
-        subItems: [
-          { title: "নতুন আবেদন", url: "/trade-license/applications/apply", icon: UserPlus },
-          { title: "আবেদন তালিকা", url: "/trade-license/applications", icon: FileEdit },
-          { title: "লাইসেন্স তালিকা", url: "/trade-license/list", icon: ClipboardList },
-          { title: "লাইসেন্স ক্যাটাগরি", url: "/administrative/trade-license-categories", icon: Hash },
-        ],
-      },
-      {
-        title: "উত্তরাধিকার সনদ",
-        url: "/succession",
-        icon: GraduationCap,
-        subItems: [
-          { title: "নতুন আবেদন", url: "/succession/applications/apply", icon: UserPlus },
-          { title: "আবেদন তালিকা", url: "/succession/applications", icon: FileEdit },
-        ],
-      },
-      { title: "পারিবারিক তথ্য", url: "/family", icon: UserCheck },
-      { title: "সনদপত্র", url: "/certificates", icon: FileText },
+      { title: "সকল পরীক্ষা", url: "/exams", icon: ClipboardList },
+      { title: "প্রশ্নব্যাংক", url: "/question-bank", icon: BookCopy },
+      { title: "প্রশ্নপত্র তৈরি", url: "/question-paper-builder", icon: FileEdit },
+      { title: "ফলাফল", url: "/results", icon: TrendingUp },
     ],
   },
   {
-    label: "প্রশাসন",
+    label: "উপস্থিতি",
     items: [
-      { title: "জনবল ব্যবস্থাপনা", url: "/hr", icon: Briefcase },
-      { title: "উপস্থিতি", url: "/attendance", icon: CalendarDays },
-      { title: "রেজিস্টার খাতা", url: "/registers", icon: ClipboardList },
-      { title: "দায়িত্ব বন্টন", url: "/duty-allocation", icon: Shield },
-      { title: "অর্থবছর", url: "/administrative/fiscal-years", icon: Calendar },
+      { title: "হাজিরা গ্রহণ", url: "/attendance/mark", icon: ClipboardList },
+      { title: "শিক্ষার্থীর উপস্থিতি", url: "/attendance/students", icon: CalendarDays },
+      { title: "স্টাফের উপস্থিতি", url: "/attendance/staff", icon: UserCheck },
     ],
   },
   {
-    label: "ইউটিলিটি",
+    label: "অর্থ ও হিসাব",
     items: [
-      {
-        title: "সনদপত্র কাউন্টার",
-        url: "/administrative/certificate-counters",
-        icon: Hash,
-      },
+      { title: "ফি সংগ্রহ", url: "/finance/collection", icon: CreditCard },
+      { title: "ব্যয় সমূহ", url: "/finance/expenses", icon: DollarSign },
+      { title: "ব্যয়ের খাত", url: "/finance/expense-categories", icon: Settings },
     ],
   },
   {
-    label: "অর্থ ও বাজেট",
+    label: "যোগাযোগ",
     items: [
-      { title: "হিসাব রক্ষণ", url: "/accounts", icon: DollarSign },
-      { title: "পেমেন্ট", url: "/payments", icon: CreditCard },
+      { title: "নোটিশ ও ঘোষণা", url: "/communication/announcements", icon: Bell },
+      { title: "এসএমএস গেটওয়ে", url: "/communication/sms", icon: SendHorizonal },
+      { title: "মতামত ও রিভিউ", url: "/communication/feedback", icon: Megaphone },
     ],
   },
   {
-    label: "সিস্টেম",
+    label: "রিপোর্ট ও বিশ্লেষণ",
     items: [
-      { title: "অভিযোগ", url: "/complaints", icon: Megaphone },
-      { title: "নোটিশবোর্ড", url: "/announcements", icon: Bell },
-      { title: "সেটিংস", url: "/settings", icon: Settings },
+      { title: "সারসংক্ষেপ", url: "/analytics", icon: BarChart3 },
+      { title: "সকল রিপোর্ট", url: "/reports", icon: FileSpreadsheet },
+    ],
+  },
+  {
+    label: "প্রশাসন ও সেটিংস",
+    items: [
+      { title: "শিক্ষাবর্ষ", url: "/settings/academic-years", icon: Calendar },
+      { title: "রোল ও পারমিশন", url: "/settings/roles", icon: Lock },
+      { title: "অডিট লগ", url: "/settings/audit-log", icon: FileText },
+      { title: "সিস্টেম সেটিংস", url: "/settings", icon: Settings },
     ],
   },
 ];
@@ -221,12 +176,12 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-card border-r border-border">
+    <div className="flex flex-col h-full bg-card border-none shadow-xl shadow-black/40 z-30 relative">
       {/* Logo */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="flex items-center justify-between p-4 pb-6">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 shadow-glow">
-            <BookOpen className="w-5 h-5 text-primary-foreground" />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-105 bg-primary shadow-md shadow-black/40">
+            <BookOpen className="w-5 h-5 text-[#001a0f]" />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
@@ -257,7 +212,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           {navSections.map((section) => (
             <div key={section.label}>
               {!collapsed && (
-                <p className="px-3 mb-2 text-[10px] font-black text-muted-foreground uppercase tracking-widest opacity-60">
+                <p className="px-3 mb-2 text-[10px] font-black text-muted-foreground dark:text-[#4a607d] uppercase tracking-widest">
                   {section.label}
                 </p>
               )}
@@ -277,10 +232,10 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                         <AccordionItem value={item.title} className="border-none">
                           <AccordionTrigger
                             className={cn(
-                              "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-colors hover:no-underline",
+                              "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 hover:no-underline",
                               isSectionActive
-                                ? "bg-primary/5 text-primary"
-                                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                                ? "bg-primary/5 text-primary dark:bg-primary/10 dark:text-primary"
+                                : "text-muted-foreground hover:text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:text-foreground dark:hover:bg-white/[0.02]",
                             )}
                           >
                             <div className="flex items-center gap-3">
@@ -295,10 +250,10 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                                   key={subItem.title}
                                   href={subItem.url}
                                   className={cn(
-                                    "flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-bold transition-colors",
-                                    pathname === subItem.url
-                                      ? "text-primary bg-primary/10"
-                                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                                    "flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200",
+                                      pathname === subItem.url
+                                        ? "text-primary bg-primary/10 dark:text-primary dark:bg-primary/10"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50 dark:text-muted-foreground dark:hover:text-foreground dark:hover:bg-white/[0.02]",
                                   )}
                                 >
                                   {subItem.icon && <subItem.icon className="w-3.5 h-3.5" />}
@@ -317,10 +272,10 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
                       key={item.title}
                       href={item.url}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-colors",
+                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200",
                         isActive(item.url)
-                          ? "bg-primary text-primary-foreground"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted",
+                          ? "bg-primary text-primary-foreground dark:bg-primary/10 dark:text-primary"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted dark:text-muted-foreground dark:hover:text-foreground dark:hover:bg-white/[0.02]",
                         collapsed && "justify-center",
                       )}
                     >
@@ -349,11 +304,11 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
       </nav>
 
       {/* Footer */}
-      <div className="p-3 border-t border-border space-y-2">
+      <div className="p-3 pt-6 space-y-2">
         {!collapsed && (
           <div className="flex items-center gap-3 px-3 py-2">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary/10 text-primary text-xs font-black">
+              <AvatarFallback className="text-xs font-black bg-primary/10 text-primary">
                 ইউপি
               </AvatarFallback>
             </Avatar>
@@ -370,7 +325,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         <button
           onClick={handleLogout}
           className={cn(
-            "flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-bold text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors",
+            "flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-bold text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200",
             collapsed && "justify-center",
           )}
         >
@@ -405,7 +360,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             <Menu className="w-5 h-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-64 border-none">
+        <SheetContent side="left" className="p-0 w-64 border-none dark:bg-[#0d1422] dark:border-r dark:border-[rgba(0,229,160,0.08)]">
           <SidebarContent collapsed={false} />
         </SheetContent>
       </Sheet>
@@ -425,7 +380,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           variant="ghost"
           size="icon"
           onClick={onToggle}
-          className="absolute top-4 -right-3 w-6 h-6 rounded-full bg-card border border-border shadow-sm z-40"
+          className="absolute top-4 -right-3 w-6 h-6 rounded-full bg-card dark:bg-[#111b2e] border border-border dark:border-[rgba(0,229,160,0.15)] shadow-sm z-40 dark:[box-shadow:0_0_8px_rgba(0,229,160,0.2)]"
         >
           <ChevronLeft className="w-3 h-3 rotate-180" />
         </Button>

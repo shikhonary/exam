@@ -97,7 +97,7 @@ async function seedGeo() {
     // We iterate over our map to find a match by name
     for (const [key, id] of upazilaMap.entries()) {
       const parts = key.split(":");
-      const masterName = parts[parts.length - 1].toLowerCase();
+      const masterName = parts[parts.length - 1]!.toLowerCase();
       if (masterName === name || masterName.includes(name) || name.includes(masterName)) {
         nuhilUpazilaToMasterId.set(nup.id, id);
         break;

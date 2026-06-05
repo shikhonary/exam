@@ -5,7 +5,6 @@ import {
   Calendar,
   Edit,
   Eye,
-  Hash,
   Layers,
   MoreHorizontal,
   Trash2,
@@ -25,9 +24,6 @@ import {
 import Link from "next/link";
 
 interface BatchWithRelations extends TenantTypes.Batch {
-  academicYear: {
-    name: string;
-  };
   _count: {
     students: number;
   };
@@ -47,52 +43,52 @@ export const BatchTable = ({
 }: BatchTableProps) => {
   if (isLoading) {
     return (
-      <div className="bg-surface-container-lowest overflow-hidden border-t border-surface-container">
+      <div className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-surface-container-low/50">
-                <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                  Batch Name
+              <tr className="bg-white/[0.02]">
+                <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] border-b border-white/[0.05]">
+                  ব্যাচের নাম
                 </th>
-                <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                  Class & Year
+                <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] border-b border-white/[0.05]">
+                  ক্লাস ও বছর
                 </th>
-                <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                  Capacity
+                <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] border-b border-white/[0.05]">
+                  আসন সংখ্যা
                 </th>
-                <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                  Status
+                <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] border-b border-white/[0.05]">
+                  অবস্থা
                 </th>
-                <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant text-right border-b border-surface-container">
-                  Actions
+                <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] text-right border-b border-white/[0.05]">
+                  অ্যাকশন
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-surface-container">
+            <tbody className="divide-y divide-white/[0.04]">
               {[...Array(5)].map((_, i) => (
                 <tr key={i}>
                   <td className="py-5 px-6">
                     <div className="flex items-center gap-3">
-                      <Skeleton className="w-10 h-10 rounded-lg bg-slate-100/50" />
-                      <Skeleton className="h-5 w-32 bg-slate-100/50" />
+                      <Skeleton className="w-10 h-10 rounded-lg bg-white/[0.06]" />
+                      <Skeleton className="h-5 w-32 bg-white/[0.06]" />
                     </div>
                   </td>
                   <td className="py-5 px-6">
                     <div className="space-y-2">
-                      <Skeleton className="h-4 w-24 bg-slate-100/50" />
-                      <Skeleton className="h-4 w-28 bg-slate-100/50" />
+                      <Skeleton className="h-4 w-24 bg-white/[0.06]" />
+                      <Skeleton className="h-4 w-28 bg-white/[0.06]" />
                     </div>
                   </td>
                   <td className="py-5 px-6">
-                    <Skeleton className="h-5 w-20 bg-slate-100/50" />
+                    <Skeleton className="h-5 w-20 bg-white/[0.06]" />
                   </td>
                   <td className="py-5 px-6">
-                    <Skeleton className="h-6 w-16 bg-slate-100/50 rounded-full" />
+                    <Skeleton className="h-6 w-16 bg-white/[0.06] rounded-full" />
                   </td>
                   <td className="py-5 px-6">
                     <div className="flex justify-end">
-                      <Skeleton className="w-10 h-10 rounded-lg bg-slate-100/50" />
+                      <Skeleton className="w-9 h-9 rounded-lg bg-white/[0.06]" />
                     </div>
                   </td>
                 </tr>
@@ -106,17 +102,16 @@ export const BatchTable = ({
 
   if (batches.length === 0) {
     return (
-      <div className="bg-surface-container-lowest py-20 flex flex-col items-center justify-center text-center space-y-4 border-t border-surface-container">
-        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-300">
+      <div className="py-20 flex flex-col items-center justify-center text-center space-y-4">
+        <div className="w-20 h-20 rounded-full bg-white/[0.04] flex items-center justify-center text-[#4a607d]">
           <Layers size={40} />
         </div>
         <div className="space-y-1">
-          <h3 className="text-xl font-bold text-slate-900 tracking-tight">
-            No batches found
+          <h3 className="text-xl font-bold text-foreground">
+            কোনো রেকর্ড নেই
           </h3>
-          <p className="text-slate-500 max-w-xs mx-auto text-sm leading-relaxed">
-            There are no batches matching your criteria. Try adjusting your
-            filters or add a new one.
+          <p className="text-muted-foreground max-w-xs mx-auto text-sm">
+            ফিল্টার পরিবর্তন করুন অথবা নতুন যোগ করুন।
           </p>
         </div>
       </div>
@@ -124,48 +119,41 @@ export const BatchTable = ({
   }
 
   return (
-    <div className="bg-surface-container-lowest overflow-hidden animate-in fade-in zoom-in-95 duration-500 border-t border-surface-container">
+    <div className="overflow-hidden animate-in fade-in zoom-in-95 duration-500">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-surface-container-low/50">
-              <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                Batch Name
+            <tr className="bg-white/[0.01]">
+              <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 border-b border-white/[0.02]">
+                ব্যাচের নাম
               </th>
-              <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                Class & Year
+              <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 border-b border-white/[0.02]">
+                ক্লাস ও বছর
               </th>
-              <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                Capacity
+              <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 border-b border-white/[0.02]">
+                আসন সংখ্যা
               </th>
-              <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant border-b border-surface-container">
-                Status
+              <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 border-b border-white/[0.02]">
+                অবস্থা
               </th>
-              <th className="py-3 px-6 font-semibold text-sm text-on-surface-variant text-right border-b border-surface-container">
-                Actions
+              <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 text-right border-b border-white/[0.02]">
+                অ্যাকশন
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-surface-container">
+          <tbody className="divide-y divide-white/[0.02]">
             {batches.map((batch, index) => (
               <tr
                 key={batch.id}
-                className="hover:bg-surface-container-low/30 transition-colors group"
+                className="hover:bg-white/[0.02] transition-colors group"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <td className="py-5 px-6">
                   <div className="flex items-center gap-3">
-                    <div
-                      className={cn(
-                        "w-10 h-10 rounded bg-surface-container flex items-center justify-center transition-colors group-hover:bg-white",
-                        index % 3 === 0
-                          ? "text-primary"
-                          : "text-on-surface-variant",
-                      )}
-                    >
+                    <div className="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-primary">
                       <Layers size={20} strokeWidth={2.5} />
                     </div>
-                    <span className="text-base font-semibold text-on-surface tracking-tight">
+                    <span className="text-sm font-semibold text-foreground">
                       {batch.name}
                     </span>
                   </div>
@@ -173,23 +161,23 @@ export const BatchTable = ({
                 <td className="py-5 px-6">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <BookOpen size={16} className="text-emerald-500" />
-                      <span className="text-sm font-bold tracking-tight text-on-surface">
+                      <BookOpen size={14} className="text-muted-foreground" />
+                      <span className="text-sm font-medium text-foreground">
                         {batch.className}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Calendar size={14} className="text-on-surface-variant/60" />
-                      <span className="text-xs font-medium text-on-surface-variant">
-                        {batch.academicYear.name}
+                      <Calendar size={14} className="text-muted-foreground" />
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {batch.academicYear}
                       </span>
                     </div>
                   </div>
                 </td>
                 <td className="py-5 px-6">
                   <div className="flex items-center gap-2">
-                    <Users size={16} className="text-emerald-500" />
-                    <span className="text-sm font-bold tracking-tight text-on-surface">
+                    <Users size={14} className="text-muted-foreground" />
+                    <span className="text-sm font-medium text-foreground">
                       {batch._count.students} / {batch.capacity}
                     </span>
                   </div>
@@ -199,47 +187,42 @@ export const BatchTable = ({
                     className={cn(
                       "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border",
                       batch.isActive
-                        ? "bg-emerald-50 text-emerald-600 border-emerald-100 shadow-sm"
-                        : "bg-slate-50 text-slate-400 border-slate-100",
+                        ? "bg-[rgba(0,229,160,0.10)] text-primary border-[rgba(0,229,160,0.20)]"
+                        : "bg-white/[0.06] text-muted-foreground border-transparent",
                     )}
                   >
-                    {batch.isActive ? "Active" : "Inactive"}
+                    {batch.isActive ? "অ্যাক্টিভ" : "ইনঅ্যাক্টিভ"}
                   </span>
                 </td>
                 <td className="py-5 px-6 text-right">
                   <div className="flex justify-end gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      asChild
-                      className="text-slate-400 hover:text-emerald-600 transition-all cursor-pointer rounded-lg hover:bg-emerald-50"
-                    >
-                      <Link href={`/batches/${batch.id}`}>
-                        <Eye className="w-5 h-5" />
-                      </Link>
-                    </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-slate-400 hover:text-emerald-600 transition-all cursor-pointer rounded-lg hover:bg-emerald-50 outline-none focus:outline-none focus:ring-0"
+                          className="text-muted-foreground hover:text-primary hover:bg-[rgba(0,229,160,0.08)] rounded-lg transition-all outline-none focus:outline-none focus:ring-0"
                         >
                           <MoreHorizontal className="w-5 h-5" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-40">
-                        <DropdownMenuItem asChild className="cursor-pointer font-medium text-slate-600">
-                          <Link href={`/batches/edit/${batch.id}`}>
-                            <Edit className="w-4 h-4 mr-2" /> Edit
+                      <DropdownMenuContent align="end" className="w-40 bg-[#111b2e] border border-white/[0.08] rounded-xl p-1">
+                        <DropdownMenuItem asChild className="rounded-lg cursor-pointer font-medium text-foreground focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
+                          <Link href={`/batches/${batch.id}`}>
+                            <Eye className="w-4 h-4 mr-2" /> বিস্তারিত
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild className="rounded-lg cursor-pointer font-medium text-foreground focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
+                          <Link href={`/batches/edit/${batch.id}`}>
+                            <Edit className="w-4 h-4 mr-2" /> এডিট
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-white/[0.06]" />
                         <DropdownMenuItem
-                          className="text-red-600 focus:text-red-700 focus:bg-red-50 cursor-pointer font-medium"
+                          className="rounded-lg cursor-pointer font-medium text-[#ff4757] focus:text-[#ff4757] focus:bg-[rgba(255,71,87,0.08)]"
                           onClick={() => onDelete(batch.id, batch.name)}
                         >
-                          <Trash2 className="w-4 h-4 mr-2" /> Delete
+                          <Trash2 className="w-4 h-4 mr-2" /> ডিলিট
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

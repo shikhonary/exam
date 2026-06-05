@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import {
   Edit,
   Eye,
@@ -16,7 +16,7 @@ import {
 import Link from "next/link";
 
 import { Badge } from "@workspace/ui/components/badge";
-import { Checkbox } from "@workspace/ui/components/checkbox";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 import { Button } from "@workspace/ui/components/button";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 import { cn } from "@workspace/ui/lib/utils";
 
@@ -66,7 +67,7 @@ interface TenantWithCounts {
 const columns: Column<TenantWithCounts>[] = [
   {
     key: "name",
-    header: "Union Details",
+    header: "Tenant Details",
     render: (tenant) => (
       <div className="flex flex-col gap-1">
         <p className="font-bold text-foreground tracking-tight text-sm leading-none">
@@ -148,8 +149,6 @@ const columns: Column<TenantWithCounts>[] = [
 ];
 
 interface TenantListProps {
-  selectedIds: string[];
-  setSelectedIds: Dispatch<SetStateAction<string[]>>;
   onActive: (id: string) => Promise<void>;
   onDeactivate: (id: string) => Promise<void>;
   isLoading: boolean;
@@ -259,7 +258,10 @@ function SubscriptionBadge({ tier, status }: { tier: string; status: string }) {
     bg: "bg-muted/50",
     border: "border-transparent",
   };
-  const config = tierConfigs[tier] || fallback;
+  const normalizedTier = tier.toUpperCase();
+  // Try to find a matching config, handling cases where plan name might be "Basic Plan"
+  const matchedKey = Object.keys(tierConfigs).find(key => normalizedTier.includes(key)) || "FREE";
+  const config = tierConfigs[matchedKey] || fallback;
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -284,38 +286,13 @@ function SubscriptionBadge({ tier, status }: { tier: string; status: string }) {
 }
 
 export function TenantList({
-  selectedIds,
-  setSelectedIds,
   onActive,
   onDeactivate,
   isLoading,
   handleDelete,
   onInviteAdmin,
 }: TenantListProps) {
-  const { data: tenantsData } = useTenants();
-
-  const allSelected =
-    (tenantsData?.data?.items?.length ?? 0) > 0 &&
-    selectedIds.length === (tenantsData?.data?.items?.length ?? 0);
-  const someSelected =
-    selectedIds.length > 0 &&
-    selectedIds.length < (tenantsData?.data?.items?.length ?? 0);
-
-  const handleSelectAll = () => {
-    if (allSelected) {
-      setSelectedIds([]);
-    } else {
-      setSelectedIds(tenantsData?.data?.items.map((item) => item.id) ?? []);
-    }
-  };
-
-  const handleSelectItem = (id: string) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((i) => i !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
-    }
-  };
+  const { data: tenantsData, isLoading: isQueryLoading } = useTenants();
 
   const handleToggleActiveStatus = (id: string, isActive: boolean) => {
     if (isActive) {
@@ -325,77 +302,133 @@ export function TenantList({
     }
   };
 
-  if (!tenantsData?.data?.items?.length) {
+  if (isQueryLoading) {
+    return (
+      <div className="relative flex-grow border-t border-surface-container animate-in fade-in duration-500">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-surface-container-low/50">
+                {columns.map((column) => (
+                  <th
+                    key={String(column.key)}
+                    className={cn(
+                      "py-3 px-6 font-bold text-[11px] uppercase tracking-widest text-on-surface-variant border-b border-outline/5",
+                      column.hideOnMobile && "hidden md:table-cell",
+                    )}
+                  >
+                    {column.header}
+                  </th>
+                ))}
+                <th className="py-3 px-6 font-bold text-[11px] uppercase tracking-widest text-on-surface-variant text-right border-b border-outline/5">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-outline/5">
+              {[...Array(5)].map((_, i) => (
+                <tr key={i}>
+                  {columns.map((column) => {
+                    if (column.key === 'name') {
+                      return (
+                        <td key={String(column.key)} className="px-4 py-4 align-middle">
+                          <div className="flex flex-col gap-2">
+                            <Skeleton className="h-4 w-32 bg-surface-container" />
+                            <Skeleton className="h-3 w-20 bg-surface-container opacity-60" />
+                          </div>
+                        </td>
+                      )
+                    }
+                    if (column.key === 'type') {
+                      return (
+                        <td key={String(column.key)} className="px-4 py-4 align-middle hidden md:table-cell">
+                          <Skeleton className="h-6 w-24 bg-surface-container rounded-md" />
+                        </td>
+                      )
+                    }
+                    if (column.key === 'subscriptionTier') {
+                      return (
+                         <td key={String(column.key)} className="px-4 py-4 align-middle hidden md:table-cell">
+                          <Skeleton className="h-6 w-16 bg-surface-container rounded-lg" />
+                        </td>
+                      )
+                    }
+                    if (column.key === 'members') {
+                      return (
+                        <td key={String(column.key)} className="px-4 py-4 align-middle hidden md:table-cell">
+                           <Skeleton className="h-6 w-12 bg-surface-container rounded-lg" />
+                        </td>
+                      )
+                    }
+                    if (column.key === 'databaseStatus' || column.key === 'isActive') {
+                      return (
+                        <td key={String(column.key)} className={cn("px-4 py-4 align-middle", column.hideOnMobile && "hidden md:table-cell")}>
+                          <Skeleton className="h-6 w-20 bg-surface-container rounded-lg" />
+                        </td>
+                      )
+                    }
+                    return null;
+                  })}
+                  <td className="px-4 py-4 text-right align-middle">
+                    <div className="flex justify-end">
+                      <Skeleton className="w-10 h-10 rounded-xl bg-surface-container" />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  if (!tenantsData?.items?.length) {
     return (
       <div className="bg-card/40 backdrop-blur-xl rounded-3xl border border-dashed border-border/50 p-16 text-center shadow-soft">
         <div className="size-20 bg-muted/50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-border/50">
           <Building className="size-10 text-muted-foreground/30" />
         </div>
-        <h3 className="text-xl font-bold text-foreground">No Unions Found</h3>
+        <h3 className="text-xl font-bold text-foreground">No Tenants Found</h3>
         <p className="text-sm text-muted-foreground mt-2 max-w-sm mx-auto">
-          We couldn&apos;t find any unions matching your current filters. Try
+          We couldn&apos;t find any tenants matching your current filters. Try
           broadening your search parameters.
         </p>
       </div>
     );
   }
 
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead className="bg-muted/30 border-b border-border/50">
-          <tr>
-            <th className="w-12 px-2 py-5 text-center">
-              <div className="flex justify-center">
-                <Checkbox
-                  checked={allSelected}
-                  onCheckedChange={handleSelectAll}
-                  aria-label="Select all"
-                  className={cn(
-                    "rounded-md border-border/50 transition-all",
-                    someSelected && "data-[state=checked]:bg-primary/50",
-                  )}
-                />
-              </div>
-            </th>
+    <div className="relative flex-grow border-t border-surface-container animate-in fade-in duration-500">
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-surface-container-low/50">
             {columns.map((column) => (
               <th
                 key={String(column.key)}
                 className={cn(
-                  "text-left text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.15em] px-4 py-5",
+                  "py-3 px-6 font-bold text-[11px] uppercase tracking-widest text-on-surface-variant border-b border-outline/5",
                   column.hideOnMobile && "hidden md:table-cell",
                 )}
               >
                 {column.header}
               </th>
             ))}
-            <th className="w-20 px-4 py-5 text-right text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.15em]">
+            <th className="py-3 px-6 font-bold text-[11px] uppercase tracking-widest text-on-surface-variant text-right border-b border-outline/5">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-border/50">
-          {tenantsData?.data?.items.map((item) => (
+        <tbody className="divide-y divide-outline/5">
+          {tenantsData?.items.map((item, index) => (
             <tr
               key={item.id}
-              className={cn(
-                "group transition-all duration-300",
-                "hover:bg-primary/[0.02]",
-                selectedIds.includes(item.id)
-                  ? "bg-primary/[0.04]"
-                  : "hover:bg-muted/30",
-              )}
+              style={{ animationDelay: `${index * 50}ms` }}
+              className="hover:bg-surface-container-low/30 transition-colors group"
             >
-              <td className="px-2 py-4 text-center">
-                <div className="flex justify-center">
-                  <Checkbox
-                    checked={selectedIds.includes(item.id)}
-                    onCheckedChange={() => handleSelectItem(item.id)}
-                    aria-label={`Select item ${item.id}`}
-                    className="rounded-md border-border/50 transition-all"
-                  />
-                </div>
-              </td>
+
               {columns.map((column) => (
                 <td
                   key={String(column.key)}
@@ -462,7 +495,7 @@ export function TenantList({
                       {item.isActive ? (
                         <>
                           <ToggleLeft className="h-4 w-4 text-amber-500" />
-                          <span>Suspend Union</span>
+                          <span>Suspend Tenant</span>
                         </>
                       ) : (
                         <>
@@ -486,6 +519,7 @@ export function TenantList({
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }

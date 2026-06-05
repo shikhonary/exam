@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { HydrateClient, prefetch, trpc } from "@/trpc/server";
+
 
 import { BatchView } from "@/modules/batch/ui/views/batch-view";
 
@@ -15,14 +15,10 @@ interface Props {
 const BatchDetails = async ({ params }: Props) => {
   const { id } = await params;
 
-  prefetch(trpc.batch.getDetails.queryOptions(id));
-
   return (
-    <HydrateClient>
-      <div className="min-h-screen">
-        <BatchView id={id} />
-      </div>
-    </HydrateClient>
+    <div className="min-h-screen">
+      <BatchView id={id} />
+    </div>
   );
 };
 

@@ -3,20 +3,19 @@
 import { useState } from "react";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import { Button } from "@workspace/ui/components/button";
 
 import {
   useTenants,
   useActivateTenant,
   useDeactivateTenant,
-  useBulkActivateTenants,
-  useBulkDeactivateTenants,
-  useBulkDeleteTenants,
   useDeleteTenant,
 } from "@workspace/api-client";
 
 import { useDeleteModal } from "@workspace/ui/hooks/use-delete";
 
-import { BulkActions } from "../components/bulk-actions";
 import { Pagination } from "../components/pagination";
 import { Filter } from "../components/filter";
 import { TenantListStat } from "../components/tenant-list-stat";
@@ -40,57 +39,28 @@ const itemVariants = {
 };
 
 export const TenantsView = () => {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const { openDeleteModal } = useDeleteModal();
   const { onOpen: openInvitationModal } = useInvitationModal();
 
   const { data: tenantsData } = useTenants();
-  const { mutateAsync: bulkActivateTenants, isPending: isBulkActivating } =
-    useBulkActivateTenants();
-  const { mutateAsync: bulkDeactivateTenants, isPending: isBulkDeactivating } =
-    useBulkDeactivateTenants();
-  const { mutateAsync: bulkDeleteTenants, isPending: isBulkDeleting } =
-    useBulkDeleteTenants();
   const { mutateAsync: activateTenant, isPending: isActivating } =
     useActivateTenant();
   const { mutateAsync: deactivateTenant, isPending: isDeactivating } =
     useDeactivateTenant();
   const { mutate: deleteTenant, isPending: isDeleting } = useDeleteTenant();
 
-  const onBulkActivate = async () => {
-    await bulkActivateTenants({ ids: selectedIds })
-      .then(() => setSelectedIds([]))
-      .catch((error) => console.error(error));
-  };
-
-  const onBulkDeactivate = async () => {
-    await bulkDeactivateTenants({ ids: selectedIds })
-      .then(() => setSelectedIds([]))
-      .catch((error) => console.error(error));
-  };
-
-  const onBulkDelete = async () => {
-    await bulkDeleteTenants({ ids: selectedIds })
-      .then(() => setSelectedIds([]))
-      .catch((error) => console.error(error));
-  };
 
   const onActivate = async (id: string) => {
     await activateTenant({ id })
-      .then(() => setSelectedIds([]))
       .catch((error) => console.error(error));
   };
 
   const onDeactivate = async (id: string) => {
     await deactivateTenant({ id })
-      .then(() => setSelectedIds([]))
       .catch((error) => console.error(error));
   };
 
   const isLoading =
-    isBulkActivating ||
-    isBulkDeactivating ||
-    isBulkDeleting ||
     isActivating ||
     isDeactivating ||
     isDeleting;
@@ -111,62 +81,90 @@ export const TenantsView = () => {
   };
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="min-h-screen p-4 lg:p-6 space-y-8"
-    >
+    <div className="min-h-screen bg-surface relative isolate">
+      {/* Background blobs for depth */}
+      <div
+        aria-hidden
+        className="absolute top-[20%] -left-16 w-64 h-64 rounded-full bg-primary/5 blur-3xl -z-10 pointer-events-none"
+      />
+      <div
+        aria-hidden
+        className="absolute bottom-[10%] -right-16 w-80 h-80 rounded-full bg-accent/5 blur-3xl -z-10 pointer-events-none"
+      />
+
       <InviteTenantAdminDialog />
-      {/* Stats Section */}
-      <motion.div variants={itemVariants}>
-        <TenantListStat />
-      </motion.div>
 
-      <motion.div variants={itemVariants} className="space-y-6">
-        {/* Actions Bar */}
-        <div className="flex flex-col gap-4">
-          <Filter isLoading={isLoading} />
-
-          <BulkActions
-            selectedCount={selectedIds.length}
-            setSelectedIds={setSelectedIds}
-            onBulkActivate={onBulkActivate}
-            onBulkDeactivate={onBulkDeactivate}
-            onBulkDelete={onBulkDelete}
-            isLoading={isLoading}
+      <main className="container mx-auto px-6 py-12 lg:px-12 max-w-7xl relative z-10">
+        {/* Header */}
+        <div className="relative flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-8 -left-6 w-72 h-24 rounded-full opacity-20 blur-3xl bg-primary"
           />
+
+          <div className="relative max-w-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+            <h1 className="text-4xl leading-[1.15] font-extrabold tracking-[-0.03em] text-on-surface font-headline">
+              Tenants Management
+            </h1>
+
+            <div className="mt-2 mb-4 h-0.5 w-14 rounded-full bg-gradient-to-r from-primary to-primary-container" />
+
+            <p className="text-sm leading-6 text-on-surface-variant max-w-lg font-medium italic opacity-70">
+              Manage your tenants, their subscriptions, and administrative access across the platform.
+            </p>
+          </div>
+
+          <div className="flex-shrink-0 flex items-center gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
+
+
+            <Button
+              asChild
+              className="
+                group relative overflow-hidden
+                inline-flex items-center gap-2
+                bg-gradient-to-br from-primary to-primary-container
+                text-white font-black text-sm
+                px-6 py-3 rounded-[16px]
+                border-0
+                shadow-lg shadow-primary/25
+                hover:shadow-xl hover:shadow-primary/30
+                hover:scale-[1.03]
+                active:scale-[0.97]
+                transition-all duration-200 ease-out
+                h-12
+              "
+            >
+              <Link href="/tenants/new">
+                <span className="relative flex items-center justify-center rounded-lg bg-white/20 p-0.5">
+                  <Plus size={16} strokeWidth={3} />
+                </span>
+                <span className="relative">Add Tenant</span>
+              </Link>
+            </Button>
+          </div>
         </div>
 
-        {/* List Section */}
-        <div className="bg-card/30 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden shadow-sm">
+        {/* Stats Section */}
+        <div className="mt-8 animate-in fade-in zoom-in-95 duration-500">
+          <TenantListStat />
+        </div>
+
+        {/* Main Content Area */}
+        <div className="mt-12 bg-surface-container-lowest rounded-2xl shadow-ambient overflow-hidden flex flex-col border border-outline/5 relative isolate animate-in slide-in-from-bottom-8 duration-700 delay-200">
+          <Filter isLoading={isLoading} />
+
+
           <TenantList
-            selectedIds={selectedIds}
-            setSelectedIds={setSelectedIds}
             onActive={onActivate}
             onDeactivate={onDeactivate}
             isLoading={isLoading}
             handleDelete={handleDeleteTenant}
             onInviteAdmin={handleInviteAdmin}
           />
-        </div>
 
-        {/* Footer actions / Pagination */}
-        <div className="flex justify-between items-center px-2">
-          <p className="text-xs text-muted-foreground">
-            Showing{" "}
-            <span className="font-medium text-foreground">
-              {tenantsData?.data?.items?.length ?? 0}
-            </span>{" "}
-            of{" "}
-            <span className="font-medium text-foreground">
-              {tenantsData?.data?.total ?? 0}
-            </span>{" "}
-            tenants
-          </p>
-          <Pagination totalItem={tenantsData?.data?.total ?? 0} />
+          <Pagination totalItem={tenantsData?.total ?? 0} />
         </div>
-      </motion.div>
-    </motion.div>
+      </main>
+    </div>
   );
 };

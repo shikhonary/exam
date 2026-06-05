@@ -325,7 +325,10 @@ export function useInviteTenantAdmin() {
 export function useTenants() {
   const trpc = useTRPC();
   const [filters, _] = useTenantFilters();
-  return useSuspenseQuery(trpc.tenant.list.queryOptions(filters));
+  return useQuery({
+    ...trpc.tenant.list.queryOptions(filters),
+    select: (data) => data.data as any, // TODO: Add proper typing
+  });
 }
 
 /**
@@ -344,7 +347,7 @@ export function useTenantById(id: string) {
  */
 export function useTenantStats() {
   const trpc = useTRPC();
-  return useSuspenseQuery({
+  return useQuery({
     ...trpc.tenant.getStats.queryOptions(),
     select: (data) => data.data,
   });

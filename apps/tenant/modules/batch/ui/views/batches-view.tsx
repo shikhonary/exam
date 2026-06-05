@@ -9,10 +9,12 @@ import { useDeleteModal } from "@workspace/ui/hooks/use-delete";
 export const BatchesView = () => {
   const { openDeleteModal } = useDeleteModal();
 
-  const { data: batches, isLoading } = useBatches();
+  const { data: batches, isLoading: isQueryLoading } = useBatches();
 
   const deleteMutation = useDeleteBatch();
   const toggleActiveMutation = useToggleBatchActive();
+
+  const isLoading = isQueryLoading;
 
   const batchItems = batches?.items || [];
   const total = batches?.total || batchItems.length;
@@ -55,9 +57,6 @@ export const BatchesView = () => {
           onDelete={handleDeleteBatch}
         />
       </div>
-      {/* Floating Background Decorative Elements */}
-      <div className="fixed top-[20%] -left-16 w-64 h-64 bg-emerald-200/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="fixed bottom-[10%] -right-16 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl -z-10 pointer-events-none" />
     </>
   );
 };

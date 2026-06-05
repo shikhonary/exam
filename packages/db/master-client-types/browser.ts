@@ -93,10 +93,10 @@ export type AcademicClassSubject = Prisma.AcademicClassSubjectModel
  */
 export type AcademicChapter = Prisma.AcademicChapterModel
 /**
- * Model AcademicTopic
+ * Model AcademicChapterTopic
  * 
  */
-export type AcademicTopic = Prisma.AcademicTopicModel
+export type AcademicChapterTopic = Prisma.AcademicChapterTopicModel
 /**
  * Model AcademicSubTopic
  * 
@@ -112,6 +112,11 @@ export type QuestionType = Prisma.QuestionTypeModel
  * 
  */
 export type SubjectQuestionType = Prisma.SubjectQuestionTypeModel
+/**
+ * Model QuestionContext
+ * 
+ */
+export type QuestionContext = Prisma.QuestionContextModel
 /**
  * Model Mcq
  * 
@@ -132,6 +137,11 @@ export type CqAttachment = Prisma.CqAttachmentModel
  * 
  */
 export type CqAnswer = Prisma.CqAnswerModel
+/**
+ * Model ShortAnswer
+ * 
+ */
+export type ShortAnswer = Prisma.ShortAnswerModel
 /**
  * Model AuditLog
  * 
@@ -226,3 +236,18 @@ export type Union = Prisma.UnionModel
  * 
  */
 export type PostOffice = Prisma.PostOfficeModel
+/**
+ * Model AcademicYear
+ * 
+ */
+export type AcademicYear = Prisma.AcademicYearModel
+/**
+ * Model AcademicSession
+ * 
+ */
+export type AcademicSession = Prisma.AcademicSessionModel
+/**
+ * Model AcademicSessionClass
+ * 
+ */
+export type AcademicSessionClass = Prisma.AcademicSessionClassModel

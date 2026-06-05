@@ -36,13 +36,13 @@ export const Filters = () => {
 
   const classOptions =
     classes?.map((item) => ({
-      label: item.displayName,
+      label: item.nameBn,
       value: item.id,
     })) ?? [];
 
   const yearOptions =
     years?.map((item) => ({
-      label: item.name,
+      label: item.label,
       value: item.id,
     })) ?? [];
 
@@ -55,29 +55,31 @@ export const Filters = () => {
 
   const handleFilterStatusChange = (value: string) => {
     setFilters({
-      ...filters,
-      isActive: value === "true" ? true : value === "false" ? false : undefined,
+      isActive: value === "true" ? true : value === "false" ? false : null,
+      page: 1,
     });
   };
 
   const handleSortChange = (value: string) => {
+    const [sortBy, sortOrder] = value.split("-") as [string, "asc" | "desc"];
     setFilters({
-      ...filters,
-      sortBy: value,
+      sortBy,
+      sortOrder,
+      page: 1,
     });
   };
 
   const handleAcademicClassChange = (id: string) => {
     setFilters({
-      ...filters,
       academicClassId: id === "all" ? null : id,
+      page: 1,
     });
   };
 
   const handleAcademicYearChange = (id: string) => {
     setFilters({
-      ...filters,
       academicYearId: id === "all" ? null : id,
+      page: 1,
     });
   };
 
@@ -109,37 +111,37 @@ export const Filters = () => {
           variant="ghost"
           aria-label={hasActiveFilters ? "Filters (active)" : "Filters"}
           className={cn(
-            "relative px-3 bg-white text-slate-400 rounded-xl flex items-center justify-center active:scale-95 transition-transform h-11 w-11 hover:bg-slate-50 shadow-sm border-none",
-            hasActiveFilters && "text-emerald-600 bg-emerald-50",
+            "relative px-3 bg-white/[0.04] text-muted-foreground rounded-xl flex items-center justify-center active:scale-95 transition-transform h-10 w-10 hover:bg-white/[0.08] shadow-sm border-none",
+            hasActiveFilters && "text-primary bg-[rgba(0,229,160,0.10)]",
           )}
         >
           <SlidersHorizontal className="w-5 h-5" />
           {hasActiveFilters && (
             <span
               aria-hidden="true"
-              className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-emerald-600 rounded-full border-2 border-white"
+              className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-background"
             />
           )}
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent className="bg-white rounded-t-[32px] border-none shadow-2xl pb-6">
-        <div className="mx-auto w-12 h-1.5 rounded-full bg-slate-200 mt-3 mb-2" />
+      <DrawerContent className="bg-card rounded-t-[32px] border-white/[0.08] shadow-2xl pb-6">
+        <div className="mx-auto w-12 h-1.5 rounded-full bg-white/[0.1] mt-3 mb-2" />
 
         <DrawerHeader className="px-6 text-left">
-          <DrawerTitle className="text-xl font-bold tracking-tight text-slate-900">
-            Filter Batches
+          <DrawerTitle className="text-xl font-bold tracking-tight text-foreground">
+            ব্যাচ ফিল্টার করুন
           </DrawerTitle>
-          <DrawerDescription className="text-slate-500">
-            Refine the batch list
+          <DrawerDescription className="text-muted-foreground">
+            ব্যাচ তালিকা পরিশোধন করুন
           </DrawerDescription>
         </DrawerHeader>
 
         <div className="px-6 space-y-4 mt-2">
           {/* Status Filter */}
           <div className="space-y-2">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
-              Status
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
+              অবস্থা
             </h3>
             <div
               className="grid grid-cols-1 gap-2"
@@ -147,9 +149,9 @@ export const Filters = () => {
               aria-label="Filter by status"
             >
               {[
-                { label: "All Status", value: "all" },
-                { label: "Active", value: "true" },
-                { label: "Inactive", value: "false" },
+                { label: "সব", value: "all" },
+                { label: "অ্যাক্টিভ", value: "true" },
+                { label: "ইনঅ্যাক্টিভ", value: "false" },
               ].map((item) => {
                 const isSelected = isActiveVal === item.value;
                 return (
@@ -161,8 +163,8 @@ export const Filters = () => {
                     className={cn(
                       "flex items-center justify-between px-5 py-2 rounded-2xl transition-all duration-300 border",
                       isSelected
-                        ? "bg-emerald-50 border-emerald-100 text-emerald-700 font-bold shadow-inner scale-[0.98]"
-                        : "bg-transparent border-slate-100 text-slate-600 font-medium hover:border-slate-200 hover:bg-slate-50",
+                        ? "bg-[rgba(0,229,160,0.10)] border-[rgba(0,229,160,0.20)] text-primary font-bold shadow-inner scale-[0.98]"
+                        : "bg-transparent border-white/[0.08] text-muted-foreground font-medium hover:border-white/[0.15] hover:bg-white/[0.02]",
                     )}
                   >
                     <span className="text-sm">{item.label}</span>
@@ -178,25 +180,25 @@ export const Filters = () => {
           {/* Academic Selects */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-3">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
-                Class
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
+                বছর
               </h3>
               <Select
-                value={filters.academicClassId ?? "all"}
-                onValueChange={handleAcademicClassChange}
+                value={filters.academicYearId ?? "all"}
+                onValueChange={handleAcademicYearChange}
               >
-                <SelectTrigger className="w-full bg-slate-100 border-slate-100 rounded-xl text-xs font-semibold text-slate-700 h-10 px-4 focus:ring-emerald-600/10 transition-all">
-                  <SelectValue placeholder="All Classes" />
+                <SelectTrigger className="w-full bg-white/[0.05] border-white/[0.08] rounded-xl text-xs font-semibold text-foreground h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all">
+                  <SelectValue placeholder="সব বছর" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-slate-100 shadow-xl">
-                  <SelectItem value="all" className="text-xs font-medium">
-                    All Classes
+                <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] shadow-xl text-foreground">
+                  <SelectItem value="all" className="text-xs font-medium focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
+                    সব বছর
                   </SelectItem>
-                  {classOptions.map((item) => (
+                  {yearOptions.map((item) => (
                     <SelectItem
                       key={item.value}
                       value={item.value}
-                      className="text-xs font-medium"
+                      className="text-xs font-medium focus:bg-[rgba(0,229,160,0.08)] focus:text-primary"
                     >
                       {item.label}
                     </SelectItem>
@@ -205,25 +207,25 @@ export const Filters = () => {
               </Select>
             </div>
             <div className="space-y-3">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
-                Year
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
+                ক্লাস
               </h3>
               <Select
-                value={filters.academicYearId ?? "all"}
-                onValueChange={handleAcademicYearChange}
+                value={filters.academicClassId ?? "all"}
+                onValueChange={handleAcademicClassChange}
               >
-                <SelectTrigger className="w-full bg-slate-100 border-slate-100 rounded-xl text-xs font-semibold text-slate-700 h-10 px-4 focus:ring-emerald-600/10 transition-all">
-                  <SelectValue placeholder="All Years" />
+                <SelectTrigger className="w-full bg-white/[0.05] border-white/[0.08] rounded-xl text-xs font-semibold text-foreground h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all">
+                  <SelectValue placeholder="সব ক্লাস" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-slate-100 shadow-xl">
-                  <SelectItem value="all" className="text-xs font-medium">
-                    All Years
+                <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] shadow-xl text-foreground">
+                  <SelectItem value="all" className="text-xs font-medium focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
+                    সব ক্লাস
                   </SelectItem>
-                  {yearOptions.map((item) => (
+                  {classOptions.map((item) => (
                     <SelectItem
                       key={item.value}
                       value={item.value}
-                      className="text-xs font-medium"
+                      className="text-xs font-medium focus:bg-[rgba(0,229,160,0.08)] focus:text-primary"
                     >
                       {item.label}
                     </SelectItem>
@@ -235,8 +237,8 @@ export const Filters = () => {
 
           {/* Sort Filter */}
           <div className="space-y-3">
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
-              Sort By
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
+              সাজান
             </h3>
             <div
               className="grid grid-cols-2 gap-2"
@@ -244,12 +246,13 @@ export const Filters = () => {
               aria-label="Sort batches"
             >
               {[
-                { label: "Newest", value: "newest" },
-                { label: "Oldest", value: "oldest" },
-                { label: "Name (A-Z)", value: "name-asc" },
-                { label: "Name (Z-A)", value: "name-desc" },
+                { label: "নতুন", value: "createdAt-desc" },
+                { label: "পুরোনো", value: "createdAt-asc" },
+                { label: "নাম (এ-জেড)", value: "name-asc" },
+                { label: "নাম (জেড-এ)", value: "name-desc" },
               ].map((item) => {
-                const isSelected = filters.sortBy === item.value;
+                const currentSort = filters.sortBy && filters.sortOrder ? `${filters.sortBy}-${filters.sortOrder}` : "createdAt-desc";
+                const isSelected = currentSort === item.value;
                 return (
                   <button
                     key={item.value}
@@ -259,8 +262,8 @@ export const Filters = () => {
                     className={cn(
                       "flex flex-col items-center justify-center px-4 py-2 rounded-2xl transition-all duration-300 border",
                       isSelected
-                        ? "bg-emerald-50 border-emerald-100 text-emerald-700 font-bold shadow-inner scale-[0.98]"
-                        : "bg-transparent border-slate-100 text-slate-600 font-medium hover:border-slate-200 hover:bg-slate-50",
+                        ? "bg-[rgba(0,229,160,0.10)] border-[rgba(0,229,160,0.20)] text-primary font-bold shadow-inner scale-[0.98]"
+                        : "bg-transparent border-white/[0.08] text-muted-foreground font-medium hover:border-white/[0.15] hover:bg-white/[0.02]",
                     )}
                   >
                     <span className="text-xs">{item.label}</span>
@@ -276,14 +279,14 @@ export const Filters = () => {
             onClick={handleResetFilters}
             variant="ghost"
             disabled={!hasActiveFilters}
-            className="flex-1 h-10 rounded-2xl font-bold bg-slate-50 text-slate-500 hover:bg-slate-100 disabled:opacity-50 disabled:hover:bg-slate-50 transition-all border-none"
+            className="flex-1 h-10 rounded-2xl font-bold bg-white/[0.06] text-muted-foreground hover:bg-white/[0.1] disabled:opacity-50 transition-all border-none"
           >
             <RotateCcw className="w-5 h-5 mr-2" />
-            Reset
+            রিসেট
           </Button>
           <DrawerClose asChild>
-            <Button className="flex-[2] h-10 rounded-2xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 border-none">
-              Apply Filters
+            <Button className="flex-[2] h-10 rounded-2xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 border-none">
+              ফিল্টার প্রয়োগ করুন
             </Button>
           </DrawerClose>
         </DrawerFooter>

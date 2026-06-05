@@ -16,6 +16,14 @@ export {
 
 // Export services for direct use if needed (e.g., in server actions or background jobs)
 export * from "./services/tenant.service";
+export * from "./services/academic-year.service";
+export * from "./services/academic-class.service";
+export * from "./services/academic-subject.service";
+export * from "./services/question-type.service";
+export * from "./services/user.service";
+export * from "./services/academic-chapter.service";
+export * from "./services/academic-chapter-topic.service";
+export * from "./services/subscription-plan.service";
 
 // Export shared types and schemas
 export * from "./shared/pagination";

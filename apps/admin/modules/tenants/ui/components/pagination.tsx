@@ -1,86 +1,89 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import React from "react";
 import { Button } from "@workspace/ui/components/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select";
-
 import { useTenantFilters } from "@workspace/api-client";
+import { cn } from "@workspace/ui/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationProps {
   totalItem: number;
 }
 
-export const Pagination = ({ totalItem }: PaginationProps) => {
+export function Pagination({ totalItem }: PaginationProps) {
   const [filters, setFilters] = useTenantFilters();
 
-  const totalPages = Math.ceil(totalItem / filters.limit);
-  const currentPage = filters.page;
+  const currentPage = filters.page || 1;
+  const pageSize = filters.limit || 10;
+  const totalPages = Math.ceil(totalItem / pageSize);
 
   const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return;
     setFilters({ page });
   };
 
-  const handleLimitChange = (limit: string) => {
-    setFilters({ limit: parseInt(limit), page: 1 });
-  };
+  const startRange = totalItem > 0 ? (currentPage - 1) * pageSize + 1 : 0;
+  const endRange = Math.min(currentPage * pageSize, totalItem);
 
   if (totalItem === 0) return null;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
-      {/* Items per page */}
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">Items per page:</span>
-        <Select
-          value={filters.limit.toString()}
-          onValueChange={handleLimitChange}
-        >
-          <SelectTrigger className="w-[70px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="5">5</SelectItem>
-            <SelectItem value="10">10</SelectItem>
-            <SelectItem value="20">20</SelectItem>
-            <SelectItem value="50">50</SelectItem>
-            <SelectItem value="100">100</SelectItem>
-          </SelectContent>
-        </Select>
+    <div className="px-8 py-5 flex items-center justify-between border-t border-outline/5 bg-white">
+      <div className="flex items-center gap-3">
+        <div className="px-3 py-1 bg-surface-container-low border border-outline/5 rounded-lg">
+          <p className="text-[11px] font-bold text-on-surface-variant/60 uppercase tracking-wider">
+            Showing <span className="text-primary font-black">{startRange}</span> -{" "}
+            <span className="text-primary font-black">{endRange}</span> of{" "}
+            <span className="text-on-surface font-black">{totalItem}</span> Records
+          </p>
+        </div>
       </div>
 
-      {/* Page info and navigation */}
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-muted-foreground">
-          Page {currentPage} of {totalPages} ({totalItem} total)
-        </span>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={currentPage <= 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="h-9 px-3 text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-transparent font-bold text-xs gap-1.5"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Prev
+        </Button>
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+        <div className="flex items-center gap-1 mx-2">
+          {Array.from({ length: Math.min(totalPages, 5) }).map((_, i) => {
+            const pageNum = i + 1;
+            return (
+              <Button
+                key={pageNum}
+                variant="ghost"
+                size="sm"
+                onClick={() => handlePageChange(pageNum)}
+                className={cn(
+                  "w-9 h-9 rounded-lg font-bold text-xs transition-all",
+                  currentPage === pageNum
+                    ? "bg-primary text-white shadow-md shadow-primary/20 hover:bg-primary/90"
+                    : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low",
+                )}
+              >
+                {pageNum}
+              </Button>
+            );
+          })}
         </div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={currentPage >= totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="h-9 px-3 text-on-surface-variant hover:text-primary hover:bg-primary/5 rounded-lg transition-all disabled:opacity-30 disabled:hover:bg-transparent font-bold text-xs gap-1.5"
+        >
+          Next
+          <ChevronRight className="w-4 h-4" />
+        </Button>
       </div>
     </div>
   );
-};
+}

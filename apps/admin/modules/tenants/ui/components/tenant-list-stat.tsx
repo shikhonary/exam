@@ -4,9 +4,28 @@ import { Building2, CheckCircle2, XCircle, Ban } from "lucide-react";
 
 import { StatsCard } from "./stat-card";
 import { useTenantStats } from "@workspace/api-client";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 export const TenantListStat = () => {
-  const { data: statsData } = useTenantStats();
+  const { data: statsData, isLoading } = useTenantStats();
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="bg-card/50 backdrop-blur-md rounded-2xl border border-border/50 p-5 lg:p-6">
+            <div className="flex items-start justify-between">
+              <div className="space-y-3">
+                <Skeleton className="h-3 w-20 bg-surface-container" />
+                <Skeleton className="h-10 w-16 bg-surface-container" />
+              </div>
+              <Skeleton className="h-12 w-12 rounded-xl bg-surface-container" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

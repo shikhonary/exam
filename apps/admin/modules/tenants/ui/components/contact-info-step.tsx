@@ -33,10 +33,10 @@ export function ContactInfoStep({ form }: ContactInfoStepProps) {
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className={labelClasses}>Official Email</FormLabel>
+              <FormLabel className={labelClasses}>Business Email</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="admin@union.gov.bd"
+                  placeholder="admin@school.com"
                   {...field}
                   className={inputClasses}
                 />

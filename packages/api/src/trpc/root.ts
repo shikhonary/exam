@@ -2,21 +2,24 @@ import { t } from "./index";
 import { authRouter } from "../routers/auth";
 import { tenantRouter } from "../routers/tenant";
 import { batchRouter } from "../routers/batch";
-import { wardRouter } from "../routers/ward";
-import { villageRouter } from "../routers/village";
-import { citizenApplicationRouter } from "../routers/citizen-application";
-import { citizenRouter } from "../routers/citizen";
-import { familyApplicationRouter } from "../routers/family-application";
-import { assessmentRouter } from "../routers/assessment";
-import { fiscalYearRouter } from "../routers/fiscal-year";
-import { holdingTaxRouter } from "../routers/holding-tax";
 
-import { locationRouter } from "../routers/location";
-import { certificateCounterRouter } from "../routers/certificate-counter";
-import { tradeLicenseCategoryRouter } from "../routers/trade-license-category";
-import { tradeLicenseApplicationRouter } from "../routers/trade-license-application";
-import { tradeLicenseRouter } from "../routers/trade-license";
-import { successionApplicationRouter } from "../routers/succession-application";
+import { subscriptionPlanRouter } from "../routers/subscription-plan";
+import { subscriptionRouter } from "../routers/subscription";
+import { academicYearRouter } from "../routers/academic-year";
+import { academicClassRouter } from "../routers/academic-class";
+import { academicSubjectRouter } from "../routers/academic-subject";
+import { academicChapterRouter } from "../routers/academic-chapter";
+import { academicChapterTopicRouter } from "../routers/academic-chapter-topic";
+import { academicHierarchyRouter } from "../routers/academic-hierarchy";
+import { questionTypeRouter } from "../routers/question-type";
+import { cqRouter } from "../routers/cq";
+import { mcqRouter } from "../routers/mcq";
+import { shortAnswerRouter } from "../routers/short-answer";
+import { questionPaperRouter } from "../routers/question-paper";
+import { userRouter } from "../routers/user";
+import { settingRouter } from "../routers/setting";
+import { auditLogRouter } from "../routers/audit-log";
+import { notificationRouter } from "../routers/notification";
 
 // Explicitly import branded types to ensure they are available for inference in this module
 import type { TRPCContext, PrismaClient, TenantPrismaClient } from "./context";
@@ -28,20 +31,24 @@ export const appRouter = t.router({
   auth: authRouter,
   tenant: tenantRouter,
   batch: batchRouter,
-  ward: wardRouter,
-  village: villageRouter,
-  citizenApplication: citizenApplicationRouter,
-  citizen: citizenRouter,
-  familyApplication: familyApplicationRouter,
-  assessment: assessmentRouter,
-  fiscalYear: fiscalYearRouter,
-  holdingTax: holdingTaxRouter,
-  location: locationRouter,
-  certificateCounter: certificateCounterRouter,
-  tradeLicenseCategory: tradeLicenseCategoryRouter,
-  tradeLicenseApplication: tradeLicenseApplicationRouter,
-  tradeLicense: tradeLicenseRouter,
-  successionApplication: successionApplicationRouter,
+
+  subscriptionPlan: subscriptionPlanRouter,
+  subscription: subscriptionRouter,
+  academicYear: academicYearRouter,
+  academicClass: academicClassRouter,
+  academicSubject: academicSubjectRouter,
+  academicChapter: academicChapterRouter,
+  academicChapterTopic: academicChapterTopicRouter,
+  academicHierarchy: academicHierarchyRouter,
+  questionType: questionTypeRouter,
+  cq: cqRouter,
+  mcq: mcqRouter,
+  shortAnswer: shortAnswerRouter,
+  questionPaper: questionPaperRouter,
+  user: userRouter,
+  setting: settingRouter,
+  auditLog: auditLogRouter,
+  notification: notificationRouter,
 });
 
 

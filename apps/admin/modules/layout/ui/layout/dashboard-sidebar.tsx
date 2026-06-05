@@ -22,6 +22,9 @@ import {
   CreditCard,
   Sparkles,
   PlusCircle,
+  CalendarDays,
+  Bookmark,
+  Scan,
 } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
@@ -53,10 +56,16 @@ interface NavGroup {
 }
 
 const navItems: NavItem[] = [
-  { title: "Overview", url: "/", icon: LayoutDashboard },
-  { title: "Users", url: "/users", icon: Users },
-  { title: "Sessions", url: "/sessions", icon: Shield },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard },
 ];
+
+const userManagementGroup: NavGroup = {
+  title: "User Management",
+  icon: Users,
+  items: [
+    { title: "Users", url: "/users", icon: Users },
+  ],
+};
 
 const tenantsGroup: NavGroup = {
   title: "Tenants",
@@ -71,11 +80,15 @@ const billingGroup: NavGroup = {
   title: "Billing & Plans",
   icon: CreditCard,
   items: [
-    { title: "Subscriptions", url: "/subscriptions", icon: Sparkles },
     {
-      title: "Pricing Plans",
+      title: "Subscription Plans",
       url: "/subscription-plans",
-      icon: Layers,
+      icon: CreditCard,
+    },
+    {
+      title: "Subscriptions",
+      url: "/subscriptions",
+      icon: CreditCard,
     },
   ],
 };
@@ -84,12 +97,12 @@ const academicGroup: NavGroup = {
   title: "Academic",
   icon: BookOpen,
   items: [
-    { title: "Hierarchy View", url: "/academic-tree", icon: ListTree },
-    { title: "Classes", url: "/classes", icon: GraduationCap },
-    { title: "Subjects", url: "/subjects", icon: BookOpen },
-    { title: "Chapters", url: "/chapters", icon: FileText },
-    { title: "Topics", url: "/topics", icon: ListTree },
-    { title: "Sub-Topics", url: "/sub-topics", icon: Layers },
+    { title: "Academic Years", url: "/academic-years", icon: CalendarDays },
+    { title: "Academic Classes", url: "/academic-classes", icon: BookOpen },
+    { title: "Academic Subjects", url: "/academic-subjects", icon: Bookmark },
+    { title: "Hierarchy View", url: "/academic-hierarchy", icon: ListTree },
+    { title: "Academic Chapters", url: "/academic-chapters", icon: FileText },
+    { title: "Academic Topics", url: "/academic-chapter-topics", icon: FileText },
   ],
 };
 
@@ -99,8 +112,10 @@ const questionBankGroup: NavGroup = {
   items: [
     { title: "MCQs", url: "/mcqs", icon: HelpCircle },
     { title: "CQs", url: "/cqs", icon: FileText },
+    { title: "Short Answers", url: "/short-answers", icon: FileText },
     { title: "Question Types", url: "/question-types", icon: Layers },
     { title: "Paper Builder", url: "/question-papers", icon: Sparkles },
+    { title: "OMR Verification", url: "/omr-verification", icon: Scan },
   ],
 };
 
@@ -130,6 +145,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   const router = useRouter();
   const user = { email: "user@example.com" }; // Placeholder
 
+  const [userManagementOpen, setUserManagementOpen] = useState(true);
   const [tenantsOpen, setTenantsOpen] = useState(true);
   const [billingOpen, setBillingOpen] = useState(true);
   const [academicOpen, setAcademicOpen] = useState(true);
@@ -143,6 +159,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   // Collect all sidebar URLs to determine the best match for highlighting
   const allSidebarUrls = [
     ...navItems.map((i) => i.url),
+    ...userManagementGroup.items.map((i) => i.url),
     ...tenantsGroup.items.map((i) => i.url),
     ...billingGroup.items.map((i) => i.url),
     ...academicGroup.items.map((i) => i.url),
@@ -290,6 +307,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           <div className="space-y-1">{navItems.map(renderNavItem)}</div>
         </div>
 
+
+
         <div>
           <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
             {!collapsed ? "Tenants" : "•••"}
@@ -340,6 +359,15 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           </div>
           <div className="space-y-1">
             {renderNavGroup(billingGroup, billingOpen, setBillingOpen)}
+          </div>
+        </div>
+
+        <div>
+          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
+            {!collapsed ? "User Management" : "•••"}
+          </div>
+          <div className="space-y-1">
+            {renderNavGroup(userManagementGroup, userManagementOpen, setUserManagementOpen)}
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@workspace/ui/lib/utils";
-import { TabMode } from "./index";
+export type TabMode = "overview" | "students" | "exams";
 
 interface TabsProps {
   activeTab: TabMode;
@@ -10,13 +10,13 @@ interface TabsProps {
 
 export const Tabs = ({ activeTab, onTabChange }: TabsProps) => {
   const tabs: { id: TabMode; label: string }[] = [
-    { id: "overview", label: "Overview" },
-    { id: "students", label: "Students" },
-    { id: "exams", label: "Exams" },
+    { id: "overview", label: "ওভারভিউ" },
+    { id: "students", label: "শিক্ষার্থী" },
+    { id: "exams", label: "পরীক্ষা" },
   ];
 
   return (
-    <nav className="flex gap-10 border-b border-slate-200">
+    <nav className="sticky top-0 z-30 flex gap-10 border-b border-white/[0.06] bg-background/95 backdrop-blur-md">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -24,13 +24,13 @@ export const Tabs = ({ activeTab, onTabChange }: TabsProps) => {
           className={cn(
             "relative text-sm font-semibold pb-3 transition-colors",
             activeTab === tab.id
-              ? "text-emerald-600 font-bold"
-              : "text-slate-500 hover:text-slate-900"
+              ? "text-primary font-bold"
+              : "text-muted-foreground hover:text-foreground"
           )}
         >
           {tab.label}
           {activeTab === tab.id && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 rounded-t-full" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-t-full" />
           )}
         </button>
       ))}

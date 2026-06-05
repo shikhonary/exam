@@ -17,7 +17,9 @@ export const auth = betterAuth({
   emailVerification: {
     ...config.emailVerification,
   },
-  trustedOrigins: ["http://localhost:3000", "http://localhost:3001"],
+  trustedOrigins: process.env.TRUSTED_ORIGINS
+    ? process.env.TRUSTED_ORIGINS.split(",")
+    : ["https://bec-admin.cloud"],
 });
 
 export type Session = typeof auth.$Infer.Session.session;

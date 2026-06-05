@@ -18,16 +18,10 @@ import { useTenantById, useUpdateTenant } from "@workspace/api-client";
 import { BasicInfoStep } from "../components/basic-info-step";
 import { ContactInfoStep } from "../components/contact-info-step";
 import { DomainConfigStep } from "../components/domain-config-step";
-import { AdministrativeGeographyStep } from "../components/administrative-geography-step";
-
+import { SubscriptionStep } from "../components/subscription-step";
 import { UsageLimitsStep } from "../components/usage-limit-step";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/tabs";
-import { steps } from "../components/step-indicator";
+import { StepIndicator, steps } from "../components/step-indicator";
+import { FormNavigation } from "../components/form-navigation";
 import { useMultiStepForm } from "../hooks/use-multi-step-form";
 
 interface EditTenantFormProps {
@@ -44,8 +38,15 @@ export function EditTenantForm({ tenantId }: EditTenantFormProps) {
     defaultValues: defaultTenantValues,
   });
 
-  const { currentStep, handleNext, handlePrevious, handleStepClick } =
-    useMultiStepForm(form, steps.length);
+  const {
+    currentStep,
+    handleNext,
+    handlePrevious,
+    handleStepClick,
+    isValidating,
+  } = useMultiStepForm(form, steps.length);
+
+  const isLastStep = currentStep === steps.length;
 
   useEffect(() => {
     if (tenant) {
@@ -55,7 +56,7 @@ export function EditTenantForm({ tenantId }: EditTenantFormProps) {
         type: tenant.type as TenantFormValues["type"],
         description: tenant.description ?? "",
         logo: tenant.logo ?? "",
-        currentFiscalYear: tenant.currentFiscalYear ?? "",
+        currentAcademicYear: tenant.currentAcademicYear ?? "",
         email: tenant.email ?? "",
         phone: tenant.phone ?? "",
         address: tenant.address ?? "",
@@ -66,25 +67,41 @@ export function EditTenantForm({ tenantId }: EditTenantFormProps) {
         customDomain: tenant.customDomain ?? "",
         planId: tenant.subscription?.plan?.id ?? "",
         isActive: tenant.isActive ?? true,
-        customUserLimit: tenant.customUserLimit ?? undefined,
-        customAdminLimit: tenant.customAdminLimit ?? undefined,
-        customRecordLimit: tenant.customRecordLimit ?? undefined,
+        customStudentLimit: tenant.customStudentLimit ?? undefined,
+        customTeacherLimit: tenant.customTeacherLimit ?? undefined,
+        customExamLimit: tenant.customExamLimit ?? undefined,
         customStorageLimit: tenant.customStorageLimit ?? undefined,
-        divisionId: tenant.divisionId ?? "",
-        districtId: tenant.districtId ?? "",
-        upazilaId: tenant.upazilaId ?? "",
-        unionId: tenant.unionId ?? "",
-        geoCode: tenant.geoCode ?? "",
       });
     }
   }, [tenant, form]);
 
   const onSubmit = (data: TenantFormValues) => {
-    if (currentStep === steps.length + 1) {
-      updateTenant({ id: tenantId, ...data });
-      router.push("/tenants");
+    updateTenant({ id: tenantId, ...data });
+    router.push("/tenants");
+  };
+
+  const onNext = () => {
+    if (isLastStep) {
+      onSubmit(form.getValues());
     } else {
       handleNext();
+    }
+  };
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return <BasicInfoStep form={form} />;
+      case 2:
+        return <ContactInfoStep form={form} />;
+      case 3:
+        return <DomainConfigStep form={form} />;
+      case 4:
+        return <SubscriptionStep form={form} />;
+      case 5:
+        return <UsageLimitsStep form={form} />;
+      default:
+        return null;
     }
   };
 
@@ -117,7 +134,7 @@ export function EditTenantForm({ tenantId }: EditTenantFormProps) {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-3xl font-black tracking-tight text-foreground">
-                Edit Union
+                Edit Tenant
               </h1>
               {tenant?.isActive ? (
                 <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1 rounded-full font-black text-[10px] uppercase tracking-widest">
@@ -133,118 +150,54 @@ export function EditTenantForm({ tenantId }: EditTenantFormProps) {
               )}
             </div>
             <p className="text-muted-foreground font-medium">
-              Update administrative settings and configurations for{" "}
+              Update institutional settings and configurations for{" "}
               <span className="text-primary font-bold">{tenant?.name}</span>
             </p>
           </div>
         </div>
       </div>
 
+      <StepIndicator currentStep={currentStep} onStepClick={handleStepClick} />
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Tabs defaultValue="basic" className="w-full space-y-8">
-            <TabsList className="bg-card/30 backdrop-blur-xl border border-border/50 p-1.5 rounded-2xl h-auto gap-1 shadow-soft w-full sm:w-fit overflow-x-auto justify-start flex-nowrap scrollbar-none">
-              <TabsTrigger
-                value="basic"
-                className="rounded-xl px-4 py-2.5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow transition-all"
-              >
-                Basic Info
-              </TabsTrigger>
-              <TabsTrigger
-                value="geography"
-                className="rounded-xl px-4 py-2.5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow transition-all"
-              >
-                Geography
-              </TabsTrigger>
-              <TabsTrigger
-                value="contact"
-                className="rounded-xl px-4 py-2.5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow transition-all"
-              >
-                Contact
-              </TabsTrigger>
-              <TabsTrigger
-                value="domain"
-                className="rounded-xl px-4 py-2.5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow transition-all"
-              >
-                Domain
-              </TabsTrigger>
+          <Card className="bg-card/30 backdrop-blur-xl border-border/50 rounded-[2rem] overflow-hidden shadow-medium relative">
+            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+              <Sparkles className="size-24 text-primary" />
+            </div>
 
-              <TabsTrigger
-                value="limits"
-                className="rounded-xl px-4 py-2.5 font-bold text-xs uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-glow transition-all"
-              >
-                Limits
-              </TabsTrigger>
-            </TabsList>
-
-            <Card className="bg-card/30 backdrop-blur-xl border-border/50 rounded-[2rem] overflow-hidden shadow-medium relative">
-              <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-                <Sparkles className="size-24 text-primary" />
-              </div>
-
-              <CardContent className="p-8">
-                <TabsContent
-                  value="basic"
-                  className="mt-0 animate-in fade-in slide-in-from-left-4 duration-500"
-                >
-                  <BasicInfoStep form={form} />
-                </TabsContent>
-                <TabsContent
-                  value="geography"
-                  className="mt-0 animate-in fade-in slide-in-from-left-4 duration-500"
-                >
-                  <AdministrativeGeographyStep form={form} />
-                </TabsContent>
-                <TabsContent
-                  value="contact"
-                  className="mt-0 animate-in fade-in slide-in-from-left-4 duration-500"
-                >
-                  <ContactInfoStep form={form} />
-                </TabsContent>
-                <TabsContent
-                  value="domain"
-                  className="mt-0 animate-in fade-in slide-in-from-left-4 duration-500"
-                >
-                  <DomainConfigStep form={form} />
-                </TabsContent>
-
-                <TabsContent
-                  value="limits"
-                  className="mt-0 animate-in fade-in slide-in-from-left-4 duration-500"
-                >
-                  <UsageLimitsStep form={form} />
-                </TabsContent>
-              </CardContent>
-
-              <div className="px-8 py-6 bg-primary/5 border-t border-border/50 flex items-center justify-between">
-                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                  Carefully review changes before saving
-                </p>
-                <div className="flex items-center gap-3">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => router.back()}
-                    className="h-11 px-6 rounded-xl font-bold hover:bg-background/50 transition-all"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isUpdating}
-                    className="h-11 px-8 bg-primary text-primary-foreground rounded-xl shadow-glow font-bold hover:scale-[1.02] active:scale-[0.98] transition-all min-w-[150px]"
-                  >
-                    {isUpdating ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin stroke-[3]" />
-                    ) : (
-                      <Save className="mr-2 h-4 w-4 stroke-[3]" />
-                    )}
-                    Save Union Changes
-                  </Button>
+            <div className="px-8 pt-8 pb-2">
+              <h2 className="text-xl font-bold flex items-center gap-2.5">
+                <div className="p-2 bg-primary/10 rounded-xl text-primary border border-primary/20">
+                  {(() => {
+                    const StepIcon = steps[currentStep - 1]?.icon as any;
+                    return <StepIcon className="h-4 w-4" />;
+                  })()}
                 </div>
+                {steps[currentStep - 1]?.title}
+              </h2>
+              <p className="text-muted-foreground font-medium pl-[3.25rem] -mt-1">
+                {steps[currentStep - 1]?.description}
+              </p>
+            </div>
+
+            <CardContent className="p-8 pt-6">
+              <div className="min-h-[300px] animate-in fade-in duration-300">
+                {renderStepContent()}
               </div>
-            </Card>
-          </Tabs>
+
+              <div className="mt-8 pt-8 border-t border-border/50">
+                <FormNavigation
+                  currentStep={currentStep}
+                  totalSteps={steps.length}
+                  onPrevious={handlePrevious}
+                  onNext={onNext}
+                  isSubmitting={isUpdating}
+                  isValidating={isValidating}
+                />
+              </div>
+            </CardContent>
+          </Card>
         </form>
       </Form>
     </div>

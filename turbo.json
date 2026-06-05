@@ -1,11 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": ["NODE_ENV"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"],
       "env": [
         "DATABASE_URL",
         "TENANT_DATABASE_URL",
@@ -16,8 +15,7 @@
         "GEMINI_API_KEY",
         "INNGEST_EVENT_KEY",
         "INNGEST_SIGNING_KEY",
-        "GOOGLE_TTS_API_KEY",
-        "NODE_ENV"
+        "GOOGLE_TTS_API_KEY"
       ]
     },
     "lint": {
@@ -36,8 +34,7 @@
         "GEMINI_API_KEY",
         "INNGEST_EVENT_KEY",
         "INNGEST_SIGNING_KEY",
-        "GOOGLE_TTS_API_KEY",
-        "NODE_ENV"
+        "GOOGLE_TTS_API_KEY"
       ],
       "dependsOn": ["^db:generate"],
       "cache": false,

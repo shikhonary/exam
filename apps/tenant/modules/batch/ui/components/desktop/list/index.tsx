@@ -12,9 +12,6 @@ import { TenantTypes } from "@workspace/db";
 export type ViewMode = "table" | "grid";
 
 interface BatchWithRelations extends TenantTypes.Batch {
-  academicYear: {
-    name: string;
-  };
   _count: {
     students: number;
   };
@@ -38,31 +35,23 @@ export const List = ({
   const [viewMode, setViewMode] = useState<ViewMode>("table");
 
   return (
-    <div className="hidden md:block min-h-screen bg-surface relative isolate">
-      {/* Background blobs for depth */}
-      <div
-        aria-hidden
-        className="absolute top-[20%] -left-16 w-64 h-64 rounded-full bg-emerald-200/20 blur-3xl -z-10 pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-[10%] -right-16 w-80 h-80 rounded-full bg-emerald-300/10 blur-3xl -z-10 pointer-events-none"
-      />
-
+    <div className="min-h-screen bg-background relative isolate">
       <main className="container mx-auto px-6 py-12 lg:px-12 max-w-7xl relative z-10">
         <Header
-          title="Academic Batches"
-          description="Manage academic groups, student enrollments, and track batch performance across semesters."
+          title="একাডেমিক ব্যাচ"
+          description="একাডেমিক গ্রুপ, শিক্ষার্থীর ভর্তি এবং সেমিস্টার জুড়ে ব্যাচের পারফরম্যান্স পরিচালনা করুন।"
         />
 
         <div className="mt-8">
           <Stats />
         </div>
 
-        <div className="mt-12 bg-surface-container-lowest rounded-2xl shadow-ambient overflow-hidden flex flex-col">
-          <Filters viewMode={viewMode} onViewModeChange={setViewMode} />
+        <div className="mt-12 space-y-6">
+          <div className="bg-[#131B2C] border border-white/[0.02] shadow-[0_8px_30px_rgb(0,0,0,0.5)] rounded-2xl overflow-hidden p-2">
+            <Filters viewMode={viewMode} onViewModeChange={setViewMode} />
+          </div>
 
-          <div className="relative flex-grow">
+          <div className="bg-[#131B2C] border border-white/[0.02] shadow-[0_8px_30px_rgb(0,0,0,0.5)] rounded-2xl overflow-hidden">
             {viewMode === "table" ? (
               <BatchTable
                 batches={batches}
@@ -71,7 +60,7 @@ export const List = ({
                 onDelete={onDelete}
               />
             ) : (
-              <div className="p-8 bg-surface-container-lowest border-t border-surface-container">
+              <div className="p-8">
                 <BatchGrid
                   batches={batches}
                   isLoading={isLoading}
@@ -82,8 +71,11 @@ export const List = ({
             )}
           </div>
           
-          <Pagination total={total} />
+          <div className="bg-[#131B2C] border border-white/[0.02] shadow-[0_8px_30px_rgb(0,0,0,0.5)] rounded-2xl overflow-hidden p-2">
+            <Pagination total={total} />
+          </div>
         </div>
+
       </main>
     </div>
   );

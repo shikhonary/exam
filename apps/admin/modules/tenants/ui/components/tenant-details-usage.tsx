@@ -25,27 +25,30 @@ interface TenantDetailsUsageProps {
 export const TenantDetailsUsage = ({ tenant }: TenantDetailsUsageProps) => {
   const usageStats = [
     {
-      label: "Users",
-      current: tenant.userCount,
-      limit: tenant.subscription?.plan.defaultUserLimit ?? 0,
+      label: "Students",
+      current: tenant.studentCount,
+      limit: tenant.customStudentLimit ?? tenant.subscription?.plan.defaultStudentLimit ?? 0,
+      isCustomLimit: tenant.customStudentLimit !== null,
       icon: GraduationCap,
       color: "text-blue-500",
       progressColor: "bg-blue-500",
       bg: "bg-blue-500/10",
     },
     {
-      label: "Admins",
-      current: tenant.recordCount, // Or another relevant count
-      limit: tenant.subscription?.plan.defaultAdminLimit ?? 0,
+      label: "Teachers",
+      current: tenant.teacherCount,
+      limit: tenant.customTeacherLimit ?? tenant.subscription?.plan.defaultTeacherLimit ?? 0,
+      isCustomLimit: tenant.customTeacherLimit !== null,
       icon: Users,
       color: "text-green-500",
       progressColor: "bg-green-500",
       bg: "bg-green-500/10",
     },
     {
-      label: "Records",
-      current: tenant.recordCount,
-      limit: tenant.subscription?.plan.defaultRecordLimit ?? 0,
+      label: "Exams",
+      current: tenant.examCount,
+      limit: tenant.customExamLimit ?? tenant.subscription?.plan.defaultExamLimit ?? 0,
+      isCustomLimit: tenant.customExamLimit !== null,
       icon: FileText,
       color: "text-purple-500",
       progressColor: "bg-purple-500",
@@ -54,7 +57,8 @@ export const TenantDetailsUsage = ({ tenant }: TenantDetailsUsageProps) => {
     {
       label: "Storage",
       current: tenant.storageUsedMB,
-      limit: tenant.subscription?.plan.defaultStorageLimit ?? 0,
+      limit: tenant.customStorageLimit ?? tenant.subscription?.plan.defaultStorageLimit ?? 0,
+      isCustomLimit: tenant.customStorageLimit !== null,
       icon: Database,
       color: "text-amber-500",
       progressColor: "bg-amber-500",
@@ -102,7 +106,7 @@ export const TenantDetailsUsage = ({ tenant }: TenantDetailsUsageProps) => {
                   {percent}% Used
                 </div>
               </div>
-              <CardDescription className="text-sm font-bold text-foreground/70 mt-3 flex items-baseline gap-1.5">
+              <CardDescription className="text-sm font-bold text-foreground/70 mt-3 flex items-baseline gap-1.5 flex-wrap">
                 <span className="text-xl font-black text-foreground">
                   {stat.current.toLocaleString()}
                 </span>
@@ -110,6 +114,11 @@ export const TenantDetailsUsage = ({ tenant }: TenantDetailsUsageProps) => {
                   of {stat.limit.toLocaleString()}{" "}
                   {stat.unit || stat.label.toLowerCase()} registered
                 </span>
+                {stat.isCustomLimit && (
+                  <span className="ml-auto inline-flex items-center px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                    Custom Override
+                  </span>
+                )}
               </CardDescription>
             </CardHeader>
             <CardContent>

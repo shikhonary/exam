@@ -46,7 +46,7 @@ export function SubscriptionStep({ form }: SubscriptionStepProps) {
             <FormLabel className={labelClasses}>Subscription Plan</FormLabel>
             <Select
               onValueChange={field.onChange}
-              value={field.value ?? undefined}
+              value={field.value || undefined}
             >
               <FormControl>
                 <SelectTrigger className={inputClasses}>
@@ -99,13 +99,13 @@ export function SubscriptionStep({ form }: SubscriptionStepProps) {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: "Users", value: selectedPlan.defaultUserLimit },
-              { label: "Admins", value: selectedPlan.defaultAdminLimit },
+              { label: "Students", value: selectedPlan.defaultStudentLimit },
+              { label: "Teachers", value: selectedPlan.defaultTeacherLimit },
               {
                 label: "Storage",
                 value: `${selectedPlan.defaultStorageLimit} MB`,
               },
-              { label: "Records", value: selectedPlan.defaultRecordLimit },
+              { label: "Exams", value: selectedPlan.defaultExamLimit },
             ].map((feature, i) => (
               <div
                 key={i}

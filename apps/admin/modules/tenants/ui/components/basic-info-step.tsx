@@ -52,10 +52,10 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
         name="name"
         render={({ field }) => (
           <FormItem className="space-y-2">
-            <FormLabel className={labelClasses}>Union Name</FormLabel>
+            <FormLabel className={labelClasses}>Tenant Name</FormLabel>
             <FormControl>
               <Input
-                placeholder="e.g., Bashundhara Union"
+                placeholder="e.g., ABC High School"
                 {...field}
                 onChange={(e) => {
                   field.onChange(e);
@@ -76,10 +76,10 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
           name="slug"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className={labelClasses}>Union Slug</FormLabel>
+              <FormLabel className={labelClasses}>Slug Identifier</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="bashundhara-union"
+                  placeholder="abc-high-school"
                   {...field}
                   onChange={(e) => {
                     setIsSlugManuallyEdited(true);
@@ -99,7 +99,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
           name="type"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel className={labelClasses}>Administrative Type</FormLabel>
+              <FormLabel className={labelClasses}>Institution Type</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 value={field.value ?? undefined}
@@ -136,7 +136,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
             <FormLabel className={labelClasses}>Description</FormLabel>
             <FormControl>
               <Textarea
-                placeholder="Brief description of the union..."
+                placeholder="Brief description of the tenant..."
                 {...field}
                 value={field.value ?? ""}
                 className={cn(inputClasses, "min-h-[120px] py-3 resize-none")}
@@ -168,14 +168,14 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
           )}
         />
 
-        {/* Current Fiscal Year */}
+        {/* Current Academic Year */}
         <FormField
           control={form.control}
-          name="currentFiscalYear"
+          name="currentAcademicYear"
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel className={labelClasses}>
-                Current Fiscal Year
+                Current Academic Year
               </FormLabel>
               <FormControl>
                 <Input

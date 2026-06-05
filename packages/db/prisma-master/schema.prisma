@@ -85,7 +85,7 @@ model Tenant {
     slug                 String  @unique
     description          String?
     logo                 String?
-    type                 String // e.g., "EDUCATION", "GOVERNMENT"
+    type                 String
     email                String
     phone                String
     address              String
@@ -96,39 +96,27 @@ model Tenant {
     customDomain         String? @unique
     customDomainVerified Boolean @default(false)
 
-    // Location Details (National Registry)
-    divisionId String
-    division   Division @relation(fields: [divisionId], references: [id])
-    districtId String
-    district   District @relation(fields: [districtId], references: [id])
-    upazilaId  String
-    upazila    Upazila  @relation(fields: [upazilaId], references: [id])
-    unionId    String
-    union      Union    @relation(fields: [unionId], references: [id])
-    geoCode    String
-
-    // Multi-tenancy Isolation
     databaseName     String? @unique
     connectionString String?
     databaseStatus   String  @default("PENDING")
 
-    // Generalized Metrics 
-    // (You can use metadata for specific counts or rename these)
-    userCount     Int @default(0) // Replacing student/teacher count
-    recordCount   Int @default(0) // General counter for exams or tax records
+    studentCount  Int @default(0)
+    teacherCount  Int @default(0)
+    examCount     Int @default(0)
     storageUsedMB Int @default(0)
 
     isActive      Boolean @default(true)
     isSuspended   Boolean @default(false)
     suspendReason String?
+    metadata      Json    @default("{}")
 
-    // Tax & Administrative Fields
-    currentFiscalYear  String? // More appropriate than AcademicYear for tax
-    registrationNumber String? // For official government/union ID
+    // Pointer to the currently active global AcademicYear for this tenant.
+    // SetNull on delete so removing a year does not nuke the tenant record.
+    currentAcademicYearId String?
+    currentAcademicYear   AcademicYear? @relation(fields: [currentAcademicYearId], references: [id], onDelete: SetNull)
 
-    metadata Json @default("{}")
-
-    // Relations
+    // FIX: onDelete: SetNull because createdById is optional —
+    //      deleting a User should not delete their Tenants, just clear the owner reference.
     createdById String?
     owner       User?   @relation("TenantOwner", fields: [createdById], references: [id], onDelete: SetNull)
 
@@ -136,10 +124,9 @@ model Tenant {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime?
 
-    // Flexible Limits
-    customUserLimit    Int?
-    customAdminLimit   Int?
-    customRecordLimit  Int?
+    customStudentLimit Int?
+    customTeacherLimit Int?
+    customExamLimit    Int?
     customStorageLimit Int?
 
     subscription Subscription?
@@ -147,6 +134,7 @@ model Tenant {
     invitations  TenantInvitation[]
 
     @@index([slug])
+    @@index([currentAcademicYearId])
     @@map("tenant")
 }
 
@@ -212,9 +200,9 @@ model SubscriptionPlan {
     isActive  Boolean @default(true)
     isPopular Boolean @default(false)
 
-    defaultUserLimit    Int @default(10)
-    defaultAdminLimit   Int @default(2)
-    defaultRecordLimit  Int @default(20)
+    defaultStudentLimit Int @default(10)
+    defaultTeacherLimit Int @default(2)
+    defaultExamLimit    Int @default(20)
     defaultStorageLimit Int @default(100)
 
     createdAt DateTime @default(now())
@@ -248,9 +236,9 @@ model Subscription {
     canceledAt        DateTime?
     cancelReason      String?
 
-    customUserLimit    Int?
-    customAdminLimit   Int?
-    customRecordLimit  Int?
+    customStudentLimit Int?
+    customTeacherLimit Int?
+    customExamLimit    Int?
     customStorageLimit Int?
 
     createdAt DateTime @default(now())
@@ -347,31 +335,35 @@ model Invoice {
 // ---------------------------------------------------------------------------
 
 model AcademicClass {
-    id          String   @id @default(uuid())
-    name        String   @unique
-    level       String
-    displayName String
-    position    Int      @default(0)
-    isActive    Boolean  @default(true)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    id        String   @id @default(uuid())
+    nameBn    String
+    nameEn    String
+    level     String
+    position  Int      @default(0)
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-    classSubjects  AcademicClassSubject[]
-    questionPapers QuestionPaper[]
+    classSubjects    AcademicClassSubject[]
+    questionPapers   QuestionPaper[]
+    academicSessions AcademicSessionClass[]
 
     @@index([isActive])
-    @@index([name])
+    @@index([nameEn])
     @@map("academic_class")
 }
 
 model AcademicSubject {
     id          String  @id @default(uuid())
-    name        String
-    displayName String
+    nameBn      String
+    nameEn      String
     code        String?
     group       String?
-    position    Int     @default(0)
     isActive    Boolean @default(true)
+
+    academicYearId String
+    academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -380,10 +372,12 @@ model AcademicSubject {
     chapters              AcademicChapter[]
     mcqs                  Mcq[]
     cqs                   Cq[]
+    shortAnswers          ShortAnswer[]
     questionPaperSubjects QuestionPaperSubject[]
     questionTypes         SubjectQuestionType[]
 
     @@index([isActive])
+    @@index([academicYearId])
     @@map("academic_subject")
 }
 
@@ -408,32 +402,36 @@ model AcademicClassSubject {
 
 model AcademicChapter {
     id          String  @id @default(uuid())
-    name        String
-    displayName String
+    nameBn      String
+    nameEn      String
     position    Int     @default(0)
     isActive    Boolean @default(true)
     subjectId   String
+    academicYearId String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     // FIX: Restrict — don't silently delete chapters when a subject is deleted;
     //      require explicit cleanup so question data is not orphaned.
-    subject AcademicSubject @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+    subject      AcademicSubject @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+    academicYear AcademicYear    @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
 
-    topics AcademicTopic[]
+    topics AcademicChapterTopic[]
     mcqs   Mcq[]
     cqs    Cq[]
+    shortAnswers ShortAnswer[]
 
     @@index([isActive])
     @@index([subjectId])
+    @@index([academicYearId])
     @@map("academic_chapter")
 }
 
-model AcademicTopic {
+model AcademicChapterTopic {
     id          String  @id @default(uuid())
-    name        String
-    displayName String
+    nameEn      String
+    nameBn      String
     position    Int     @default(0)
     isActive    Boolean @default(true)
     chapterId   String
@@ -447,10 +445,11 @@ model AcademicTopic {
     subtopics AcademicSubTopic[]
     mcqs      Mcq[]
     cqs       Cq[]
+    shortAnswers ShortAnswer[]
 
     @@index([chapterId])
     @@index([isActive])
-    @@map("academic_topic")
+    @@map("academic_chapter_topic")
 }
 
 model AcademicSubTopic {
@@ -465,10 +464,11 @@ model AcademicSubTopic {
     updatedAt DateTime @updatedAt
 
     // FIX: Restrict — preserve question integrity
-    topic AcademicTopic @relation(fields: [topicId], references: [id], onDelete: Restrict)
+    topic AcademicChapterTopic @relation(fields: [topicId], references: [id], onDelete: Restrict)
 
     mcqs Mcq[]
     cqs  Cq[]
+    shortAnswers ShortAnswer[]
 
     @@index([isActive])
     @@index([topicId])
@@ -477,16 +477,14 @@ model AcademicSubTopic {
 
 model QuestionType {
     id          String @id @default(uuid())
-    name        String
-    displayName String
-    label       String
+    nameEn      String
+    nameBn      String
 
     subjects      SubjectQuestionType[]
     mcqs          Mcq[]
     cqs           Cq[]
+    shortAnswers  ShortAnswer[]
     distributions QuestionPaperSubjectMarkDistribution[]
-    questions     QuestionPaperQuestion[]
-
     isActive  Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -511,6 +509,19 @@ model SubjectQuestionType {
     @@map("subject_question_type")
 }
 
+model QuestionContext {
+    id        String   @id @default(uuid())
+    text      String?
+    url       String?
+    title     String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    mcqs Mcq[]
+
+    @@map("question_context")
+}
+
 model Mcq {
     id          String   @id @default(uuid())
     question    String
@@ -524,8 +535,8 @@ model Mcq {
     session     Int
     source      String?
     questionUrl String?
-    context     String?
-    contextUrl  String?
+    contextId   String?
+    questionContext QuestionContext? @relation(fields: [contextId], references: [id], onDelete: SetNull)
 
     subjectId  String
     chapterId  String
@@ -537,7 +548,7 @@ model Mcq {
     subject  AcademicSubject   @relation(fields: [subjectId], references: [id], onDelete: Restrict)
     chapter  AcademicChapter   @relation(fields: [chapterId], references: [id], onDelete: Restrict)
     // FIX: SetNull on optional FKs — topic/subtopic can be removed without losing the question
-    topic    AcademicTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
+    topic    AcademicChapterTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
     subtopic AcademicSubTopic? @relation(fields: [subTopicId], references: [id], onDelete: SetNull)
 
     questionTypeId String?
@@ -567,13 +578,9 @@ model Cq {
     questionA String
     questionB String
     questionC String
-    questionD String
+    questionD String?
     context   String?
-    marks     Float    @default(10)
-    isActive  Boolean  @default(true)
     reference String[] @default([])
-    session   Int?
-    source    String?
 
     subjectId  String
     chapterId  String
@@ -583,7 +590,7 @@ model Cq {
     // FIX: Restrict on required FKs, SetNull on optional FKs (same rationale as Mcq)
     subject  AcademicSubject   @relation(fields: [subjectId], references: [id], onDelete: Restrict)
     chapter  AcademicChapter   @relation(fields: [chapterId], references: [id], onDelete: Restrict)
-    topic    AcademicTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
+    topic    AcademicChapterTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
     subtopic AcademicSubTopic? @relation(fields: [subTopicId], references: [id], onDelete: SetNull)
 
     questionTypeId String?
@@ -598,7 +605,6 @@ model Cq {
     updatedAt DateTime @updatedAt
 
     @@index([chapterId])
-    @@index([isActive])
     @@index([subjectId])
     @@map("cq")
 }
@@ -635,6 +641,35 @@ model CqAnswer {
     updatedAt DateTime @updatedAt
 
     @@map("cq_answer")
+}
+
+model ShortAnswer {
+    id        String   @id @default(uuid())
+    question  String
+    answer    String?
+    reference String[] @default([])
+
+    subjectId  String
+    chapterId  String
+    topicId    String?
+    subTopicId String?
+
+    // FIX: Restrict on required FKs, SetNull on optional FKs (same rationale as Mcq)
+    subject  AcademicSubject       @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+    chapter  AcademicChapter       @relation(fields: [chapterId], references: [id], onDelete: Restrict)
+    topic    AcademicChapterTopic? @relation(fields: [topicId], references: [id], onDelete: SetNull)
+    subtopic AcademicSubTopic?     @relation(fields: [subTopicId], references: [id], onDelete: SetNull)
+
+    questionTypeId String?
+    questionType   QuestionType? @relation(fields: [questionTypeId], references: [id], onDelete: SetNull)
+    questionPapers QuestionPaperQuestion[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([chapterId])
+    @@index([subjectId])
+    @@map("short_answer")
 }
 
 // NOTE: AuditLog and Notification intentionally use bare String FKs for
@@ -897,6 +932,11 @@ model QuestionPaper {
     classId       String
     academicClass AcademicClass @relation(fields: [classId], references: [id], onDelete: Cascade)
 
+    // Optional link to the global AcademicYear this paper belongs to
+    // SetNull on delete — removing a year must not destroy question papers
+    academicYearId String?
+    academicYear   AcademicYear? @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
+
     // Full paper-level settings JSON (layout, typography, header toggles, etc.)
     settings Json    @default("{}")
     status   String  @default("Draft") // "Draft" | "Published"
@@ -918,6 +958,7 @@ model QuestionPaper {
     @@index([status])
     @@index([isActive])
     @@index([createdAt])
+    @@index([academicYearId])
     @@map("question_paper")
 }
 
@@ -935,8 +976,6 @@ model QuestionPaperSubject {
 
     // The per-question-type breakdown rows live here
     distributions QuestionPaperSubjectMarkDistribution[]
-    questions     QuestionPaperQuestion[]
-
     @@unique([questionPaperId, subjectId])
     @@index([questionPaperId])
     @@index([subjectId])
@@ -999,28 +1038,27 @@ model QuestionPaperQuestion {
     cqId String?
     cq   Cq?     @relation(fields: [cqId], references: [id], onDelete: Cascade)
 
+    shortAnswerId String?
+    shortAnswer   ShortAnswer? @relation(fields: [shortAnswerId], references: [id], onDelete: Cascade)
+
     // TRACKING: Associate with subject and distribution breakdown
-    paperSubjectId String?
-    paperSubject   QuestionPaperSubject? @relation(fields: [paperSubjectId], references: [id], onDelete: SetNull)
-
-    distributionId String?
-    distribution   QuestionPaperSubjectMarkDistribution? @relation(fields: [distributionId], references: [id], onDelete: SetNull)
-
-    // Optional: track question type explicitly for easier filtering
-    questionTypeId String?
-    questionType   QuestionType? @relation(fields: [questionTypeId], references: [id], onDelete: SetNull)
+    distributionId String
+    distribution   QuestionPaperSubjectMarkDistribution @relation(fields: [distributionId], references: [id], onDelete: Cascade)
 
     orderIndex Int  @default(0)
-    overrides  Json @default("{}") // per-question style / mark overrides
+    assignedMarks Float? // Override mark for this specific question
+    overrides  Json @default("{}") // per-question style overrides
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@unique([questionPaperId, mcqId])
     @@unique([questionPaperId, cqId])
+    @@unique([questionPaperId, shortAnswerId])
     @@index([questionPaperId])
     @@index([mcqId])
     @@index([cqId])
+    @@index([shortAnswerId])
     @@map("question_paper_question")
 }
 
@@ -1032,7 +1070,6 @@ model Division {
     nameBn    String
     geoCode   String?
     districts District[]
-    tenants   Tenant[]
 
     @@map("division")
 }
@@ -1045,7 +1082,6 @@ model District {
     divisionId String
     division   Division  @relation(fields: [divisionId], references: [id], onDelete: Cascade)
     upazilas   Upazila[]
-    tenants    Tenant[]
 
     @@map("district")
 }
@@ -1059,7 +1095,6 @@ model Upazila {
     district    District     @relation(fields: [districtId], references: [id], onDelete: Cascade)
     unions      Union[]
     postOffices PostOffice[]
-    tenants     Tenant[]
 
     @@map("upazila")
 }
@@ -1071,7 +1106,6 @@ model Union {
     geoCode   String?
     upazilaId String
     upazila   Upazila  @relation(fields: [upazilaId], references: [id], onDelete: Cascade)
-    tenants   Tenant[]
 
     @@map("union")
 }
@@ -1086,4 +1120,99 @@ model PostOffice {
     upazila   Upazila @relation(fields: [upazilaId], references: [id], onDelete: Cascade)
 
     @@map("post_office")
+}
+
+// ---------------------------------------------------------------------------
+// Academic Year & Session
+//
+// AcademicYear  — global, admin-managed. Represents a named academic period
+//                 e.g. "2025" (Jan–Dec) or "2025-26" (Jul–Jun).
+//                 Tenant.currentAcademicYearId points here.
+//
+// AcademicSession — a concrete date window within a year for a group of classes.
+//                   Solves the mixed-calendar problem:
+//                     Session A: Classes 2–10  → Jan 1 – Dec 31  (full year)
+//                     Session B: Classes 11–12 → Jul 1 – Jun 30  (mid-year)
+//
+// AcademicSessionClass — explicit join table so each session knows exactly
+//                         which AcademicClass records it covers.
+// ---------------------------------------------------------------------------
+
+model AcademicYear {
+    id String @id @default(uuid())
+
+    // Human-readable label shown in the UI, e.g. "2025" or "2025-26"
+    label String @unique
+    // URL-safe slug, e.g. "2025" or "2025-26"
+    slug  String @unique
+
+    // Envelope dates — the union of all sessions in this year.
+    // Kept denormalised for fast range queries without joining sessions.
+    startDate DateTime
+    endDate   DateTime
+
+    // Admin can mark the currently running global year.
+    // Enforce "only one isCurrent = true" at the service layer in a transaction.
+    isCurrent Boolean @default(false)
+    isActive  Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    sessions       AcademicSession[]
+    // Tenants that have selected this year as their current year
+    tenants        Tenant[]
+    // Question papers filed under this year
+    questionPapers QuestionPaper[]
+    // Subjects belonging to this year
+    subjects       AcademicSubject[]
+    // Chapters belonging to this year
+    chapters       AcademicChapter[]
+
+    @@index([isCurrent])
+    @@index([startDate, endDate])
+    @@map("academic_year")
+}
+
+// One row per date-window within an AcademicYear.
+// A year can have multiple sessions covering different class groups and date ranges.
+model AcademicSession {
+    id             String       @id @default(uuid())
+    academicYearId String
+    academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+
+    // Descriptive name: "Regular Session", "HSC Batch", "SSC Session", etc.
+    name      String
+    startDate DateTime
+    endDate   DateTime
+
+    isActive Boolean @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Which AcademicClass records belong to this session
+    classes AcademicSessionClass[]
+
+    @@index([academicYearId])
+    @@index([startDate, endDate])
+    @@map("academic_session")
+}
+
+// Explicit join: AcademicSession ↔ AcademicClass
+// Cascade on both sides — removing a session or a class removes only the mapping row.
+model AcademicSessionClass {
+    id        String @id @default(uuid())
+    sessionId String
+    classId   String
+
+    session       AcademicSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    academicClass AcademicClass   @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+
+    @@unique([sessionId, classId])
+    @@index([sessionId])
+    @@index([classId])
+    @@map("academic_session_class")
 }

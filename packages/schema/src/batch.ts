@@ -6,14 +6,21 @@ import { nameSchema, uuidSchema } from "./shared/fields";
  */
 
 export const batchFormSchema = z.object({
-  academicYearId: uuidSchema,
-  academicClassId: uuidSchema.or(z.string().min(1, "Please select a class")),
-  name: nameSchema,
-  academicYear: z.string().min(4, "Invalid year").max(20),
+  academicYearId: z.string().min(1, "অনুগ্রহ করে একটি বছর নির্বাচন করুন"),
+  academicClassId: z.string().min(1, "অনুগ্রহ করে একটি ক্লাস নির্বাচন করুন"),
+  name: z
+    .string()
+    .min(1, "ব্যাচের নাম অবশ্যই দিতে হবে")
+    .max(100, "ব্যাচের নাম ১০০ অক্ষরের বেশি হতে পারবে না")
+    .trim(),
+  academicYear: z.string().min(4, "সঠিক বছর দিন").max(20),
   capacity: z.coerce
-    .number()
-    .int()
-    .min(1, "Capacity must be at least 1"),
+    .number({
+      required_error: "আসন সংখ্যা দিতে হবে",
+      invalid_type_error: "আসন সংখ্যা অবশ্যই নম্বর হতে হবে",
+    })
+    .int("আসন সংখ্যা পূর্ণসংখ্যা হতে হবে")
+    .min(1, "আসন সংখ্যা কমপক্ষে ১ হতে হবে"),
   isActive: z.boolean(),
 });
 

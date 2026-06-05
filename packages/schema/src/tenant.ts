@@ -29,13 +29,6 @@ export const tenantFormSchema = z.object({
   logo: urlSchema.optional().or(z.literal("")),
   type: z.nativeEnum(TENANT_TYPE),
 
-  // Geographic Location
-  divisionId: uuidSchema,
-  districtId: uuidSchema,
-  upazilaId: uuidSchema,
-  unionId: uuidSchema,
-  geoCode: z.string().min(1, "Geo Code is required"),
-
   // Contact Info
   email: emailSchema,
   phone: bdPhoneSchema,
@@ -49,14 +42,18 @@ export const tenantFormSchema = z.object({
   customDomain: z.string().max(100).optional().or(z.literal("")),
 
   // Subscription Settings (Overrides)
-  planId: uuidSchema.optional().nullable(),
-  customUserLimit: z.coerce.number().int().min(1).optional().nullable(),
-  customAdminLimit: z.coerce.number().int().min(1).optional().nullable(),
-  customRecordLimit: z.coerce.number().int().min(1).optional().nullable(),
+  planId: uuidSchema
+    .optional()
+    .nullable()
+    .or(z.literal(""))
+    .transform((val) => (val === "" ? null : val)),
+  customStudentLimit: z.coerce.number().int().min(1).optional().nullable(),
+  customTeacherLimit: z.coerce.number().int().min(1).optional().nullable(),
+  customExamLimit: z.coerce.number().int().min(1).optional().nullable(),
   customStorageLimit: z.coerce.number().int().min(1).optional().nullable(),
 
   // Administrative Settings
-  currentFiscalYear: z.string().max(20).optional().or(z.literal("")),
+  currentAcademicYear: z.string().max(20).optional().or(z.literal("")),
 
   // Status
   isActive: z.boolean(),
@@ -71,14 +68,9 @@ export const defaultTenantValues: Partial<TenantFormValues> = {
   name: "",
   slug: "",
   description: "",
-  type: TENANT_TYPE.UNION,
+  type: TENANT_TYPE.SCHOOL,
   email: "",
   phone: "",
-  divisionId: "",
-  districtId: "",
-  upazilaId: "",
-  unionId: "",
-  geoCode: "",
   address: "",
   city: "",
   state: "",
@@ -86,6 +78,7 @@ export const defaultTenantValues: Partial<TenantFormValues> = {
   isActive: true,
   isSuspended: false,
   metadata: {},
+  planId: "",
 };
 
 export const updateTenantSchema = tenantFormSchema.partial();
@@ -94,8 +87,9 @@ export const tenantSchema = tenantFormSchema.extend({
   id: uuidSchema,
   createdAt: z.date(),
   updatedAt: z.date(),
-  userCount: z.number().default(0),
-  recordCount: z.number().default(0),
+  studentCount: z.number().default(0),
+  teacherCount: z.number().default(0),
+  examCount: z.number().default(0),
   storageUsedMB: z.number().default(0),
   databaseStatus: z.nativeEnum(TENANT_DATABASE_STATUS),
 });
@@ -105,8 +99,8 @@ export type Tenant = z.infer<typeof tenantSchema>;
 /**
  * Specific schemas for different tenant types if needed
  */
-export const unionTypeSchema = tenantFormSchema.extend({
-  currentFiscalYear: z
+export const schoolTypeSchema = tenantFormSchema.extend({
+  currentAcademicYear: z
     .string()
-    .min(4, "Fiscal year is required for unions"),
+    .min(4, "Academic year is required"),
 });

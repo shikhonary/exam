@@ -36,7 +36,7 @@ export function DomainConfigStep({ form }: DomainConfigStepProps) {
             <div className="flex items-center">
               <FormControl>
                 <Input
-                  placeholder="bashundhara-union"
+                  placeholder="abc-school"
                   {...field}
                   value={field.value ?? ""}
                   className={cn(inputClasses, "rounded-r-none border-r-0")}
@@ -47,7 +47,7 @@ export function DomainConfigStep({ form }: DomainConfigStepProps) {
               </div>
             </div>
             <FormDescription className="text-xs font-medium pl-1">
-              This will be the union&apos;s primary access URL
+              This will be the tenant&apos;s primary access URL
             </FormDescription>
             <FormMessage className="font-bold text-xs" />
           </FormItem>
@@ -65,7 +65,7 @@ export function DomainConfigStep({ form }: DomainConfigStepProps) {
             </FormLabel>
             <FormControl>
               <Input
-                placeholder="union.example.gov.bd"
+                placeholder="school.example.com"
                 {...field}
                 value={field.value ?? ""}
                 className={inputClasses}
