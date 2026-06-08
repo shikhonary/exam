@@ -47,7 +47,6 @@ ENV BETTER_AUTH_URL=$BETTER_AUTH_URL
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # 1. Generate Prisma clients (both master and tenant)
 RUN pnpm --filter=@workspace/db run db:generate:all
@@ -55,8 +54,8 @@ RUN pnpm --filter=@workspace/db run db:generate:all
 # Ensure the public directory exists to prevent build/copy failures if it's empty/missing
 RUN mkdir -p apps/admin/public
 
-# 2. Build the admin application (bypass turbo to expose full Next.js error output)
-RUN pnpm --filter=admin run build
+# 2. Build the admin application
+RUN pnpm turbo build --filter=admin
 
 # Stage 3: Final production image (Runner)
 FROM node:22-alpine AS runner
