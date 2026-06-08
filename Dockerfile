@@ -47,6 +47,7 @@ ENV BETTER_AUTH_URL=$BETTER_AUTH_URL
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # 1. Generate Prisma clients (both master and tenant)
 RUN pnpm --filter=@workspace/db run db:generate:all
