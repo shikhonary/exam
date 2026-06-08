@@ -41,7 +41,6 @@ const entityLabels: Record<
   village: { singular: "গ্রাম", icon: "🏡" },
   assessment: { singular: "মূল্যায়ন", icon: "📄" },
   citizenApplication: { singular: "আবেদন", icon: "📄" },
-  fiscalYear: { singular: "অর্থবছর", icon: "📅" },
   category: { singular: "ক্যাটাগরি", icon: "📁" },
   "trade-license-application": { singular: "আবেদন", icon: "📄" },
   cq: { singular: "সৃজনশীল প্রশ্ন (CQ)", icon: "📝" },

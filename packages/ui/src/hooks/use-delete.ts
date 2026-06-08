@@ -22,7 +22,6 @@ export type DeleteEntityType =
   | "village"
   | "assessment"
   | "citizenApplication"
-  | "fiscalYear"
   | "category"
   | "trade-license-application"
   | "cq"
