@@ -1,5 +1,7 @@
 import { EditAcademicChapterTopicView } from "@/modules/academic-chapter-topics/ui/views/edit-academic-chapter-topic-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Edit Academic Topic | Up Hub",
   description: "Edit an existing academic chapter",

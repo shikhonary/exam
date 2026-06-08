@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { AcademicYearView } from "@/modules/academic-years/ui/views/academic-year-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Academic Year Details",
   description: "View and manage academic year details",

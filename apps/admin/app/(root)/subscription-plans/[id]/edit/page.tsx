@@ -3,6 +3,8 @@ import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { SubscriptionPlanForm } from "@/modules/subscription-plans/ui/form/subscription-plan-form";
 import Link from "next/link";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Edit Subscription Plan",
   description: "Edit subscription plan settings",

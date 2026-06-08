@@ -1,6 +1,8 @@
 import React from "react";
 import { DistributionPickerView } from "@/modules/question-paper-builder/ui/views/distribution-picker-view";
 
+
+export const dynamic = "force-dynamic";
 interface Props {
   params: Promise<{
     id: string;

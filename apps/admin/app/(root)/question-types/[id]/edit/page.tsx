@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { EditQuestionTypeView } from "@/modules/question-types/ui/views/edit-question-type-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Edit Question Type",
   description: "Update question type details",

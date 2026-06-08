@@ -3,6 +3,8 @@ import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { AcademicYearForm } from "@/modules/academic-years/ui/form/academic-year-form";
 import Link from "next/link";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Edit Academic Year",
   description: "Edit academic year settings",

@@ -4,6 +4,8 @@ import { EditSubscriptionForm } from "@/modules/subscriptions/ui/form/subscripti
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Edit Subscription",
   description: "Edit subscription limits and settings",

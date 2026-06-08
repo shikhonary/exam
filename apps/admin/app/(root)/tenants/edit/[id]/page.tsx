@@ -3,6 +3,8 @@ import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 
 import { EditTenantView } from "@/modules/tenants/ui/views/edit-tenant-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Edit Tenant",
   description: "Edit tenant details",

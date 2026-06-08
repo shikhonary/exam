@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { SubscriptionPlanView } from "@/modules/subscription-plans/ui/views/subscription-plan-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Subscription Plan Details",
   description: "View subscription plan details",

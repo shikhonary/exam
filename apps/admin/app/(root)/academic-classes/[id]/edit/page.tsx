@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { EditAcademicClassView } from "@/modules/academic-classes/ui/views/edit-academic-class-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Edit Academic Class",
   description: "Edit academic class settings",

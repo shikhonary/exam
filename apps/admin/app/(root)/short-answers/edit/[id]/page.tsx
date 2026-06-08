@@ -1,5 +1,7 @@
 import { ShortAnswerForm } from "@/modules/short-answer/ui/form/short-answer-form";
 
+
+export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Edit Short Answer | Up Hub",
   description: "Edit an existing Short Answer",

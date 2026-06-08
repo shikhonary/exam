@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, Edit3 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 
+
+export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Edit CQ | Up Hub",
   description: "Edit Creative Question",

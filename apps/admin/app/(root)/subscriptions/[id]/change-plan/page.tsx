@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { ChangePlanView } from "@/modules/subscriptions/ui/views/change-plan-view";
 
+
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Change Subscription Plan | up hub Admin",
   description: "Upgrade or downgrade a tenant's subscription plan",
