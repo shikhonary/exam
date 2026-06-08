@@ -55,8 +55,8 @@ RUN pnpm --filter=@workspace/db run db:generate:all
 # Ensure the public directory exists to prevent build/copy failures if it's empty/missing
 RUN mkdir -p apps/admin/public
 
-# 2. Build the admin application
-RUN pnpm turbo build --filter=admin
+# 2. Build the admin application (bypass turbo to expose full Next.js error output)
+RUN pnpm --filter=admin run build
 
 # Stage 3: Final production image (Runner)
 FROM node:22-alpine AS runner
