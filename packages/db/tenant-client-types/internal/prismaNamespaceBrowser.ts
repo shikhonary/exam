@@ -73,7 +73,10 @@ export const ModelName = {
   TradeLicense: 'TradeLicense',
   CertificateApplication: 'CertificateApplication',
   SuccessionApplication: 'SuccessionApplication',
-  Heir: 'Heir'
+  Heir: 'Heir',
+  AdmissionFee: 'AdmissionFee',
+  MonthlyFee: 'MonthlyFee',
+  Counter: 'Counter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -110,14 +113,37 @@ export type BatchScalarFieldEnum = (typeof BatchScalarFieldEnum)[keyof typeof Ba
 
 export const StudentScalarFieldEnum = {
   id: 'id',
+  studentId: 'studentId',
   name: 'name',
-  roll: 'roll',
   email: 'email',
-  phone: 'phone',
+  academicClassId: 'academicClassId',
+  className: 'className',
+  batchId: 'batchId',
+  institute: 'institute',
+  roll: 'roll',
+  group: 'group',
+  shift: 'shift',
+  section: 'section',
+  fatherName: 'fatherName',
+  motherName: 'motherName',
+  dateOfBirth: 'dateOfBirth',
+  gender: 'gender',
+  bloodGroup: 'bloodGroup',
+  nationality: 'nationality',
+  religion: 'religion',
+  imageUrl: 'imageUrl',
+  primaryPhone: 'primaryPhone',
+  secondaryPhone: 'secondaryPhone',
+  presentAddress: 'presentAddress',
+  permanentAddress: 'permanentAddress',
   isActive: 'isActive',
+  admissionFee: 'admissionFee',
+  monthlyFee: 'monthlyFee',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  batchId: 'batchId'
+  deletedAt: 'deletedAt',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear'
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -688,6 +714,47 @@ export const HeirScalarFieldEnum = {
 } as const
 
 export type HeirScalarFieldEnum = (typeof HeirScalarFieldEnum)[keyof typeof HeirScalarFieldEnum]
+
+
+export const AdmissionFeeScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  academicClassId: 'academicClassId',
+  className: 'className',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdmissionFeeScalarFieldEnum = (typeof AdmissionFeeScalarFieldEnum)[keyof typeof AdmissionFeeScalarFieldEnum]
+
+
+export const MonthlyFeeScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  academicClassId: 'academicClassId',
+  className: 'className',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MonthlyFeeScalarFieldEnum = (typeof MonthlyFeeScalarFieldEnum)[keyof typeof MonthlyFeeScalarFieldEnum]
+
+
+export const CounterScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  type: 'type',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CounterScalarFieldEnum = (typeof CounterScalarFieldEnum)[keyof typeof CounterScalarFieldEnum]
 
 
 export const SortOrder = {

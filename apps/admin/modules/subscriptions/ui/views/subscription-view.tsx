@@ -233,7 +233,7 @@ function SubscriptionContent({ id }: { id: string }) {
                     { label: "Price per Month", value: `৳ ${sub.pricePerMonth}` },
                     { label: "Price per Year", value: sub.pricePerYear ? `৳ ${sub.pricePerYear}` : "N/A" },
                     { label: "Currency", value: sub.currency },
-                  ].map(({ label, value, mono }) => (
+                  ].map(({ label, value, mono }: { label: string; value: any; mono?: boolean }) => (
                     <div key={label} className="flex gap-4">
                       <dt className="w-48 flex-shrink-0 font-medium text-on-surface-variant">
                         {label}
@@ -260,7 +260,7 @@ function SubscriptionContent({ id }: { id: string }) {
                     { label: "Teacher Limit", value: sub.customTeacherLimit ?? "Inherited from plan" },
                     { label: "Storage Limit", value: sub.customStorageLimit ? `${sub.customStorageLimit} GB` : "Inherited from plan" },
                     { label: "Exam Limit", value: sub.customExamLimit ?? "Inherited from plan" },
-                  ].map(({ label, value, mono }) => (
+                  ].map(({ label, value, mono }: { label: string; value: any; mono?: boolean }) => (
                     <div key={label} className="flex gap-4">
                       <dt className="w-48 flex-shrink-0 font-medium text-on-surface-variant">
                         {label}

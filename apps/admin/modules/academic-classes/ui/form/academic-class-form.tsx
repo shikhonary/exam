@@ -65,7 +65,7 @@ function CreateAcademicClassForm() {
   const { mutateAsync: create, isPending } = useCreateAcademicClass();
 
   const form = useForm<AcademicClassFormValues>({
-    resolver: zodResolver(academicClassFormSchema),
+    resolver: zodResolver(academicClassFormSchema) as any,
     defaultValues: defaultAcademicClassValues,
   });
 
@@ -101,7 +101,7 @@ function EditAcademicClassForm({ id }: EditAcademicClassFormProps) {
   const { mutateAsync: update, isPending } = useUpdateAcademicClass();
 
   const form = useForm<UpdateAcademicClassValues>({
-    resolver: zodResolver(updateAcademicClassSchema),
+    resolver: zodResolver(updateAcademicClassSchema) as any,
     defaultValues: {
       nameEn: academicClass?.nameEn ?? "",
       nameBn: academicClass?.nameBn ?? "",
@@ -134,9 +134,9 @@ function EditAcademicClassForm({ id }: EditAcademicClassFormProps) {
 // ---------------------------------------------------------------------------
 
 interface FormContentProps {
-  form: ReturnType<typeof useForm<AcademicClassFormValues>>;
+  form: any;
   isPending: boolean;
-  onSubmit: (data: AcademicClassFormValues) => Promise<void>;
+  onSubmit: any;
   onCancel: () => void;
   mode: "create" | "edit";
 }

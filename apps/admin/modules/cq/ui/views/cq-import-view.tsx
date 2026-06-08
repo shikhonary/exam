@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
-import { type CqFormSchema } from "@workspace/schema";
+import { cqFormSchema } from "@workspace/schema";
 import { CqCard } from "../components/cq-card";
 
 export const CqImportView = () => {

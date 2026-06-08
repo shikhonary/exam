@@ -80,7 +80,7 @@ function AcademicYearContent({ id }: { id: string }) {
   const handleDelete = () => {
     openDeleteModal({
       entityId: year.id,
-      entityType: "academic year",
+      entityType: "academicYear",
       entityName: year.label,
       onConfirm: async (entityId) => {
         await deleteYear({ id: entityId });

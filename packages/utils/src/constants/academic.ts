@@ -76,6 +76,17 @@ export const activeBooleanStatusOptions = Object.values(
 
 export const sortOptions = enumToOptions(SORT);
 export const sortWithPositionOptions = enumToOptions(SORT_WITH_POSITION);
-export const groupOptions = enumToOptions(ACADEMIC_GROUP);
 export const activeStatusOptions = enumToOptions(ACTIVE_STATUS);
-export const shiftOptions = enumToOptions(SHIFT);
+
+export const groupOptions = [
+  { value: ACADEMIC_GROUP.SCIENCE, labelEn: "Science", labelBn: "বিজ্ঞান" },
+  { value: ACADEMIC_GROUP.BUSINESS_STUDIES, labelEn: "Business Studies", labelBn: "বাণিজ্য" },
+  { value: ACADEMIC_GROUP.HUMANITIES, labelEn: "Humanities", labelBn: "মানবিক" },
+] as const;
+
+export const shiftOptions = [
+  { value: SHIFT.MORNING, labelEn: "Morning", labelBn: "প্রভাতী" },
+  { value: SHIFT.DAY, labelEn: "Day", labelBn: "দিবা" },
+  { value: SHIFT.EVENING, labelEn: "Evening", labelBn: "সান্ধ্য" },
+  { value: SHIFT.NIGHT, labelEn: "Night", labelBn: "রাত্রি" },
+] as const;

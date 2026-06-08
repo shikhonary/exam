@@ -2,6 +2,10 @@ import { t } from "./index";
 import { authRouter } from "../routers/auth";
 import { tenantRouter } from "../routers/tenant";
 import { batchRouter } from "../routers/batch";
+import { studentRouter } from "../routers/student";
+import { admissionFeeRouter } from "../routers/admission-fee";
+import { monthlyFeeRouter } from "../routers/monthly-fee";
+import { counterRouter } from "../routers/counter";
 
 import { subscriptionPlanRouter } from "../routers/subscription-plan";
 import { subscriptionRouter } from "../routers/subscription";
@@ -31,6 +35,10 @@ export const appRouter = t.router({
   auth: authRouter,
   tenant: tenantRouter,
   batch: batchRouter,
+  student: studentRouter,
+  admissionFee: admissionFeeRouter,
+  monthlyFee: monthlyFeeRouter,
+  counter: counterRouter,
 
   subscriptionPlan: subscriptionPlanRouter,
   subscription: subscriptionRouter,

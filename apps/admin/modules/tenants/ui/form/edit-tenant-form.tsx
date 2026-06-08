@@ -56,7 +56,7 @@ export function EditTenantForm({ tenantId }: EditTenantFormProps) {
         type: tenant.type as TenantFormValues["type"],
         description: tenant.description ?? "",
         logo: tenant.logo ?? "",
-        currentAcademicYear: tenant.currentAcademicYear ?? "",
+        currentAcademicYear: tenant.currentAcademicYearId ?? "",
         email: tenant.email ?? "",
         phone: tenant.phone ?? "",
         address: tenant.address ?? "",

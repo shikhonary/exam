@@ -28,7 +28,9 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   const newArr = [...array];
   for (let i = newArr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+    const temp = newArr[i];
+    newArr[i] = newArr[j]!;
+    newArr[j] = temp!;
   }
   return newArr;
 };
@@ -94,7 +96,7 @@ export const GenerateSetsModal: React.FC<GenerateSetsModalProps> = ({
           if (currentCluster.length === 0) {
             currentCluster.push(block);
           } else {
-            const firstCtxText = currentCluster[0].data.item.data.questionContext?.text;
+            const firstCtxText = currentCluster[0]!.data.item.data.questionContext?.text;
             if (ctxText && firstCtxText === ctxText) {
               currentCluster.push(block);
             } else {
@@ -163,7 +165,7 @@ export const GenerateSetsModal: React.FC<GenerateSetsModalProps> = ({
           const currText = block.data.item.data.questionContext?.text;
 
           if (idx > 0) {
-            const prevText = flattenedMcqs[idx - 1].data.item.data.questionContext?.text;
+            const prevText = flattenedMcqs[idx - 1]!.data.item.data.questionContext?.text;
             if (currText && prevText === currText) {
               hideContext = true;
             }
@@ -172,7 +174,7 @@ export const GenerateSetsModal: React.FC<GenerateSetsModalProps> = ({
           if (!hideContext && currText) {
             let sharedCount = 1;
             for (let j = idx + 1; j < flattenedMcqs.length; j++) {
-              if (flattenedMcqs[j].data.item.data.questionContext?.text === currText) {
+              if (flattenedMcqs[j]!.data.item.data.questionContext?.text === currText) {
                 sharedCount++;
               } else {
                 break;
@@ -183,10 +185,10 @@ export const GenerateSetsModal: React.FC<GenerateSetsModalProps> = ({
             if (sharedCount === 1) {
               contextInstruction = `নিচের উদ্দীপকের আলোকে ${startNumBn} নং প্রশ্নের উত্তর দাও:`;
             } else if (sharedCount === 2) {
-              const endNumBn = toBengaliDigits(flattenedMcqs[idx + 1].data.item.orderIndex + 1);
+              const endNumBn = toBengaliDigits(flattenedMcqs[idx + 1]!.data.item.orderIndex + 1);
               contextInstruction = `নিচের উদ্দীপকের আলোকে ${startNumBn} ও ${endNumBn} নং প্রশ্নগুলোর উত্তর দাও:`;
             } else {
-              const endNumBn = toBengaliDigits(flattenedMcqs[idx + sharedCount - 1].data.item.orderIndex + 1);
+              const endNumBn = toBengaliDigits(flattenedMcqs[idx + sharedCount - 1]!.data.item.orderIndex + 1);
               contextInstruction = `নিচের উদ্দীপকের আলোকে ${startNumBn} - ${endNumBn} নং প্রশ্নগুলোর উত্তর দাও:`;
             }
           }

@@ -44,6 +44,10 @@ const entityLabels: Record<
   fiscalYear: { singular: "অর্থবছর", icon: "📅" },
   category: { singular: "ক্যাটাগরি", icon: "📁" },
   "trade-license-application": { singular: "আবেদন", icon: "📄" },
+  cq: { singular: "সৃজনশীল প্রশ্ন (CQ)", icon: "📝" },
+  questionPaper: { singular: "প্রশ্নপত্র", icon: "📄" },
+  questionType: { singular: "প্রশ্নের ধরন", icon: "🏷️" },
+  shortAnswer: { singular: "সংক্ষিপ্ত প্রশ্ন", icon: "📝" },
 };
 
 export function DeleteConfirmModal() {

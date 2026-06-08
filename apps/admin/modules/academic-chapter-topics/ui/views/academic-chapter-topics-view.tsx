@@ -37,7 +37,7 @@ function AcademicChapterTopicsContent() {
   const handleDelete = (id: string, name: string) => {
     openDeleteModal({
       entityId: id,
-      entityType: "academicChapterTopic",
+      entityType: "topic",
       entityName: name,
       onConfirm: (entityId) => {
         deleteChapter({ id: entityId });

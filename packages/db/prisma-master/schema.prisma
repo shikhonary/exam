@@ -760,8 +760,6 @@ model PdfIngestionJob {
     blocksExtracted Int  @default(0)
     figuresCropped  Int  @default(0)
 
-    /// Inngest event ID — used for tracing in the Inngest dashboard
-    inngestEventId String?
     /// Which Gemini model was used, e.g. "gemini-2.0-flash"
     geminiModel    String?
     errorMessage   String?

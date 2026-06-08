@@ -37,7 +37,7 @@ export const getAuthConfig = () => {
     },
     advanced: {
       crossSubDomainCookies: {
-        enabled: true,
+        enabled: false,
       },
     },
   };

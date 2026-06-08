@@ -39,20 +39,47 @@ model Batch {
 }
 
 model Student {
-    id        String   @id @default(uuid())
-    name      String
-    roll      String?
-    email     String?
-    phone     String?
-    isActive  Boolean  @default(true)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id               String    @id @default(uuid())
+    studentId        String
+    name             String
+    email            String?
+    academicClassId  String
+    className        String
+    batchId          String
+    batch            Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+    institute        String
+    roll             String
+    group            String?
+    shift            String?
+    section          String?
+    fatherName       String
+    motherName       String
+    dateOfBirth      DateTime?
+    gender           String
+    bloodGroup       String?
+    nationality      String
+    religion         String
+    imageUrl         String?
+    primaryPhone     String
+    secondaryPhone   String?
+    presentAddress   String
+    permanentAddress String
+    isActive         Boolean   @default(true)
+    admissionFee     Float     @default(0)
+    monthlyFee       Float     @default(0)
 
-    batchId String
-    batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
 
+    academicYearId String
+    academicYear   String
+
+    @@index([academicClassId])
     @@index([batchId])
     @@index([isActive])
+    @@index([name])
+    @@index([studentId])
     @@map("student")
 }
 
@@ -771,4 +798,51 @@ model Heir {
     application   SuccessionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 
     @@map("heir")
+}
+
+model AdmissionFee {
+    id             String       @id @default(uuid())
+    academicYearId String
+    academicYear   String
+
+    academicClassId String
+    className       String
+
+    amount Float @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("admission_fee")
+}
+
+model MonthlyFee {
+    id             String       @id @default(uuid())
+    academicYearId String
+    academicYear   String
+
+    academicClassId String
+    className       String
+
+    amount Float @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("monthly_fee")
+}
+
+model Counter {
+    id             String       @id @default(uuid())
+    academicYearId String
+    academicYear  String
+
+    type String
+
+    value Int @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("counter")
 }

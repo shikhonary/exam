@@ -406,7 +406,10 @@ export const ModelName = {
   TradeLicense: 'TradeLicense',
   CertificateApplication: 'CertificateApplication',
   SuccessionApplication: 'SuccessionApplication',
-  Heir: 'Heir'
+  Heir: 'Heir',
+  AdmissionFee: 'AdmissionFee',
+  MonthlyFee: 'MonthlyFee',
+  Counter: 'Counter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -422,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "batch" | "student" | "exam" | "classRoutine" | "assignment" | "studyMaterial" | "liveClass" | "citizenApplication" | "citizen" | "ward" | "village" | "familyApplication" | "familyMember" | "assessmentApplication" | "holdingTax" | "fiscalYear" | "certificateCounter" | "tradeLicenseCategory" | "tradeLicenseApplication" | "tradeLicense" | "certificateApplication" | "successionApplication" | "heir"
+    modelProps: "batch" | "student" | "exam" | "classRoutine" | "assignment" | "studyMaterial" | "liveClass" | "citizenApplication" | "citizen" | "ward" | "village" | "familyApplication" | "familyMember" | "assessmentApplication" | "holdingTax" | "fiscalYear" | "certificateCounter" | "tradeLicenseCategory" | "tradeLicenseApplication" | "tradeLicense" | "certificateApplication" | "successionApplication" | "heir" | "admissionFee" | "monthlyFee" | "counter"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2128,6 +2131,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AdmissionFee: {
+      payload: Prisma.$AdmissionFeePayload<ExtArgs>
+      fields: Prisma.AdmissionFeeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdmissionFeeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdmissionFeeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>
+        }
+        findFirst: {
+          args: Prisma.AdmissionFeeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdmissionFeeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>
+        }
+        findMany: {
+          args: Prisma.AdmissionFeeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>[]
+        }
+        create: {
+          args: Prisma.AdmissionFeeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>
+        }
+        createMany: {
+          args: Prisma.AdmissionFeeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AdmissionFeeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>[]
+        }
+        delete: {
+          args: Prisma.AdmissionFeeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>
+        }
+        update: {
+          args: Prisma.AdmissionFeeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>
+        }
+        deleteMany: {
+          args: Prisma.AdmissionFeeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdmissionFeeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AdmissionFeeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>[]
+        }
+        upsert: {
+          args: Prisma.AdmissionFeeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionFeePayload>
+        }
+        aggregate: {
+          args: Prisma.AdmissionFeeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmissionFee>
+        }
+        groupBy: {
+          args: Prisma.AdmissionFeeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdmissionFeeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdmissionFeeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdmissionFeeCountAggregateOutputType> | number
+        }
+      }
+    }
+    MonthlyFee: {
+      payload: Prisma.$MonthlyFeePayload<ExtArgs>
+      fields: Prisma.MonthlyFeeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MonthlyFeeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MonthlyFeeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>
+        }
+        findFirst: {
+          args: Prisma.MonthlyFeeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MonthlyFeeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>
+        }
+        findMany: {
+          args: Prisma.MonthlyFeeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>[]
+        }
+        create: {
+          args: Prisma.MonthlyFeeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>
+        }
+        createMany: {
+          args: Prisma.MonthlyFeeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MonthlyFeeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>[]
+        }
+        delete: {
+          args: Prisma.MonthlyFeeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>
+        }
+        update: {
+          args: Prisma.MonthlyFeeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>
+        }
+        deleteMany: {
+          args: Prisma.MonthlyFeeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MonthlyFeeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MonthlyFeeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>[]
+        }
+        upsert: {
+          args: Prisma.MonthlyFeeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MonthlyFeePayload>
+        }
+        aggregate: {
+          args: Prisma.MonthlyFeeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMonthlyFee>
+        }
+        groupBy: {
+          args: Prisma.MonthlyFeeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MonthlyFeeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MonthlyFeeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MonthlyFeeCountAggregateOutputType> | number
+        }
+      }
+    }
+    Counter: {
+      payload: Prisma.$CounterPayload<ExtArgs>
+      fields: Prisma.CounterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CounterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CounterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>
+        }
+        findFirst: {
+          args: Prisma.CounterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CounterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>
+        }
+        findMany: {
+          args: Prisma.CounterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>[]
+        }
+        create: {
+          args: Prisma.CounterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>
+        }
+        createMany: {
+          args: Prisma.CounterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CounterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>[]
+        }
+        delete: {
+          args: Prisma.CounterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>
+        }
+        update: {
+          args: Prisma.CounterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>
+        }
+        deleteMany: {
+          args: Prisma.CounterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CounterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CounterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>[]
+        }
+        upsert: {
+          args: Prisma.CounterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CounterPayload>
+        }
+        aggregate: {
+          args: Prisma.CounterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCounter>
+        }
+        groupBy: {
+          args: Prisma.CounterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CounterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CounterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CounterCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2185,14 +2410,37 @@ export type BatchScalarFieldEnum = (typeof BatchScalarFieldEnum)[keyof typeof Ba
 
 export const StudentScalarFieldEnum = {
   id: 'id',
+  studentId: 'studentId',
   name: 'name',
-  roll: 'roll',
   email: 'email',
-  phone: 'phone',
+  academicClassId: 'academicClassId',
+  className: 'className',
+  batchId: 'batchId',
+  institute: 'institute',
+  roll: 'roll',
+  group: 'group',
+  shift: 'shift',
+  section: 'section',
+  fatherName: 'fatherName',
+  motherName: 'motherName',
+  dateOfBirth: 'dateOfBirth',
+  gender: 'gender',
+  bloodGroup: 'bloodGroup',
+  nationality: 'nationality',
+  religion: 'religion',
+  imageUrl: 'imageUrl',
+  primaryPhone: 'primaryPhone',
+  secondaryPhone: 'secondaryPhone',
+  presentAddress: 'presentAddress',
+  permanentAddress: 'permanentAddress',
   isActive: 'isActive',
+  admissionFee: 'admissionFee',
+  monthlyFee: 'monthlyFee',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  batchId: 'batchId'
+  deletedAt: 'deletedAt',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear'
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -2765,6 +3013,47 @@ export const HeirScalarFieldEnum = {
 export type HeirScalarFieldEnum = (typeof HeirScalarFieldEnum)[keyof typeof HeirScalarFieldEnum]
 
 
+export const AdmissionFeeScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  academicClassId: 'academicClassId',
+  className: 'className',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdmissionFeeScalarFieldEnum = (typeof AdmissionFeeScalarFieldEnum)[keyof typeof AdmissionFeeScalarFieldEnum]
+
+
+export const MonthlyFeeScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  academicClassId: 'academicClassId',
+  className: 'className',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MonthlyFeeScalarFieldEnum = (typeof MonthlyFeeScalarFieldEnum)[keyof typeof MonthlyFeeScalarFieldEnum]
+
+
+export const CounterScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  type: 'type',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CounterScalarFieldEnum = (typeof CounterScalarFieldEnum)[keyof typeof CounterScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3020,6 +3309,9 @@ export type GlobalOmitConfig = {
   certificateApplication?: Prisma.CertificateApplicationOmit
   successionApplication?: Prisma.SuccessionApplicationOmit
   heir?: Prisma.HeirOmit
+  admissionFee?: Prisma.AdmissionFeeOmit
+  monthlyFee?: Prisma.MonthlyFeeOmit
+  counter?: Prisma.CounterOmit
 }
 
 /* Types for Logging */

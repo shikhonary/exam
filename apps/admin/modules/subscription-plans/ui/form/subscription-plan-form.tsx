@@ -56,7 +56,7 @@ function CreateSubscriptionPlanForm() {
   const { mutateAsync: create, isPending } = useCreateSubscriptionPlan();
 
   const form = useForm<SubscriptionPlanFormValues>({
-    resolver: zodResolver(subscriptionPlanFormSchema),
+    resolver: zodResolver(subscriptionPlanFormSchema) as any,
     defaultValues: defaultSubscriptionPlanValues as SubscriptionPlanFormValues,
   });
 
@@ -89,7 +89,7 @@ function EditSubscriptionPlanForm({ id }: { id: string }) {
   const { mutateAsync: update, isPending } = useUpdateSubscriptionPlan();
 
   const form = useForm<SubscriptionPlanFormValues>({
-    resolver: zodResolver(subscriptionPlanFormSchema),
+    resolver: zodResolver(subscriptionPlanFormSchema) as any,
     defaultValues: defaultSubscriptionPlanValues as SubscriptionPlanFormValues,
   });
 
@@ -110,7 +110,7 @@ function EditSubscriptionPlanForm({ id }: { id: string }) {
         features: (plan.features as Record<string, boolean>) || {},
         isActive: plan.isActive,
         isPopular: plan.isPopular,
-      });
+      } as any);
     }
   }, [plan, form]);
 
@@ -140,7 +140,7 @@ function EditSubscriptionPlanForm({ id }: { id: string }) {
 // ---------------------------------------------------------------------------
 // Shared fields
 // ---------------------------------------------------------------------------
-function PlanFields({ form }: { form: ReturnType<typeof useForm<SubscriptionPlanFormValues>> }) {
+function PlanFields({ form }: { form: any }) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -431,9 +431,9 @@ function PlanFields({ form }: { form: ReturnType<typeof useForm<SubscriptionPlan
 // Shared form content wrapper
 // ---------------------------------------------------------------------------
 interface FormContentProps {
-  form: ReturnType<typeof useForm<SubscriptionPlanFormValues>>;
+  form: any;
   isPending: boolean;
-  onSubmit: (data: SubscriptionPlanFormValues) => Promise<void>;
+  onSubmit: any;
   onCancel: () => void;
   mode: "create" | "edit";
   injected?: boolean;

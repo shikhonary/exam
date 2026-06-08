@@ -34,6 +34,7 @@ import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
   tenantTypeOptions,
+  TENANT_TYPE,
 } from "@workspace/utils";
 import { useTenantFilters, useSubscriptionPlansForSelection } from "@workspace/api-client";
 

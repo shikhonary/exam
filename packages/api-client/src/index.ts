@@ -21,6 +21,10 @@ export * from "./hooks/use-subscription";
 export * from "./hooks/use-setting";
 export * from "./hooks/use-audit-log";
 export * from "./hooks/use-notification";
+export * from "./hooks/use-admission-fee";
+export * from "./hooks/use-monthly-fee";
+export * from "./hooks/use-counter";
+export * from "./hooks/use-student";
 
 // Filters
 export * from "./filters/client";

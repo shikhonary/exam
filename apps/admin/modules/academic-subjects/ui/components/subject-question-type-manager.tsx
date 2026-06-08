@@ -42,7 +42,7 @@ function EditableRow({
   id: string;
   subjectId: string;
   label: string;
-  questionType: { nameEn: string; nameBn: string; label: string };
+  questionType: { id: string; nameEn: string; nameBn: string };
 }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(label);

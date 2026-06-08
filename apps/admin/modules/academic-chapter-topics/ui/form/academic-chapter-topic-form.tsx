@@ -70,7 +70,7 @@ export function CreateAcademicChapterTopicForm() {
   const { mutateAsync: create, isPending } = useCreateAcademicChapterTopic();
 
   const form = useForm<AcademicChapterTopicFormValues>({
-    resolver: zodResolver(academicChapterTopicFormSchema),
+    resolver: zodResolver(academicChapterTopicFormSchema) as any,
     defaultValues: defaultAcademicChapterTopicValues,
   });
 
@@ -116,7 +116,7 @@ export function EditAcademicChapterTopicForm({ id }: EditAcademicChapterTopicFor
   }, [chapter]);
 
   const form = useForm<UpdateAcademicChapterTopicValues>({
-    resolver: zodResolver(updateAcademicChapterTopicSchema),
+    resolver: zodResolver(updateAcademicChapterTopicSchema) as any,
     defaultValues: {
       nameEn: chapter?.nameEn ?? "",
       nameBn: chapter?.nameBn ?? "",

@@ -4391,7 +4391,6 @@ export const PdfIngestionJobScalarFieldEnum = {
   chaptersFound: 'chaptersFound',
   blocksExtracted: 'blocksExtracted',
   figuresCropped: 'figuresCropped',
-  inngestEventId: 'inngestEventId',
   geminiModel: 'geminiModel',
   errorMessage: 'errorMessage',
   uploadedById: 'uploadedById',

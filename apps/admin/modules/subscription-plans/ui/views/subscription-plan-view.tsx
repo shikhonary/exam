@@ -80,7 +80,7 @@ function SubscriptionPlanContent({ id }: { id: string }) {
   const handleDelete = () => {
     openDeleteModal({
       entityId: plan.id,
-      entityType: "subscription plan",
+      entityType: "subscriptionPlan",
       entityName: plan.displayName,
       onConfirm: async (entityId) => {
         await deletePlan({ id: entityId });
@@ -267,7 +267,7 @@ function SubscriptionPlanContent({ id }: { id: string }) {
                       label: "Created At",
                       value: format(new Date(plan.createdAt), "EEEE, d MMMM yyyy"),
                     },
-                  ].map(({ label, value, mono }) => (
+                  ].map(({ label, value, mono }: { label: string; value: any; mono?: boolean }) => (
                     <div key={label} className="flex gap-4">
                       <dt className="w-48 flex-shrink-0 font-medium text-on-surface-variant">
                         {label}
@@ -294,7 +294,7 @@ function SubscriptionPlanContent({ id }: { id: string }) {
                     { label: "Yearly Price (BDT)", value: `৳ ${plan.yearlyPriceBDT}` },
                     { label: "Monthly Price (USD)", value: `$ ${plan.monthlyPriceUSD}` },
                     { label: "Yearly Price (USD)", value: `$ ${plan.yearlyPriceUSD}` },
-                  ].map(({ label, value, mono }) => (
+                  ].map(({ label, value, mono }: { label: string; value: any; mono?: boolean }) => (
                     <div key={label} className="flex gap-4">
                       <dt className="w-48 flex-shrink-0 font-medium text-on-surface-variant">
                         {label}
@@ -321,7 +321,7 @@ function SubscriptionPlanContent({ id }: { id: string }) {
                     { label: "Teacher Limit", value: plan.defaultTeacherLimit },
                     { label: "Storage Limit", value: `${plan.defaultStorageLimit} GB` },
                     { label: "Exam Limit", value: plan.defaultExamLimit },
-                  ].map(({ label, value, mono }) => (
+                  ].map(({ label, value, mono }: { label: string; value: any; mono?: boolean }) => (
                     <div key={label} className="flex gap-4">
                       <dt className="w-48 flex-shrink-0 font-medium text-on-surface-variant">
                         {label}

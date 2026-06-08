@@ -55,7 +55,7 @@ interface BreakdownTableProps {
 export const BreakdownTable = React.memo(
   ({ subjectId, initialRows, registryRef, disabled }: BreakdownTableProps) => {
     const [rows, setRows] = React.useState<MarkDistributionRow[]>(initialRows || []);
-    const { data: qTypes } = useQuestionTypesForSelection(subjectId);
+    const { data: qTypes } = useQuestionTypesForSelection();
 
     // If initialRows arrive later (async fetch), sync them
     React.useEffect(() => {

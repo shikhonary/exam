@@ -56,7 +56,6 @@ export type PdfIngestionJobMinAggregateOutputType = {
   chaptersFound: number | null
   blocksExtracted: number | null
   figuresCropped: number | null
-  inngestEventId: string | null
   geminiModel: string | null
   errorMessage: string | null
   uploadedById: string | null
@@ -78,7 +77,6 @@ export type PdfIngestionJobMaxAggregateOutputType = {
   chaptersFound: number | null
   blocksExtracted: number | null
   figuresCropped: number | null
-  inngestEventId: string | null
   geminiModel: string | null
   errorMessage: string | null
   uploadedById: string | null
@@ -100,7 +98,6 @@ export type PdfIngestionJobCountAggregateOutputType = {
   chaptersFound: number
   blocksExtracted: number
   figuresCropped: number
-  inngestEventId: number
   geminiModel: number
   errorMessage: number
   uploadedById: number
@@ -142,7 +139,6 @@ export type PdfIngestionJobMinAggregateInputType = {
   chaptersFound?: true
   blocksExtracted?: true
   figuresCropped?: true
-  inngestEventId?: true
   geminiModel?: true
   errorMessage?: true
   uploadedById?: true
@@ -164,7 +160,6 @@ export type PdfIngestionJobMaxAggregateInputType = {
   chaptersFound?: true
   blocksExtracted?: true
   figuresCropped?: true
-  inngestEventId?: true
   geminiModel?: true
   errorMessage?: true
   uploadedById?: true
@@ -186,7 +181,6 @@ export type PdfIngestionJobCountAggregateInputType = {
   chaptersFound?: true
   blocksExtracted?: true
   figuresCropped?: true
-  inngestEventId?: true
   geminiModel?: true
   errorMessage?: true
   uploadedById?: true
@@ -295,7 +289,6 @@ export type PdfIngestionJobGroupByOutputType = {
   chaptersFound: number
   blocksExtracted: number
   figuresCropped: number
-  inngestEventId: string | null
   geminiModel: string | null
   errorMessage: string | null
   uploadedById: string | null
@@ -340,7 +333,6 @@ export type PdfIngestionJobWhereInput = {
   chaptersFound?: Prisma.IntFilter<"PdfIngestionJob"> | number
   blocksExtracted?: Prisma.IntFilter<"PdfIngestionJob"> | number
   figuresCropped?: Prisma.IntFilter<"PdfIngestionJob"> | number
-  inngestEventId?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
   geminiModel?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
   errorMessage?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
@@ -363,7 +355,6 @@ export type PdfIngestionJobOrderByWithRelationInput = {
   chaptersFound?: Prisma.SortOrder
   blocksExtracted?: Prisma.SortOrder
   figuresCropped?: Prisma.SortOrder
-  inngestEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   geminiModel?: Prisma.SortOrderInput | Prisma.SortOrder
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   uploadedById?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -389,7 +380,6 @@ export type PdfIngestionJobWhereUniqueInput = Prisma.AtLeast<{
   chaptersFound?: Prisma.IntFilter<"PdfIngestionJob"> | number
   blocksExtracted?: Prisma.IntFilter<"PdfIngestionJob"> | number
   figuresCropped?: Prisma.IntFilter<"PdfIngestionJob"> | number
-  inngestEventId?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
   geminiModel?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
   errorMessage?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"PdfIngestionJob"> | string | null
@@ -412,7 +402,6 @@ export type PdfIngestionJobOrderByWithAggregationInput = {
   chaptersFound?: Prisma.SortOrder
   blocksExtracted?: Prisma.SortOrder
   figuresCropped?: Prisma.SortOrder
-  inngestEventId?: Prisma.SortOrderInput | Prisma.SortOrder
   geminiModel?: Prisma.SortOrderInput | Prisma.SortOrder
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   uploadedById?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -442,7 +431,6 @@ export type PdfIngestionJobScalarWhereWithAggregatesInput = {
   chaptersFound?: Prisma.IntWithAggregatesFilter<"PdfIngestionJob"> | number
   blocksExtracted?: Prisma.IntWithAggregatesFilter<"PdfIngestionJob"> | number
   figuresCropped?: Prisma.IntWithAggregatesFilter<"PdfIngestionJob"> | number
-  inngestEventId?: Prisma.StringNullableWithAggregatesFilter<"PdfIngestionJob"> | string | null
   geminiModel?: Prisma.StringNullableWithAggregatesFilter<"PdfIngestionJob"> | string | null
   errorMessage?: Prisma.StringNullableWithAggregatesFilter<"PdfIngestionJob"> | string | null
   uploadedById?: Prisma.StringNullableWithAggregatesFilter<"PdfIngestionJob"> | string | null
@@ -463,7 +451,6 @@ export type PdfIngestionJobCreateInput = {
   chaptersFound?: number
   blocksExtracted?: number
   figuresCropped?: number
-  inngestEventId?: string | null
   geminiModel?: string | null
   errorMessage?: string | null
   uploadedById?: string | null
@@ -486,7 +473,6 @@ export type PdfIngestionJobUncheckedCreateInput = {
   chaptersFound?: number
   blocksExtracted?: number
   figuresCropped?: number
-  inngestEventId?: string | null
   geminiModel?: string | null
   errorMessage?: string | null
   uploadedById?: string | null
@@ -507,7 +493,6 @@ export type PdfIngestionJobUpdateInput = {
   chaptersFound?: Prisma.IntFieldUpdateOperationsInput | number
   blocksExtracted?: Prisma.IntFieldUpdateOperationsInput | number
   figuresCropped?: Prisma.IntFieldUpdateOperationsInput | number
-  inngestEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   geminiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -530,7 +515,6 @@ export type PdfIngestionJobUncheckedUpdateInput = {
   chaptersFound?: Prisma.IntFieldUpdateOperationsInput | number
   blocksExtracted?: Prisma.IntFieldUpdateOperationsInput | number
   figuresCropped?: Prisma.IntFieldUpdateOperationsInput | number
-  inngestEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   geminiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -552,7 +536,6 @@ export type PdfIngestionJobCreateManyInput = {
   chaptersFound?: number
   blocksExtracted?: number
   figuresCropped?: number
-  inngestEventId?: string | null
   geminiModel?: string | null
   errorMessage?: string | null
   uploadedById?: string | null
@@ -573,7 +556,6 @@ export type PdfIngestionJobUpdateManyMutationInput = {
   chaptersFound?: Prisma.IntFieldUpdateOperationsInput | number
   blocksExtracted?: Prisma.IntFieldUpdateOperationsInput | number
   figuresCropped?: Prisma.IntFieldUpdateOperationsInput | number
-  inngestEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   geminiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -595,7 +577,6 @@ export type PdfIngestionJobUncheckedUpdateManyInput = {
   chaptersFound?: Prisma.IntFieldUpdateOperationsInput | number
   blocksExtracted?: Prisma.IntFieldUpdateOperationsInput | number
   figuresCropped?: Prisma.IntFieldUpdateOperationsInput | number
-  inngestEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   geminiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -617,7 +598,6 @@ export type PdfIngestionJobCountOrderByAggregateInput = {
   chaptersFound?: Prisma.SortOrder
   blocksExtracted?: Prisma.SortOrder
   figuresCropped?: Prisma.SortOrder
-  inngestEventId?: Prisma.SortOrder
   geminiModel?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrder
   uploadedById?: Prisma.SortOrder
@@ -648,7 +628,6 @@ export type PdfIngestionJobMaxOrderByAggregateInput = {
   chaptersFound?: Prisma.SortOrder
   blocksExtracted?: Prisma.SortOrder
   figuresCropped?: Prisma.SortOrder
-  inngestEventId?: Prisma.SortOrder
   geminiModel?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrder
   uploadedById?: Prisma.SortOrder
@@ -670,7 +649,6 @@ export type PdfIngestionJobMinOrderByAggregateInput = {
   chaptersFound?: Prisma.SortOrder
   blocksExtracted?: Prisma.SortOrder
   figuresCropped?: Prisma.SortOrder
-  inngestEventId?: Prisma.SortOrder
   geminiModel?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrder
   uploadedById?: Prisma.SortOrder
@@ -737,7 +715,6 @@ export type PdfIngestionJobCreateWithoutBookInput = {
   chaptersFound?: number
   blocksExtracted?: number
   figuresCropped?: number
-  inngestEventId?: string | null
   geminiModel?: string | null
   errorMessage?: string | null
   uploadedById?: string | null
@@ -758,7 +735,6 @@ export type PdfIngestionJobUncheckedCreateWithoutBookInput = {
   chaptersFound?: number
   blocksExtracted?: number
   figuresCropped?: number
-  inngestEventId?: string | null
   geminiModel?: string | null
   errorMessage?: string | null
   uploadedById?: string | null
@@ -795,7 +771,6 @@ export type PdfIngestionJobUpdateWithoutBookInput = {
   chaptersFound?: Prisma.IntFieldUpdateOperationsInput | number
   blocksExtracted?: Prisma.IntFieldUpdateOperationsInput | number
   figuresCropped?: Prisma.IntFieldUpdateOperationsInput | number
-  inngestEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   geminiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -816,7 +791,6 @@ export type PdfIngestionJobUncheckedUpdateWithoutBookInput = {
   chaptersFound?: Prisma.IntFieldUpdateOperationsInput | number
   blocksExtracted?: Prisma.IntFieldUpdateOperationsInput | number
   figuresCropped?: Prisma.IntFieldUpdateOperationsInput | number
-  inngestEventId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   geminiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -840,7 +814,6 @@ export type PdfIngestionJobSelect<ExtArgs extends runtime.Types.Extensions.Inter
   chaptersFound?: boolean
   blocksExtracted?: boolean
   figuresCropped?: boolean
-  inngestEventId?: boolean
   geminiModel?: boolean
   errorMessage?: boolean
   uploadedById?: boolean
@@ -863,7 +836,6 @@ export type PdfIngestionJobSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   chaptersFound?: boolean
   blocksExtracted?: boolean
   figuresCropped?: boolean
-  inngestEventId?: boolean
   geminiModel?: boolean
   errorMessage?: boolean
   uploadedById?: boolean
@@ -886,7 +858,6 @@ export type PdfIngestionJobSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   chaptersFound?: boolean
   blocksExtracted?: boolean
   figuresCropped?: boolean
-  inngestEventId?: boolean
   geminiModel?: boolean
   errorMessage?: boolean
   uploadedById?: boolean
@@ -909,7 +880,6 @@ export type PdfIngestionJobSelectScalar = {
   chaptersFound?: boolean
   blocksExtracted?: boolean
   figuresCropped?: boolean
-  inngestEventId?: boolean
   geminiModel?: boolean
   errorMessage?: boolean
   uploadedById?: boolean
@@ -919,7 +889,7 @@ export type PdfIngestionJobSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PdfIngestionJobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookId" | "status" | "fileName" | "fileUrl" | "fileSizeBytes" | "totalPages" | "processedPages" | "chaptersFound" | "blocksExtracted" | "figuresCropped" | "inngestEventId" | "geminiModel" | "errorMessage" | "uploadedById" | "startedAt" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["pdfIngestionJob"]>
+export type PdfIngestionJobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookId" | "status" | "fileName" | "fileUrl" | "fileSizeBytes" | "totalPages" | "processedPages" | "chaptersFound" | "blocksExtracted" | "figuresCropped" | "geminiModel" | "errorMessage" | "uploadedById" | "startedAt" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["pdfIngestionJob"]>
 export type PdfIngestionJobInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
 }
@@ -950,10 +920,6 @@ export type $PdfIngestionJobPayload<ExtArgs extends runtime.Types.Extensions.Int
     chaptersFound: number
     blocksExtracted: number
     figuresCropped: number
-    /**
-     * Inngest event ID — used for tracing in the Inngest dashboard
-     */
-    inngestEventId: string | null
     /**
      * Which Gemini model was used, e.g. "gemini-2.0-flash"
      */
@@ -1399,7 +1365,6 @@ export interface PdfIngestionJobFieldRefs {
   readonly chaptersFound: Prisma.FieldRef<"PdfIngestionJob", 'Int'>
   readonly blocksExtracted: Prisma.FieldRef<"PdfIngestionJob", 'Int'>
   readonly figuresCropped: Prisma.FieldRef<"PdfIngestionJob", 'Int'>
-  readonly inngestEventId: Prisma.FieldRef<"PdfIngestionJob", 'String'>
   readonly geminiModel: Prisma.FieldRef<"PdfIngestionJob", 'String'>
   readonly errorMessage: Prisma.FieldRef<"PdfIngestionJob", 'String'>
   readonly uploadedById: Prisma.FieldRef<"PdfIngestionJob", 'String'>

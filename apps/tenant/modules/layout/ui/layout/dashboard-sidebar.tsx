@@ -120,6 +120,15 @@ const navSections: NavSection[] = [
     label: "অর্থ ও হিসাব",
     items: [
       { title: "ফি সংগ্রহ", url: "/finance/collection", icon: CreditCard },
+      { 
+        title: "ফি নির্ধারণ", 
+        url: "#", 
+        icon: Calculator,
+        subItems: [
+          { title: "ভর্তি ফি", url: "/finance/admission-fee" },
+          { title: "মাসিক ফি", url: "/finance/monthly-fee" },
+        ]
+      },
       { title: "ব্যয় সমূহ", url: "/finance/expenses", icon: DollarSign },
       { title: "ব্যয়ের খাত", url: "/finance/expense-categories", icon: Settings },
     ],
@@ -144,6 +153,7 @@ const navSections: NavSection[] = [
     items: [
       { title: "শিক্ষাবর্ষ", url: "/settings/academic-years", icon: Calendar },
       { title: "রোল ও পারমিশন", url: "/settings/roles", icon: Lock },
+      { title: "কাউন্টার", url: "/settings/counters", icon: Hash },
       { title: "অডিট লগ", url: "/settings/audit-log", icon: FileText },
       { title: "সিস্টেম সেটিংস", url: "/settings", icon: Settings },
     ],
@@ -172,7 +182,10 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
     if (url === "/") {
       return pathname === "/" || pathname === "/admin";
     }
-    return pathname.startsWith(url);
+    if (url === "/settings") {
+      return pathname === "/settings";
+    }
+    return pathname === url || pathname.startsWith(url + "/");
   };
 
   return (

@@ -403,10 +403,6 @@ export type ExamUncheckedUpdateManyWithoutBatchNestedInput = {
   deleteMany?: Prisma.ExamScalarWhereInput | Prisma.ExamScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type ExamCreateWithoutBatchInput = {
   id?: string
   name: string

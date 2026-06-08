@@ -6,7 +6,7 @@ import {
   Plus, FileText, Bookmark, Layers, AlignLeft, 
   Link as LinkIcon, Type, Save, X, Loader2, MessageSquare
 } from "lucide-react";
-import { shortAnswerFormSchema, type ShortAnswerFormSchema } from "@workspace/schema";
+import { shortAnswerFormSchema, type ShortAnswerFormValues } from "@workspace/schema";
 import {
   useCreateShortAnswer,
   useUpdateShortAnswer,
@@ -55,8 +55,8 @@ export const ShortAnswerForm = ({ id }: ShortAnswerFormProps) => {
 
   const [localClassId, setLocalClassId] = useState<string>("");
 
-  const form = useForm<ShortAnswerFormSchema>({
-    resolver: zodResolver(shortAnswerFormSchema),
+  const form = useForm<ShortAnswerFormValues>({
+    resolver: zodResolver(shortAnswerFormSchema) as any,
     defaultValues: {
       question: "",
       answer: "",
@@ -86,7 +86,7 @@ export const ShortAnswerForm = ({ id }: ShortAnswerFormProps) => {
     }
   }, [itemData, isEditing, form]);
 
-  const onSubmit = async (data: ShortAnswerFormSchema) => {
+  const onSubmit = async (data: ShortAnswerFormValues) => {
     try {
       if (isEditing) {
         await updateItem({ id: id, data });

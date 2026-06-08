@@ -24,12 +24,13 @@ import {
 import { Badge } from "@workspace/ui/components/badge";
 import { cn } from "@workspace/ui/lib/utils";
 
-import { SubscriptionPlan, Tenant } from "@workspace/db";
+import { SubscriptionPlan, Tenant, AcademicYear } from "@workspace/db";
 
 interface TenantWithRelations extends Tenant {
   subscription: {
     plan: SubscriptionPlan;
   } | null;
+  currentAcademicYear?: AcademicYear | null;
 }
 
 interface TenantDetailsOverviewProps {
@@ -305,7 +306,7 @@ export const TenantDetailsOverview = ({
                     variant="outline"
                     className="font-bold text-xs rounded-lg border-primary/20 text-primary bg-primary/5"
                   >
-                    {tenant.currentAcademicYear}
+                    {tenant.currentAcademicYear.label}
                   </Badge>
                 </div>
               )}

@@ -9,6 +9,7 @@ import {
   FileText,
   BookOpen,
   Save,
+  Plus,
 } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";

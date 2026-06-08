@@ -153,3 +153,10 @@ export interface PaperSettings {
     includeRollNumber: boolean;
   };
 }
+
+export interface PaperBlock {
+  id: string;
+  type: string;
+  data: any;
+  gap?: number;
+}

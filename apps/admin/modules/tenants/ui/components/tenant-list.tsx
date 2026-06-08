@@ -422,7 +422,7 @@ export function TenantList({
           </tr>
         </thead>
         <tbody className="divide-y divide-outline/5">
-          {tenantsData?.items.map((item, index) => (
+          {tenantsData?.items.map((item: any, index: number) => (
             <tr
               key={item.id}
               style={{ animationDelay: `${index * 50}ms` }}

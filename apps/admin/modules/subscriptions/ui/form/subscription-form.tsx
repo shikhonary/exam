@@ -59,7 +59,7 @@ export function CreateSubscriptionForm() {
   const { mutateAsync: create, isPending: isCreating } = useCreateSubscription();
 
   const form = useForm<SubscriptionFormValues>({
-    resolver: zodResolver(subscriptionFormSchema),
+    resolver: zodResolver(subscriptionFormSchema) as any,
     defaultValues: defaultSubscriptionValues as SubscriptionFormValues,
   });
 
@@ -98,7 +98,7 @@ export function EditSubscriptionForm({ id }: EditSubscriptionFormProps) {
   const { mutateAsync: update, isPending: isUpdatePending } = useUpdateSubscription();
 
   const form = useForm<SubscriptionFormValues>({
-    resolver: zodResolver(subscriptionFormSchema),
+    resolver: zodResolver(subscriptionFormSchema) as any,
     defaultValues: defaultSubscriptionValues as SubscriptionFormValues,
   });
 
@@ -157,16 +157,16 @@ export function EditSubscriptionForm({ id }: EditSubscriptionFormProps) {
 // Form Content
 // ---------------------------------------------------------------------------
 interface FormContentProps {
-  form: ReturnType<typeof useForm<SubscriptionFormValues>>;
+  form: any;
   isPending: boolean;
-  onSubmit: (data: SubscriptionFormValues) => void;
+  onSubmit: any;
   onCancel: () => void;
   mode: "create" | "edit";
 }
 
 function FormContent({ form, isPending, onSubmit, onCancel, mode }: FormContentProps) {
-  const { data: tenantsData, isLoading: isLoadingTenants } = useTenants({ limit: 100 });
-  const { data: plansData, isLoading: isLoadingPlans } = useSubscriptionPlans({ limit: 50 });
+  const { data: tenantsData, isLoading: isLoadingTenants } = useTenants();
+  const { data: plansData, isLoading: isLoadingPlans } = useSubscriptionPlans();
   
   const { watch, setValue } = form;
   const selectedPlanId = watch("planId");

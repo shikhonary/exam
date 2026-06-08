@@ -69,7 +69,7 @@ function CreateAcademicSubjectForm() {
   const { mutateAsync: create, isPending } = useCreateAcademicSubject();
 
   const form = useForm<AcademicSubjectFormValues>({
-    resolver: zodResolver(academicSubjectFormSchema),
+    resolver: zodResolver(academicSubjectFormSchema) as any,
     defaultValues: defaultAcademicSubjectValues,
   });
 
@@ -105,7 +105,7 @@ function EditAcademicSubjectForm({ id }: EditAcademicSubjectFormProps) {
   const { mutateAsync: update, isPending } = useUpdateAcademicSubject();
 
   const form = useForm<UpdateAcademicSubjectValues>({
-    resolver: zodResolver(updateAcademicSubjectSchema),
+    resolver: zodResolver(updateAcademicSubjectSchema) as any,
     defaultValues: {
       nameEn: subject?.nameEn ?? "",
       nameBn: subject?.nameBn ?? "",
@@ -140,9 +140,9 @@ function EditAcademicSubjectForm({ id }: EditAcademicSubjectFormProps) {
 // ---------------------------------------------------------------------------
 
 interface FormContentProps {
-  form: ReturnType<typeof useForm<AcademicSubjectFormValues>>;
+  form: any;
   isPending: boolean;
-  onSubmit: (data: AcademicSubjectFormValues) => Promise<void>;
+  onSubmit: any;
   onCancel: () => void;
   mode: "create" | "edit";
 }
@@ -320,7 +320,7 @@ function FormContent({
                           value={String(group.value)}
                           className="rounded-lg font-medium cursor-pointer focus:bg-primary/10 focus:text-primary"
                         >
-                          {group.label}
+                          {group.labelEn}
                         </SelectItem>
                       ))}
                     </SelectContent>

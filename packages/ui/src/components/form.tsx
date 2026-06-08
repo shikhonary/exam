@@ -157,7 +157,7 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
-export { useForm, useFieldArray } from "react-hook-form";
+export { useForm, useFieldArray, useFormContext } from "react-hook-form";
 export { zodResolver } from "@hookform/resolvers/zod";
 export type { UseFormReturn, UseFormTrigger, FieldValues, Path } from "react-hook-form";
 

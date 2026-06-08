@@ -48,7 +48,7 @@ function CreateQuestionTypeForm() {
   const { mutateAsync: create, isPending } = useCreateQuestionType();
 
   const form = useForm<QuestionTypeFormValues>({
-    resolver: zodResolver(questionTypeFormSchema),
+    resolver: zodResolver(questionTypeFormSchema) as any,
     defaultValues: defaultQuestionTypeValues,
   });
 
@@ -80,7 +80,7 @@ function EditQuestionTypeForm({ id }: EditQuestionTypeFormProps) {
   const { mutateAsync: update, isPending } = useUpdateQuestionType();
 
   const form = useForm<UpdateQuestionTypeValues>({
-    resolver: zodResolver(updateQuestionTypeSchema),
+    resolver: zodResolver(updateQuestionTypeSchema) as any,
     defaultValues: {
       nameEn: questionType?.nameEn ?? "",
       nameBn: questionType?.nameBn ?? "",
@@ -113,9 +113,9 @@ function EditQuestionTypeForm({ id }: EditQuestionTypeFormProps) {
 }
 
 interface FormContentProps {
-  form: ReturnType<typeof useForm<QuestionTypeFormValues>>;
+  form: any;
   isPending: boolean;
-  onSubmit: (data: QuestionTypeFormValues) => Promise<void>;
+  onSubmit: any;
   onCancel: () => void;
   mode: "create" | "edit";
 }

@@ -12,6 +12,7 @@ function Switch({
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
+      type="button"
       className={cn(
         "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted/50 focus-visible:border-ring focus-visible:ring-ring/50 outline-none inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-transparent transition-colors disabled:cursor-not-allowed disabled:opacity-50 data-[state=unchecked]:border-input",
         className,

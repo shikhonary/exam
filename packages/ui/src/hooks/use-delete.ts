@@ -24,7 +24,11 @@ export type DeleteEntityType =
   | "citizenApplication"
   | "fiscalYear"
   | "category"
-  | "trade-license-application";
+  | "trade-license-application"
+  | "cq"
+  | "questionPaper"
+  | "questionType"
+  | "shortAnswer";
 
 
 interface DeleteModalState {

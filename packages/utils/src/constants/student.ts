@@ -39,14 +39,14 @@ export const genderOptions = [
 ] as const;
 
 export const bloodGroupOptions = [
-  { value: BLOOD_GROUP.A_POSITIVE, label: "A+" },
-  { value: BLOOD_GROUP.A_NEGATIVE, label: "A-" },
-  { value: BLOOD_GROUP.B_POSITIVE, label: "B+" },
-  { value: BLOOD_GROUP.B_NEGATIVE, label: "B-" },
-  { value: BLOOD_GROUP.AB_POSITIVE, label: "AB+" },
-  { value: BLOOD_GROUP.AB_NEGATIVE, label: "AB-" },
-  { value: BLOOD_GROUP.O_POSITIVE, label: "O+" },
-  { value: BLOOD_GROUP.O_NEGATIVE, label: "O-" },
+  { value: BLOOD_GROUP.A_POSITIVE, labelEn: "A+", labelBn: "এ পজিটিভ (A+)" },
+  { value: BLOOD_GROUP.A_NEGATIVE, labelEn: "A-", labelBn: "এ নেগেটিভ (A-)" },
+  { value: BLOOD_GROUP.B_POSITIVE, labelEn: "B+", labelBn: "বি পজিটিভ (B+)" },
+  { value: BLOOD_GROUP.B_NEGATIVE, labelEn: "B-", labelBn: "বি নেগেটিভ (B-)" },
+  { value: BLOOD_GROUP.AB_POSITIVE, labelEn: "AB+", labelBn: "এবি পজিটিভ (AB+)" },
+  { value: BLOOD_GROUP.AB_NEGATIVE, labelEn: "AB-", labelBn: "এবি নেগেটিভ (AB-)" },
+  { value: BLOOD_GROUP.O_POSITIVE, labelEn: "O+", labelBn: "ও পজিটিভ (O+)" },
+  { value: BLOOD_GROUP.O_NEGATIVE, labelEn: "O-", labelBn: "ও নেগেটিভ (O-)" },
 ] as const;
 
 export const religionOptions = [
@@ -58,6 +58,6 @@ export const religionOptions = [
 ] as const;
 
 export const nationalityOptions = [
-  { value: "BANGLADESHI", label: "Bangladeshi" },
-  { value: "OTHER", label: "Other" },
+  { value: "BANGLADESHI", labelEn: "Bangladeshi", labelBn: "বাংলাদেশী" },
+  { value: "OTHER", labelEn: "Other", labelBn: "অন্যান্য" },
 ] as const;

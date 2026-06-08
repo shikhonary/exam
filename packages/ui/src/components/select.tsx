@@ -36,6 +36,7 @@ function SelectTrigger({
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
+      type="button"
       className={cn(
         "flex w-fit items-center justify-between gap-2.5 rounded-xl border border-border/50 bg-background/50 px-3.5 py-2 text-sm font-medium transition-all hover:bg-muted/50 hover:border-border focus:outline-none focus:ring-2 focus:ring-primary/10 disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-10 data-[size=sm]:h-8",
         "shadow-soft",

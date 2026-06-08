@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import {
@@ -8,8 +8,15 @@ import {
   ToggleRight,
   Eye,
   Layers3,
+  MoreVertical,
 } from "lucide-react";
-import { Card, CardContent } from "@workspace/ui/components/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
+
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
 import {
@@ -51,57 +58,58 @@ export function BatchCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
+      className="group relative bg-[#131B2C] hover:bg-[#1A243A] border border-white/[0.05] hover:border-white/[0.1] rounded-2xl transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col"
     >
-      <Card className="group relative overflow-hidden bg-card transition-all duration-300 border-white/[0.06] hover:border-[rgba(0,229,160,0.30)]">
-        <CardContent className="p-0">
-          <div className="p-6 pb-4">
-            <div className="flex justify-between items-start">
-              <div className="bg-white/[0.06] p-3 rounded-lg text-primary transition-colors group-hover:bg-[rgba(0,229,160,0.08)]">
-                <Layers3 className="w-6 h-6" />
-              </div>
+      {/* Accent decoration */}
+      <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -z-10 transition-transform duration-500 group-hover:scale-110" />
+      
+      <div className="p-6 pb-4 relative z-10">
+        <div className="flex justify-between items-start mb-5">
+          <div className="pr-4">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">ব্যাচ</p>
+            <h3 className="text-xl font-black text-foreground group-hover:text-primary transition-colors tracking-tight line-clamp-2 leading-tight">
+              {batch.name}
+            </h3>
+          </div>
 
-              <div className="flex bg-white/[0.02] rounded-xl p-1 gap-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-[rgba(0,229,160,0.08)] transition-all"
-                  onClick={() => onToggleActive?.(batch.id)}
-                  title={batch.isActive ? "ইনঅ্যাক্টিভ করুন" : "অ্যাক্টিভ করুন"}
-                >
-                  {batch.isActive ? (
-                    <ToggleRight className="h-5 w-5 text-primary" />
-                  ) : (
-                    <ToggleLeft className="h-5 w-5" />
-                  )}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 text-muted-foreground hover:text-primary hover:bg-[rgba(0,229,160,0.08)] transition-all"
-                  asChild
-                  title="সম্পাদনা"
-                >
-                  <Link href={`/batches/edit/${batch.id}`}>
-                    <Edit className="w-4 h-4" />
-                  </Link>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 text-muted-foreground hover:text-[#ff4757] hover:bg-[rgba(255,71,87,0.08)] transition-all"
-                  onClick={() => onDelete(batch.id, batch.name)}
-                  title="মুছুন"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="mb-2">
-              <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1">
-                {batch.name}
-              </h3>
-            </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-[rgba(0,229,160,0.08)] rounded-lg transition-colors bg-white/[0.02] flex-shrink-0"
+              >
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 bg-[#111b2e] border border-white/[0.08] rounded-xl p-1 shadow-xl">
+              <DropdownMenuItem
+                onClick={() => onToggleActive?.(batch.id)}
+                className="rounded-lg cursor-pointer font-medium text-foreground focus:bg-[rgba(0,229,160,0.08)] focus:text-primary m-1"
+              >
+                {batch.isActive ? (
+                  <><ToggleRight className="h-4 w-4 mr-2 text-primary" /> ইনঅ্যাক্টিভ করুন</>
+                ) : (
+                  <><ToggleLeft className="h-4 w-4 mr-2" /> অ্যাক্টিভ করুন</>
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                asChild
+                className="rounded-lg cursor-pointer font-medium text-foreground focus:bg-[rgba(0,229,160,0.08)] focus:text-primary m-1"
+              >
+                <Link href={`/batches/edit/${batch.id}`}>
+                  <Edit className="w-4 h-4 mr-2" /> সম্পাদনা
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => onDelete(batch.id, batch.name)}
+                className="rounded-lg cursor-pointer font-medium text-[#ff4757] focus:text-[#ff4757] focus:bg-[rgba(255,71,87,0.08)] m-1"
+              >
+                <Trash2 className="w-4 h-4 mr-2" /> মুছুন
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
             <div className="flex flex-wrap gap-2 mb-2">
               <Badge className="bg-white/[0.06] hover:bg-white/[0.08] text-muted-foreground border-none font-bold text-[10px] px-2.5 py-0.5 rounded-full shadow-none">
@@ -188,11 +196,7 @@ export function BatchCard({
                 বিস্তারিত দেখুন
               </Link>
             </Button>
-          </div>
-        </CardContent>
-        {/* Glow effect on hover */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(0,229,160,0.05)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      </Card>
+        </div>
     </motion.div>
   );
 }

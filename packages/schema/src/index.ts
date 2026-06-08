@@ -14,6 +14,10 @@ export * from "./question-type";
 export * from "./cq";
 export * from "./mcq";
 export * from "./short-answer";
+export * from "./admission-fee";
+export * from "./monthly-fee";
+export * from "./counter";
+export * from "./student";
 
 // Business Schemas
 export * from "./tenant";

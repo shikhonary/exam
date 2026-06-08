@@ -42,11 +42,11 @@ export function ChangePlanForm({ id }: ChangePlanFormProps) {
   const router = useRouter();
   
   const { data: subscription, isLoading: isQueryLoading } = useSubscriptionById(id);
-  const { data: plansData, isLoading: isLoadingPlans } = useSubscriptionPlans({ limit: 50 });
+  const { data: plansData, isLoading: isLoadingPlans } = useSubscriptionPlans();
   const { mutateAsync: changePlan, isPending } = useChangeSubscriptionPlan();
 
   const form = useForm<ChangeSubscriptionPlanValues>({
-    resolver: zodResolver(changeSubscriptionPlanSchema),
+    resolver: zodResolver(changeSubscriptionPlanSchema) as any,
     defaultValues: {
       planId: "",
       reason: "",

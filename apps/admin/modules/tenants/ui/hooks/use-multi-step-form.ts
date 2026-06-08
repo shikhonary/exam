@@ -16,35 +16,15 @@ import { TenantFormValues } from "@workspace/schema";
 function getFieldsForStep(step: number) {
   switch (step) {
     case 1:
-      return ["name", "slug", "type", "currentFiscalYear"] as const;
+      return ["name", "slug", "type", "description", "logo", "currentAcademicYear"] as const;
     case 2:
-      return [
-        "divisionId",
-        "districtId",
-        "upazilaId",
-        "unionId",
-        "geoCode",
-      ] as const;
+      return ["email", "phone", "address", "city", "state", "postalCode"] as const;
     case 3:
-      return [
-        "email",
-        "phone",
-        "address",
-        "city",
-        "state",
-        "postalCode",
-      ] as const;
-    case 4:
       return ["subdomain", "customDomain"] as const;
+    case 4:
+      return ["planId"] as const;
     case 5:
-      return [
-        "planId",
-        "isActive",
-        "customUserLimit",
-        "customAdminLimit",
-        "customRecordLimit",
-        "customStorageLimit",
-      ] as const;
+      return ["customStudentLimit", "customTeacherLimit", "customExamLimit", "customStorageLimit"] as const;
     default:
       return [] as const;
   }

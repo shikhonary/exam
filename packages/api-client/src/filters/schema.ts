@@ -271,7 +271,7 @@ export const batchFilterSchema = {
 export const counterFilterSchema = {
   ...baseFilterSchema,
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
-  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
+  type: parseAsString.withOptions({ clearOnDefault: true }),
 };
 
 /**
@@ -280,7 +280,6 @@ export const counterFilterSchema = {
 export const admissionFeeFilterSchema = {
   ...baseFilterSchema,
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
-  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
 };
 
 /**

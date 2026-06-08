@@ -37,7 +37,7 @@ export const ShortAnswersView = () => {
   const handleDelete = (id: string, contextString: string) => {
     openDeleteModal({
       entityId: id,
-      entityType: "short answer",
+      entityType: "shortAnswer",
       entityName: contextString ? (contextString.slice(0, 60) + (contextString.length > 60 ? "..." : "")) : "this short answer",
       onConfirm: (id) => {
         deleteItem({ id });

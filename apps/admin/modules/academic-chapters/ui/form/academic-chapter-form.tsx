@@ -66,7 +66,7 @@ export function CreateAcademicChapterForm() {
   const { mutateAsync: create, isPending } = useCreateAcademicChapter();
 
   const form = useForm<AcademicChapterFormValues>({
-    resolver: zodResolver(academicChapterFormSchema),
+    resolver: zodResolver(academicChapterFormSchema) as any,
     defaultValues: defaultAcademicChapterValues,
   });
 
@@ -102,7 +102,7 @@ export function EditAcademicChapterForm({ id }: EditAcademicChapterFormProps) {
   const { mutateAsync: update, isPending: isUpdatePending } = useUpdateAcademicChapter();
 
   const form = useForm<UpdateAcademicChapterValues>({
-    resolver: zodResolver(updateAcademicChapterSchema),
+    resolver: zodResolver(updateAcademicChapterSchema) as any,
     defaultValues: {
       nameEn: chapter?.nameEn ?? "",
       nameBn: chapter?.nameBn ?? "",

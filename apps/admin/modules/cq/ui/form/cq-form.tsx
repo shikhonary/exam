@@ -6,7 +6,7 @@ import {
   Trash2, Plus, FileText, Bookmark, Layers, AlignLeft, 
   CheckCircle, MessageSquare, Link as LinkIcon, Type, Save, X, Loader2 
 } from "lucide-react";
-import { cqFormSchema, type CqFormSchema } from "@workspace/schema";
+import { cqFormSchema, type CQFormValues } from "@workspace/schema";
 import {
   useCreateCQ,
   useUpdateCQ,
@@ -56,8 +56,8 @@ export const CqForm = ({ cqId }: CqFormProps) => {
 
   const [localClassId, setLocalClassId] = useState<string>("");
 
-  const form = useForm<CqFormSchema>({
-    resolver: zodResolver(cqFormSchema),
+  const form = useForm<CQFormValues>({
+    resolver: zodResolver(cqFormSchema) as any,
     defaultValues: {
       questionA: "",
       questionB: "",
@@ -109,7 +109,7 @@ export const CqForm = ({ cqId }: CqFormProps) => {
     }
   }, [cqData, isEditing, form]);
 
-  const onSubmit = async (data: CqFormSchema) => {
+  const onSubmit = async (data: CQFormValues) => {
     try {
       if (isEditing) {
         await updateCq({ id: cqId, data });
@@ -130,7 +130,7 @@ export const CqForm = ({ cqId }: CqFormProps) => {
   const isPending = isCreating || isUpdating;
 
   return (
-    <Form {...form}>
+    <Form {...(form as any)}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 p-6 md:p-8">
           {/* QUESTION CONTENT SECTION */}
           <div className="space-y-6">
@@ -324,7 +324,7 @@ export const CqForm = ({ cqId }: CqFormProps) => {
                 <div key={field.id} className="flex gap-4 items-start p-6 border border-slate-100 rounded-2xl bg-slate-50 shadow-sm relative group">
                   <FormField
                     control={form.control}
-                    name={`attachments.${index}.fileUrl`}
+                    name={`attachments.${index}.url`}
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormLabel className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><LinkIcon className="w-3.5 h-3.5 text-primary" /> File URL</FormLabel>
@@ -335,7 +335,7 @@ export const CqForm = ({ cqId }: CqFormProps) => {
                   />
                   <FormField
                     control={form.control}
-                    name={`attachments.${index}.fileType`}
+                    name={`attachments.${index}.type`}
                     render={({ field }) => (
                       <FormItem className="flex-1">
                         <FormLabel className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-primary" /> File Type</FormLabel>
@@ -349,7 +349,7 @@ export const CqForm = ({ cqId }: CqFormProps) => {
                   </Button>
                 </div>
               ))}
-              <Button type="button" variant="outline" className="w-full h-14 rounded-2xl border-dashed border-2 border-slate-200 text-slate-500 font-bold hover:bg-slate-50 hover:text-primary hover:border-primary/30 transition-all flex items-center gap-2" onClick={() => appendAttachment({ fileUrl: "", fileType: "" })}>
+              <Button type="button" variant="outline" className="w-full h-14 rounded-2xl border-dashed border-2 border-slate-200 text-slate-500 font-bold hover:bg-slate-50 hover:text-primary hover:border-primary/30 transition-all flex items-center gap-2" onClick={() => appendAttachment({ url: "", type: "image", position: 0, caption: "" } as any)}>
                 <Plus className="h-5 w-5" strokeWidth={3} /> Add Attachment
               </Button>
             </div>

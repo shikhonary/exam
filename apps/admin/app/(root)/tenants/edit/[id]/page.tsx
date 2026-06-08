@@ -15,7 +15,7 @@ interface Props {
 const EditTenantPage = async ({ params }: Props) => {
   const { id } = await params;
 
-  prefetch(trpc.tenant.getById.queryOptions({ id }));
+  prefetch(trpc.tenant.getById.queryOptions(id));
 
   return (
     <HydrateClient>

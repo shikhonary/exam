@@ -59,7 +59,7 @@ export const McqForm = ({ mcqId }: McqFormProps) => {
   const [correctOptionIndex, setCorrectOptionIndex] = useState<string>("");
 
   const form = useForm<MCQFormValues>({
-    resolver: zodResolver(mcqFormSchema),
+    resolver: zodResolver(mcqFormSchema) as any,
     defaultValues: defaultMCQValues,
   });
 
@@ -89,7 +89,7 @@ export const McqForm = ({ mcqId }: McqFormProps) => {
 
       // Find which option matches the answer
       if (mcqData.answer && mcqData.options?.length) {
-        const idx = mcqData.options.findIndex(opt => opt === mcqData.answer);
+        const idx = mcqData.options.findIndex((opt: string) => opt === mcqData.answer);
         if (idx !== -1) {
           setCorrectOptionIndex(idx.toString());
         }
@@ -111,7 +111,7 @@ export const McqForm = ({ mcqId }: McqFormProps) => {
     try {
       // Ensure answer is in sync with the selected option index before submit
       if (correctOptionIndex && correctOptionIndex !== "none") {
-        data.answer = data.options[parseInt(correctOptionIndex)];
+        data.answer = data.options[parseInt(correctOptionIndex)] || "";
       }
 
       if (isEditing) {
@@ -133,7 +133,7 @@ export const McqForm = ({ mcqId }: McqFormProps) => {
   const isPending = isCreating || isUpdating;
 
   return (
-    <Form {...form}>
+    <Form {...(form as any)}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 p-6 md:p-8">
           {/* QUESTION CONTENT SECTION */}
           <div className="space-y-6">

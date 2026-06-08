@@ -154,3 +154,18 @@ export type SuccessionApplication = Prisma.SuccessionApplicationModel
  * 
  */
 export type Heir = Prisma.HeirModel
+/**
+ * Model AdmissionFee
+ * 
+ */
+export type AdmissionFee = Prisma.AdmissionFeeModel
+/**
+ * Model MonthlyFee
+ * 
+ */
+export type MonthlyFee = Prisma.MonthlyFeeModel
+/**
+ * Model Counter
+ * 
+ */
+export type Counter = Prisma.CounterModel

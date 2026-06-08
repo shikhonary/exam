@@ -10,7 +10,7 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import Link from "next/link";
-import { type Mcq } from "@workspace/schema";
+import { type MCQ } from "@workspace/schema";
 import { parseMathString } from "@/lib/math";
 import {
   Select,
@@ -21,7 +21,7 @@ import {
 } from "@workspace/ui/components/select";
 import { mcqTypeOptions } from "@workspace/utils/constants";
 
-export type McqCardItem = Mcq & {
+export type McqCardItem = MCQ & {
   subject?: { name: string; nameEn?: string; nameBn?: string };
   chapter?: { name: string; nameEn?: string; nameBn?: string };
   topic?: { name: string; nameEn?: string; nameBn?: string };
@@ -37,7 +37,7 @@ interface McqCardProps {
   isLoading?: boolean;
 }
 
-type EditField = "question" | "explanation" | "reference" | "context" | `statement-${number}` | `option-${number}` | "answer" | null;
+type EditField = "question" | "explanation" | "reference" | "context" | `statement-${number}` | `option-${number}` | "answer" | "type" | null;
 
 export const McqCard = ({
   mcq,
@@ -71,7 +71,7 @@ export const McqCard = ({
           options: editData.options,
           answer: editData.answer,
           context: updatedContext,
-          questionContext: updatedContext // Sync for backend API
+          questionContext: updatedContext as any // Sync for backend API
         });
       }
       setEditingField(null);

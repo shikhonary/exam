@@ -92,6 +92,7 @@ export class TenantService {
           invitations: {
             orderBy: { createdAt: "desc" },
           },
+          currentAcademicYear: true,
         },
       });
     } catch (error) {

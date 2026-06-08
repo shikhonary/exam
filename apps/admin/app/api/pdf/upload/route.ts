@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { randomUUID } from "crypto";
-import { inngest } from "@/inngest/client";
 import { prisma } from "@workspace/db";
 
 const UPLOAD_DIR = join(process.cwd(), "uploads", "pdfs");
@@ -80,24 +79,6 @@ export async function POST(req: NextRequest) {
     });
 
     const jobId = book.ingestionJob!.id;
-
-    // ── Fire Inngest event (non-blocking) ──────────────────────────
-    const { ids } = await inngest.send({
-      name: "pdf/ingestion.requested",
-      data: {
-        jobId,
-        bookId: book.id,
-        fileUrl,
-        filePath, // absolute path used by the worker
-      },
-    });
-
-    // Store the Inngest event ID for tracing
-    await db.pdfIngestionJob.update({
-      where: { id: jobId },
-      data: { inngestEventId: ids[0] },
-    });
-
     return NextResponse.json(
       { success: true, bookId: book.id, jobId },
       { status: 201 },

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { PaperItem, PaperSettings, MCQItem, CQItem, PaperHeaderItem } from "../types";
+import { PaperItem, PaperSettings, MCQItem, CQItem, PaperHeaderItem, ElementStyle, PaperBlock } from "../types";
 
 interface BuilderState {
   paperId: string | null;
@@ -219,7 +219,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪',
         '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯'
       };
-      const toBn = (num: number | string) => num.toString().replace(/\d/g, match => englishToBengali[match]);
+      const toBn = (num: number | string) => num.toString().replace(/\d/g, match => englishToBengali[match] || match);
 
       if (paperData.timeInMinutes) {
         const hrs = Math.floor(paperData.timeInMinutes / 60);

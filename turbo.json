@@ -13,8 +13,6 @@
         "BETTER_AUTH_URL",
         "NEXT_PUBLIC_APP_URL",
         "GEMINI_API_KEY",
-        "INNGEST_EVENT_KEY",
-        "INNGEST_SIGNING_KEY",
         "GOOGLE_TTS_API_KEY"
       ]
     },
@@ -32,8 +30,6 @@
         "BETTER_AUTH_SECRET",
         "BETTER_AUTH_URL",
         "GEMINI_API_KEY",
-        "INNGEST_EVENT_KEY",
-        "INNGEST_SIGNING_KEY",
         "GOOGLE_TTS_API_KEY"
       ],
       "dependsOn": ["^db:generate"],

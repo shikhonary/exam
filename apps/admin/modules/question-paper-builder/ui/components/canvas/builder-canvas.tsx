@@ -357,7 +357,7 @@ export const BuilderCanvas: React.FC = () => {
         }
       }
       
-      currentPage.columns[currentColumnIdx].push(b);
+      currentPage.columns[currentColumnIdx]?.push(b);
       currentColumnHeight += h + (b.gap || 0);
     });
 
