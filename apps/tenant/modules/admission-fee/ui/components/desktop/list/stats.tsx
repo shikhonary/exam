@@ -1,6 +1,6 @@
 "use client";
 
-import { useFeeStats } from "@workspace/api-client";
+import { useBatchStats as useFeeStats } from "@workspace/api-client";
 import {
   FolderIcon,
   CheckCircle,

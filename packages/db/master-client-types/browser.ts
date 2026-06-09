@@ -159,7 +159,7 @@ export type SystemSetting = Prisma.SystemSettingModel
 export type Notification = Prisma.NotificationModel
 /**
  * Model PdfIngestionJob
- * Tracks a single Inngest-driven PDF extraction job for one Book.
+ * Tracks a single PDF extraction job for one Book.
  */
 export type PdfIngestionJob = Prisma.PdfIngestionJobModel
 /**

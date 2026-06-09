@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model PdfIngestionJob
- * Tracks a single Inngest-driven PDF extraction job for one Book.
+ * Tracks a single PDF extraction job for one Book.
  */
 export type PdfIngestionJobModel = runtime.Types.Result.DefaultSelection<Prisma.$PdfIngestionJobPayload>
 

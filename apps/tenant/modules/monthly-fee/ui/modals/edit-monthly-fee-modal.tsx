@@ -41,7 +41,7 @@ export const EditMonthlyFeeModal = () => {
         </DialogHeader>
         <div className="py-2">
           <MonthlyFeeForm 
-            initialData={initialData}
+            initialData={initialData || undefined}
             onSubmit={onSubmit} 
             isPending={isPending} 
             onCancel={onClose} 

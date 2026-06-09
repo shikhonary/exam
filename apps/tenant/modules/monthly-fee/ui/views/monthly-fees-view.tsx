@@ -32,7 +32,7 @@ export const MonthlyFeesView = () => {
   const handleDelete = (id: string, name: string) => {
     openDeleteModal({
       entityId: id,
-      entityType: "monthly-fee",
+      entityType: "monthlyFee",
       entityName: name,
       onConfirm: (id) => {
         deleteMutation.mutateAsync({ id });

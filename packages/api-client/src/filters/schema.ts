@@ -191,7 +191,7 @@ export const questionPaperFilterSchema = {
 export const studentFilterSchema = {
   ...baseFilterSchema,
   batchId: parseAsString.withOptions({ clearOnDefault: true }),
-  classId: parseAsString.withOptions({ clearOnDefault: true }),
+  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,

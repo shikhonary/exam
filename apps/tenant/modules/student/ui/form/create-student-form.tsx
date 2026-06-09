@@ -28,7 +28,7 @@ export function CreateStudentForm() {
   const { mutateAsync: createStudent, isPending } = useCreateStudent();
 
   const methods = useForm<StudentFormValues>({
-    resolver: zodResolver(studentFormSchema),
+    resolver: zodResolver(studentFormSchema) as any,
     defaultValues: {
       studentId: "",
       name: "",

@@ -39,3 +39,9 @@ export type {
 } from "./trpc/context";
 export type { User } from "@workspace/auth";
 export type { Tenant } from "@workspace/db";
+
+import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
+import { type AppRouter } from "./trpc/root";
+
+export type RouterInput = inferRouterInputs<AppRouter>;
+export type RouterOutput = inferRouterOutputs<AppRouter>;

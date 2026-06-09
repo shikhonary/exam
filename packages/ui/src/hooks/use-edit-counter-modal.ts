@@ -5,16 +5,14 @@ interface EditCounterModalState {
   counterId: string | null;
   initialData: {
     academicYearId: string;
-    academicClassId: string;
-    name: string;
+    type: string;
     value: number;
   };
   onOpen: (
     counterId: string,
     initialData: {
       academicYearId: string;
-      academicClassId: string;
-      name: string;
+      type: string;
       value: number;
     },
   ) => void;
@@ -26,8 +24,7 @@ export const useEditCounterModal = create<EditCounterModalState>((set) => ({
   counterId: null,
   initialData: {
     academicYearId: "",
-    academicClassId: "",
-    name: "",
+    type: "",
     value: 0,
   },
   onOpen: (counterId, initialData) =>
@@ -42,8 +39,7 @@ export const useEditCounterModal = create<EditCounterModalState>((set) => ({
       counterId: null,
       initialData: {
         academicYearId: "",
-        academicClassId: "",
-        name: "",
+        type: "",
         value: 0,
       },
     }),

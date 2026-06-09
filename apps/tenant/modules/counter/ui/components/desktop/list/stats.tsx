@@ -1,6 +1,6 @@
 "use client";
 
-import { useFeeStats } from "@workspace/api-client";
+import { useBatchStats as useFeeStats } from "@workspace/api-client";
 import {
   FolderIcon,
   CheckCircle,
@@ -70,7 +70,7 @@ function StatCard({
   return (
     <div className="group bg-[#131B2C] border border-white/[0.02] shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)] p-6 rounded-2xl flex items-center gap-5 transition-all hover:-translate-y-1 duration-300">
       <div
-        type={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-rotate-12 ${
+        className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-rotate-12 ${
           accent
             ? "bg-[rgba(0,229,160,0.1)] text-primary group-hover:shadow-[0_0_15px_rgba(0,229,160,0.2)]"
             : "bg-white/[0.04] text-muted-foreground group-hover:bg-white/[0.08] group-hover:text-foreground"
