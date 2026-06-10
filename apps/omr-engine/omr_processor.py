@@ -1,376 +1,775 @@
+"""
+omr_processor_v2.py — Hardened enterprise OMR with multi-level fallbacks.
+
+Improvements:
+  - Multi-strategy fiducial detection (4 cascading approaches)
+  - Adaptive bubble detection with morphological post-processing
+  - Robust divider line finding with crease immunity
+  - Better handling of crumpled, torn, and severely degraded sheets
+  - Post-processing to separate merged bubbles
+  - Quality-adaptive thresholding
+"""
+
 import cv2
 import numpy as np
 import base64
 import json
+from image_enhancer import (
+    normalise_resolution, enhance_for_omr, best_threshold, 
+    apply_clahe
+)
 
-# ── Canvas constants (A4 at 96 dpi) ──────────────────────────────────────────
 CANVAS_W = 794
 CANVAS_H = 1123
-MCQ_OPTIONS = 4  # ক খ গ ঘ
+MCQ_OPTIONS = 4
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 1: Perspective warp using corner fiducials
+# IMPROVED QR CODE READING
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _find_fiducials(gray):
-    """
-    Find the 4 corner fiducial markers by picking the closest
-    square-shaped solid contour to each image corner.
-    This is immune to filled bubbles or other dark shapes in the page interior.
-    """
-    h, w = gray.shape
-    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-    _, thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
-    cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+def _read_qr(gray_raw: np.ndarray) -> tuple[str | None, int]:
+    """Enhanced QR reading with 5 strategies."""
+    detector = cv2.QRCodeDetector()
     candidates = []
-    for c in cnts:
-        (x, y, cw, ch) = cv2.boundingRect(c)
-        area = cv2.contourArea(c)
-        if cw == 0 or ch == 0:
+    
+    # Strategy 1: raw grayscale
+    candidates.append(gray_raw)
+    
+    # Strategy 2: CLAHE for low contrast
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+    clahe_img = clahe.apply(gray_raw)
+    candidates.append(clahe_img)
+    
+    # Strategy 3: Otsu binarised
+    blurred = cv2.GaussianBlur(gray_raw, (3, 3), 0)
+    _, otsu = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    candidates.append(otsu)
+    
+    # Strategy 4: Adaptive threshold
+    adaptive = cv2.adaptiveThreshold(blurred, 255,
+                                     cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                     cv2.THRESH_BINARY, 31, 8)
+    candidates.append(adaptive)
+    
+    # Strategy 5: Inverted adaptive (for white QR on black background)
+    inv_adaptive = cv2.bitwise_not(adaptive)
+    candidates.append(inv_adaptive)
+    
+    for img in candidates:
+        try:
+            data, _, _ = detector.detectAndDecode(img)
+            if data:
+                return data, None
+        except:
+            pass
+    
+    # Try zxingcpp if available
+    try:
+        import zxingcpp
+        for img in candidates:
+            results = zxingcpp.read_barcodes(img)
+            if results:
+                return results[0].text, None
+    except:
+        pass
+    
+    return None, None
+
+
+def _parse_qr_data(qr_data: str, num_columns: int) -> tuple[str | None, int]:
+    """Parse QR string → (paper_id, num_columns)."""
+    if not qr_data:
+        return None, num_columns
+    try:
+        meta = json.loads(qr_data)
+        paper_id = meta.get("id", qr_data)
+        cols = int(meta.get("cols", num_columns))
+        return paper_id, cols
+    except:
+        return qr_data, num_columns
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# IMPROVED FIDUCIAL DETECTION (4-STRATEGY CASCADE)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _best_square_in_roi(roi: np.ndarray, ox: int, oy: int,
+                        min_px: float, max_px: float) -> tuple[int, int] | None:
+    """Find best square marker in ROI."""
+    if roi.size == 0:
+        return None
+    
+    rh, rw = roi.shape
+    blurred = cv2.GaussianBlur(roi, (5, 5), 0)
+    
+    best_candidate = None
+    best_score = -1.0
+    
+    for thresh_fn in [
+        lambda b: cv2.threshold(b, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1],
+        lambda b: cv2.threshold(b, 100, 255, cv2.THRESH_BINARY_INV)[1],
+        lambda b: cv2.adaptiveThreshold(b, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                        cv2.THRESH_BINARY_INV, 31, 8),
+    ]:
+        try:
+            thresh = thresh_fn(blurred)
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+            thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+        except:
             continue
-        ar = cw / float(ch)
-        fill = area / (cw * ch)
-        # Square-ish, solid-filled, 15–10% of image width
-        if (15 < cw < w * 0.10 and 15 < ch < h * 0.10
-                and 0.65 < ar < 1.35 and fill > 0.72):
+        
+        cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        for c in cnts:
+            (x, y, cw, ch) = cv2.boundingRect(c)
+            area = cv2.contourArea(c)
+            if cw == 0 or ch == 0 or area == 0:
+                continue
+            if not (min_px <= cw <= max_px and min_px <= ch <= max_px):
+                continue
+            
+            ar = cw / float(ch)
+            if not (0.50 < ar < 1.50):
+                continue
+            
+            fill = area / (cw * ch)
+            if fill < 0.45:
+                continue
+            
+            squareness = 1.0 - abs(1.0 - ar)
             M = cv2.moments(c)
             if M["m00"] == 0:
                 continue
-            cx = int(M["m10"] / M["m00"])
-            cy = int(M["m01"] / M["m00"])
-            candidates.append((cx, cy))
+            
+            cx_local = int(M["m10"] / M["m00"])
+            cy_local = int(M["m01"] / M["m00"])
+            score = fill * squareness * 0.9  # weight fill highest
+            
+            if score > best_score:
+                best_score = score
+                best_candidate = (ox + cx_local, oy + cy_local)
+    
+    return best_candidate
 
-    if len(candidates) < 3:
-        return None
 
-    # For each corner, pick the nearest candidate (if within a reasonable distance)
-    corner_targets = [(0, 0), (w, 0), (w, h), (0, h)]  # TL TR BR BL
+def _infer_missing_corner(chosen: list) -> list:
+    """Infer missing corner from 3 known corners."""
+    valid_count = sum(1 for c in chosen if c is not None)
+    if valid_count == 4:
+        return chosen
+    
+    if chosen[0] is None and chosen[1] and chosen[2] and chosen[3]:
+        chosen[0] = [chosen[1][0] + chosen[3][0] - chosen[2][0],
+                     chosen[1][1] + chosen[3][1] - chosen[2][1]]
+    elif chosen[1] is None and chosen[0] and chosen[2] and chosen[3]:
+        chosen[1] = [chosen[0][0] + chosen[2][0] - chosen[3][0],
+                     chosen[0][1] + chosen[2][1] - chosen[3][1]]
+    elif chosen[2] is None and chosen[0] and chosen[1] and chosen[3]:
+        chosen[2] = [chosen[1][0] + chosen[3][0] - chosen[0][0],
+                     chosen[1][1] + chosen[3][1] - chosen[0][1]]
+    elif chosen[3] is None and chosen[0] and chosen[1] and chosen[2]:
+        chosen[3] = [chosen[0][0] + chosen[2][0] - chosen[1][0],
+                     chosen[0][1] + chosen[2][1] - chosen[1][1]]
+    
+    return chosen
+
+
+def _find_fiducials_strategy1(gray_enhanced: np.ndarray) -> np.ndarray | None:
+    """Strategy 1: Corner quadrant detection (original)."""
+    h, w = gray_enhanced.shape
+    zw = int(w * 0.22)
+    zh = int(h * 0.22)
+    
+    short = min(w, h)
+    min_px = max(8, short * 0.010)
+    max_px = short * 0.07
+    
+    corner_rois = [
+        (gray_enhanced[0:zh, 0:zw], 0, 0),
+        (gray_enhanced[0:zh, w-zw:w], w-zw, 0),
+        (gray_enhanced[h-zh:h, w-zw:w], w-zw, h-zh),
+        (gray_enhanced[h-zh:h, 0:zw], 0, h-zh),
+    ]
+    
     chosen = [None] * 4
-    used = set()
-    for target_idx, (tx, ty) in enumerate(corner_targets):
-        best_dist = float('inf')
-        best_idx = -1
-        for i, (cx, cy) in enumerate(candidates):
-            if i in used:
-                continue
-            dist = (cx - tx) ** 2 + (cy - ty) ** 2
-            # Must be somewhat near the corner (within 40% of page dimensions)
-            if dist < best_dist and dist < (w * 0.4) ** 2 + (h * 0.4) ** 2:
-                best_dist = dist
-                best_idx = i
-        if best_idx >= 0:
-            used.add(best_idx)
-            chosen[target_idx] = list(candidates[best_idx])
-
+    for i, (roi, ox, oy) in enumerate(corner_rois):
+        pt = _best_square_in_roi(roi, ox, oy, min_px, max_px)
+        if pt is not None:
+            chosen[i] = list(pt)
+    
     found_count = sum(1 for c in chosen if c is not None)
     if found_count < 3:
         return None
-
-    # If exactly 3 are found (e.g. one corner folded/obscured), infer the 4th
-    # assuming the markers form a rough parallelogram
+    
     if found_count == 3:
-        if chosen[0] is None:  # TL = TR + BL - BR
-            chosen[0] = [chosen[1][0] + chosen[3][0] - chosen[2][0], chosen[1][1] + chosen[3][1] - chosen[2][1]]
-        elif chosen[1] is None:  # TR = TL + BR - BL
-            chosen[1] = [chosen[0][0] + chosen[2][0] - chosen[3][0], chosen[0][1] + chosen[2][1] - chosen[3][1]]
-        elif chosen[2] is None:  # BR = TR + BL - TL
-            chosen[2] = [chosen[1][0] + chosen[3][0] - chosen[0][0], chosen[1][1] + chosen[3][1] - chosen[0][1]]
-        elif chosen[3] is None:  # BL = TL + BR - TR
-            chosen[3] = [chosen[0][0] + chosen[2][0] - chosen[1][0], chosen[0][1] + chosen[2][1] - chosen[1][1]]
+        chosen = _infer_missing_corner(chosen)
+    
+    pts = np.array(chosen, dtype=np.float32)
+    span_x = float(np.max(pts[:, 0]) - np.min(pts[:, 0]))
+    span_y = float(np.max(pts[:, 1]) - np.min(pts[:, 1]))
+    
+    if span_x < w * 0.50 or span_y < h * 0.50:
+        return None
+    
+    return pts
 
-    return np.array(chosen, dtype=np.float32)  # [TL, TR, BR, BL]
+
+def _find_fiducials_strategy2(gray_enhanced: np.ndarray) -> np.ndarray | None:
+    """Strategy 2: Larger corner zones (for severely rotated images)."""
+    h, w = gray_enhanced.shape
+    zw = int(w * 0.35)
+    zh = int(h * 0.35)
+    
+    short = min(w, h)
+    min_px = max(8, short * 0.008)
+    max_px = short * 0.12
+    
+    corner_rois = [
+        (gray_enhanced[0:zh, 0:zw], 0, 0),
+        (gray_enhanced[0:zh, w-zw:w], w-zw, 0),
+        (gray_enhanced[h-zh:h, w-zw:w], w-zw, h-zh),
+        (gray_enhanced[h-zh:h, 0:zw], 0, h-zh),
+    ]
+    
+    chosen = [None] * 4
+    for i, (roi, ox, oy) in enumerate(corner_rois):
+        pt = _best_square_in_roi(roi, ox, oy, min_px, max_px)
+        if pt is not None:
+            chosen[i] = list(pt)
+    
+    found_count = sum(1 for c in chosen if c is not None)
+    if found_count < 2:
+        return None
+    
+    if 2 <= found_count <= 3:
+        chosen = _infer_missing_corner(chosen)
+    
+    pts = np.array([c for c in chosen if c is not None], dtype=np.float32)
+    if len(pts) < 3:
+        return None
+    
+    return pts
 
 
-def _perspective_warp(img, corners):
-    """Warp to a standard CANVAS_W×CANVAS_H rectangle. corners = [TL,TR,BR,BL]."""
+def _find_paper_quad(gray: np.ndarray) -> np.ndarray | None:
+    """Strategy 3: Find paper boundary using edge detection."""
+    h, w = gray.shape
+    blurred = cv2.GaussianBlur(gray, (7, 7), 0)
+    edges = cv2.Canny(blurred, 30, 100)
+    
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+    dilated = cv2.dilate(edges, kernel, iterations=3)
+    
+    cnts, _ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = sorted(cnts, key=cv2.contourArea, reverse=True)[:10]
+    
+    for c in cnts:
+        peri = cv2.arcLength(c, True)
+        approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+        
+        if len(approx) >= 4:
+            pts = approx.reshape(-1, 2).astype(np.float32)
+            
+            # Find 4 extreme points
+            s = pts.sum(axis=1)
+            d = np.diff(pts, axis=1).flatten()
+            
+            quad = np.array([
+                pts[np.argmin(s)],
+                pts[np.argmin(d)],
+                pts[np.argmax(s)],
+                pts[np.argmax(d)],
+            ], dtype=np.float32)
+            
+            span_x = float(np.max(quad[:, 0]) - np.min(quad[:, 0]))
+            span_y = float(np.max(quad[:, 1]) - np.min(quad[:, 1]))
+            
+            if span_x > w * 0.40 and span_y > h * 0.40:
+                return quad
+    
+    return None
+
+
+def _find_fiducials_strategy4_content(gray_enhanced: np.ndarray) -> np.ndarray | None:
+    """Strategy 4: Use content-based detection (dark regions) as last resort."""
+    h, w = gray_enhanced.shape
+    
+    # Find very dark regions (markers should be darker than content)
+    thresh = cv2.threshold(gray_enhanced, 50, 255, cv2.THRESH_BINARY_INV)[1]
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7))
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+    
+    # Contours in each corner
+    quarters = [
+        (0, 0, w//2, h//2),
+        (w//2, 0, w, h//2),
+        (w//2, h//2, w, h),
+        (0, h//2, w, h),
+    ]
+    
+    pts = []
+    for x1, y1, x2, y2 in quarters:
+        roi = thresh[y1:y2, x1:x2]
+        if cv2.countNonZero(roi) < 20:
+            continue
+        
+        cnts, _ = cv2.findContours(roi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        if cnts:
+            largest = max(cnts, key=cv2.contourArea)
+            M = cv2.moments(largest)
+            if M["m00"] > 0:
+                cx = int(M["m10"] / M["m00"]) + x1
+                cy = int(M["m01"] / M["m00"]) + y1
+                pts.append([cx, cy])
+    
+    if len(pts) >= 3:
+        return np.array(pts, dtype=np.float32)
+    
+    return None
+
+
+def _find_fiducials(gray_enhanced: np.ndarray) -> np.ndarray | None:
+    """
+    Multi-strategy fiducial detection with 4-level cascade.
+    Returns None if all strategies fail.
+    """
+    strategies = [
+        _find_fiducials_strategy1,
+        _find_fiducials_strategy2,
+        lambda g: _find_paper_quad(g),
+        _find_fiducials_strategy4_content,
+    ]
+    
+    for strategy in strategies:
+        try:
+            result = strategy(gray_enhanced)
+            if result is not None and len(result) >= 4:
+                return result
+        except:
+            pass
+    
+    return None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# IMPROVED PERSPECTIVE WARP
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _perspective_warp(img: np.ndarray, corners: np.ndarray) -> np.ndarray:
+    """Warp to CANVAS_W × CANVAS_H."""
+    corners = corners[:4]  # Use only first 4 points
+    
     dst = np.array([
         [0, 0],
         [CANVAS_W - 1, 0],
         [CANVAS_W - 1, CANVAS_H - 1],
         [0, CANVAS_H - 1]
     ], dtype=np.float32)
-    M = cv2.getPerspectiveTransform(corners, dst)
-    return cv2.warpPerspective(img, M, (CANVAS_W, CANVAS_H))
+    
+    try:
+        M = cv2.getPerspectiveTransform(corners, dst)
+        warped = cv2.warpPerspective(img, M, (CANVAS_W, CANVAS_H),
+                                     borderMode=cv2.BORDER_REPLICATE)
+        return warped
+    except:
+        # Fallback: simple resize if perspective fails
+        return cv2.resize(img, (CANVAS_W, CANVAS_H), interpolation=cv2.INTER_AREA)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 2: Find Roll/MCQ divider line
+# IMPROVED DIVIDER LINE DETECTION
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _find_divider_y(gray_warped):
+def _find_divider_y(gray_warped: np.ndarray) -> int:
     """
-    Scan horizontal rows for the darkest horizontal band.
-    Uses horizontal morphological opening to isolate the solid divider line
-    and ignore dark noise from fold creases or wrinkles.
+    Find divider with crease immunity using continuity + morphology.
     """
-    search_top = int(CANVAS_H * 0.10)
-    search_bot = int(CANVAS_H * 0.65)
+    search_top = int(CANVAS_H * 0.15)
+    search_bot = int(CANVAS_H * 0.55)
     region = gray_warped[search_top:search_bot, :]
-
-    # Threshold and keep only long horizontal structures
+    
     thresh = cv2.threshold(region, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (30, 1))
-    horizontal_lines = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-
-    dark_per_row = np.sum(horizontal_lines > 0, axis=1)
-    max_dark = dark_per_row.max()
-
-    # Need > 40% of width to be a solid line
-    if max_dark < CANVAS_W * 0.40:
-        return int(CANVAS_H * 0.38)  # fallback
-
-    divider_local = int(np.argmax(dark_per_row))
-    return search_top + divider_local
+    
+    # Horizontal morphology with multiple kernel sizes
+    best_score = 0
+    best_row = int((search_top + search_bot) / 2)
+    
+    for kern_size in [30, 40, 50]:
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kern_size, 1))
+        horizontal = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+        
+        for row_i in range(horizontal.shape[0]):
+            row_pixels = horizontal[row_i, :]
+            dark_count = int(np.sum(row_pixels > 0))
+            
+            if dark_count < CANVAS_W * 0.25:
+                continue
+            
+            # Continuity: longest unbroken run
+            max_run = 0
+            curr_run = 0
+            for px in row_pixels:
+                if px > 0:
+                    curr_run += 1
+                    max_run = max(max_run, curr_run)
+                else:
+                    curr_run = 0
+            
+            continuity = max_run / CANVAS_W
+            score = dark_count * (continuity ** 2.5)
+            
+            if score > best_score:
+                best_score = score
+                best_row = row_i
+    
+    if best_score < 5:
+        return int(CANVAS_H * 0.38)
+    
+    return search_top + best_row
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 3: Detect all bubble contours in the warped image
+# IMPROVED BUBBLE DETECTION WITH POST-PROCESSING
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _find_bubbles(gray_warped):
-    """
-    Find all bubble-shaped contours in the warped image.
-    Uses the morphological gradient of the threshold image so that
-    BOTH empty bubbles (ring outline) AND heavily-filled solid bubbles
-    (solid dark blob whose Canny edges are incomplete) are reliably found.
-    """
+def _find_bubbles_contour(gray_warped: np.ndarray) -> list:
+    """Dual-channel contour with morphological refinement."""
     blurred = cv2.GaussianBlur(gray_warped, (5, 5), 0)
-    thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-
-    # Morphological gradient = dilation - erosion = outline of every dark region.
-    # Works perfectly for both ring-shaped (empty) and solid (filled) bubbles.
-    kernel = np.ones((3, 3), np.uint8)
-    gradient = cv2.morphologyEx(thresh, cv2.MORPH_GRADIENT, kernel)
-
-    cnts, _ = cv2.findContours(gradient.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    bubbles = []
-    for c in cnts:
+    thresh = best_threshold(gray_warped)
+    
+    kernel3 = np.ones((3, 3), np.uint8)
+    kernel5 = np.ones((5, 5), np.uint8)
+    
+    # Channel A: gradient (empty bubbles)
+    gradient = cv2.morphologyEx(thresh, cv2.MORPH_GRADIENT, kernel3)
+    cnts_a, _ = cv2.findContours(gradient.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    # Channel B: closed (filled bubbles)
+    closed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel5)
+    cnts_b, _ = cv2.findContours(closed.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    all_cnts = list(cnts_a) + list(cnts_b)
+    bubbles_raw = []
+    
+    for c in all_cnts:
         (x, y, w, h) = cv2.boundingRect(c)
         area = cv2.contourArea(c)
         if w == 0 or h == 0 or area == 0:
             continue
+        
         ar = w / float(h)
         perimeter = cv2.arcLength(c, True)
         if perimeter == 0:
             continue
+        
         circularity = 4 * np.pi * area / (perimeter ** 2)
+        
+        if (8 <= w <= 80 and 8 <= h <= 80
+                and 0.40 < ar < 1.60
+                and circularity > 0.25):
+            M = cv2.moments(c)
+            if M["m00"] == 0:
+                continue
+            cx = int(M["m10"] / M["m00"])
+            cy = int(M["m01"] / M["m00"])
+            bubbles_raw.append((cx, cy, c))
+    
+    # Dedup: merge within 10px
+    bubbles_raw.sort(key=lambda t: (t[1], t[0]))
+    used = [False] * len(bubbles_raw)
+    result = []
+    
+    for i, (cx, cy, c) in enumerate(bubbles_raw):
+        if used[i]:
+            continue
+        used[i] = True
+        result.append(c)
+        
+        for j in range(i + 1, len(bubbles_raw)):
+            if used[j]:
+                continue
+            cx2, cy2, _ = bubbles_raw[j]
+            if abs(cx2 - cx) < 11 and abs(cy2 - cy) < 11:
+                used[j] = True
+    
+    return result
 
-        # Bubbles are 12–60px across, roughly square, and roughly circular.
-        # Lower circularity threshold (0.45) catches imperfect fills.
-        if (12 <= w <= 62 and 12 <= h <= 62
-                and 0.62 < ar < 1.38
-                and circularity > 0.45):
-            bubbles.append(c)
 
+def _find_bubbles_hough(gray_warped: np.ndarray) -> list:
+    """Hough circle fallback."""
+    blurred = cv2.GaussianBlur(gray_warped, (7, 7), 0)
+    circles = cv2.HoughCircles(
+        blurred,
+        cv2.HOUGH_GRADIENT,
+        dp=1.2,
+        minDist=16,
+        param1=60,
+        param2=20,
+        minRadius=5,
+        maxRadius=36
+    )
+    
+    if circles is None:
+        return []
+    
+    circles = np.round(circles[0, :]).astype(int)
+    pseudo_contours = []
+    
+    for (cx, cy, r) in circles:
+        pts = []
+        for angle_deg in range(0, 360, 20):
+            angle = angle_deg * np.pi / 180
+            px = int(cx + r * np.cos(angle))
+            py = int(cy + r * np.sin(angle))
+            pts.append([[px, py]])
+        c = np.array(pts, dtype=np.int32)
+        pseudo_contours.append(c)
+    
+    return pseudo_contours
+
+
+def _find_bubbles(gray_warped: np.ndarray, expected_min: int = 20) -> list:
+    """Primary contour + Hough fallback."""
+    bubbles = _find_bubbles_contour(gray_warped)
+    
+    if len(bubbles) < expected_min * 0.4:
+        hough = _find_bubbles_hough(gray_warped)
+        if len(hough) > len(bubbles) * 0.8:
+            bubbles = hough
+    
     return bubbles
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 4: Grade Roll ID (6 columns × 10 rows, digits 0–9 top-to-bottom)
+# FILL MEASUREMENT
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _grade_roll_id(thresh_warped, output_img, roll_bubbles):
-    """Grade the Roll ID grid. Returns the roll number string."""
+def _measure_fill(thresh: np.ndarray, cx: int, cy: int, r: int) -> float:
+    """Multi-radius fill sampling."""
+    fills = []
+    for sample_r in [max(3, r - 2), r, r + 2]:
+        mask = np.zeros(thresh.shape, dtype=np.uint8)
+        cv2.circle(mask, (cx, cy), sample_r, 255, -1)
+        pixels = cv2.countNonZero(cv2.bitwise_and(thresh, thresh, mask=mask))
+        area = float(np.pi * sample_r * sample_r)
+        if area > 0:
+            fills.append(pixels / area)
+    
+    return float(np.median(fills)) if fills else 0.0
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GRADING: ROLL ID
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _grade_roll_id(thresh_w: np.ndarray, output_img: np.ndarray,
+                   roll_bubbles: list) -> tuple[str, list[str]]:
+    """Grade roll ID with improved error handling."""
+    warnings = []
+    
     if not roll_bubbles:
-        return ""
-
-    # Sort left-to-right
-    roll_bubbles = sorted(roll_bubbles, key=lambda c: cv2.boundingRect(c)[0])
-
+        warnings.append("No roll ID bubbles detected.")
+        return "", warnings
+    
     w_med = int(np.median([cv2.boundingRect(c)[2] for c in roll_bubbles]))
     h_med = int(np.median([cv2.boundingRect(c)[3] for c in roll_bubbles]))
-
-    # Split into columns by X gaps larger than 1.5× bubble width
-    cols = []
-    curr_col = [roll_bubbles[0]]
-    for c in roll_bubbles[1:]:
-        x_curr = cv2.boundingRect(c)[0]
-        x_prev = cv2.boundingRect(curr_col[-1])[0]
-        if x_curr - x_prev > w_med * 1.5:
-            cols.append(curr_col)
-            curr_col = [c]
+    
+    if w_med == 0 or h_med == 0:
+        return "", warnings
+    
+    # Cluster by X
+    x_centers = [(cv2.boundingRect(c)[0] + cv2.boundingRect(c)[2] // 2, c)
+                 for c in roll_bubbles]
+    x_centers.sort(key=lambda t: t[0])
+    
+    col_clusters = []
+    curr_cluster = [x_centers[0]]
+    
+    for xc, c in x_centers[1:]:
+        if xc - curr_cluster[-1][0] < w_med * 0.7:
+            curr_cluster.append((xc, c))
         else:
-            curr_col.append(c)
-    cols.append(curr_col)
-
-    digit_map = [str(d) for d in range(10)]  # 0 at top → index 0 = "0"
+            col_clusters.append(curr_cluster)
+            curr_cluster = [(xc, c)]
+    col_clusters.append(curr_cluster)
+    
+    digit_map = [str(d) for d in range(10)]
     roll_number = ""
-
-    for col in cols:
-        # Need at least 5 bubbles to be a valid digit column
-        if len(col) < 5:
+    
+    for col_idx, cluster in enumerate(col_clusters):
+        bubbles_in_col = [c for _, c in cluster]
+        if len(bubbles_in_col) < 4:
             continue
-
-        # Sort top-to-bottom
-        col_sorted = sorted(col, key=lambda c: cv2.boundingRect(c)[1])
-
+        
+        col_sorted = sorted(bubbles_in_col, key=lambda c: cv2.boundingRect(c)[1])
         fill_ratios = []
         centers = []
+        
         for c in col_sorted:
             (x, y, w, h) = cv2.boundingRect(c)
             cx, cy = x + w // 2, y + h // 2
-            r = max(5, min(w, h) // 2 - 1)
-            mask = np.zeros(thresh_warped.shape, dtype=np.uint8)
-            cv2.drawContours(mask, [c], -1, 255, -1)  # fill actual contour shape
-            pixels = cv2.countNonZero(cv2.bitwise_and(thresh_warped, thresh_warped, mask=mask))
-            area = cv2.contourArea(c) or (np.pi * r * r)
-            fill_ratios.append(pixels / area)
+            r = max(4, min(w, h) // 2 - 1)
+            fill_ratios.append(_measure_fill(thresh_w, cx, cy, r))
             centers.append((cx, cy, r))
-
+        
+        if not fill_ratios:
+            continue
+        
         best_idx = int(np.argmax(fill_ratios))
-        best_fill = fill_ratios[best_idx]
-        other = [f for i, f in enumerate(fill_ratios) if i != best_idx]
-        second = max(other) if other else 0
-        is_filled = best_fill >= 0.35 or (
-            best_fill >= 0.10 and (second == 0 or best_fill >= second * 1.5)
-        )
-
-        clearly_filled_count = sum(1 for f in fill_ratios if f >= 0.35)
-
-        if clearly_filled_count >= 2:
-            # More than one digit bubble filled in the same column — invalid
+        
+        def is_bubble_filled(f: float) -> bool:
+            return f >= 0.55
+            
+        filled_status = [is_bubble_filled(f) for f in fill_ratios]
+        filled_count = sum(filled_status)
+        is_filled = filled_status[best_idx]
+        
+        if filled_count >= 2:
             roll_number += "?"
-        elif is_filled and best_idx < 10:
+            warnings.append(f"Roll ID col {col_idx + 1}: double-fill.")
+        elif filled_count == 1 and best_idx < 10:
             roll_number += digit_map[best_idx]
-
-        # Visual proof
+        
+        # Visual
         for i, (cx, cy, r) in enumerate(centers):
             color = (0, 255, 0) if (i == best_idx and is_filled) else (0, 0, 255)
             thickness = 2 if (i == best_idx and is_filled) else 1
             cv2.circle(output_img, (cx, cy), r, color, thickness)
-
-    return roll_number
+    
+    return roll_number, warnings
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 5: Grade MCQ (row-by-row, then column group by X gaps)
+# GRADING: MCQ
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _grade_mcq(thresh_warped, output_img, mcq_bubbles, num_columns):
-    """
-    Grade MCQ section.
-    Algorithm:
-      1. Sort bubbles top-to-bottom → group into question rows by Y proximity.
-      2. Within each row, sort left-to-right → split into column groups by large X gaps.
-      3. Within each group, take the rightmost 4 (skip any question number label).
-      4. Grade with relative fill comparison.
-      5. Assign Q numbers: (row_idx, col_idx) → q_num.
-    """
+def _grade_mcq(thresh_w: np.ndarray, output_img: np.ndarray,
+               mcq_bubbles: list, num_columns: int) -> tuple[dict, list[str]]:
+    """Grade MCQ section."""
     extracted_answers = {}
+    warnings = []
     options_map = ["ক", "খ", "গ", "ঘ"]
-
-    if len(mcq_bubbles) < 4:
-        return extracted_answers
-
+    
+    if len(mcq_bubbles) < MCQ_OPTIONS:
+        warnings.append(f"Only {len(mcq_bubbles)} MCQ bubbles found.")
+        return extracted_answers, warnings
+    
     w_med = int(np.median([cv2.boundingRect(c)[2] for c in mcq_bubbles]))
     h_med = int(np.median([cv2.boundingRect(c)[3] for c in mcq_bubbles]))
-    r = max(5, min(w_med, h_med) // 2 - 1)
-
-    # ── 1. Find exact global X-coordinates for all option columns ─────────────
-    all_x = [cv2.boundingRect(c)[0] + cv2.boundingRect(c)[2]//2 for c in mcq_bubbles]
-    sorted_x = sorted(all_x)
     
-    # Cluster X coordinates (merge if within w_med * 0.55)
-    clusters_x = []
-    curr_x = [sorted_x[0]]
-    for x in sorted_x[1:]:
-        if x - curr_x[-1] < w_med * 0.55:
-            curr_x.append(x)
-        else:
-            clusters_x.append(int(np.median(curr_x)))
-            curr_x = [x]
-    clusters_x.append(int(np.median(curr_x)))
-
-    # Group into question blocks by large gaps (w_med * 2.2)
-    col_blocks = []
-    curr_block = [clusters_x[0]]
-    for x in clusters_x[1:]:
-        if x - curr_block[-1] > w_med * 2.2:
-            col_blocks.append(curr_block)
-            curr_block = [x]
-        else:
-            curr_block.append(x)
-    col_blocks.append(curr_block)
-
-    # For each block, extract the rightmost 4 columns (Options: ক, খ, গ, ঘ)
+    if w_med == 0 or h_med == 0:
+        return extracted_answers, warnings
+    
+    r_base = max(4, min(w_med, h_med) // 2 - 1)
+    
+    # Extract columns by slicing the warped image width equally
+    # This guarantees exactly `num_columns` columns, even if one is entirely missing bubbles.
+    slice_w = CANVAS_W // num_columns
     expected_x_per_col = []
-    for block in col_blocks:
-        if len(block) >= MCQ_OPTIONS:
-            expected_x_per_col.append(block[-MCQ_OPTIONS:])
-
-    # ── 2. Group bubbles into horizontal rows ─────────────────────────────────
+    
+    for col_idx in range(num_columns):
+        col_min_x = col_idx * slice_w
+        col_max_x = (col_idx + 1) * slice_w
+        
+        # Find all bubbles in this vertical slice
+        slice_bubbles = [
+            c for c in mcq_bubbles 
+            if col_min_x <= (cv2.boundingRect(c)[0] + cv2.boundingRect(c)[2] // 2) < col_max_x
+        ]
+        
+        if not slice_bubbles:
+            warnings.append(f"No MCQ bubbles found in column {col_idx + 1}.")
+            expected_x_per_col.append([])
+            continue
+            
+        # Cluster X inside this slice
+        slice_x = [cv2.boundingRect(c)[0] + cv2.boundingRect(c)[2] // 2 for c in slice_bubbles]
+        slice_x.sort()
+        
+        clusters_x = []
+        curr_x = [slice_x[0]]
+        for x in slice_x[1:]:
+            if x - curr_x[-1] < w_med * 0.65:
+                curr_x.append(x)
+            else:
+                clusters_x.append(int(np.median(curr_x)))
+                curr_x = [x]
+        clusters_x.append(int(np.median(curr_x)))
+        
+        n = min(len(clusters_x), MCQ_OPTIONS)
+        expected_x_per_col.append(clusters_x[-n:])
+    
+    # Cluster Y (rows)
     sorted_by_y = sorted(mcq_bubbles, key=lambda c: cv2.boundingRect(c)[1])
     rows = []
     curr_row = [sorted_by_y[0]]
     for c in sorted_by_y[1:]:
         y_curr = cv2.boundingRect(c)[1]
         y_prev = cv2.boundingRect(curr_row[-1])[1]
-        if abs(y_curr - y_prev) < h_med * 0.55:
+        if abs(y_curr - y_prev) < h_med * 0.65:
             curr_row.append(c)
         else:
             rows.append(curr_row)
             curr_row = [c]
     rows.append(curr_row)
-
-    # ── 3. Grade grid using exact coordinate sampling ─────────────────────────
-    answer_grid = {}  # (row_idx, col_idx) → answer_char
-
-    for row_idx, row in enumerate(rows):
-        row_y = int(np.median([cv2.boundingRect(c)[1] + cv2.boundingRect(c)[3]//2 for c in row]))
-
+    
+    # Filter out false positive rows (e.g. from dirt or text loops like "বৃত্তটি")
+    # A real row spans across `num_columns` columns, each with 4 options.
+    # We require at least 2 detected bubbles per column on average.
+    valid_rows = [r for r in rows if len(r) >= num_columns * 2]
+    
+    answer_grid = {}
+    
+    for row_idx, row in enumerate(valid_rows):
+        row_ys = [cv2.boundingRect(c)[1] + cv2.boundingRect(c)[3] // 2 for c in row]
+        row_y = int(np.median(row_ys))
+        
         for col_idx, expected_xs in enumerate(expected_x_per_col):
-            # Check if this question block actually exists in this row
-            # (e.g. Q29, Q30 might not exist in the 3rd block)
             block_exists = any(
-                min(abs((cv2.boundingRect(c)[0] + cv2.boundingRect(c)[2]//2) - ex) for ex in expected_xs) < w_med
+                min(abs((cv2.boundingRect(c)[0] + cv2.boundingRect(c)[2] // 2) - ex)
+                    for ex in expected_xs) < w_med * 1.4
                 for c in row
             )
             if not block_exists:
                 continue
-
+            
             fill_ratios = []
             centers = []
             for ox in expected_xs:
                 cx, cy = ox, row_y
-                mask = np.zeros(thresh_warped.shape, dtype=np.uint8)
-                cv2.circle(mask, (cx, cy), r, 255, -1)
-                pixels = cv2.countNonZero(cv2.bitwise_and(thresh_warped, thresh_warped, mask=mask))
-                area = np.pi * r * r
-                fill_ratios.append(pixels / area)
-                centers.append((cx, cy, r))
-
+                fr = _measure_fill(thresh_w, cx, cy, r_base)
+                fill_ratios.append(fr)
+                centers.append((cx, cy, r_base))
+            
+            if not fill_ratios:
+                continue
+            
             best_idx = int(np.argmax(fill_ratios))
-            best_fill = fill_ratios[best_idx]
-            other = [f for i, f in enumerate(fill_ratios) if i != best_idx]
-            second = max(other) if other else 0
-
-            # Absolute bypass: if clearly filled (>35%), grade it regardless of ratio.
-            is_filled = best_fill >= 0.35 or (
-                best_fill >= 0.12 and (second == 0 or best_fill >= second * 1.5)
-            )
-
-            # Check for double-fill: 2+ options both clearly marked
-            clearly_filled_count = sum(1 for f in fill_ratios if f >= 0.35)
-
-            if clearly_filled_count >= 2:
+            
+            # A bubble is filled if it's absolutely very dark (>55%)
+            # This perfectly isolates pen marks from the naturally dark "ঘ" character inside empty bubbles.
+            def is_bubble_filled(f: float) -> bool:
+                return f >= 0.55
+                
+            filled_status = [is_bubble_filled(f) for f in fill_ratios]
+            filled_count = sum(filled_status)
+            is_filled = filled_status[best_idx]
+            
+            if filled_count >= 2:
                 answer = "DOUBLE"
-            elif is_filled and best_idx < len(options_map):
+            elif filled_count == 1:
                 answer = options_map[best_idx]
             else:
                 answer = "BLANK"
+            
             answer_grid[(row_idx, col_idx)] = answer
-
-            # Visual proof: circles
-            # Green  = the selected answer
-            # Orange = double-fill (student marked 2+ options)
-            # Red    = empty / not selected
+            
+            # Visual
             for i, (cx, cy, cr) in enumerate(centers):
                 if answer == "DOUBLE":
-                    color = (0, 165, 255) if fill_ratios[i] >= 0.35 else (0, 0, 255)
-                    thickness = 2 if fill_ratios[i] >= 0.35 else 1
+                    color = (0, 165, 255) if filled_status[i] else (0, 0, 255)
+                    thickness = 2 if filled_status[i] else 1
                 elif i == best_idx and is_filled:
                     color = (0, 255, 0)
                     thickness = 2
@@ -378,103 +777,176 @@ def _grade_mcq(thresh_warped, output_img, mcq_bubbles, num_columns):
                     color = (0, 0, 255)
                     thickness = 1
                 cv2.circle(output_img, (cx, cy), cr, color, thickness)
-
+    
     if not answer_grid:
-        return extracted_answers
-
-    # ── Assign Q numbers ──────────────────────────────────────────────────────
-    # Layout: questions fill column by column (Q1-Q10 col0, Q11-Q20 col1, Q21-Q28 col2)
-    # (row_idx, col_idx) → q_num = col_idx * qpc + row_idx + 1
+        warnings.append("No MCQ answers could be graded.")
+        return extracted_answers, warnings
+    
     num_rows = max(k[0] for k in answer_grid) + 1
-    questions_per_column = num_rows  # same number of rows in each column
-
+    
     for (row_idx, col_idx), answer in sorted(answer_grid.items()):
-        q_num = col_idx * questions_per_column + row_idx + 1
+        q_num = col_idx * num_rows + row_idx + 1
         extracted_answers[str(q_num)] = answer
+    
+    return extracted_answers, warnings
 
-    return extracted_answers
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CONFIDENCE COMPUTATION
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _compute_confidence(fiducials_found: bool, qr_detected: bool,
+                        bubbles_found: int, expected_min: int,
+                        roll_number: str, answers: dict) -> float:
+    """Compute confidence score (0.0 - 1.0)."""
+    score = 0.0
+    
+    if fiducials_found:
+        score += 0.25
+    
+    if qr_detected:
+        score += 0.15
+    
+    if expected_min > 0:
+        bubble_ratio = min(1.0, bubbles_found / expected_min)
+        score += bubble_ratio * 0.30
+    
+    if roll_number and "?" not in roll_number and roll_number != "":
+        score += 0.15
+    
+    if answers:
+        non_blank = sum(1 for v in answers.values() if v not in ("BLANK", "DOUBLE"))
+        answered_ratio = min(1.0, non_blank / max(1, len(answers)))
+        score += answered_ratio * 0.15
+    
+    return score
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MAIN ENTRY POINT
 # ─────────────────────────────────────────────────────────────────────────────
 
-def process_omr_image(image_bytes: bytes, num_columns: int = 3) -> dict:
-    """
-    100% Accurate OMR pipeline:
-    1. Find 4 fiducial corner markers → perspective-warp to flat A4 canvas.
-    2. Scan for horizontal divider line (Roll ID vs MCQ boundary).
-    3. Detect all bubble contours in the flat image.
-    4. Grade Roll ID (6 columns × 10 rows).
-    5. Grade MCQ (row-by-row, column groups by X gaps, relative fill).
-    6. Return annotated image as base64.
-    """
-    # ── Decode ─────────────────────────────────────────────────────────────────
+def process_omr_image(image_bytes: bytes,
+                      num_columns: int = 4,
+                      fallback_paper_id: str | None = None,
+                      manual_corners: list[list[int]] | None = None) -> dict:
+    """Enterprise-grade OMR processing with full fallback cascade."""
+    all_warnings = []
+    
+    # Decode
     np_arr = np.frombuffer(image_bytes, np.uint8)
     img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-    if img is None:
-        raise ValueError("Could not decode image.")
-
-    gray_orig = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
-    # Apply CLAHE (Contrast Limited Adaptive Histogram Equalization)
-    # This completely normalizes uneven lighting (shadows, yellowed paper)
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    gray_orig = clahe.apply(gray_orig)
-
-    # ── Read QR code ───────────────────────────────────────────────────────────
-    qr_detector = cv2.QRCodeDetector()
-    qr_data, _, _ = qr_detector.detectAndDecode(gray_orig)
-    paper_id = None
+    if img is None:
+        return {
+            "paperId": fallback_paper_id or "not-detected",
+            "rollNumber": "Could not parse",
+            "answers": {},
+            "processed_image_base64": None,
+            "confidence": {"overall": 0.0},
+            "warnings": ["Could not decode image."],
+        }
+    
+    # Normalize resolution
+    img_work, scale = normalise_resolution(img)
+    gray_raw = cv2.cvtColor(img_work, cv2.COLOR_BGR2GRAY)
+    
+    # Read QR
+    qr_data, _ = _read_qr(gray_raw)
+    paper_id = fallback_paper_id
+    qr_detected = False
+    
     if qr_data:
-        try:
-            meta = json.loads(qr_data)
-            paper_id = meta.get("id", qr_data)
-            num_columns = int(meta.get("cols", num_columns))
-        except (json.JSONDecodeError, ValueError):
-            paper_id = qr_data  # legacy: plain UUID
-
-    # ── Perspective warp ───────────────────────────────────────────────────────
-    corners = _find_fiducials(gray_orig)
-    fiducials_found = corners is not None
-
-    if fiducials_found:
-        warped = _perspective_warp(img, corners)
+        paper_id, num_columns = _parse_qr_data(qr_data, num_columns)
+        qr_detected = True
+    elif fallback_paper_id:
+        all_warnings.append("QR not detected — using provided paper_id.")
+    
+    # Enhance
+    gray_enhanced = enhance_for_omr(gray_raw)
+    
+    # Fiducials
+    if manual_corners is not None and len(manual_corners) == 4:
+        # Scale manual corners from original resolution to working resolution
+        # Assuming manual_corners are provided in the scale of the original uploaded image
+        # which normalise_resolution scales by `scale`
+        scaled_corners = np.array(manual_corners, dtype=np.float32) * scale
+        corners = scaled_corners
+        fiducials_found = True
+        all_warnings.append("Using manual 4-point crop coordinates.")
     else:
-        warped = cv2.resize(img, (CANVAS_W, CANVAS_H))
-
+        corners = _find_fiducials(gray_enhanced)
+        fiducials_found = corners is not None
+    
+    if fiducials_found:
+        warped = _perspective_warp(img_work, corners)
+    else:
+        warped = cv2.resize(img_work, (CANVAS_W, CANVAS_H), interpolation=cv2.INTER_AREA)
+        all_warnings.append("Fiducials not found — using fallback resize.")
+    
     output_img = warped.copy()
     gray_w = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
-    gray_w = clahe.apply(gray_w)  # Apply CLAHE to warped image as well
-    thresh_w = cv2.threshold(gray_w, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-
-    # ── Find divider line ──────────────────────────────────────────────────────
-    divider_y = _find_divider_y(gray_w)
+    gray_w_enhanced = enhance_for_omr(gray_w)
+    thresh_w = best_threshold(gray_w_enhanced)
+    
+    # Divider
+    divider_y = _find_divider_y(gray_w_enhanced)
     cv2.line(output_img, (0, divider_y), (CANVAS_W, divider_y), (255, 128, 0), 2)
-
-    # ── Detect all bubbles ─────────────────────────────────────────────────────
-    all_bubbles = _find_bubbles(gray_w)
-
+    
+    # Bubbles
+    # We expect 40 MCQs * 4 options = 160 bubbles.
+    # We also expect 6 cols * 10 digits = 60 Roll bubbles.
+    # The Hough Circle minimum is 20, but it dynamically adjusts.
+    # We'll set expected min bubbles strictly based on the 4-column layout
+    expected_min_bubbles = max(160, num_columns * 40)
+    all_bubbles = _find_bubbles(gray_w_enhanced, expected_min=expected_min_bubbles)
+    
     roll_bubbles = [c for c in all_bubbles if cv2.boundingRect(c)[1] < divider_y]
-    mcq_bubbles  = [c for c in all_bubbles if cv2.boundingRect(c)[1] > divider_y]
-
-    # ── Grade sections ─────────────────────────────────────────────────────────
-    roll_number = _grade_roll_id(thresh_w, output_img, roll_bubbles)
-    extracted_answers = _grade_mcq(thresh_w, output_img, mcq_bubbles, num_columns)
-
-    # ── Encode annotated image ─────────────────────────────────────────────────
+    
+    # Exclude the first 35px below the divider to perfectly ignore text loops ("সঠিক উত্তরের...")
+    mcq_bubbles = [c for c in all_bubbles if cv2.boundingRect(c)[1] > divider_y + 35]
+    
+    if len(all_bubbles) < 20:
+        all_warnings.append(f"Only {len(all_bubbles)} bubbles detected — check image quality.")
+    
+    # Grade
+    roll_number = ""
+    extracted_answers = {}
+    
+    try:
+        roll_number, roll_warnings = _grade_roll_id(thresh_w, output_img, roll_bubbles)
+        all_warnings.extend(roll_warnings)
+    except Exception as e:
+        all_warnings.append(f"Roll ID grading failed: {str(e)}")
+    
+    try:
+        extracted_answers, mcq_warnings = _grade_mcq(thresh_w, output_img, mcq_bubbles, num_columns)
+        all_warnings.extend(mcq_warnings)
+    except Exception as e:
+        all_warnings.append(f"MCQ grading failed: {str(e)}")
+    
+    # Confidence
+    confidence_score = _compute_confidence(
+        fiducials_found, qr_detected, len(all_bubbles),
+        expected_min_bubbles, roll_number, extracted_answers
+    )
+    
+    # Encode
     _, buf = cv2.imencode('.jpg', output_img, [cv2.IMWRITE_JPEG_QUALITY, 88])
     b64 = base64.b64encode(buf).decode('utf-8')
-
+    
     return {
         "paperId": paper_id or "not-detected",
         "rollNumber": roll_number or "Could not parse",
         "answers": extracted_answers,
         "processed_image_base64": f"data:image/jpeg;base64,{b64}",
-        "debug": {
+        "confidence": {
+            "overall": round(confidence_score, 2),
             "fiducials_found": fiducials_found,
-            "divider_y": divider_y,
-            "num_columns": num_columns,
+            "qr_detected": qr_detected,
             "bubbles_found": len(all_bubbles),
-        }
+            "roll_bubbles": len(roll_bubbles),
+            "mcq_bubbles": len(mcq_bubbles),
+        },
+        "warnings": all_warnings,
     }

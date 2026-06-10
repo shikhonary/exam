@@ -413,10 +413,10 @@ export const BuilderCanvas: React.FC = () => {
               minHeight: `${canvasMinHeight}mm`,
               transform: `scale(${zoomFactor})`,
               transformOrigin: "top center",
-              paddingTop: `${settings.margins.top}mm`,
-              paddingBottom: `${settings.margins.bottom}mm`,
-              paddingLeft: `${settings.margins.left}mm`,
-              paddingRight: `${settings.margins.right}mm`,
+              paddingTop: page.isOMRPage ? '0mm' : `${settings.margins.top}mm`,
+              paddingBottom: page.isOMRPage ? '0mm' : `${settings.margins.bottom}mm`,
+              paddingLeft: page.isOMRPage ? '0mm' : `${settings.margins.left}mm`,
+              paddingRight: page.isOMRPage ? '0mm' : `${settings.margins.right}mm`,
               fontFamily: settings.fontFamily,
               fontSize: `${settings.fontSize}px`,
             }}
@@ -553,12 +553,6 @@ export const BuilderCanvas: React.FC = () => {
                       );
                     })}
                   </div>
-
-                  {settings.showOMRSheet && (
-                    <div className="break-before-page w-full">
-                      <OMRBlock />
-                    </div>
-                  )}
                 </div>
               </td>
             </tr>
@@ -573,6 +567,13 @@ export const BuilderCanvas: React.FC = () => {
             </tr>
           </tfoot>
         </table>
+
+        {/* OMR Block is placed outside the margin-constrained table to span the full edge-to-edge width! */}
+        {settings.showOMRSheet && (
+          <div className="break-before-page w-full bg-white relative">
+            <OMRBlock />
+          </div>
+        )}
       </div>
     </div>
   );

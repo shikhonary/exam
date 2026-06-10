@@ -16,15 +16,10 @@ export const OMRBlock = () => {
   const paperId = useBuilderStore((state) => state.paperId);
   const { data: paperQuery } = useQuestionPaperById(paperId || "");
 
-  // Count MCQs
-  let mcqCount = 0;
-  if (paperQuery?.questions) {
-    mcqCount = paperQuery.questions.filter((q: any) => q.mcq).length;
-  }
-  if (mcqCount === 0) mcqCount = 30; // Fallback for empty paper/preview
-
-  const columns = settings.omrSettings?.columns || 3;
-  const questionsPerColumn = Math.ceil(mcqCount / columns);
+  // Hardcode to exact 40 MCQs in 4 columns for reliable parsing
+  const mcqCount = 40;
+  const columns = 4;
+  const questionsPerColumn = 10;
 
   // Create an array of questions grouped by column
   const columnData = Array.from({ length: columns }, (_, colIdx) => {
@@ -40,9 +35,9 @@ export const OMRBlock = () => {
 
   return (
     <div
-      className="relative w-full h-full bg-white text-black p-8 font-sans border-2 border-transparent break-inside-avoid break-before-page"
+      className="relative w-full bg-white text-black p-8 font-sans border-2 border-transparent break-inside-avoid break-before-page shrink-0"
       style={{
-        minHeight: "240mm",
+        height: "260mm",
         // Force the browser to print borders and background colors exactly as designed
         WebkitPrintColorAdjust: "exact",
         printColorAdjust: "exact",
@@ -57,16 +52,16 @@ export const OMRBlock = () => {
         ╚══════════════════════════════════════════════════════════╝
       */}
       {/* Top-left */}
-      <div className="absolute top-2 left-2 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
+      <div className="absolute top-6 left-6 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
       {/* Top-right */}
-      <div className="absolute top-2 right-2 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
+      <div className="absolute top-6 right-6 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
       {/* Bottom-left */}
-      <div className="absolute bottom-2 left-2 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
+      <div className="absolute bottom-6 left-6 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
       {/* Bottom-right */}
-      <div className="absolute bottom-2 right-2 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
+      <div className="absolute bottom-6 right-6 w-8 h-8 bg-black" style={{ outline: "3px solid white" }} />
 
       {/* ── Header ─────────────────────────────────────────────── */}
-      <div className="flex justify-between items-start mb-6 mt-2 px-6">
+      <div className="flex justify-between items-start mb-4 mt-4 px-12">
         <div className="flex-1">
           <h1 className="text-2xl font-bold">{settings.institutionName}</h1>
           <h2 className="text-lg font-semibold">{settings.examName || "পরীক্ষা"}</h2>
@@ -91,7 +86,7 @@ export const OMRBlock = () => {
 
       {/* ── Roll / ID bubble grid ───────────────────────────────── */}
       {settings.omrSettings?.includeRollNumber && (
-        <div className="flex justify-center px-6 mb-4">
+        <div className="flex justify-center px-6 mb-2">
           <div className="border-2 border-black rounded-lg p-3">
             <div className="text-center font-bold mb-2 text-sm border-b border-black pb-1">
               Roll / ID
@@ -135,29 +130,29 @@ export const OMRBlock = () => {
         ║  Must remain a solid, full-width, black horizontal bar.  ║
         ╚═══════════════════════════════════════════════════════════╝
       */}
-      <div className="w-full h-[3px] bg-black my-4" />
+      <div className="w-full h-[3px] bg-black my-2" />
 
       {/* ── MCQ bubble grid ─────────────────────────────────────── */}
-      <div className="px-6 pt-3">
-        <div className="text-center font-bold mb-4 text-base">
+      <div className="px-6 pt-2">
+        <div className="text-center font-bold mb-3 text-base">
           সঠিক উত্তরের বৃত্তটি ভরাট করো
         </div>
 
-        <div className="flex justify-between gap-6">
+        <div className="flex justify-center gap-14">
           {columnData.map((colQuestions, cIdx) => (
-            <div key={cIdx} className="flex-1 flex flex-col gap-3">
+            <div key={cIdx} className="flex flex-col gap-2">
               {colQuestions.map((qNum) => (
                 <div key={qNum} className="flex items-center gap-2">
-                  <span className="w-6 text-right font-bold text-sm shrink-0">
+                  <span className="w-5 text-right font-bold text-[13px] shrink-0">
                     {toBengaliDigits(qNum)}.
                   </span>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     {["ক", "খ", "গ", "ঘ"].map((opt) => (
                       <div
                         key={opt}
                         style={{
-                          width: "24px",
-                          height: "24px",
+                          width: "22px",
+                          height: "22px",
                           borderRadius: "50%",
                           border: "1.5px solid black",
                           display: "flex",
@@ -177,10 +172,6 @@ export const OMRBlock = () => {
           ))}
         </div>
 
-        {/* Footer instruction */}
-        <div className="mt-6 text-center text-sm font-semibold text-gray-700">
-          বৃত্তটি সম্পূর্ণ কালো কালির বলপয়েন্ট কলম দিয়ে ভরাট করো।
-        </div>
       </div>
     </div>
   );
