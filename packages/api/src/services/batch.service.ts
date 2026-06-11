@@ -310,15 +310,20 @@ export class BatchService {
     academicClassId?: string;
   }) {
     try {
-      if (!input.academicClassId || !input.academicYearId) {
+      if (!input.academicClassId) {
         return [];
       }
 
+      const where: any = {
+        academicClassId: input.academicClassId,
+      };
+
+      if (input.academicYearId) {
+        where.academicYearId = input.academicYearId;
+      }
+
       return await this.db.batch.findMany({
-        where: {
-          academicYearId: input.academicYearId,
-          academicClassId: input.academicClassId,
-        },
+        where,
       });
     } catch (error) {
       handlePrismaError(error);

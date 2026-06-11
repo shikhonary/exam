@@ -15,6 +15,7 @@ import {
   useAcademicClassesForSelection,
   useAcademicYearsForSelection,
   useStudentFilters,
+  useBatchByYearClassId,
 } from "@workspace/api-client";
 import { useDebounceCallback } from "@workspace/ui/hooks/use-debounce";
 import { Badge } from "@workspace/ui/components/badge";
@@ -43,6 +44,10 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
 
   const { data: years } = useAcademicYearsForSelection();
   const { data: classes } = useAcademicClassesForSelection();
+  const { data: batches } = useBatchByYearClassId(
+    filters.academicYearId ?? undefined,
+    filters.academicClassId ?? undefined,
+  );
 
   const year_options =
     years?.map((item) => ({
@@ -53,6 +58,12 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
   const class_options =
     classes?.map((item) => ({
       label: item.nameBn || item.nameEn,
+      value: item.id,
+    })) ?? [];
+
+  const batch_options =
+    batches?.map((item) => ({
+      label: item.name,
       value: item.id,
     })) ?? [];
 
@@ -71,6 +82,14 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
   const handleAcademicClassChange = (id: string) => {
     setFilters({
       academicClassId: id === "all" ? null : id,
+      batchId: null,
+      page: 1,
+    });
+  };
+
+  const handleBatchChange = (id: string) => {
+    setFilters({
+      batchId: id === "all" ? null : id,
       page: 1,
     });
   };
@@ -89,6 +108,7 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
     !!filters.search ||
     !!filters.academicYearId ||
     !!filters.academicClassId ||
+    !!filters.batchId ||
     filters.limit !== DEFAULT_PAGE_SIZE ||
     filters.page !== DEFAULT_PAGE;
 
@@ -101,6 +121,7 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
       sortBy: null,
       academicYearId: null,
       academicClassId: null,
+      batchId: null,
       isActive: null,
     });
   };
@@ -201,6 +222,24 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
             <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] text-foreground">
               <SelectItem value="all">সব ক্লাস</SelectItem>
               {class_options.map((item) => (
+                <SelectItem key={item.value} value={item.value} className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={filters.batchId ?? "all"}
+            onValueChange={handleBatchChange}
+            disabled={!filters.academicClassId}
+          >
+            <SelectTrigger className="bg-white/[0.05] border-white/[0.08] rounded-xl text-sm font-semibold text-foreground w-[150px] h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all disabled:opacity-50">
+              <SelectValue placeholder="সব ব্যাচ" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] text-foreground">
+              <SelectItem value="all">সব ব্যাচ</SelectItem>
+              {batch_options.map((item) => (
                 <SelectItem key={item.value} value={item.value} className="focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
                   {item.label}
                 </SelectItem>
@@ -349,6 +388,32 @@ export function Filters({ viewMode, onViewModeChange }: FiltersProps) {
                   <button
                     onClick={() =>
                       setFilters({ academicClassId: null, page: 1 })
+                    }
+                    className="hover:text-rose-500 transition-colors ml-1"
+                  >
+                    <X className="w-3 h-3 stroke-[3]" />
+                  </button>
+                </Badge>
+              )}
+
+              {filters.batchId && (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-[rgba(0,229,160,0.08)] border border-[rgba(0,229,160,0.20)] text-xs text-primary shadow-sm rounded-lg hover:bg-[rgba(0,229,160,0.12)]"
+                >
+                  <span className="font-bold text-[10px] uppercase opacity-50 mr-1">
+                    ব্যাচ:
+                  </span>
+                  <span className="font-bold text-[11px]">
+                    {
+                      batch_options.find(
+                        (item) => item.value === filters.batchId,
+                      )?.label
+                    }
+                  </span>
+                  <button
+                    onClick={() =>
+                      setFilters({ batchId: null, page: 1 })
                     }
                     className="hover:text-rose-500 transition-colors ml-1"
                   >

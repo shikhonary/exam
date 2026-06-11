@@ -38,7 +38,7 @@ export const MobileList = ({
       <Header />
 
       <main className="flex-grow py-6 flex flex-col">
-        <Stats total={total} />
+        <Stats total={total} isLoading={isLoading} />
 
         <div className="px-6 space-y-4">
           <AnimatePresence mode="popLayout">

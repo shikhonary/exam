@@ -10,6 +10,7 @@ import {
   ToggleRight,
   MoreVertical,
   Loader2,
+  User,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -74,13 +75,23 @@ export const StudentCard = ({
         <div className="flex-1 p-4">
           {/* Top: name + status badge */}
           <div className="flex items-start justify-between gap-2 mb-2">
-            <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-foreground truncate leading-tight">
-                {student.name}
-              </h3>
-              <p className="text-[10px] font-bold text-muted-foreground mt-0.5 truncate uppercase tracking-widest">
-                ID: {student.studentId}
-              </p>
+            <div className="flex items-start gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-primary flex-shrink-0 overflow-hidden">
+                {student.imageUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={student.imageUrl} alt={student.name} className="w-full h-full object-cover" />
+                ) : (
+                  <User size={20} strokeWidth={2.5} />
+                )}
+              </div>
+              <div className="min-w-0 pt-0.5">
+                <h3 className="text-sm font-semibold text-foreground truncate leading-tight">
+                  {student.name}
+                </h3>
+                <p className="text-[10px] font-bold text-muted-foreground mt-0.5 truncate uppercase tracking-widest">
+                  ID: {student.studentId}
+                </p>
+              </div>
             </div>
             <span
               className={cn(
@@ -102,6 +113,10 @@ export const StudentCard = ({
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>রোল: <span className="font-semibold text-foreground">{student.roll}</span></span>
               <span>ফোন: <span className="font-semibold text-foreground">{student.primaryPhone}</span></span>
+            </div>
+            <div className="flex justify-between text-xs text-muted-foreground pt-1.5 border-t border-white/[0.05]">
+              <span>মাসিক ফি:</span>
+              <span className="font-semibold text-foreground">৳{student.monthlyFee}</span>
             </div>
           </div>
 

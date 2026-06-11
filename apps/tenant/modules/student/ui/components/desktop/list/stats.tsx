@@ -5,12 +5,30 @@ import {
   CheckCircle,
   PauseCircle,
 } from "lucide-react";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 interface StatsProps {
   total: number;
+  isLoading?: boolean;
 }
 
-export function Stats({ total }: StatsProps) {
+export function Stats({ total, isLoading }: StatsProps) {
+  if (isLoading) {
+    return (
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="bg-[#131B2C] border border-white/[0.02] shadow-[0_8px_30px_rgba(0,0,0,0.5)] p-6 rounded-2xl flex items-center gap-5">
+            <Skeleton className="w-12 h-12 rounded-full bg-white/[0.06]" />
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-16 bg-white/[0.06]" />
+              <Skeleton className="h-6 w-10 bg-white/[0.06]" />
+            </div>
+          </div>
+        ))}
+      </section>
+    );
+  }
+
   // Using total from props as a fallback since useStudentStats is not yet implemented
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -22,13 +40,13 @@ export function Stats({ total }: StatsProps) {
       <StatCard
         icon={<CheckCircle className="w-6 h-6" />}
         label="অ্যাক্টিভ"
-        value={"-"}
+        value={"0"}
         accent
       />
       <StatCard
         icon={<PauseCircle className="w-6 h-6" />}
         label="ইনঅ্যাক্টিভ"
-        value={"-"}
+        value={"0"}
       />
     </section>
   );

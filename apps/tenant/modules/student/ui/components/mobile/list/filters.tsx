@@ -18,6 +18,7 @@ import {
   useStudentFilters,
   useAcademicClassesForSelection,
   useAcademicYearsForSelection,
+  useBatchByYearClassId,
 } from "@workspace/api-client";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@workspace/utils/constants";
 import {
@@ -33,6 +34,10 @@ export const Filters = () => {
 
   const { data: classes } = useAcademicClassesForSelection();
   const { data: years } = useAcademicYearsForSelection();
+  const { data: batches } = useBatchByYearClassId(
+    filters.academicYearId ?? undefined,
+    filters.academicClassId ?? undefined,
+  );
 
   const classOptions =
     classes?.map((item) => ({
@@ -43,6 +48,12 @@ export const Filters = () => {
   const yearOptions =
     years?.map((item) => ({
       label: item.label,
+      value: item.id,
+    })) ?? [];
+
+  const batchOptions =
+    batches?.map((item) => ({
+      label: item.name,
       value: item.id,
     })) ?? [];
 
@@ -72,6 +83,14 @@ export const Filters = () => {
   const handleAcademicClassChange = (id: string) => {
     setFilters({
       academicClassId: id === "all" ? null : id,
+      batchId: null,
+      page: 1,
+    });
+  };
+
+  const handleBatchChange = (id: string) => {
+    setFilters({
+      batchId: id === "all" ? null : id,
       page: 1,
     });
   };
@@ -92,6 +111,7 @@ export const Filters = () => {
       isActive: null,
       academicClassId: null,
       academicYearId: null,
+      batchId: null,
     });
   };
 
@@ -101,6 +121,7 @@ export const Filters = () => {
     !!filters.search ||
     !!filters.academicClassId ||
     !!filters.academicYearId ||
+    !!filters.batchId ||
     filters.limit !== DEFAULT_PAGE_SIZE ||
     filters.page !== DEFAULT_PAGE;
 
@@ -233,6 +254,35 @@ export const Filters = () => {
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
+              ব্যাচ
+            </h3>
+            <Select
+              value={filters.batchId ?? "all"}
+              onValueChange={handleBatchChange}
+              disabled={!filters.academicClassId}
+            >
+              <SelectTrigger className="w-full bg-white/[0.05] border-white/[0.08] rounded-xl text-xs font-semibold text-foreground h-10 px-4 focus:ring-1 focus:ring-[rgba(0,229,160,0.30)] transition-all disabled:opacity-50">
+                <SelectValue placeholder="সব ব্যাচ" />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-white/[0.08] bg-[#111b2e] shadow-xl text-foreground">
+                <SelectItem value="all" className="text-xs font-medium focus:bg-[rgba(0,229,160,0.08)] focus:text-primary">
+                  সব ব্যাচ
+                </SelectItem>
+                {batchOptions.map((item) => (
+                  <SelectItem
+                    key={item.value}
+                    value={item.value}
+                    className="text-xs font-medium focus:bg-[rgba(0,229,160,0.08)] focus:text-primary"
+                  >
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Sort Filter */}

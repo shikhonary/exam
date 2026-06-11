@@ -60,6 +60,9 @@ export const StudentTable = ({
                   রোল ও ফোন
                 </th>
                 <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] border-b border-white/[0.05]">
+                  মাসিক ফি
+                </th>
+                <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] border-b border-white/[0.05]">
                   অবস্থা
                 </th>
                 <th className="py-3 px-6 text-[10px] font-black uppercase tracking-widest text-[#4a607d] text-right border-b border-white/[0.05]">
@@ -90,6 +93,9 @@ export const StudentTable = ({
                       <Skeleton className="h-4 w-16 bg-white/[0.06]" />
                       <Skeleton className="h-4 w-24 bg-white/[0.06]" />
                     </div>
+                  </td>
+                  <td className="py-5 px-6">
+                    <Skeleton className="h-5 w-16 bg-white/[0.06] rounded" />
                   </td>
                   <td className="py-5 px-6">
                     <Skeleton className="h-6 w-16 bg-white/[0.06] rounded-full" />
@@ -142,6 +148,9 @@ export const StudentTable = ({
                 রোল ও ফোন
               </th>
               <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 border-b border-white/[0.02]">
+                মাসিক ফি
+              </th>
+              <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 border-b border-white/[0.02]">
                 অবস্থা
               </th>
               <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60 text-right border-b border-white/[0.02]">
@@ -158,8 +167,13 @@ export const StudentTable = ({
               >
                 <td className="py-5 px-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-primary">
-                      <User size={20} strokeWidth={2.5} />
+                    <div className="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center text-primary overflow-hidden">
+                      {student.imageUrl ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img src={student.imageUrl} alt={student.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <User size={20} strokeWidth={2.5} />
+                      )}
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-foreground">
@@ -202,6 +216,11 @@ export const StudentTable = ({
                       </span>
                     </div>
                   </div>
+                </td>
+                <td className="py-5 px-6">
+                  <span className="text-sm font-semibold text-foreground">
+                    ৳{student.monthlyFee}
+                  </span>
                 </td>
                 <td className="py-5 px-6">
                   <span

@@ -44,7 +44,7 @@ export const List = ({
         />
 
         <div className="mt-8">
-          <Stats total={total} />
+          <Stats total={total} isLoading={isLoading} />
         </div>
 
         <div className="mt-12 space-y-6">

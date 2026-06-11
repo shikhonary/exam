@@ -3,18 +3,32 @@
 import React from "react";
 import { cn } from "@workspace/ui/lib/utils";
 import { motion } from "framer-motion";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 interface StatsProps {
   total: number;
+  isLoading?: boolean;
 }
 
-export const Stats = ({ total }: StatsProps) => {
+export const Stats = ({ total, isLoading }: StatsProps) => {
+  if (isLoading) {
+    return (
+      <div className="flex overflow-x-auto hide-scrollbar gap-3 px-6 mb-6 pb-2">
+        {[...Array(3)].map((_, i) => (
+          <Skeleton
+            key={i}
+            className="flex-shrink-0 w-32 h-10 rounded-full bg-white/[0.06]"
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex overflow-x-auto hide-scrollbar gap-3 px-6 mb-6 pb-2">
       <StatPill label="মোট শিক্ষার্থী" value={total} index={0} />
-      <StatPill label="অ্যাক্টিভ" value={"-"} accent index={1} />
-      <StatPill label="ইনঅ্যাক্টিভ" value={"-"} index={2} />
+      <StatPill label="অ্যাক্টিভ" value={0} accent index={1} />
+      <StatPill label="ইনঅ্যাক্টিভ" value={0} index={2} />
     </div>
   );
 };

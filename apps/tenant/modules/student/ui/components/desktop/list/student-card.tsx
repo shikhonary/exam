@@ -8,6 +8,7 @@ import {
   ToggleRight,
   Eye,
   MoreVertical,
+  User,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -56,11 +57,21 @@ export function StudentCard({
       
       <div className="p-6 pb-4 relative z-10">
         <div className="flex justify-between items-start mb-5">
-          <div className="pr-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">ID: {student.studentId}</p>
-            <h3 className="text-xl font-black text-foreground group-hover:text-primary transition-colors tracking-tight line-clamp-2 leading-tight">
-              {student.name}
-            </h3>
+          <div className="flex items-start gap-3 pr-4">
+            <div className="w-12 h-12 rounded-xl bg-white/[0.06] flex items-center justify-center text-primary flex-shrink-0 overflow-hidden">
+              {student.imageUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={student.imageUrl} alt={student.name} className="w-full h-full object-cover" />
+              ) : (
+                <User size={24} strokeWidth={2.5} />
+              )}
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1.5">ID: {student.studentId}</p>
+              <h3 className="text-xl font-black text-foreground group-hover:text-primary transition-colors tracking-tight line-clamp-2 leading-tight">
+                {student.name}
+              </h3>
+            </div>
           </div>
 
           <DropdownMenu>
@@ -111,10 +122,14 @@ export function StudentCard({
           </Badge>
         </div>
 
-        <div className="mt-4 space-y-1">
+        <div className="mt-4 space-y-2">
           <div className="text-[11px] font-bold text-muted-foreground flex items-center justify-between">
             <span>রোল: {student.roll}</span>
             <span>ফোন: {student.primaryPhone}</span>
+          </div>
+          <div className="text-[11px] font-bold text-muted-foreground flex items-center justify-between border-t border-white/[0.05] pt-2">
+            <span>মাসিক ফি:</span>
+            <span className="text-foreground">৳{student.monthlyFee}</span>
           </div>
         </div>
       </div>
