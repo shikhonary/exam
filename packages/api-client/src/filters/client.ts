@@ -36,6 +36,7 @@ import {
   settingFilterSchema,
   auditLogFilterSchema,
   notificationFilterSchema,
+  examFilterSchema,
 } from "./schema";
 
 export const useAcademicClassFilters = () =>
@@ -95,3 +96,4 @@ export const useSettingFilters = () => useQueryStates(settingFilterSchema);
 export const useAuditLogFilters = () => useQueryStates(auditLogFilterSchema);
 export const useNotificationFilters = () =>
   useQueryStates(notificationFilterSchema);
+export const useExamFilters = () => useQueryStates(examFilterSchema);

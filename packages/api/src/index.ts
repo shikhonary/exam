@@ -19,6 +19,7 @@ export * from "./services/academic-class.service";
 export * from "./services/student.service";
 export * from "./services/user.service";
 export * from "./services/mcq.service";
+export * from "./services/exam.service";
 
 // Export shared types and schemas
 export * from "./shared/pagination";

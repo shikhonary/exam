@@ -57,7 +57,11 @@ export const ModelName = {
   Verification: 'Verification',
   AcademicClass: 'AcademicClass',
   Student: 'Student',
-  Mcq: 'Mcq'
+  Mcq: 'Mcq',
+  Exam: 'Exam',
+  ExamMcq: 'ExamMcq',
+  ExamAttempt: 'ExamAttempt',
+  AnswerHistory: 'AnswerHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -178,6 +182,61 @@ export const McqScalarFieldEnum = {
 } as const
 
 export type McqScalarFieldEnum = (typeof McqScalarFieldEnum)[keyof typeof McqScalarFieldEnum]
+
+
+export const ExamScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subject: 'subject',
+  duration: 'duration',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isPublic: 'isPublic',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum]
+
+
+export const ExamMcqScalarFieldEnum = {
+  examId: 'examId',
+  mcqId: 'mcqId',
+  order: 'order'
+} as const
+
+export type ExamMcqScalarFieldEnum = (typeof ExamMcqScalarFieldEnum)[keyof typeof ExamMcqScalarFieldEnum]
+
+
+export const ExamAttemptScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  studentId: 'studentId',
+  score: 'score',
+  correctAnswers: 'correctAnswers',
+  wrongAnswers: 'wrongAnswers',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExamAttemptScalarFieldEnum = (typeof ExamAttemptScalarFieldEnum)[keyof typeof ExamAttemptScalarFieldEnum]
+
+
+export const AnswerHistoryScalarFieldEnum = {
+  id: 'id',
+  attemptId: 'attemptId',
+  mcqId: 'mcqId',
+  selectedOption: 'selectedOption',
+  isCorrect: 'isCorrect',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnswerHistoryScalarFieldEnum = (typeof AnswerHistoryScalarFieldEnum)[keyof typeof AnswerHistoryScalarFieldEnum]
 
 
 export const SortOrder = {

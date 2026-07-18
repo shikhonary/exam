@@ -4,6 +4,7 @@ import { academicClassRouter } from "../routers/academic-class";
 import { studentRouter } from "../routers/student";
 import { userRouter } from "../routers/user";
 import { mcqRouter } from "../routers/mcq";
+import { examRouter } from "../routers/exam";
 
 // Explicitly import branded types to ensure they are available for inference in this module
 import type { TRPCContext, PrismaClient, TenantPrismaClient } from "./context";
@@ -17,6 +18,7 @@ export const appRouter = t.router({
   student: studentRouter,
   user: userRouter,
   mcq: mcqRouter,
+  exam: examRouter,
 });
 
 /**

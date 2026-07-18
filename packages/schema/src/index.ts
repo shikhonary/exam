@@ -7,6 +7,7 @@ export * from "./shared/password";
 export * from "./academic-class";
 export * from "./student";
 export * from "./mcq";
+export * from "./exam";
 
 // Business Schemas
 export * from "./user";

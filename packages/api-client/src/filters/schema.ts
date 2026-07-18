@@ -425,3 +425,13 @@ export const notificationFilterSchema = {
   userId: parseAsString.withOptions({ clearOnDefault: true }),
   tenantId: parseAsString.withOptions({ clearOnDefault: true }),
 };
+
+/**
+ * Exam Filters
+ */
+export const examFilterSchema = {
+  ...baseFilterSchema,
+  subject: parseAsString.withOptions({ clearOnDefault: true }),
+  status: parseAsString.withOptions({ clearOnDefault: true }),
+  isPublic: parseAsBoolean.withOptions({ clearOnDefault: true }),
+};

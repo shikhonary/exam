@@ -5,6 +5,7 @@ export * from "./query-client";
 export * from "./hooks/use-academic-class";
 export * from "./hooks/use-student";
 export * from "./hooks/use-mcq";
+export * from "./hooks/use-exam";
 
 // Filters
 export * from "./filters/client";

@@ -74,3 +74,23 @@ export type Student = Prisma.StudentModel
  * 
  */
 export type Mcq = Prisma.McqModel
+/**
+ * Model Exam
+ * 
+ */
+export type Exam = Prisma.ExamModel
+/**
+ * Model ExamMcq
+ * 
+ */
+export type ExamMcq = Prisma.ExamMcqModel
+/**
+ * Model ExamAttempt
+ * 
+ */
+export type ExamAttempt = Prisma.ExamAttemptModel
+/**
+ * Model AnswerHistory
+ * 
+ */
+export type AnswerHistory = Prisma.AnswerHistoryModel
