@@ -33,12 +33,6 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@workspace/ui/components/sheet";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@workspace/ui/components/collapsible";
-
 import { cn } from "@workspace/ui/lib/utils";
 
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
@@ -49,87 +43,12 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-interface NavGroup {
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  items: NavItem[];
-}
-
 const navItems: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
-];
-
-const userManagementGroup: NavGroup = {
-  title: "User Management",
-  icon: Users,
-  items: [
-    { title: "Users", url: "/users", icon: Users },
-    { title: "Students", url: "/students", icon: Users },
-  ],
-};
-
-const tenantsGroup: NavGroup = {
-  title: "Tenants",
-  icon: Building2,
-  items: [
-    { title: "Add Tenant", url: "/tenants/new", icon: PlusCircle },
-    { title: "Organizations", url: "/tenants", icon: Building2 },
-  ],
-};
-
-const billingGroup: NavGroup = {
-  title: "Billing & Plans",
-  icon: CreditCard,
-  items: [
-    {
-      title: "Subscription Plans",
-      url: "/subscription-plans",
-      icon: CreditCard,
-    },
-    {
-      title: "Subscriptions",
-      url: "/subscriptions",
-      icon: CreditCard,
-    },
-  ],
-};
-
-const academicGroup: NavGroup = {
-  title: "Academic",
-  icon: BookOpen,
-  items: [
-    { title: "Academic Years", url: "/academic-years", icon: CalendarDays },
-    { title: "Academic Classes", url: "/academic-classes", icon: BookOpen },
-    { title: "Academic Subjects", url: "/academic-subjects", icon: Bookmark },
-    { title: "Hierarchy View", url: "/academic-hierarchy", icon: ListTree },
-    { title: "Academic Chapters", url: "/academic-chapters", icon: FileText },
-    { title: "Academic Topics", url: "/academic-chapter-topics", icon: FileText },
-  ],
-};
-
-const questionBankGroup: NavGroup = {
-  title: "Question Bank",
-  icon: HelpCircle,
-  items: [
-    { title: "MCQs", url: "/mcqs", icon: HelpCircle },
-    { title: "CQs", url: "/cqs", icon: FileText },
-    { title: "Short Answers", url: "/short-answers", icon: FileText },
-    { title: "Question Types", url: "/question-types", icon: Layers },
-    { title: "Paper Builder", url: "/question-papers", icon: Sparkles },
-    { title: "OMR Verification", url: "/omr-verification", icon: Scan },
-  ],
-};
-
-const digitalLibraryGroup: NavGroup = {
-  title: "Digital Library",
-  icon: BookOpen,
-  items: [
-    { title: "Books", url: "/books", icon: BookOpen },
-    { title: "Upload PDF", url: "/books/new", icon: PlusCircle },
-  ],
-};
-
-const bottomItems: NavItem[] = [
+  { title: "Users", url: "/users", icon: Users },
+  { title: "Students", url: "/students", icon: Users },
+  { title: "Academic Classes", url: "/academic-classes", icon: BookOpen },
+  { title: "MCQs", url: "/mcqs", icon: HelpCircle },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -146,28 +65,12 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   const router = useRouter();
   const user = { email: "user@example.com" }; // Placeholder
 
-  const [userManagementOpen, setUserManagementOpen] = useState(true);
-  const [tenantsOpen, setTenantsOpen] = useState(true);
-  const [billingOpen, setBillingOpen] = useState(true);
-  const [academicOpen, setAcademicOpen] = useState(true);
-  const [questionBankOpen, setQuestionBankOpen] = useState(true);
-  const [digitalLibraryOpen, setDigitalLibraryOpen] = useState(true);
-
   const handleLogout = async () => {
     router.push("/auth");
   };
 
   // Collect all sidebar URLs to determine the best match for highlighting
-  const allSidebarUrls = [
-    ...navItems.map((i) => i.url),
-    ...userManagementGroup.items.map((i) => i.url),
-    ...tenantsGroup.items.map((i) => i.url),
-    ...billingGroup.items.map((i) => i.url),
-    ...academicGroup.items.map((i) => i.url),
-    ...questionBankGroup.items.map((i) => i.url),
-    ...digitalLibraryGroup.items.map((i) => i.url),
-    ...bottomItems.map((i) => i.url),
-  ];
+  const allSidebarUrls = navItems.map((i) => i.url);
 
   const isActive = (url: string) => {
     if (url === "/") {
@@ -193,9 +96,6 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
     return !hasMoreSpecificMatch;
   };
 
-  const isGroupActive = (group: NavGroup) =>
-    group.items.some((item) => isActive(item.url));
-
   const renderNavItem = (item: NavItem) => (
     <Link
       key={item.title}
@@ -219,54 +119,6 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
       )}
     </Link>
   );
-
-  const renderNavGroup = (
-    group: NavGroup,
-    open: boolean,
-    setOpen: (val: boolean) => void,
-  ) => {
-    const groupActive = isGroupActive(group);
-
-    if (collapsed) {
-      return <div className="space-y-1">{group.items.map(renderNavItem)}</div>;
-    }
-
-    return (
-      <Collapsible
-        open={open}
-        onOpenChange={setOpen}
-        className="group/collapsible"
-      >
-        <CollapsibleTrigger
-          className={cn(
-            "flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
-            groupActive
-              ? "text-foreground bg-muted/40"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
-          )}
-        >
-          <div className="flex items-center gap-3">
-            <group.icon
-              className={cn(
-                "w-4 h-4 flex-shrink-0 transition-transform duration-200",
-                groupActive ? "scale-110" : "group-hover:scale-110",
-              )}
-            />
-            <span>{group.title}</span>
-          </div>
-          <ChevronDown
-            className={cn(
-              "w-4 h-4 transition-transform duration-200 opacity-50",
-              open && "rotate-180 opacity-100",
-            )}
-          />
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pl-6 mt-1 space-y-1 relative before:absolute before:left-3 before:top-0 before:bottom-0 before:w-px before:bg-border/40">
-          {group.items.map(renderNavItem)}
-        </CollapsibleContent>
-      </Collapsible>
-    );
-  };
 
   return (
     <div className="flex flex-col h-full bg-card/60 backdrop-blur-md border-r border-border/50">
@@ -300,84 +152,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
       </div>
 
       {/* ── Scrollable Navigation ── */}
-      <nav className="flex-1 px-4 py-4 space-y-6 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border hover:scrollbar-thumb-muted-foreground/20">
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "Main Menu" : "•••"}
-          </div>
-          <div className="space-y-1">{navItems.map(renderNavItem)}</div>
-        </div>
-
-
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "Tenants" : "•••"}
-          </div>
-          <div className="space-y-1">
-            {renderNavGroup(tenantsGroup, tenantsOpen, setTenantsOpen)}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "Education" : "•••"}
-          </div>
-          <div className="space-y-1">
-            {renderNavGroup(academicGroup, academicOpen, setAcademicOpen)}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "Resources" : "•••"}
-          </div>
-          <div className="space-y-1">
-            {renderNavGroup(
-              questionBankGroup,
-              questionBankOpen,
-              setQuestionBankOpen,
-            )}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "Digital Library" : "•••"}
-          </div>
-          <div className="space-y-1">
-            {renderNavGroup(
-              digitalLibraryGroup,
-              digitalLibraryOpen,
-              setDigitalLibraryOpen,
-            )}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "Billing" : "•••"}
-          </div>
-          <div className="space-y-1">
-            {renderNavGroup(billingGroup, billingOpen, setBillingOpen)}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "User Management" : "•••"}
-          </div>
-          <div className="space-y-1">
-            {renderNavGroup(userManagementGroup, userManagementOpen, setUserManagementOpen)}
-          </div>
-        </div>
-
-        <div>
-          <div className="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/60">
-            {!collapsed ? "System" : "•••"}
-          </div>
-          <div className="space-y-1">{bottomItems.map(renderNavItem)}</div>
-        </div>
+      <nav className="flex-1 px-4 py-4 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-border hover:scrollbar-thumb-muted-foreground/20">
+        <div className="space-y-1">{navItems.map(renderNavItem)}</div>
       </nav>
 
       {/* ── Sticky Sidebar Footer (User + Logout) ── */}
