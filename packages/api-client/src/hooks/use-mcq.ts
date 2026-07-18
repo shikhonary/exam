@@ -2,17 +2,22 @@
 
 import {
   useMutation,
-  useQuery,
   useQueryClient,
+  useSuspenseQuery,
+  useQuery,
 } from "@tanstack/react-query";
 import { toast } from "@workspace/ui/components/sonner";
+import type { Mcq } from "@workspace/db";
+import type { PaginatedResponse } from "@workspace/api";
+
 import { useTRPC } from "../client";
+import { useMCQFilters } from "../filters/client";
 
 // ============================================================================
-// MCQ MUTATIONS
+// MUTATIONS
 // ============================================================================
 
-export function useCreateMCQ() {
+export function useCreateMcq() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -24,17 +29,16 @@ export function useCreateMCQ() {
     onSuccess: async (data) => {
       if (data.success) {
         toast.success(data.message);
-        await queryClient.invalidateQueries({
-          queryKey: trpc.mcq.list.queryKey(),
-        });
-      } else {
-        toast.error(data.message);
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.list.queryKey() }),
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.getStats.queryKey() }),
+        ]);
       }
     },
   });
 }
 
-export function useUpdateMCQ() {
+export function useUpdateMcq() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -46,17 +50,19 @@ export function useUpdateMCQ() {
     onSuccess: async (data) => {
       if (data.success) {
         toast.success(data.message);
-        await queryClient.invalidateQueries({
-          queryKey: trpc.mcq.list.queryKey(),
-        });
-      } else {
-        toast.error(data.message);
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.list.queryKey() }),
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.getStats.queryKey() }),
+          queryClient.invalidateQueries({
+            queryKey: trpc.mcq.getById.queryKey({ id: data.data?.id as string }),
+          }),
+        ]);
       }
     },
   });
 }
 
-export function useDeleteMCQ() {
+export function useDeleteMcq() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -68,44 +74,42 @@ export function useDeleteMCQ() {
     onSuccess: async (data) => {
       if (data.success) {
         toast.success(data.message);
-        await queryClient.invalidateQueries({
-          queryKey: trpc.mcq.list.queryKey(),
-        });
-      } else {
-        toast.error(data.message);
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.list.queryKey() }),
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.getStats.queryKey() }),
+        ]);
       }
     },
   });
 }
 
-export function useBulkDeleteMCQs() {
+export function useBulkDeleteMcqs() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
   return useMutation({
     ...trpc.mcq.bulkDelete.mutationOptions(),
     onError: (error) => {
-      toast.error(error.message || "Failed to bulk delete MCQs");
+      toast.error(error.message || "Failed to delete MCQs");
     },
     onSuccess: async (data) => {
       if (data.success) {
         toast.success(data.message);
-        await queryClient.invalidateQueries({
-          queryKey: trpc.mcq.list.queryKey(),
-        });
-      } else {
-        toast.error(data.message);
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.list.queryKey() }),
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.getStats.queryKey() }),
+        ]);
       }
     },
   });
 }
 
-export function useBulkCreateMCQs() {
+export function useImportMcqs() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
   return useMutation({
-    ...trpc.mcq.bulkCreate.mutationOptions(),
+    ...trpc.mcq.import.mutationOptions(),
     onError: (error) => {
       toast.error(error.message || "Failed to import MCQs");
     },
@@ -113,63 +117,49 @@ export function useBulkCreateMCQs() {
       if (data.success) {
         toast.success(data.message);
         await Promise.all([
-          queryClient.invalidateQueries({
-            queryKey: trpc.mcq.list.queryKey(),
-          }),
-          queryClient.invalidateQueries({
-            queryKey: trpc.mcq.getStats.queryKey(),
-          }),
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.list.queryKey() }),
+          queryClient.invalidateQueries({ queryKey: trpc.mcq.getStats.queryKey() }),
         ]);
-      } else {
-        toast.error(data.message);
       }
     },
   });
 }
 
 // ============================================================================
-// MCQ QUERIES
+// QUERIES
 // ============================================================================
 
-export function useMCQs(filters: any) {
+export function useMcqs() {
   const trpc = useTRPC();
+  const [filters] = useMCQFilters();
+
   return useQuery({
-    ...trpc.mcq.list.queryOptions(filters),
-    select: (data: any) => data.data,
+    ...trpc.mcq.list.queryOptions({
+      page: filters.page,
+      limit: filters.limit,
+      search: filters.search,
+      sortBy: filters.sortBy ?? undefined,
+      sortOrder: filters.sortOrder ?? undefined,
+      type: filters.type ?? undefined,
+      isMath: filters.isMath ?? undefined,
+      subject: filters.subjectId ?? undefined,
+    }),
+    select: (data) => data.data as PaginatedResponse<Mcq>,
   });
 }
 
-export function useMCQById(id?: string) {
+export function useMcqById(id: string) {
   const trpc = useTRPC();
-  return useQuery({
-    ...trpc.mcq.getById.queryOptions({ id: id as string }),
-    enabled: !!id,
-    select: (data: any) => data.data,
+  return useSuspenseQuery({
+    ...trpc.mcq.getById.queryOptions({ id }),
+    select: (res) => res.data as Mcq,
   });
 }
 
-export function useMCQStats(chapterId?: string) {
+export function useMcqStats() {
   const trpc = useTRPC();
   return useQuery({
-    ...trpc.mcq.getStats.queryOptions({ chapterId }),
-    select: (data: any) => data.data,
-  });
-}
-
-export function useMCQsForAssignment(filters: {
-  subjectId: string;
-  questionTypeId: string;
-  chapterId?: string;
-  reference?: string;
-  type?: string;
-  session?: number;
-  search?: string;
-  page?: number;
-  limit?: number;
-}) {
-  const trpc = useTRPC();
-  return useQuery({
-    ...trpc.mcq.getForAssignment.queryOptions(filters),
-    select: (data: any) => data.data,
+    ...trpc.mcq.getStats.queryOptions(),
+    select: (data) => data.data,
   });
 }

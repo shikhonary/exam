@@ -480,6 +480,16 @@ export function DashboardOverview() {
               ],
               color: "from-emerald-600 to-emerald-500",
             },
+            {
+              title: "User Management",
+              description: "Manage users and students across the platform",
+              icon: Users,
+              links: [
+                { label: "Users", href: "/users" },
+                { label: "Students", href: "/students" },
+              ],
+              color: "from-violet-600 to-violet-500",
+            },
           ].map((module) => (
             <motion.div key={module.title} variants={item}>
               <div className="bg-card/60 backdrop-blur-md rounded-2xl border border-border/50 p-5 h-full flex flex-col hover:border-primary/20 transition-all duration-200 hover:shadow-md">

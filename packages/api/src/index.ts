@@ -15,15 +15,10 @@ export {
 } from "./trpc/index";
 
 // Export services for direct use if needed (e.g., in server actions or background jobs)
-export * from "./services/tenant.service";
-export * from "./services/academic-year.service";
 export * from "./services/academic-class.service";
-export * from "./services/academic-subject.service";
-export * from "./services/question-type.service";
+export * from "./services/student.service";
 export * from "./services/user.service";
-export * from "./services/academic-chapter.service";
-export * from "./services/academic-chapter-topic.service";
-export * from "./services/subscription-plan.service";
+export * from "./services/mcq.service";
 
 // Export shared types and schemas
 export * from "./shared/pagination";
@@ -31,14 +26,8 @@ export * from "./shared/filters";
 export * from "./shared/query-builder";
 
 // Re-export required types for portability
-export type {
-  PrismaClient,
-  TenantPrismaClient,
-  Context,
-  TRPCContext,
-} from "./trpc/context";
+export type { PrismaClient, Context, TRPCContext } from "./trpc/context";
 export type { User } from "@workspace/auth";
-export type { Tenant } from "@workspace/db";
 
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import { type AppRouter } from "./trpc/root";

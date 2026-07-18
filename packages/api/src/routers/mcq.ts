@@ -3,68 +3,51 @@ import { type TRPCRouterRecord } from "@trpc/server";
 import {
   createTRPCRouter,
   adminProcedure,
-  baseMutationProcedure,
+  publicProcedure,
+  mutationMiddleware,
 } from "../trpc/index";
 import { McqService } from "../services/mcq.service";
 import { baseListInputSchema } from "../shared/filters";
+import {
+  mcqFormSchema,
+  updateMcqSchema,
+} from "@workspace/schema";
 
-const zNullishString = z.string().nullish();
+const adminMutationProcedure = adminProcedure.use(mutationMiddleware);
 
 export const mcqRouter = createTRPCRouter({
-  list: adminProcedure
-    .input(
-      baseListInputSchema.extend({
-        subjectId: zNullishString,
-        chapterId: zNullishString,
-        questionTypeId: zNullishString,
-        reference: zNullishString,
-        type: zNullishString,
-        session: z.coerce.number().nullish(),
-        isMath: z.boolean().nullish(),
-      }),
-    )
+  // ── Queries ───────────────────────────────────────────────────────────────
+
+  list: publicProcedure
+    .input(baseListInputSchema.extend({
+      type: z.string().optional(),
+      isMath: z.boolean().optional(),
+      subject: z.string().optional(),
+    }))
     .query(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
-      const data = await service.list(input as any);
-      return {
-        success: true,
-        data,
-      };
+      const data = await service.list(input);
+      return { success: true, data };
     }),
 
-  getForAssignment: adminProcedure
-    .input(
-      baseListInputSchema.extend({
-        subjectId: z.string(),
-        questionTypeId: z.string(),
-        chapterId: zNullishString,
-        reference: zNullishString,
-        type: zNullishString,
-        session: z.coerce.number().nullish(),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const service = new McqService(ctx.db);
-      const data = await service.getForAssignment(input as any);
-      return {
-        success: true,
-        data,
-      };
-    }),
-
-  getById: adminProcedure
+  getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
       const data = await service.getById(input.id);
-      return {
-        success: true,
-        data,
-      };
+      return { success: true, data };
     }),
 
-  create: baseMutationProcedure
-    .input(z.any())
+  getStats: publicProcedure.query(async ({ ctx }) => {
+    const service = new McqService(ctx.db);
+    const data = await service.getStats();
+    return { success: true, data };
+  }),
+
+  // ── Mutations ─────────────────────────────────────────────────────────────
+
+  create: adminMutationProcedure
+    .input(mcqFormSchema)
     .mutation(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
       const data = await service.create(input);
@@ -75,8 +58,8 @@ export const mcqRouter = createTRPCRouter({
       };
     }),
 
-  update: baseMutationProcedure
-    .input(z.object({ id: z.string(), data: z.any() }))
+  update: adminMutationProcedure
+    .input(z.object({ id: z.string(), data: updateMcqSchema }))
     .mutation(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
       const data = await service.update(input.id, input.data);
@@ -87,7 +70,7 @@ export const mcqRouter = createTRPCRouter({
       };
     }),
 
-  delete: baseMutationProcedure
+  delete: adminMutationProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
@@ -99,37 +82,25 @@ export const mcqRouter = createTRPCRouter({
       };
     }),
 
-  bulkCreate: baseMutationProcedure
-    .input(z.array(z.any()))
-    .mutation(async ({ ctx, input }) => {
-      const service = new McqService(ctx.db);
-      const data = await service.bulkCreate(input);
-      return {
-        success: true,
-        message: `${data?.count ?? 0} MCQs created successfully`,
-        data,
-      };
-    }),
-
-  bulkDelete: baseMutationProcedure
+  bulkDelete: adminMutationProcedure
     .input(z.object({ ids: z.array(z.string()) }))
     .mutation(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
-      const data = await service.bulkDelete(input.ids);
+      await service.bulkDelete(input.ids);
       return {
         success: true,
         message: "MCQs deleted successfully",
-        data,
       };
     }),
 
-  getStats: adminProcedure
-    .input(z.object({ chapterId: zNullishString }))
-    .query(async ({ ctx, input }) => {
+  import: adminMutationProcedure
+    .input(z.array(mcqFormSchema))
+    .mutation(async ({ ctx, input }) => {
       const service = new McqService(ctx.db);
-      const data = await service.getStats(input.chapterId as string | undefined);
+      const data = await service.import(input);
       return {
         success: true,
+        message: `${data?.count ?? 0} MCQs imported successfully`,
         data,
       };
     }),

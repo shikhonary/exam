@@ -800,6 +800,191 @@ model Heir {
     @@map("heir")
 }
 
+// ----------------------------------------------------------------
+// Question Paper + OMR + AI Models
+// ----------------------------------------------------------------
+
+model TenantQuestionPaper {
+    id             String   @id @default(uuid())
+    title          String
+    examName       String
+    description    String?
+    
+    classId        String
+    className      String
+    
+    academicYearId String?
+    academicYear   String?
+    
+    subjectId      String
+    subjectName    String
+    
+    settings       Json     @default("{}")
+    
+    status         String   @default("Draft") // Draft | Published
+    isActive       Boolean  @default(true)
+    total          Float    @default(0)
+    timeInMinutes  Int      @default(0)
+    
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    
+    distributions  TenantQuestionPaperMarkDistribution[]
+    questions      TenantQuestionPaperQuestion[]
+    omrSessions    OmrScanSession[]
+    
+    @@index([status])
+    @@index([isActive])
+    @@index([createdAt])
+    @@index([classId])
+    @@index([academicYearId])
+    @@index([subjectId])
+    @@map("tenant_question_paper")
+}
+
+model TenantQuestionPaperMarkDistribution {
+    id                 String @id @default(uuid())
+    questionPaperId    String
+    questionPaper      TenantQuestionPaper @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
+    
+    questionTypeId     String
+    questionTypeName   String
+    
+    marksPerQuestion   Float
+    questionCount      Int
+    totalMarks         Float
+    questionsToAttempt Int?
+    orderIndex         Int    @default(0)
+    
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
+    
+    questions          TenantQuestionPaperQuestion[]
+    
+    @@index([questionPaperId])
+    @@map("tenant_question_paper_mark_distribution")
+}
+
+model TenantQuestionPaperQuestion {
+    id              String @id @default(uuid())
+    questionPaperId String
+    questionPaper   TenantQuestionPaper @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
+    
+    distributionId  String
+    distribution    TenantQuestionPaperMarkDistribution @relation(fields: [distributionId], references: [id], onDelete: Cascade)
+    
+    mcqId           String?
+    cqId            String?
+    shortAnswerId   String?
+    
+    orderIndex      Int    @default(0)
+    assignedMarks   Float
+    overrides       Json   @default("{}")
+    
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+    
+    @@unique([questionPaperId, mcqId])
+    @@unique([questionPaperId, cqId])
+    @@unique([questionPaperId, shortAnswerId])
+    @@map("tenant_question_paper_question")
+}
+
+model OmrScanSession {
+    id              String @id @default(uuid())
+    questionPaperId String
+    questionPaper   TenantQuestionPaper @relation(fields: [questionPaperId], references: [id], onDelete: Cascade)
+    
+    name            String
+    totalSheets     Int    @default(0)
+    processedSheets Int    @default(0)
+    status          String @default("PENDING") // PENDING | PROCESSING | COMPLETED
+    
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+    
+    results         OmrScanResult[]
+    
+    @@index([questionPaperId])
+    @@map("omr_scan_session")
+}
+
+model OmrScanResult {
+    id                String @id @default(uuid())
+    sessionId         String
+    session           OmrScanSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    
+    studentId         String?
+    rollNumber        String?
+    
+    answers           Json     @default("{}")
+    
+    correctCount      Int      @default(0)
+    wrongCount        Int      @default(0)
+    skippedCount      Int      @default(0)
+    totalMarks        Float    @default(0)
+    obtainedMarks     Float    @default(0)
+    percentage        Float    @default(0)
+    
+    imageUrl          String?
+    processedImageUrl String?
+    confidence        Float    @default(1.0)
+    warnings          String[] @default([])
+    
+    status            String   @default("PENDING") // PENDING | SUCCESS | NEEDS_REVIEW | FAILED
+    
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    
+    @@index([sessionId])
+    @@index([studentId])
+    @@map("omr_scan_result")
+}
+
+model AiChatSession {
+    id                String @id @default(uuid())
+    tenantMemberId    String
+    
+    status            String @default("ACTIVE") // ACTIVE | COMPLETED | EXPIRED
+    
+    totalExchanges    Int    @default(0)
+    freeExchangesUsed Int    @default(0)
+    creditsUsed       Int    @default(0)
+    
+    createdPaperId    String?
+    
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    completedAt       DateTime?
+    
+    messages          AiChatMessage[]
+    
+    @@index([tenantMemberId, createdAt])
+    @@map("ai_chat_session")
+}
+
+model AiChatMessage {
+    id              String @id @default(uuid())
+    sessionId       String
+    session         AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    
+    role            String // USER | ASSISTANT | SYSTEM | TOOL
+    content         String
+    
+    audioUrl        String?
+    toolCalls       Json?
+    toolResults     Json?
+    
+    exchangeIndex   Int
+    isFreeExchange  Boolean @default(false)
+    
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+    
+    @@index([sessionId])
+    @@map("ai_chat_message")
+}
+
 model AdmissionFee {
     id             String       @id @default(uuid())
     academicYearId String

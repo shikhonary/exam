@@ -80,8 +80,16 @@ export const activeStatusOptions = enumToOptions(ACTIVE_STATUS);
 
 export const groupOptions = [
   { value: ACADEMIC_GROUP.SCIENCE, labelEn: "Science", labelBn: "বিজ্ঞান" },
-  { value: ACADEMIC_GROUP.BUSINESS_STUDIES, labelEn: "Business Studies", labelBn: "বাণিজ্য" },
-  { value: ACADEMIC_GROUP.HUMANITIES, labelEn: "Humanities", labelBn: "মানবিক" },
+  {
+    value: ACADEMIC_GROUP.BUSINESS_STUDIES,
+    labelEn: "Business Studies",
+    labelBn: "বাণিজ্য",
+  },
+  {
+    value: ACADEMIC_GROUP.HUMANITIES,
+    labelEn: "Humanities",
+    labelBn: "মানবিক",
+  },
 ] as const;
 
 export const shiftOptions = [
@@ -90,3 +98,13 @@ export const shiftOptions = [
   { value: SHIFT.EVENING, labelEn: "Evening", labelBn: "সান্ধ্য" },
   { value: SHIFT.NIGHT, labelEn: "Night", labelBn: "রাত্রি" },
 ] as const;
+
+export const subjects = [
+  { value: "Bangla", labelEn: "Bangla", labelBn: "বাংলা" },
+  { value: "English", labelEn: "English", labelBn: "ইংরেজি" },
+  { value: "Mathematics", labelEn: "Mathematics", labelBn: "গণিত" },
+  { value: "BGS", labelEn: "BGS", labelBn: "বাংলাদেশ ও বিশ্বপরিচয়" },
+  { value: "Hinduism", labelEn: "Hinduism", labelBn: "হিন্দু ধর্ম" },
+  { value: "Islam", labelEn: "Islam", labelBn: "ইসলাম" },
+  { value: "Science", labelEn: "Science", labelBn: "বিজ্ঞান" },
+];

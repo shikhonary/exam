@@ -133,6 +133,41 @@ export type SuccessionApplication = Prisma.SuccessionApplicationModel
  */
 export type Heir = Prisma.HeirModel
 /**
+ * Model TenantQuestionPaper
+ * 
+ */
+export type TenantQuestionPaper = Prisma.TenantQuestionPaperModel
+/**
+ * Model TenantQuestionPaperMarkDistribution
+ * 
+ */
+export type TenantQuestionPaperMarkDistribution = Prisma.TenantQuestionPaperMarkDistributionModel
+/**
+ * Model TenantQuestionPaperQuestion
+ * 
+ */
+export type TenantQuestionPaperQuestion = Prisma.TenantQuestionPaperQuestionModel
+/**
+ * Model OmrScanSession
+ * 
+ */
+export type OmrScanSession = Prisma.OmrScanSessionModel
+/**
+ * Model OmrScanResult
+ * 
+ */
+export type OmrScanResult = Prisma.OmrScanResultModel
+/**
+ * Model AiChatSession
+ * 
+ */
+export type AiChatSession = Prisma.AiChatSessionModel
+/**
+ * Model AiChatMessage
+ * 
+ */
+export type AiChatMessage = Prisma.AiChatMessageModel
+/**
  * Model AdmissionFee
  * 
  */

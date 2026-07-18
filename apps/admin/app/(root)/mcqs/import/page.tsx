@@ -1,10 +1,11 @@
-import { McqImportView } from "@/modules/mcq/ui/views/mcq-import-view";
+import { Metadata } from "next";
+import { ImportMcqView } from "../../../../modules/mcqs/ui/views/import-mcq-view";
 
-export const metadata = {
-  title: "Import MCQs | Up Hub",
-  description: "Bulk import Multiple Choice Questions from JSON",
+export const metadata: Metadata = {
+  title: "Import MCQs",
+  description: "Import multiple choice questions from JSON format",
 };
 
 export default function ImportMcqPage() {
-  return <McqImportView />;
+  return <ImportMcqView />;
 }

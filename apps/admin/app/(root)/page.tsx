@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { HydrateClient } from "@/trpc/server";
 import DashboardHeader from "@/modules/layout/ui/layout/dashboard-header";
-import { DashboardOverview } from "@/modules/dashboard/ui/views/dashboard-overview";
 
 export const metadata: Metadata = {
   title: "Dashboard | Shikhonary Admin",
@@ -13,7 +12,6 @@ export default async function Page() {
     <HydrateClient>
       <div className="min-h-screen">
         <DashboardHeader title="Dashboard" subtitle="Welcome back, Super Admin" />
-        <DashboardOverview />
       </div>
     </HydrateClient>
   );

@@ -1,8 +1,9 @@
-import { McqsView } from "@/modules/mcq/ui/views/mcqs-view";
+import { Metadata } from "next";
+import { McqsView } from "../../../modules/mcqs/ui/views/mcqs-view";
 
-export const metadata = {
-  title: "MCQs | Up Hub",
-  description: "Manage your MCQ question bank",
+export const metadata: Metadata = {
+  title: "MCQs Management | Admin Dashboard",
+  description: "Manage multiple choice questions across the platform",
 };
 
 export default function McqsPage() {

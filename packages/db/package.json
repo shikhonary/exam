@@ -31,7 +31,7 @@
     "db:generate:tenant": "dotenv -e ../../.env -e .env -- prisma generate --schema=./prisma-tenant/schema.prisma",
     "db:generate:all": "pnpm db:generate && pnpm db:generate:tenant",
     "db:push": "dotenv -e ../../.env -e .env -- prisma db push --schema=./prisma-master/schema.prisma --config=./prisma-master/prisma.config.ts --accept-data-loss",
-    "db:push:tenant": "pnpm prisma db push --schema=./prisma-tenant/schema.prisma --config=./prisma-tenant/prisma.config.ts",
+    "db:push:tenant": "dotenv -e ../../.env -e .env -- prisma db push --schema=./prisma-tenant/schema.prisma --config=./prisma-tenant/prisma.config.ts --accept-data-loss",
     "db:migrate": "pnpm prisma migrate dev --schema=./prisma-master/schema.prisma --config=./prisma-master/prisma.config.ts",
     "db:migrate:tenant": "pnpm prisma migrate dev --schema=./prisma-tenant/schema.prisma --config=./prisma-tenant/prisma.config.ts",
     "db:reset": "pnpm prisma migrate reset --schema=./prisma-master/schema.prisma --config=./prisma-master/prisma.config.ts",

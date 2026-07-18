@@ -34,7 +34,6 @@ export type { Context, TRPCContext, PrismaClient, TenantPrismaClient };
 // ---------------------------------------------------------------------------
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-  console.log("user", ctx.user);
   if (!ctx.user || !ctx.userId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
@@ -53,6 +52,7 @@ export const protectedProcedure = t.procedure.use(isAuthed);
 // ---------------------------------------------------------------------------
 
 const isAdmin = t.middleware(({ next, ctx }) => {
+  console.log(ctx.user);
   // if (ctx.userRole !== "SUPER_ADMIN" && ctx.userRole !== "ADMIN") {
   //   throw new TRPCError({ code: "FORBIDDEN", message: "Admin access required" });
   // }

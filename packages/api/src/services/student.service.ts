@@ -1,259 +1,117 @@
-import { z } from "zod";
-import { type TenantClient, type PrismaClient } from "@workspace/db";
 import { handlePrismaError } from "../middleware/error-handler";
+import { buildPagination, buildOrderBy } from "../shared/query-builder";
+import {
+  createPaginatedResponse,
+  type PaginatedResponse,
+} from "../shared/pagination";
+import { type PrismaClient, type Student, type Prisma } from "@workspace/db";
 import {
   studentFormSchema,
-  uuidSchema,
-  StudentFormValues,
+  updateStudentSchema,
+  type StudentFormValues,
+  type UpdateStudentValues,
 } from "@workspace/schema";
-import {
-  buildPagination,
-  buildOrderBy,
-  buildWhere,
-} from "../shared/query-builder";
-import {
-  idInputType,
-  listInputType,
-  updateStudentInputType,
-} from "../shared/input/student";
 
-/**
- * Service for managing Students (Tenant Level)
- */
+// ---------------------------------------------------------------------------
+// Service
+// ---------------------------------------------------------------------------
+
 export class StudentService {
-  constructor(
-    private db: TenantClient,
-    private mainDb: PrismaClient,
-  ) {}
+  constructor(private db: PrismaClient) {}
 
-  async list(input: listInputType) {
+  // ── LIST ──────────────────────────────────────────────────────────────────
+  async list(input: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+  }): Promise<PaginatedResponse<Student> | undefined> {
     try {
-      const where = buildWhere(input, ["name", "studentId", "roll", "primaryPhone"]);
-      if (input.academicClassId) where.academicClassId = input.academicClassId;
-      if (input.academicYearId) where.academicYearId = input.academicYearId;
-      if (input.batchId) where.batchId = input.batchId;
+      const where: Prisma.StudentWhereInput = {};
+
+      if (input.search) {
+        where.OR = [
+          { name: { contains: input.search, mode: "insensitive" } },
+          { studentId: { contains: input.search, mode: "insensitive" } },
+          { mobile: { contains: input.search, mode: "insensitive" } },
+        ];
+      }
 
       const orderBy = buildOrderBy(input);
-      const pagination = buildPagination(input);
+      const pagination = buildPagination({
+        page: input.page ?? 1,
+        limit: input.limit ?? 20,
+      });
 
       const [items, total] = await Promise.all([
         this.db.student.findMany({
           where,
-          orderBy,
+          orderBy: input.sortBy ? orderBy : { createdAt: "desc" },
           ...pagination,
-          include: {
-            batch: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
         }),
         this.db.student.count({ where }),
       ]);
 
-      return {
-        items,
+      return createPaginatedResponse(
+        items as Student[],
         total,
-      };
+        input.page ?? 1,
+        input.limit ?? 20,
+      );
     } catch (error) {
       handlePrismaError(error);
     }
   }
 
-  async getById(input: idInputType) {
+  // ── GET BY ID ─────────────────────────────────────────────────────────────
+  async getById(id: string): Promise<Student | null | undefined> {
     try {
-      const validatedId = uuidSchema.parse(input);
       return await this.db.student.findUnique({
-        where: { id: validatedId },
-        include: {
-          batch: true,
-        },
+        where: { id },
       });
     } catch (error) {
       handlePrismaError(error);
     }
   }
 
-  async create(input: StudentFormValues) {
+  // ── CREATE ────────────────────────────────────────────────────────────────
+  async create(input: StudentFormValues): Promise<Student | undefined> {
     try {
       const data = studentFormSchema.parse(input);
-      
-      const existingStudent = await this.db.student.findFirst({
-        where: { 
-          studentId: data.studentId,
-        },
-      });
-      if (existingStudent) {
-        throw new Error("এই আইডির একজন শিক্ষার্থী ইতিমধ্যে বিদ্যমান।");
-      }
-
-      const academicClass = await this.mainDb.academicClass.findUnique({
-        where: { id: data.academicClassId },
-      });
-      if (!academicClass) throw new Error("Academic class not found");
-
-      const academicYear = await this.mainDb.academicYear.findUnique({
-        where: { id: data.academicYearId },
-      });
-      if (!academicYear) throw new Error("Academic year not found");
-
-      // Verify batch exists
-      const batch = await this.db.batch.findUnique({
-        where: { id: data.batchId },
-      });
-      if (!batch) throw new Error("Batch not found");
-
-      let dob: Date | undefined = undefined;
-      if (data.dateOfBirth) {
-        dob = new Date(data.dateOfBirth);
-      }
-
-      // Handle the counter increment
-      const counter = await this.db.counter.findFirst({
-        where: {
-          academicYearId: academicYear.id,
-          type: academicClass.nameBn,
-        },
-      });
-
-      if (counter) {
-        await this.db.counter.update({
-          where: { id: counter.id },
-          data: { value: { increment: 1 } },
-        });
-      } else {
-        await this.db.counter.create({
-          data: {
-            academicYearId: academicYear.id,
-            academicYear: academicYear.label,
-            type: academicClass.nameBn,
-            value: 1,
-          },
-        });
-      }
-
-      return await this.db.student.create({
-        data: {
-          ...data,
-          dateOfBirth: dob,
-          academicYear: academicYear.label,
-          className: academicClass.nameBn,
-        },
-      });
+      return await this.db.student.create({ data });
     } catch (error) {
       handlePrismaError(error);
     }
   }
 
-  async update(input: updateStudentInputType) {
+  // ── UPDATE ────────────────────────────────────────────────────────────────
+  async update(
+    id: string,
+    input: UpdateStudentValues,
+  ): Promise<Student | undefined> {
     try {
-      const { id, ...data } = input;
-      
-      if (data.studentId !== undefined) {
-        const currentStudent = await this.db.student.findUnique({ where: { id } });
-        if (!currentStudent) throw new Error("Student not found");
-
-        const studentIdToCheck = data.studentId !== undefined ? data.studentId : currentStudent.studentId;
-
-        const existingStudent = await this.db.student.findFirst({
-          where: { 
-            studentId: studentIdToCheck,
-            id: { not: id }
-          },
-        });
-        if (existingStudent) {
-          throw new Error("এই আইডির একজন শিক্ষার্থী ইতিমধ্যে বিদ্যমান।");
-        }
-      }
-
-      // If academicClassId is being updated, we should also update className
-      let classNameToUpdate: string | undefined = undefined;
-      if (data.academicClassId !== undefined) {
-        const academicClass = await this.mainDb.academicClass.findUnique({
-          where: { id: data.academicClassId },
-        });
-        if (academicClass) {
-          classNameToUpdate = academicClass.nameBn;
-        }
-      }
-
-      // If academicYearId is being updated, update academicYear label
-      let academicYearToUpdate: string | undefined = undefined;
-      if (data.academicYearId !== undefined) {
-        const academicYear = await this.mainDb.academicYear.findUnique({
-          where: { id: data.academicYearId },
-        });
-        if (academicYear) {
-          academicYearToUpdate = academicYear.label;
-        }
-      }
-
-      let dob: Date | undefined = undefined;
-      if (data.dateOfBirth) {
-        dob = new Date(data.dateOfBirth);
-      }
-
-      return await this.db.student.update({
-        where: { id },
-        data: {
-          ...data,
-          ...(dob ? { dateOfBirth: dob } : {}),
-          ...(classNameToUpdate ? { className: classNameToUpdate } : {}),
-          ...(academicYearToUpdate ? { academicYear: academicYearToUpdate } : {}),
-        },
-      });
+      const data = updateStudentSchema.parse(input);
+      return await this.db.student.update({ where: { id }, data });
     } catch (error) {
       handlePrismaError(error);
     }
   }
 
-  async delete(input: idInputType) {
+  // ── DELETE ────────────────────────────────────────────────────────────────
+  async delete(id: string): Promise<Student | undefined> {
     try {
-      const validatedId = uuidSchema.parse(input);
-      return await this.db.student.delete({ where: { id: validatedId } });
+      return await this.db.student.delete({ where: { id } });
     } catch (error) {
       handlePrismaError(error);
     }
   }
 
-  async toggleActive(input: string) {
+  // ── STATS ─────────────────────────────────────────────────────────────────
+  async getStats() {
     try {
-      const validatedId = uuidSchema.parse(input);
-      const student = await this.db.student.findUnique({
-        where: { id: validatedId },
-      });
-
-      if (!student) throw new Error("Student not found");
-
-      return await this.db.student.update({
-        where: { id: validatedId },
-        data: { isActive: !student.isActive },
-      });
-    } catch (error) {
-      handlePrismaError(error);
-    }
-  }
-
-  async bulkDelete(ids: string[]) {
-    try {
-      const validatedIds = z.array(uuidSchema).parse(ids);
-      return await this.db.student.deleteMany({
-        where: { id: { in: validatedIds } },
-      });
-    } catch (error) {
-      handlePrismaError(error);
-    }
-  }
-
-  async bulkToggleActive(ids: string[], isActive: boolean) {
-    try {
-      const validatedIds = z.array(uuidSchema).parse(ids);
-      return await this.db.student.updateMany({
-        where: { id: { in: validatedIds } },
-        data: { isActive },
-      });
+      const total = await this.db.student.count();
+      return { total };
     } catch (error) {
       handlePrismaError(error);
     }

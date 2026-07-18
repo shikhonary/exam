@@ -64,6 +64,7 @@ const userManagementGroup: NavGroup = {
   icon: Users,
   items: [
     { title: "Users", url: "/users", icon: Users },
+    { title: "Students", url: "/students", icon: Users },
   ],
 };
 

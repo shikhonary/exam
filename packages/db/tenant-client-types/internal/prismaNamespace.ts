@@ -407,6 +407,13 @@ export const ModelName = {
   CertificateApplication: 'CertificateApplication',
   SuccessionApplication: 'SuccessionApplication',
   Heir: 'Heir',
+  TenantQuestionPaper: 'TenantQuestionPaper',
+  TenantQuestionPaperMarkDistribution: 'TenantQuestionPaperMarkDistribution',
+  TenantQuestionPaperQuestion: 'TenantQuestionPaperQuestion',
+  OmrScanSession: 'OmrScanSession',
+  OmrScanResult: 'OmrScanResult',
+  AiChatSession: 'AiChatSession',
+  AiChatMessage: 'AiChatMessage',
   AdmissionFee: 'AdmissionFee',
   MonthlyFee: 'MonthlyFee',
   Counter: 'Counter'
@@ -425,7 +432,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "batch" | "student" | "exam" | "classRoutine" | "assignment" | "studyMaterial" | "liveClass" | "citizenApplication" | "citizen" | "ward" | "village" | "familyApplication" | "familyMember" | "assessmentApplication" | "holdingTax" | "fiscalYear" | "certificateCounter" | "tradeLicenseCategory" | "tradeLicenseApplication" | "tradeLicense" | "certificateApplication" | "successionApplication" | "heir" | "admissionFee" | "monthlyFee" | "counter"
+    modelProps: "batch" | "student" | "exam" | "classRoutine" | "assignment" | "studyMaterial" | "liveClass" | "citizenApplication" | "citizen" | "ward" | "village" | "familyApplication" | "familyMember" | "assessmentApplication" | "holdingTax" | "fiscalYear" | "certificateCounter" | "tradeLicenseCategory" | "tradeLicenseApplication" | "tradeLicense" | "certificateApplication" | "successionApplication" | "heir" | "tenantQuestionPaper" | "tenantQuestionPaperMarkDistribution" | "tenantQuestionPaperQuestion" | "omrScanSession" | "omrScanResult" | "aiChatSession" | "aiChatMessage" | "admissionFee" | "monthlyFee" | "counter"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2131,6 +2138,524 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TenantQuestionPaper: {
+      payload: Prisma.$TenantQuestionPaperPayload<ExtArgs>
+      fields: Prisma.TenantQuestionPaperFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TenantQuestionPaperFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TenantQuestionPaperFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>
+        }
+        findFirst: {
+          args: Prisma.TenantQuestionPaperFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TenantQuestionPaperFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>
+        }
+        findMany: {
+          args: Prisma.TenantQuestionPaperFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>[]
+        }
+        create: {
+          args: Prisma.TenantQuestionPaperCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>
+        }
+        createMany: {
+          args: Prisma.TenantQuestionPaperCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TenantQuestionPaperCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>[]
+        }
+        delete: {
+          args: Prisma.TenantQuestionPaperDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>
+        }
+        update: {
+          args: Prisma.TenantQuestionPaperUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>
+        }
+        deleteMany: {
+          args: Prisma.TenantQuestionPaperDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TenantQuestionPaperUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TenantQuestionPaperUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>[]
+        }
+        upsert: {
+          args: Prisma.TenantQuestionPaperUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperPayload>
+        }
+        aggregate: {
+          args: Prisma.TenantQuestionPaperAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenantQuestionPaper>
+        }
+        groupBy: {
+          args: Prisma.TenantQuestionPaperGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantQuestionPaperGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TenantQuestionPaperCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantQuestionPaperCountAggregateOutputType> | number
+        }
+      }
+    }
+    TenantQuestionPaperMarkDistribution: {
+      payload: Prisma.$TenantQuestionPaperMarkDistributionPayload<ExtArgs>
+      fields: Prisma.TenantQuestionPaperMarkDistributionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TenantQuestionPaperMarkDistributionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TenantQuestionPaperMarkDistributionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>
+        }
+        findFirst: {
+          args: Prisma.TenantQuestionPaperMarkDistributionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TenantQuestionPaperMarkDistributionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>
+        }
+        findMany: {
+          args: Prisma.TenantQuestionPaperMarkDistributionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>[]
+        }
+        create: {
+          args: Prisma.TenantQuestionPaperMarkDistributionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>
+        }
+        createMany: {
+          args: Prisma.TenantQuestionPaperMarkDistributionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TenantQuestionPaperMarkDistributionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>[]
+        }
+        delete: {
+          args: Prisma.TenantQuestionPaperMarkDistributionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>
+        }
+        update: {
+          args: Prisma.TenantQuestionPaperMarkDistributionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>
+        }
+        deleteMany: {
+          args: Prisma.TenantQuestionPaperMarkDistributionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TenantQuestionPaperMarkDistributionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TenantQuestionPaperMarkDistributionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>[]
+        }
+        upsert: {
+          args: Prisma.TenantQuestionPaperMarkDistributionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperMarkDistributionPayload>
+        }
+        aggregate: {
+          args: Prisma.TenantQuestionPaperMarkDistributionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenantQuestionPaperMarkDistribution>
+        }
+        groupBy: {
+          args: Prisma.TenantQuestionPaperMarkDistributionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantQuestionPaperMarkDistributionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TenantQuestionPaperMarkDistributionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantQuestionPaperMarkDistributionCountAggregateOutputType> | number
+        }
+      }
+    }
+    TenantQuestionPaperQuestion: {
+      payload: Prisma.$TenantQuestionPaperQuestionPayload<ExtArgs>
+      fields: Prisma.TenantQuestionPaperQuestionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TenantQuestionPaperQuestionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TenantQuestionPaperQuestionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>
+        }
+        findFirst: {
+          args: Prisma.TenantQuestionPaperQuestionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TenantQuestionPaperQuestionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>
+        }
+        findMany: {
+          args: Prisma.TenantQuestionPaperQuestionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>[]
+        }
+        create: {
+          args: Prisma.TenantQuestionPaperQuestionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>
+        }
+        createMany: {
+          args: Prisma.TenantQuestionPaperQuestionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TenantQuestionPaperQuestionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>[]
+        }
+        delete: {
+          args: Prisma.TenantQuestionPaperQuestionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>
+        }
+        update: {
+          args: Prisma.TenantQuestionPaperQuestionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>
+        }
+        deleteMany: {
+          args: Prisma.TenantQuestionPaperQuestionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TenantQuestionPaperQuestionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TenantQuestionPaperQuestionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>[]
+        }
+        upsert: {
+          args: Prisma.TenantQuestionPaperQuestionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantQuestionPaperQuestionPayload>
+        }
+        aggregate: {
+          args: Prisma.TenantQuestionPaperQuestionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenantQuestionPaperQuestion>
+        }
+        groupBy: {
+          args: Prisma.TenantQuestionPaperQuestionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantQuestionPaperQuestionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TenantQuestionPaperQuestionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantQuestionPaperQuestionCountAggregateOutputType> | number
+        }
+      }
+    }
+    OmrScanSession: {
+      payload: Prisma.$OmrScanSessionPayload<ExtArgs>
+      fields: Prisma.OmrScanSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OmrScanSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OmrScanSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.OmrScanSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OmrScanSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>
+        }
+        findMany: {
+          args: Prisma.OmrScanSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>[]
+        }
+        create: {
+          args: Prisma.OmrScanSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>
+        }
+        createMany: {
+          args: Prisma.OmrScanSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OmrScanSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.OmrScanSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>
+        }
+        update: {
+          args: Prisma.OmrScanSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.OmrScanSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OmrScanSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OmrScanSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.OmrScanSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.OmrScanSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOmrScanSession>
+        }
+        groupBy: {
+          args: Prisma.OmrScanSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OmrScanSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OmrScanSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OmrScanSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    OmrScanResult: {
+      payload: Prisma.$OmrScanResultPayload<ExtArgs>
+      fields: Prisma.OmrScanResultFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OmrScanResultFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OmrScanResultFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>
+        }
+        findFirst: {
+          args: Prisma.OmrScanResultFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OmrScanResultFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>
+        }
+        findMany: {
+          args: Prisma.OmrScanResultFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>[]
+        }
+        create: {
+          args: Prisma.OmrScanResultCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>
+        }
+        createMany: {
+          args: Prisma.OmrScanResultCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OmrScanResultCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>[]
+        }
+        delete: {
+          args: Prisma.OmrScanResultDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>
+        }
+        update: {
+          args: Prisma.OmrScanResultUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>
+        }
+        deleteMany: {
+          args: Prisma.OmrScanResultDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OmrScanResultUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OmrScanResultUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>[]
+        }
+        upsert: {
+          args: Prisma.OmrScanResultUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OmrScanResultPayload>
+        }
+        aggregate: {
+          args: Prisma.OmrScanResultAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOmrScanResult>
+        }
+        groupBy: {
+          args: Prisma.OmrScanResultGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OmrScanResultGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OmrScanResultCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OmrScanResultCountAggregateOutputType> | number
+        }
+      }
+    }
+    AiChatSession: {
+      payload: Prisma.$AiChatSessionPayload<ExtArgs>
+      fields: Prisma.AiChatSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AiChatSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AiChatSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.AiChatSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AiChatSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>
+        }
+        findMany: {
+          args: Prisma.AiChatSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>[]
+        }
+        create: {
+          args: Prisma.AiChatSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>
+        }
+        createMany: {
+          args: Prisma.AiChatSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AiChatSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.AiChatSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>
+        }
+        update: {
+          args: Prisma.AiChatSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.AiChatSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AiChatSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AiChatSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.AiChatSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.AiChatSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAiChatSession>
+        }
+        groupBy: {
+          args: Prisma.AiChatSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiChatSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AiChatSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiChatSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    AiChatMessage: {
+      payload: Prisma.$AiChatMessagePayload<ExtArgs>
+      fields: Prisma.AiChatMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AiChatMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AiChatMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.AiChatMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AiChatMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>
+        }
+        findMany: {
+          args: Prisma.AiChatMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>[]
+        }
+        create: {
+          args: Prisma.AiChatMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>
+        }
+        createMany: {
+          args: Prisma.AiChatMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AiChatMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.AiChatMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>
+        }
+        update: {
+          args: Prisma.AiChatMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.AiChatMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AiChatMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AiChatMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.AiChatMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiChatMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.AiChatMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAiChatMessage>
+        }
+        groupBy: {
+          args: Prisma.AiChatMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiChatMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AiChatMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiChatMessageCountAggregateOutputType> | number
+        }
+      }
+    }
     AdmissionFee: {
       payload: Prisma.$AdmissionFeePayload<ExtArgs>
       fields: Prisma.AdmissionFeeFieldRefs
@@ -3013,6 +3538,134 @@ export const HeirScalarFieldEnum = {
 export type HeirScalarFieldEnum = (typeof HeirScalarFieldEnum)[keyof typeof HeirScalarFieldEnum]
 
 
+export const TenantQuestionPaperScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  examName: 'examName',
+  description: 'description',
+  classId: 'classId',
+  className: 'className',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  subjectId: 'subjectId',
+  subjectName: 'subjectName',
+  settings: 'settings',
+  status: 'status',
+  isActive: 'isActive',
+  total: 'total',
+  timeInMinutes: 'timeInMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantQuestionPaperScalarFieldEnum = (typeof TenantQuestionPaperScalarFieldEnum)[keyof typeof TenantQuestionPaperScalarFieldEnum]
+
+
+export const TenantQuestionPaperMarkDistributionScalarFieldEnum = {
+  id: 'id',
+  questionPaperId: 'questionPaperId',
+  questionTypeId: 'questionTypeId',
+  questionTypeName: 'questionTypeName',
+  marksPerQuestion: 'marksPerQuestion',
+  questionCount: 'questionCount',
+  totalMarks: 'totalMarks',
+  questionsToAttempt: 'questionsToAttempt',
+  orderIndex: 'orderIndex',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantQuestionPaperMarkDistributionScalarFieldEnum = (typeof TenantQuestionPaperMarkDistributionScalarFieldEnum)[keyof typeof TenantQuestionPaperMarkDistributionScalarFieldEnum]
+
+
+export const TenantQuestionPaperQuestionScalarFieldEnum = {
+  id: 'id',
+  questionPaperId: 'questionPaperId',
+  distributionId: 'distributionId',
+  mcqId: 'mcqId',
+  cqId: 'cqId',
+  shortAnswerId: 'shortAnswerId',
+  orderIndex: 'orderIndex',
+  assignedMarks: 'assignedMarks',
+  overrides: 'overrides',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantQuestionPaperQuestionScalarFieldEnum = (typeof TenantQuestionPaperQuestionScalarFieldEnum)[keyof typeof TenantQuestionPaperQuestionScalarFieldEnum]
+
+
+export const OmrScanSessionScalarFieldEnum = {
+  id: 'id',
+  questionPaperId: 'questionPaperId',
+  name: 'name',
+  totalSheets: 'totalSheets',
+  processedSheets: 'processedSheets',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OmrScanSessionScalarFieldEnum = (typeof OmrScanSessionScalarFieldEnum)[keyof typeof OmrScanSessionScalarFieldEnum]
+
+
+export const OmrScanResultScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  studentId: 'studentId',
+  rollNumber: 'rollNumber',
+  answers: 'answers',
+  correctCount: 'correctCount',
+  wrongCount: 'wrongCount',
+  skippedCount: 'skippedCount',
+  totalMarks: 'totalMarks',
+  obtainedMarks: 'obtainedMarks',
+  percentage: 'percentage',
+  imageUrl: 'imageUrl',
+  processedImageUrl: 'processedImageUrl',
+  confidence: 'confidence',
+  warnings: 'warnings',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OmrScanResultScalarFieldEnum = (typeof OmrScanResultScalarFieldEnum)[keyof typeof OmrScanResultScalarFieldEnum]
+
+
+export const AiChatSessionScalarFieldEnum = {
+  id: 'id',
+  tenantMemberId: 'tenantMemberId',
+  status: 'status',
+  totalExchanges: 'totalExchanges',
+  freeExchangesUsed: 'freeExchangesUsed',
+  creditsUsed: 'creditsUsed',
+  createdPaperId: 'createdPaperId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type AiChatSessionScalarFieldEnum = (typeof AiChatSessionScalarFieldEnum)[keyof typeof AiChatSessionScalarFieldEnum]
+
+
+export const AiChatMessageScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  role: 'role',
+  content: 'content',
+  audioUrl: 'audioUrl',
+  toolCalls: 'toolCalls',
+  toolResults: 'toolResults',
+  exchangeIndex: 'exchangeIndex',
+  isFreeExchange: 'isFreeExchange',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AiChatMessageScalarFieldEnum = (typeof AiChatMessageScalarFieldEnum)[keyof typeof AiChatMessageScalarFieldEnum]
+
+
 export const AdmissionFeeScalarFieldEnum = {
   id: 'id',
   academicYearId: 'academicYearId',
@@ -3068,6 +3721,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -3309,6 +3969,13 @@ export type GlobalOmitConfig = {
   certificateApplication?: Prisma.CertificateApplicationOmit
   successionApplication?: Prisma.SuccessionApplicationOmit
   heir?: Prisma.HeirOmit
+  tenantQuestionPaper?: Prisma.TenantQuestionPaperOmit
+  tenantQuestionPaperMarkDistribution?: Prisma.TenantQuestionPaperMarkDistributionOmit
+  tenantQuestionPaperQuestion?: Prisma.TenantQuestionPaperQuestionOmit
+  omrScanSession?: Prisma.OmrScanSessionOmit
+  omrScanResult?: Prisma.OmrScanResultOmit
+  aiChatSession?: Prisma.AiChatSessionOmit
+  aiChatMessage?: Prisma.AiChatMessageOmit
   admissionFee?: Prisma.AdmissionFeeOmit
   monthlyFee?: Prisma.MonthlyFeeOmit
   counter?: Prisma.CounterOmit

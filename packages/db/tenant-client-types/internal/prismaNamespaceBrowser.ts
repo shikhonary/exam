@@ -74,6 +74,13 @@ export const ModelName = {
   CertificateApplication: 'CertificateApplication',
   SuccessionApplication: 'SuccessionApplication',
   Heir: 'Heir',
+  TenantQuestionPaper: 'TenantQuestionPaper',
+  TenantQuestionPaperMarkDistribution: 'TenantQuestionPaperMarkDistribution',
+  TenantQuestionPaperQuestion: 'TenantQuestionPaperQuestion',
+  OmrScanSession: 'OmrScanSession',
+  OmrScanResult: 'OmrScanResult',
+  AiChatSession: 'AiChatSession',
+  AiChatMessage: 'AiChatMessage',
   AdmissionFee: 'AdmissionFee',
   MonthlyFee: 'MonthlyFee',
   Counter: 'Counter'
@@ -716,6 +723,134 @@ export const HeirScalarFieldEnum = {
 export type HeirScalarFieldEnum = (typeof HeirScalarFieldEnum)[keyof typeof HeirScalarFieldEnum]
 
 
+export const TenantQuestionPaperScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  examName: 'examName',
+  description: 'description',
+  classId: 'classId',
+  className: 'className',
+  academicYearId: 'academicYearId',
+  academicYear: 'academicYear',
+  subjectId: 'subjectId',
+  subjectName: 'subjectName',
+  settings: 'settings',
+  status: 'status',
+  isActive: 'isActive',
+  total: 'total',
+  timeInMinutes: 'timeInMinutes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantQuestionPaperScalarFieldEnum = (typeof TenantQuestionPaperScalarFieldEnum)[keyof typeof TenantQuestionPaperScalarFieldEnum]
+
+
+export const TenantQuestionPaperMarkDistributionScalarFieldEnum = {
+  id: 'id',
+  questionPaperId: 'questionPaperId',
+  questionTypeId: 'questionTypeId',
+  questionTypeName: 'questionTypeName',
+  marksPerQuestion: 'marksPerQuestion',
+  questionCount: 'questionCount',
+  totalMarks: 'totalMarks',
+  questionsToAttempt: 'questionsToAttempt',
+  orderIndex: 'orderIndex',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantQuestionPaperMarkDistributionScalarFieldEnum = (typeof TenantQuestionPaperMarkDistributionScalarFieldEnum)[keyof typeof TenantQuestionPaperMarkDistributionScalarFieldEnum]
+
+
+export const TenantQuestionPaperQuestionScalarFieldEnum = {
+  id: 'id',
+  questionPaperId: 'questionPaperId',
+  distributionId: 'distributionId',
+  mcqId: 'mcqId',
+  cqId: 'cqId',
+  shortAnswerId: 'shortAnswerId',
+  orderIndex: 'orderIndex',
+  assignedMarks: 'assignedMarks',
+  overrides: 'overrides',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantQuestionPaperQuestionScalarFieldEnum = (typeof TenantQuestionPaperQuestionScalarFieldEnum)[keyof typeof TenantQuestionPaperQuestionScalarFieldEnum]
+
+
+export const OmrScanSessionScalarFieldEnum = {
+  id: 'id',
+  questionPaperId: 'questionPaperId',
+  name: 'name',
+  totalSheets: 'totalSheets',
+  processedSheets: 'processedSheets',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OmrScanSessionScalarFieldEnum = (typeof OmrScanSessionScalarFieldEnum)[keyof typeof OmrScanSessionScalarFieldEnum]
+
+
+export const OmrScanResultScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  studentId: 'studentId',
+  rollNumber: 'rollNumber',
+  answers: 'answers',
+  correctCount: 'correctCount',
+  wrongCount: 'wrongCount',
+  skippedCount: 'skippedCount',
+  totalMarks: 'totalMarks',
+  obtainedMarks: 'obtainedMarks',
+  percentage: 'percentage',
+  imageUrl: 'imageUrl',
+  processedImageUrl: 'processedImageUrl',
+  confidence: 'confidence',
+  warnings: 'warnings',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OmrScanResultScalarFieldEnum = (typeof OmrScanResultScalarFieldEnum)[keyof typeof OmrScanResultScalarFieldEnum]
+
+
+export const AiChatSessionScalarFieldEnum = {
+  id: 'id',
+  tenantMemberId: 'tenantMemberId',
+  status: 'status',
+  totalExchanges: 'totalExchanges',
+  freeExchangesUsed: 'freeExchangesUsed',
+  creditsUsed: 'creditsUsed',
+  createdPaperId: 'createdPaperId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type AiChatSessionScalarFieldEnum = (typeof AiChatSessionScalarFieldEnum)[keyof typeof AiChatSessionScalarFieldEnum]
+
+
+export const AiChatMessageScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  role: 'role',
+  content: 'content',
+  audioUrl: 'audioUrl',
+  toolCalls: 'toolCalls',
+  toolResults: 'toolResults',
+  exchangeIndex: 'exchangeIndex',
+  isFreeExchange: 'isFreeExchange',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AiChatMessageScalarFieldEnum = (typeof AiChatMessageScalarFieldEnum)[keyof typeof AiChatMessageScalarFieldEnum]
+
+
 export const AdmissionFeeScalarFieldEnum = {
   id: 'id',
   academicYearId: 'academicYearId',
@@ -771,6 +906,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: 'JsonNull'
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
