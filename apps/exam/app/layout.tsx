@@ -5,7 +5,7 @@ import { Navbar } from "../components/navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Shikhonary Exams",
+  title: "Basic Education Care Exams",
   description: "Take MCQ exams and test your knowledge",
 };
 

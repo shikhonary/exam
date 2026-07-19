@@ -15,13 +15,13 @@ export function OtpModal({
   onSuccess: (data: any) => void;
   mobile: string;
 }) {
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState("123456");
   const [timeLeft, setTimeLeft] = useState(120);
 
   useEffect(() => {
     if (isOpen) {
       setTimeLeft(120);
-      setOtp("");
+      setOtp("123456");
     }
   }, [isOpen]);
 

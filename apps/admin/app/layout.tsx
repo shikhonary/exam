@@ -20,8 +20,8 @@ const fontMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shikhonary Admin",
-  description: "The administrative dashboard for Shikhonary",
+  title: "Basic Education Care Admin",
+  description: "The administrative dashboard for Basic Education Care",
 };
 
 export default function RootLayout({
