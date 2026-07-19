@@ -6,6 +6,7 @@ import {
   X,
   Activity,
   RotateCcw,
+  Book,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
+import { subjects } from "@workspace/utils";
 import {
   Select,
   SelectContent,
@@ -48,6 +50,14 @@ export const Filter = ({ isLoading }: FilterProps) => {
     setFilters({
       ...filters,
       status: value,
+      page: 1,
+    });
+  };
+
+  const handleFilterSubjectChange = (value: string | null) => {
+    setFilters({
+      ...filters,
+      subject: value,
       page: 1,
     });
   };
@@ -123,6 +133,34 @@ export const Filter = ({ isLoading }: FilterProps) => {
             />
           </div>
 
+          {/* Subject Filter */}
+          <div className="w-full sm:w-48">
+            <Select
+              value={filters.subject === null ? "all" : String(filters.subject)}
+              onValueChange={(val) =>
+                handleFilterSubjectChange(val === "all" ? null : val)
+              }
+              disabled={isLoading}
+            >
+              <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
+                <div className="flex items-center gap-2 text-left overflow-hidden">
+                  <Book size={14} className="text-primary/60 flex-shrink-0" />
+                  <SelectValue placeholder="All Subjects" />
+                </div>
+              </SelectTrigger>
+              <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
+                <SelectItem value="all" className="font-bold">
+                  All Subjects
+                </SelectItem>
+                {subjects.map((option) => (
+                  <SelectItem key={option.value} value={option.value} className="font-bold">
+                    {option.labelEn} - {option.labelBn}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* Status Filter */}
           <div className="w-full sm:w-40">
             <Select
@@ -190,6 +228,20 @@ export const Filter = ({ isLoading }: FilterProps) => {
                   <span className="font-bold text-[10px] uppercase opacity-50 mr-1 text-on-surface">Search:</span>
                   <span className="font-bold text-[11px]">{filters.search}</span>
                   <button onClick={() => { setSearch(""); setFilters({ ...filters, search: null }); }} className="hover:text-rose-500 transition-colors ml-1">
+                    <X className="w-3 h-3 stroke-[3]" />
+                  </button>
+                </Badge>
+              )}
+              {filters.subject !== null && (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1.5 px-3 py-1 bg-white border border-primary/10 text-xs text-primary shadow-sm rounded-lg hover:bg-white"
+                >
+                  <span className="font-bold text-[10px] uppercase opacity-50 mr-1 text-on-surface">Subject:</span>
+                  <span className="font-bold text-[11px]">
+                    {subjects.find(s => s.value === filters.subject)?.labelEn || filters.subject}
+                  </span>
+                  <button onClick={() => setFilters({ ...filters, subject: null })} className="hover:text-rose-500 transition-colors ml-1">
                     <X className="w-3 h-3 stroke-[3]" />
                   </button>
                 </Badge>

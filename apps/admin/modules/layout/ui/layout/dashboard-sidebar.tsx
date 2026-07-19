@@ -47,7 +47,6 @@ const navItems: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Users", url: "/users", icon: Users },
   { title: "Students", url: "/students", icon: Users },
-  { title: "Academic Classes", url: "/academic-classes", icon: BookOpen },
   { title: "MCQs", url: "/mcqs", icon: HelpCircle },
   { title: "Exams", url: "/exams", icon: FileText },
   { title: "Settings", url: "/settings", icon: Settings },

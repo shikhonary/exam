@@ -1,4 +1,11 @@
-import { Breadcrumb } from "@workspace/ui/components/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@workspace/ui/components/breadcrumb";
 import { ImportMcqForm } from "../form/import-mcq-form";
 import { Upload } from "lucide-react";
 
@@ -9,13 +16,21 @@ export function ImportMcqView() {
       <div className="bg-white border-b border-slate-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
           <div className="flex flex-col gap-4">
-            <Breadcrumb
-              items={[
-                { label: "Dashboard", href: "/" },
-                { label: "MCQs", href: "/mcqs" },
-                { label: "Import MCQs", href: "/mcqs/import" },
-              ]}
-            />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/mcqs">MCQs</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Import MCQs</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">

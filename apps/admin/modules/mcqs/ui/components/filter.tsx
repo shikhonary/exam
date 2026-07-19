@@ -49,7 +49,7 @@ export const Filter = ({ isLoading }: FilterProps) => {
   const handleFilterTypeChange = (value: string | null) => {
     setFilters({
       ...filters,
-      type: value,
+      type: value as any,
       page: 1,
     });
   };

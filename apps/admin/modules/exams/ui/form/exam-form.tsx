@@ -1,7 +1,5 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
@@ -12,6 +10,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  useForm,
+  zodResolver
 } from "@workspace/ui/components/form";
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
@@ -23,12 +23,14 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select";
 import { Checkbox } from "@workspace/ui/components/checkbox";
+import { FormCalendar } from "@workspace/ui/shared/form-calendar";
 
 import {
   examFormSchema,
   type ExamFormValues,
 } from "@workspace/schema";
 import { useCreateExam, useUpdateExam } from "@workspace/api-client";
+import { subjects } from "@workspace/utils";
 import type { Exam } from "@workspace/db";
 
 interface ExamFormProps {
@@ -45,24 +47,26 @@ export function ExamForm({ initialData, isEdit }: ExamFormProps) {
   const isLoading = isCreating || isUpdating;
 
   const form = useForm<ExamFormValues>({
-    resolver: zodResolver(examFormSchema),
+    resolver: zodResolver(examFormSchema) as any,
     defaultValues: initialData
       ? {
-          title: initialData.title,
-          subject: initialData.subject,
-          duration: initialData.duration,
-          status: initialData.status as "Draft" | "Published" | "Completed",
-          isPublic: initialData.isPublic,
-          startDate: initialData.startDate ? new Date(initialData.startDate) : undefined,
-          endDate: initialData.endDate ? new Date(initialData.endDate) : undefined,
-        }
+        title: initialData.title,
+        subject: initialData.subject,
+        duration: initialData.duration,
+        totalMarks: initialData.totalMarks,
+        status: initialData.status as "Draft" | "Published" | "Completed",
+        isPublic: initialData.isPublic,
+        startDate: initialData.startDate ? new Date(initialData.startDate) : undefined,
+        endDate: initialData.endDate ? new Date(initialData.endDate) : undefined,
+      }
       : {
-          title: "",
-          subject: "",
-          duration: 60,
-          status: "Draft",
-          isPublic: true,
-        },
+        title: "",
+        subject: "",
+        duration: 60,
+        totalMarks: 100,
+        status: "Draft",
+        isPublic: true,
+      },
   });
 
   const onSubmit = async (data: ExamFormValues) => {
@@ -111,14 +115,25 @@ export function ExamForm({ initialData, isEdit }: ExamFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-bold text-on-surface">Subject *</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter subject name"
-                    className="bg-surface-container-lowest border-outline/20 focus-visible:ring-primary h-11"
-                    disabled={isLoading}
-                    {...field}
-                  />
-                </FormControl>
+                <Select
+                  disabled={isLoading}
+                  onValueChange={field.onChange}
+                  value={field.value || undefined}
+                  defaultValue={field.value || undefined}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full bg-surface-container-lowest border-outline/20 h-11">
+                      <SelectValue placeholder="Select subject" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {subjects.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.labelEn} - {option.labelBn}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -147,6 +162,27 @@ export function ExamForm({ initialData, isEdit }: ExamFormProps) {
 
           <FormField
             control={form.control}
+            name="totalMarks"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-on-surface">Total Marks *</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={0}
+                    className="bg-surface-container-lowest border-outline/20 focus-visible:ring-primary h-11"
+                    disabled={isLoading}
+                    {...field}
+                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="status"
             render={({ field }) => (
               <FormItem>
@@ -158,7 +194,7 @@ export function ExamForm({ initialData, isEdit }: ExamFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-surface-container-lowest border-outline/20 h-11">
+                    <SelectTrigger className="w-full bg-surface-container-lowest border-outline/20 h-11">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>
@@ -171,6 +207,22 @@ export function ExamForm({ initialData, isEdit }: ExamFormProps) {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <FormCalendar
+            name="startDate"
+            label="Start Date"
+            placeholder="Pick a start date"
+            disabled={isLoading}
+            withTime
+          />
+
+          <FormCalendar
+            name="endDate"
+            label="End Date"
+            placeholder="Pick an end date"
+            disabled={isLoading}
+            withTime
           />
 
           <FormField

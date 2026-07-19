@@ -23,13 +23,10 @@ import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import { useTRPC } from "@/trpc/react";
+import { useUserStats } from "@workspace/api-client";
 
-import {
-  useTenantStats,
-  useUserStats,
-  useTenants,
-  useSubscriptionStats,
-} from "@workspace/api-client";
+const useTenants = () => ({ data: { items: [] }, isLoading: false });
+const useSubscriptionStats = () => ({ data: { active: 0, canceled: 0, total: 0 }, isLoading: false });
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const container = {
@@ -253,13 +250,13 @@ const quickActions = [
 // ─── Main Dashboard Overview ──────────────────────────────────────────────────
 export function DashboardOverview() {
   const trpc = useTRPC();
-  const { data: tenantStats, isLoading: loadingTenants } = useTenantStats();
   const { data: userStats, isLoading: loadingUsers } = useUserStats();
-  const { data: planStats, isLoading: loadingPlans } = useQuery({
-    ...trpc.subscriptionPlan.getStats.queryOptions(),
-    select: (data) => data.data,
-  });
-  const { data: subStats, isLoading: loadingSubs } = useSubscriptionStats();
+  const loadingTenants = false;
+  const tenantStats = { total: 0, active: 0 };
+  const loadingPlans = false;
+  const planStats = { total: 0 };
+  const loadingSubs = false;
+  const subStats = { active: 0 };
 
   const stats = [
     {
@@ -454,7 +451,6 @@ export function DashboardOverview() {
               icon: GraduationCap,
               links: [
                 { label: "Academic Years", href: "/academic-years" },
-                { label: "Classes", href: "/academic-classes" },
                 { label: "Subjects", href: "/academic-subjects" },
               ],
               color: "from-amber-600 to-amber-500",

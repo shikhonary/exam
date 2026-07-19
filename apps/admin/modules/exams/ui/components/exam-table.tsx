@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Edit, MoreHorizontal, Trash2, FileText } from "lucide-react";
+import { Edit, MoreHorizontal, Trash2, FileText, ListChecks } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -55,6 +55,18 @@ const columns: Column<Exam>[] = [
       <div className="flex flex-col gap-1">
         <p className="font-medium text-foreground text-sm leading-none">
           {exam.duration} mins
+        </p>
+      </div>
+    ),
+  },
+  {
+    key: "totalMarks",
+    header: "Marks",
+    hideOnMobile: true,
+    render: (exam) => (
+      <div className="flex flex-col gap-1">
+        <p className="font-medium text-muted-foreground text-xs leading-none">
+          {exam.totalMarks}
         </p>
       </div>
     ),
@@ -221,6 +233,16 @@ export function ExamTable({
                       align="end"
                       className="w-52 bg-card/90 backdrop-blur-xl border border-border/50 shadow-2xl z-50 rounded-2xl p-2 animate-in fade-in zoom-in-95 duration-200"
                     >
+                      <DropdownMenuItem
+                        className="cursor-pointer rounded-xl font-bold text-sm gap-2.5 p-2.5 transition-colors focus:bg-primary/10 focus:text-primary"
+                        asChild
+                      >
+                        <Link href={`/exams/${item.id}`}>
+                          <ListChecks className="h-4 w-4" />
+                          <span>Manage MCQs</span>
+                        </Link>
+                      </DropdownMenuItem>
+
                       <DropdownMenuItem
                         className="cursor-pointer rounded-xl font-bold text-sm gap-2.5 p-2.5 transition-colors focus:bg-primary/10 focus:text-primary"
                         asChild

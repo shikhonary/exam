@@ -11,6 +11,7 @@ import {
   useExams,
   useExamStats,
   useDeleteExam,
+  useExamFilters,
 } from "@workspace/api-client";
 
 import { ExamTable } from "../components/exam-table";
@@ -25,7 +26,8 @@ const containerVariants = {
 
 function ExamsContent() {
   const { openDeleteModal } = useDeleteModal();
-  const { data: examsData, isLoading: isQueryLoading } = useExams();
+  const [filters] = useExamFilters();
+  const { data: examsData, isLoading: isQueryLoading } = useExams(filters);
   const { data: stats, isLoading: isStatsLoading } = useExamStats();
 
   const { mutateAsync: deleteExam, isPending: isDeleting } = useDeleteExam();
@@ -130,7 +132,9 @@ export function ExamsView() {
         aria-hidden
         className="absolute bottom-[10%] -right-16 w-80 h-80 rounded-full bg-accent/5 blur-3xl -z-10 pointer-events-none"
       />
-      <ExamsContent />
+      <Suspense fallback={null}>
+        <ExamsContent />
+      </Suspense>
     </div>
   );
 }

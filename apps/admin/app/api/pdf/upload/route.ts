@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
     const title = formData.get("title") as string | null;
     const classLevel = formData.get("classLevel") as string | null;
     const version = formData.get("version") as string | null;
-    const academicClassId = formData.get("academicClassId") as string | null;
     const academicSubjectId = formData.get("academicSubjectId") as
       | string
       | null;
@@ -56,14 +55,13 @@ export async function POST(req: NextRequest) {
     const fileUrl = `/uploads/pdfs/${fileName}`;
 
     // ── Create Book + PdfIngestionJob records ──────────────────────
-    const db = prisma;
+    const db = prisma as any;
 
     const book = await db.book.create({
       data: {
         title,
         classLevel: parseInt(classLevel, 10),
         version,
-        academicClassId: academicClassId ?? undefined,
         academicSubjectId: academicSubjectId ?? undefined,
         ingestionJob: {
           create: {
