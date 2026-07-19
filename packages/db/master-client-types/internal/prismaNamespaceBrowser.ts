@@ -55,13 +55,13 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
-  AcademicClass: 'AcademicClass',
   Student: 'Student',
   Mcq: 'Mcq',
   Exam: 'Exam',
   ExamMcq: 'ExamMcq',
   ExamAttempt: 'ExamAttempt',
-  AnswerHistory: 'AnswerHistory'
+  AnswerHistory: 'AnswerHistory',
+  Otp: 'Otp'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -141,20 +141,6 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const AcademicClassScalarFieldEnum = {
-  id: 'id',
-  nameBn: 'nameBn',
-  nameEn: 'nameEn',
-  level: 'level',
-  position: 'position',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type AcademicClassScalarFieldEnum = (typeof AcademicClassScalarFieldEnum)[keyof typeof AcademicClassScalarFieldEnum]
-
-
 export const StudentScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -188,6 +174,7 @@ export const ExamScalarFieldEnum = {
   id: 'id',
   title: 'title',
   subject: 'subject',
+  totalMarks: 'totalMarks',
   duration: 'duration',
   startDate: 'startDate',
   endDate: 'endDate',
@@ -237,6 +224,19 @@ export const AnswerHistoryScalarFieldEnum = {
 } as const
 
 export type AnswerHistoryScalarFieldEnum = (typeof AnswerHistoryScalarFieldEnum)[keyof typeof AnswerHistoryScalarFieldEnum]
+
+
+export const OtpScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  code: 'code',
+  expiresAt: 'expiresAt',
+  verified: 'verified',
+  attempts: 'attempts',
+  createdAt: 'createdAt'
+} as const
+
+export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
 
 
 export const SortOrder = {

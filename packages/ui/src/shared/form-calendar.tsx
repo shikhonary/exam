@@ -12,6 +12,7 @@ import {
 } from "../components/form";
 import { Button } from "../components/button";
 import { Calendar } from "../components/calendar";
+import { Input } from "../components/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../components/popover";
 import { cn } from "../lib/utils";
 
@@ -32,6 +33,7 @@ interface FormCalendarProps<T extends FieldValues> {
   fromDate?: Date;
   toDate?: Date;
   labelClassName?: string;
+  withTime?: boolean;
 }
 
 export function FormCalendar<T extends FieldValues>({
@@ -51,8 +53,11 @@ export function FormCalendar<T extends FieldValues>({
   disabledDates,
   fromDate,
   toDate,
+  withTime = false,
 }: FormCalendarProps<T>) {
   const { control } = useFormContext<T>();
+  
+  const actualDateFormat = dateFormat === "PPP" && withTime ? "PPP p" : dateFormat;
 
   return (
     <FormField
@@ -87,7 +92,7 @@ export function FormCalendar<T extends FieldValues>({
                     <CalendarIcon className="mr-2 h-4 w-4" />
                   )}
                   {field.value ? (
-                    format(new Date(field.value), dateFormat)
+                    format(new Date(field.value), actualDateFormat)
                   ) : (
                     <span>{placeholder}</span>
                   )}
@@ -101,7 +106,17 @@ export function FormCalendar<T extends FieldValues>({
                   mode="single"
                   selected={field.value ? new Date(field.value) : undefined}
                   onSelect={(date) => {
-                    field.onChange(date ? date.toISOString() : null);
+                    if (!date) {
+                      field.onChange(null);
+                      onChange?.(undefined);
+                      return;
+                    }
+                    if (withTime && field.value) {
+                      const existing = new Date(field.value);
+                      date.setHours(existing.getHours());
+                      date.setMinutes(existing.getMinutes());
+                    }
+                    field.onChange(date.toISOString());
                     onChange?.(date);
                   }}
                   disabled={disabledDates}
@@ -109,6 +124,26 @@ export function FormCalendar<T extends FieldValues>({
                   toDate={toDate}
                   initialFocus
                 />
+                {withTime && (
+                  <div className="p-3 border-t border-border flex items-center justify-between">
+                    <span className="text-sm font-medium">Time</span>
+                    <Input
+                      type="time"
+                      className="w-[120px] h-8"
+                      value={field.value ? format(new Date(field.value), "HH:mm") : ""}
+                      onChange={(e) => {
+                        const time = e.target.value;
+                        if (!time) return;
+                        const [hours, minutes] = time.split(":");
+                        const date = field.value ? new Date(field.value) : new Date();
+                        date.setHours(parseInt(hours || "0", 10));
+                        date.setMinutes(parseInt(minutes || "0", 10));
+                        field.onChange(date.toISOString());
+                        onChange?.(date);
+                      }}
+                    />
+                  </div>
+                )}
               </PopoverContent>
             </Popover>
           </FormControl>

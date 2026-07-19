@@ -4,7 +4,6 @@ import { admissionFeeFormSchema } from "@workspace/schema";
 
 export const listInput = baseListInputSchema.extend({
   academicYearId: z.string().uuid().nullable().optional(),
-  academicClassId: z.string().uuid().nullable().optional(),
 });
 
 export type listInputType = z.infer<typeof listInput>;

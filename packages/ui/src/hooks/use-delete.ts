@@ -27,7 +27,8 @@ export type DeleteEntityType =
   | "cq"
   | "questionPaper"
   | "questionType"
-  | "shortAnswer";
+  | "shortAnswer"
+  | "exam";
 
 
 interface DeleteModalState {

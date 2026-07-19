@@ -27,10 +27,12 @@ export type AggregateExam = {
 }
 
 export type ExamAvgAggregateOutputType = {
+  totalMarks: number | null
   duration: number | null
 }
 
 export type ExamSumAggregateOutputType = {
+  totalMarks: number | null
   duration: number | null
 }
 
@@ -38,6 +40,7 @@ export type ExamMinAggregateOutputType = {
   id: string | null
   title: string | null
   subject: string | null
+  totalMarks: number | null
   duration: number | null
   startDate: Date | null
   endDate: Date | null
@@ -51,6 +54,7 @@ export type ExamMaxAggregateOutputType = {
   id: string | null
   title: string | null
   subject: string | null
+  totalMarks: number | null
   duration: number | null
   startDate: Date | null
   endDate: Date | null
@@ -64,6 +68,7 @@ export type ExamCountAggregateOutputType = {
   id: number
   title: number
   subject: number
+  totalMarks: number
   duration: number
   startDate: number
   endDate: number
@@ -76,10 +81,12 @@ export type ExamCountAggregateOutputType = {
 
 
 export type ExamAvgAggregateInputType = {
+  totalMarks?: true
   duration?: true
 }
 
 export type ExamSumAggregateInputType = {
+  totalMarks?: true
   duration?: true
 }
 
@@ -87,6 +94,7 @@ export type ExamMinAggregateInputType = {
   id?: true
   title?: true
   subject?: true
+  totalMarks?: true
   duration?: true
   startDate?: true
   endDate?: true
@@ -100,6 +108,7 @@ export type ExamMaxAggregateInputType = {
   id?: true
   title?: true
   subject?: true
+  totalMarks?: true
   duration?: true
   startDate?: true
   endDate?: true
@@ -113,6 +122,7 @@ export type ExamCountAggregateInputType = {
   id?: true
   title?: true
   subject?: true
+  totalMarks?: true
   duration?: true
   startDate?: true
   endDate?: true
@@ -213,6 +223,7 @@ export type ExamGroupByOutputType = {
   id: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate: Date | null
   endDate: Date | null
@@ -249,6 +260,7 @@ export type ExamWhereInput = {
   id?: Prisma.StringFilter<"Exam"> | string
   title?: Prisma.StringFilter<"Exam"> | string
   subject?: Prisma.StringFilter<"Exam"> | string
+  totalMarks?: Prisma.IntFilter<"Exam"> | number
   duration?: Prisma.IntFilter<"Exam"> | number
   startDate?: Prisma.DateTimeNullableFilter<"Exam"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"Exam"> | Date | string | null
@@ -264,6 +276,7 @@ export type ExamOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -282,6 +295,7 @@ export type ExamWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ExamWhereInput | Prisma.ExamWhereInput[]
   title?: Prisma.StringFilter<"Exam"> | string
   subject?: Prisma.StringFilter<"Exam"> | string
+  totalMarks?: Prisma.IntFilter<"Exam"> | number
   duration?: Prisma.IntFilter<"Exam"> | number
   startDate?: Prisma.DateTimeNullableFilter<"Exam"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"Exam"> | Date | string | null
@@ -297,6 +311,7 @@ export type ExamOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -318,6 +333,7 @@ export type ExamScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Exam"> | string
   title?: Prisma.StringWithAggregatesFilter<"Exam"> | string
   subject?: Prisma.StringWithAggregatesFilter<"Exam"> | string
+  totalMarks?: Prisma.IntWithAggregatesFilter<"Exam"> | number
   duration?: Prisma.IntWithAggregatesFilter<"Exam"> | number
   startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Exam"> | Date | string | null
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Exam"> | Date | string | null
@@ -331,6 +347,7 @@ export type ExamCreateInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -346,6 +363,7 @@ export type ExamUncheckedCreateInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -361,6 +379,7 @@ export type ExamUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -376,6 +395,7 @@ export type ExamUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -391,6 +411,7 @@ export type ExamCreateManyInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -404,6 +425,7 @@ export type ExamUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -417,6 +439,7 @@ export type ExamUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -430,6 +453,7 @@ export type ExamCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -440,6 +464,7 @@ export type ExamCountOrderByAggregateInput = {
 }
 
 export type ExamAvgOrderByAggregateInput = {
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
 }
 
@@ -447,6 +472,7 @@ export type ExamMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -460,6 +486,7 @@ export type ExamMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   subject?: Prisma.SortOrder
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -470,12 +497,21 @@ export type ExamMinOrderByAggregateInput = {
 }
 
 export type ExamSumOrderByAggregateInput = {
+  totalMarks?: Prisma.SortOrder
   duration?: Prisma.SortOrder
 }
 
 export type ExamScalarRelationFilter = {
   is?: Prisma.ExamWhereInput
   isNot?: Prisma.ExamWhereInput
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type ExamCreateNestedOneWithoutMcqsInput = {
@@ -510,6 +546,7 @@ export type ExamCreateWithoutMcqsInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -524,6 +561,7 @@ export type ExamUncheckedCreateWithoutMcqsInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -554,6 +592,7 @@ export type ExamUpdateWithoutMcqsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -568,6 +607,7 @@ export type ExamUncheckedUpdateWithoutMcqsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -582,6 +622,7 @@ export type ExamCreateWithoutAttemptsInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -596,6 +637,7 @@ export type ExamUncheckedCreateWithoutAttemptsInput = {
   id?: string
   title: string
   subject: string
+  totalMarks: number
   duration: number
   startDate?: Date | string | null
   endDate?: Date | string | null
@@ -626,6 +668,7 @@ export type ExamUpdateWithoutAttemptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -640,6 +683,7 @@ export type ExamUncheckedUpdateWithoutAttemptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
+  totalMarks?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -694,6 +738,7 @@ export type ExamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   title?: boolean
   subject?: boolean
+  totalMarks?: boolean
   duration?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -710,6 +755,7 @@ export type ExamSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   subject?: boolean
+  totalMarks?: boolean
   duration?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -723,6 +769,7 @@ export type ExamSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   subject?: boolean
+  totalMarks?: boolean
   duration?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -736,6 +783,7 @@ export type ExamSelectScalar = {
   id?: boolean
   title?: boolean
   subject?: boolean
+  totalMarks?: boolean
   duration?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -745,7 +793,7 @@ export type ExamSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ExamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "subject" | "duration" | "startDate" | "endDate" | "isPublic" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["exam"]>
+export type ExamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "subject" | "totalMarks" | "duration" | "startDate" | "endDate" | "isPublic" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["exam"]>
 export type ExamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   mcqs?: boolean | Prisma.Exam$mcqsArgs<ExtArgs>
   attempts?: boolean | Prisma.Exam$attemptsArgs<ExtArgs>
@@ -764,6 +812,7 @@ export type $ExamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     title: string
     subject: string
+    totalMarks: number
     duration: number
     startDate: Date | null
     endDate: Date | null
@@ -1199,6 +1248,7 @@ export interface ExamFieldRefs {
   readonly id: Prisma.FieldRef<"Exam", 'String'>
   readonly title: Prisma.FieldRef<"Exam", 'String'>
   readonly subject: Prisma.FieldRef<"Exam", 'String'>
+  readonly totalMarks: Prisma.FieldRef<"Exam", 'Int'>
   readonly duration: Prisma.FieldRef<"Exam", 'Int'>
   readonly startDate: Prisma.FieldRef<"Exam", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Exam", 'DateTime'>

@@ -108,9 +108,8 @@ export function useBulkDeleteExams() {
 // QUERIES
 // ============================================================================
 
-export function useExams() {
+export function useExams(filters: any = {}) {
   const trpc = useTRPC();
-  const [filters] = useExamFilters();
 
   return useQuery({
     ...trpc.exam.list.queryOptions(filters),
@@ -131,5 +130,30 @@ export function useExamStats() {
   return useQuery({
     ...trpc.exam.getStats.queryOptions(),
     select: (data) => data.data,
+  });
+}
+
+export function useAttachedMcqs(examId: string) {
+  const trpc = useTRPC();
+  return useQuery({
+    ...trpc.exam.getAttachedMcqs.queryOptions({ examId }),
+    select: (data) => data.data,
+    enabled: !!examId,
+  });
+}
+
+export function useSyncExamMcqs() {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    ...trpc.exam.syncMcqs.mutationOptions(),
+    onSuccess: (data, variables) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries(
+        trpc.exam.getAttachedMcqs.queryFilter({ examId: variables.examId })
+      );
+    },
+    onError: (error) => toast.error(error.message || "Failed to sync MCQs"),
   });
 }

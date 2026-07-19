@@ -47,6 +47,7 @@ const entityLabels: Record<
   questionPaper: { singular: "প্রশ্নপত্র", icon: "📄" },
   questionType: { singular: "প্রশ্নের ধরন", icon: "🏷️" },
   shortAnswer: { singular: "সংক্ষিপ্ত প্রশ্ন", icon: "📝" },
+  exam: { singular: "পরীক্ষা", icon: "📝" },
 };
 
 export function DeleteConfirmModal() {

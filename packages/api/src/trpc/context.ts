@@ -2,7 +2,6 @@ import { auth, User } from "@workspace/auth";
 import {
   prisma,
   type TenantClient,
-  type Tenant,
   type PrismaClient as BasePrismaClient,
 } from "@workspace/db";
 
@@ -30,7 +29,7 @@ export interface TRPCContext {
   userId: string | null;
   userRole: string | null;
   db: PrismaClient;
-  tenant: Tenant | null;
+  tenant: any | null;
   tenantClient: TenantClient | null; // ✅ TenantClient directly — single source of truth
   headers: Headers;
 }

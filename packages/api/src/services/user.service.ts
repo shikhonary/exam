@@ -46,11 +46,7 @@ export class UserService {
           where,
           orderBy,
           ...pagination,
-          include: {
-            _count: {
-              select: { tenants: true, memberships: true },
-            },
-          },
+
         }),
         this.db.user.count({ where }),
       ]);
@@ -72,12 +68,7 @@ export class UserService {
       const validatedId = uuidSchema.parse(input);
       return await this.db.user.findUnique({
         where: { id: validatedId },
-        include: {
-          memberships: {
-            include: { tenant: true },
-          },
-          tenants: true,
-        },
+
       });
     } catch (error) {
       handlePrismaError(error);

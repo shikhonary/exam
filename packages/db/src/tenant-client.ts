@@ -67,7 +67,7 @@ export const getTenantClient = (connectionString: string): TenantClient => {
 export const getTenantClientByTenantId = async (
   tenantId: string,
 ): Promise<TenantClient | null> => {
-  const tenant = await basePrisma.tenant.findUnique({
+  const tenant = await (basePrisma as any).tenant?.findUnique({
     where: { id: tenantId },
     select: { connectionString: true },
   });

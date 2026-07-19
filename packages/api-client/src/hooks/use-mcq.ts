@@ -163,3 +163,12 @@ export function useMcqStats() {
     select: (data) => data.data,
   });
 }
+
+export function useAllMcqs(filters: any = {}) {
+  const trpc = useTRPC();
+  return useQuery({
+    ...trpc.mcq.list.queryOptions({ ...filters, limit: 1000 }), // large limit for builder
+    select: (data) => data.data as PaginatedResponse<Mcq>,
+    enabled: true,
+  });
+}

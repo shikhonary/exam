@@ -18,7 +18,6 @@ model Batch {
     name           String
     academicYearId String   // FK to master AcademicYear (stored as plain ID)
     academicYear   String   // Denormalised year label, e.g. "2025"
-    academicClassId String  // FK to master AcademicClass (stored as plain ID)
     className      String   // Denormalised class name
     capacity       Int      @default(50)
     isActive       Boolean  @default(true)
@@ -34,7 +33,6 @@ model Batch {
 
     @@index([isActive])
     @@index([academicYearId])
-    @@index([academicClassId])
     @@map("batch")
 }
 
@@ -43,7 +41,6 @@ model Student {
     studentId        String
     name             String
     email            String?
-    academicClassId  String
     className        String
     batchId          String
     batch            Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
@@ -75,7 +72,6 @@ model Student {
     academicYearId String
     academicYear   String
 
-    @@index([academicClassId])
     @@index([batchId])
     @@index([isActive])
     @@index([name])
@@ -990,9 +986,6 @@ model AdmissionFee {
     academicYearId String
     academicYear   String
 
-    academicClassId String
-    className       String
-
     amount Float @default(0)
 
     createdAt DateTime @default(now())
@@ -1005,9 +998,6 @@ model MonthlyFee {
     id             String       @id @default(uuid())
     academicYearId String
     academicYear   String
-
-    academicClassId String
-    className       String
 
     amount Float @default(0)
 

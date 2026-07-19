@@ -38,11 +38,6 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model AcademicClass
- * 
- */
-export type AcademicClass = Prisma.AcademicClassModel
-/**
  * Model Student
  * 
  */
@@ -72,3 +67,8 @@ export type ExamAttempt = Prisma.ExamAttemptModel
  * 
  */
 export type AnswerHistory = Prisma.AnswerHistoryModel
+/**
+ * Model Otp
+ * 
+ */
+export type Otp = Prisma.OtpModel

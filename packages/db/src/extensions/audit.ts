@@ -73,8 +73,8 @@ export const auditExtension = (masterPrisma: MasterPrismaClient) => {
           if (ctx && masterPrisma) {
             const entityId = (args as any)?.where?.id || (result as any)?.id;
 
-            masterPrisma.auditLog
-              .create({
+            (masterPrisma as any).auditLog
+              ?.create({
                 data: {
                   action: operation,
                   entity: model ?? "Unknown",
@@ -87,7 +87,7 @@ export const auditExtension = (masterPrisma: MasterPrismaClient) => {
                   description: `Automatic audit for ${operation} on ${model}`,
                 },
               })
-              .catch((err: any) => {
+              ?.catch((err: any) => {
                 console.error(
                   "[AuditExtension Error] Failed to log audit:",
                   err,

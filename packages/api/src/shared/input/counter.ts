@@ -21,7 +21,6 @@ export type updateCounterInputType = z.infer<typeof updateCounterSchema>;
 
 export const getNextStudentIdSchema = z.object({
   academicYearId: z.string().uuid(),
-  academicClassId: z.string().uuid(),
 });
 
 export type getNextStudentIdInputType = z.infer<typeof getNextStudentIdSchema>;

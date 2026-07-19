@@ -2,7 +2,6 @@
 
 import { useQueryStates } from "nuqs";
 import {
-  academicClassFilterSchema,
   academicSubjectFilterSchema,
   academicChapterFilterSchema,
   academicChapterTopicFilterSchema,
@@ -39,8 +38,6 @@ import {
   examFilterSchema,
 } from "./schema";
 
-export const useAcademicClassFilters = () =>
-  useQueryStates(academicClassFilterSchema);
 export const useAcademicSubjectFilters = () =>
   useQueryStates(academicSubjectFilterSchema);
 export const useAcademicChapterFilters = () =>

@@ -3,7 +3,6 @@ import { baseListInputSchema } from "../filters";
 import { studentFormSchema } from "@workspace/schema";
 
 export const listInput = baseListInputSchema.extend({
-  academicClassId: z.string().uuid().nullable().optional(),
   academicYearId: z.string().uuid().nullable().optional(),
   batchId: z.string().uuid().nullable().optional(),
 });

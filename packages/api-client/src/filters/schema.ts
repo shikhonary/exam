@@ -35,21 +35,6 @@ export const baseFilterSchema = {
   }),
 };
 
-/**
- * Academic Class Filters
- */
-export const academicClassFilterSchema = {
-  ...baseFilterSchema,
-  level: parseAsStringEnum(Object.values(ACADEMIC_LEVEL)).withOptions({
-    clearOnDefault: true,
-  }),
-  isActive: parseAsBoolean.withOptions({
-    clearOnDefault: true,
-  }),
-  sort: parseAsStringEnum(Object.values(SORT_WITH_POSITION)).withOptions({
-    clearOnDefault: true,
-  }),
-};
 
 /**
  * Academic Subject Filters
@@ -57,7 +42,6 @@ export const academicClassFilterSchema = {
 export const academicSubjectFilterSchema = {
   ...baseFilterSchema,
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
-  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
   }),
@@ -102,7 +86,6 @@ export const academicChapterTopicFilterSchema = {
  */
 export const academicSubTopicFilterSchema = {
   ...baseFilterSchema,
-  classId: parseAsString.withOptions({ clearOnDefault: true }),
   subjectId: parseAsString.withOptions({ clearOnDefault: true }),
   chapterId: parseAsString.withOptions({ clearOnDefault: true }),
   topicId: parseAsString.withOptions({ clearOnDefault: true }),
@@ -182,7 +165,6 @@ export const questionTypeFilterSchema = {
 export const questionPaperFilterSchema = {
   ...baseFilterSchema,
   status: parseAsString.withOptions({ clearOnDefault: true }),
-  classId: parseAsString.withOptions({ clearOnDefault: true }),
 };
 
 /**
@@ -191,7 +173,6 @@ export const questionPaperFilterSchema = {
 export const studentFilterSchema = {
   ...baseFilterSchema,
   batchId: parseAsString.withOptions({ clearOnDefault: true }),
-  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({
     clearOnDefault: true,
@@ -260,7 +241,6 @@ export const academicYearFilterSchema = {
  */
 export const batchFilterSchema = {
   ...baseFilterSchema,
-  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
   isActive: parseAsBoolean.withOptions({ clearOnDefault: true }),
 };
@@ -288,7 +268,6 @@ export const admissionFeeFilterSchema = {
 export const monthlyFeeFilterSchema = {
   ...baseFilterSchema,
   academicYearId: parseAsString.withOptions({ clearOnDefault: true }),
-  academicClassId: parseAsString.withOptions({ clearOnDefault: true }),
 };
 
 /**

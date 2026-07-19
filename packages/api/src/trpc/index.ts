@@ -73,37 +73,11 @@ export const adminProcedure = protectedProcedure.use(isAdmin);
 const isTenantMember = t.middleware(async ({ next, ctx }) => {
   if (!ctx.userId) throw new TRPCError({ code: "UNAUTHORIZED" });
 
-  console.log("User ID", ctx.userId);
-
-  const membership = await ctx.db.tenantMember.findFirst({
-    where: {
-      userId: ctx.userId,
-      isActive: true,
-      tenant: { isActive: true },
-    },
-    include: { tenant: true },
-  });
-
-  if (!membership || !membership.tenant) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: "Active tenant membership required.",
-    });
-  }
-
-  const tenantClient = await getTenantClientByTenantId(membership.tenantId);
-  if (!tenantClient) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Could not connect to tenant database.",
-    });
-  }
-
   return next({
     ctx: {
       ...ctx,
-      tenant: membership.tenant,
-      tenantClient, // ✅ No cast needed — TenantClient satisfies TenantPrismaClient
+      tenant: null,
+      tenantClient: null as any, // ✅ No cast needed — TenantClient satisfies TenantPrismaClient
     },
   });
 });

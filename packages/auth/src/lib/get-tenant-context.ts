@@ -32,61 +32,8 @@ export async function getTenantContext(
   const requestedTenantId = reqHeaders.get("x-tenant-id");
   const requestedTenantSlug = reqHeaders.get("x-tenant-slug");
 
-  let tenant = null;
-
-  if (requestedTenantId || requestedTenantSlug) {
-    // Verify membership or allow if super admin
-    tenant = await masterPrisma.tenant.findFirst({
-      where: {
-        OR: [
-          { id: requestedTenantId || undefined },
-          { slug: requestedTenantSlug || undefined },
-        ],
-        AND: superAdmin
-          ? {}
-          : {
-            members: {
-              some: { userId: user.id },
-            },
-          },
-      },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        connectionString: true,
-        isActive: true,
-        isSuspended: true,
-      },
-    });
-  } else {
-    // Get primary tenant (first one for now)
-    const membership = await masterPrisma.tenantMember.findFirst({
-      where: { 
-        userId: user.id,
-        isActive: true, 
-      },
-      include: {
-        tenant: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            connectionString: true,
-            isActive: true,
-            isSuspended: true,
-          },
-        },
-      },
-    });
-    tenant = membership?.tenant || null;
-  }
-
-  // 3. Resolve tenant client if tenant exists and is active/not suspended
-  let tenantClient = null;
-  if (tenant && tenant.isActive && !tenant.isSuspended) {
-    tenantClient = await getTenantClientByTenantId(tenant.id);
-  }
+  let tenant: any = null;
+  let tenantClient: any = null;
 
   return {
     user,

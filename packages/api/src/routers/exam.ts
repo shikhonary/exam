@@ -21,9 +21,9 @@ export const examRouter = createTRPCRouter({
   list: publicProcedure
     .input(
       baseListInputSchema.extend({
-        subject: z.string().optional(),
-        status: z.string().optional(),
-        isPublic: z.boolean().optional(),
+        subject: z.string().nullish(),
+        status: z.string().nullish(),
+        isPublic: z.boolean().nullish(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -93,6 +93,26 @@ export const examRouter = createTRPCRouter({
       return {
         success: true,
         message: "Exams deleted successfully",
+      };
+    }),
+
+  getAttachedMcqs: adminProcedure
+    .input(z.object({ examId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const service = new ExamService(ctx.db);
+      const data = await service.getAttachedMcqs(input.examId);
+      return { success: true, data };
+    }),
+
+  syncMcqs: adminMutationProcedure
+    .input(z.object({ examId: z.string(), mcqIds: z.array(z.string()) }))
+    .mutation(async ({ ctx, input }) => {
+      const service = new ExamService(ctx.db);
+      const data = await service.syncMcqs(input.examId, input.mcqIds);
+      return {
+        success: true,
+        message: "MCQs attached successfully",
+        data,
       };
     }),
 } satisfies TRPCRouterRecord);

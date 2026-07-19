@@ -15,7 +15,6 @@ export {
 } from "./trpc/index";
 
 // Export services for direct use if needed (e.g., in server actions or background jobs)
-export * from "./services/academic-class.service";
 export * from "./services/student.service";
 export * from "./services/user.service";
 export * from "./services/mcq.service";

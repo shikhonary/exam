@@ -4,12 +4,12 @@ export * from "./shared/pagination";
 export * from "./shared/password";
 
 // Entity Schemas
-export * from "./academic-class";
 export * from "./student";
 export * from "./mcq";
 export * from "./exam";
 
 // Business Schemas
 export * from "./user";
+export * from "./exam-session";
 
 // System Schemas

@@ -77,21 +77,6 @@ model Verification {
     @@map("verification")
 }
 
-model AcademicClass {
-    id        String   @id @default(uuid())
-    nameBn    String
-    nameEn    String
-    level     String
-    position  Int      @default(0)
-    isActive  Boolean  @default(true)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([isActive])
-    @@index([nameEn])
-    @@map("academic_class")
-}
-
 model Student {
     id        String  @id @default(uuid())
     name      String
@@ -120,82 +105,96 @@ model Mcq {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    examMcqs   ExamMcq[]
-    answers    AnswerHistory[]
+    examMcqs ExamMcq[]
+    answers  AnswerHistory[]
 
     @@map("Mcq")
 }
 
 model Exam {
-    id          String    @id @default(uuid())
-    title       String
-    subject     String
-    duration    Int       // Duration in minutes
-    startDate   DateTime? // Optional start window
-    endDate     DateTime? // Optional end window
-    isPublic    Boolean   @default(true)
-    status      String    @default("Draft") // "Draft", "Published", "Completed"
+    id         String    @id @default(uuid())
+    title      String
+    subject    String
+    totalMarks Int
+    duration   Int // Duration in minutes
+    startDate  DateTime? // Optional start window
+    endDate    DateTime? // Optional end window
+    isPublic   Boolean   @default(true)
+    status     String    @default("Draft") // "Draft", "Published", "Completed"
 
-    mcqs        ExamMcq[]
-    attempts    ExamAttempt[]
+    mcqs     ExamMcq[]
+    attempts ExamAttempt[]
 
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@map("exam")
 }
 
 model ExamMcq {
-    examId      String
-    exam        Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
-    
-    mcqId       String
-    mcq         Mcq      @relation(fields: [mcqId], references: [id], onDelete: Cascade)
-    
-    order       Int      @default(0) // To maintain sequence of questions
+    examId String
+    exam   Exam   @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+    mcqId String
+    mcq   Mcq    @relation(fields: [mcqId], references: [id], onDelete: Cascade)
+
+    order Int @default(0) // To maintain sequence of questions
 
     @@id([examId, mcqId])
     @@map("exam_mcq")
 }
 
 model ExamAttempt {
-    id             String    @id @default(uuid())
-    examId         String
-    exam           Exam      @relation(fields: [examId], references: [id], onDelete: Cascade)
-    studentId      String
-    student        Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    id        String  @id @default(uuid())
+    examId    String
+    exam      Exam    @relation(fields: [examId], references: [id], onDelete: Cascade)
+    studentId String
+    student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
-    score          Float     @default(0)
-    correctAnswers Int       @default(0)
-    wrongAnswers   Int       @default(0)
+    score          Float @default(0)
+    correctAnswers Int   @default(0)
+    wrongAnswers   Int   @default(0)
 
-    startTime      DateTime  @default(now())
-    endTime        DateTime?
-    status         String    @default("In Progress") // "In Progress", "Submitted"
+    startTime DateTime  @default(now())
+    endTime   DateTime?
+    status    String    @default("In Progress") // "In Progress", "Submitted"
 
-    answers        AnswerHistory[]
+    answers AnswerHistory[]
 
-    createdAt      DateTime  @default(now())
-    updatedAt      DateTime  @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([studentId, examId])
     @@map("exam_attempt")
 }
 
 model AnswerHistory {
-    id             String       @id @default(uuid())
-    attemptId      String
-    attempt        ExamAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-    
-    mcqId          String
-    mcq            Mcq          @relation(fields: [mcqId], references: [id], onDelete: Cascade)
-    
-    selectedOption String?      // Null if the student skipped the question
-    isCorrect      Boolean      @default(false)
+    id        String      @id @default(uuid())
+    attemptId String
+    attempt   ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime     @updatedAt
+    mcqId String
+    mcq   Mcq    @relation(fields: [mcqId], references: [id], onDelete: Cascade)
+
+    selectedOption String? // Null if the student skipped the question
+    isCorrect      Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([attemptId])
     @@map("answer_history")
+}
+
+model Otp {
+    id        String   @id @default(uuid())
+    phone     String
+    code      String
+    expiresAt DateTime
+    verified  Boolean  @default(false)
+    attempts  Int      @default(0)
+    createdAt DateTime @default(now())
+
+    @@index([phone, code])
+    @@map("otp")
 }

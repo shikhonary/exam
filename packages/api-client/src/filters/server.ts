@@ -1,6 +1,5 @@
 import { createLoader } from "nuqs/server";
 import {
-  academicClassFilterSchema,
   academicSubjectFilterSchema,
   academicChapterFilterSchema,
   academicChapterTopicFilterSchema,
@@ -22,7 +21,6 @@ import {
   notificationFilterSchema,
 } from "./schema";
 
-export const academicClassLoader = createLoader(academicClassFilterSchema);
 export const academicSubjectLoader = createLoader(academicSubjectFilterSchema);
 export const academicChapterLoader = createLoader(academicChapterFilterSchema);
 export const academicTopicLoader = createLoader(academicChapterTopicFilterSchema);
