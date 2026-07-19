@@ -317,10 +317,12 @@ export class ExamSessionService {
         where: { examId: attempt.examId },
       });
 
-      const score =
+      const marksPerQuestion =
         totalQuestionsCount > 0
-          ? (correctAnswers / totalQuestionsCount) * 100
+          ? attempt.exam.totalMarks / totalQuestionsCount
           : 0;
+          
+      const score = correctAnswers * marksPerQuestion;
 
       const updatedAttempt = await this.db.examAttempt.update({
         where: { id: attemptId },

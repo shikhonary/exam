@@ -1,6 +1,6 @@
-import { ExamMcqManagerView } from "../../../../modules/exams/ui/views/exam-mcq-manager-view";
+import { ExamDetailsView } from "../../../../modules/exams/ui/views/exam-details-view";
 
-export default async function ExamManagerPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ExamDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = await params;
-  return <ExamMcqManagerView examId={unwrappedParams.id} />;
+  return <ExamDetailsView examId={unwrappedParams.id} />;
 }

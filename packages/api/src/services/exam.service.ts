@@ -78,10 +78,17 @@ export class ExamService {
   }
 
   // ── GET BY ID ─────────────────────────────────────────────────────────────
-  async getById(id: string): Promise<Exam | null | undefined> {
+  async getById(id: string) {
     try {
       return await this.db.exam.findUnique({
         where: { id },
+        include: {
+          attempts: {
+            include: {
+              student: true,
+            },
+          },
+        },
       });
     } catch (error) {
       handlePrismaError(error);
