@@ -6,18 +6,10 @@ import { useAttemptResult } from "@workspace/api-client";
 import { MCQQuestion } from "../../../../../components/mcq-question";
 import {
   Loader2, ArrowLeft, Trophy, XCircle, CheckCircle,
-  HelpCircle, BookOpen, Share2, Copy, Check as CheckIcon,
-  ClipboardCheck,
+  HelpCircle, BookOpen,
 } from "lucide-react";
 
-/* ── Facebook brand icon (inline SVG) ─────────────────────── */
-function FacebookIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.313 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
-    </svg>
-  );
-}
+
 
 export default function ResultPage({
   params,
@@ -26,8 +18,6 @@ export default function ResultPage({
 }) {
   const unwrappedParams = use(params);
   const router = useRouter();
-  const [copied, setCopied] = useState(false);
-  const [fbToast, setFbToast] = useState(false);
 
   const { data: resultData, isLoading, error } = useAttemptResult(
     unwrappedParams.attemptId
@@ -94,45 +84,7 @@ export default function ResultPage({
 
   const scoreEmoji = score >= 80 ? "🏆" : score >= 50 ? "📊" : "📉";
 
-  /* ── Facebook share ── */
-  const pageUrl = typeof window !== "undefined" ? window.location.href : "";
 
-  const shareText =
-`${scoreEmoji} পরীক্ষার ফলাফল — ${examTitle}
-
-👤 পরীক্ষার্থী: ${attempt.student.name}
-📊 স্কোর: ${score.toFixed(1)}%
-✅ সঠিক উত্তর: ${attempt.correctAnswers}টি
-❌ ভুল উত্তর: ${attempt.wrongAnswers}টি
-📚 মোট প্রশ্ন: ${totalQuestions}টি
-
-${scoreLabel}`;
-
-  const handleFacebookShare = async () => {
-    // Step 1 — copy the template text to clipboard
-    try {
-      await navigator.clipboard.writeText(shareText);
-    } catch {
-      /* clipboard blocked — user can still paste from the copy button */
-    }
-    // Step 2 — show instruction toast for 7 seconds
-    setFbToast(true);
-    setTimeout(() => setFbToast(false), 7000);
-    // Step 3 — open Facebook new-post composer after short delay
-    setTimeout(() => {
-      window.open("https://www.facebook.com", "_blank", "width=900,height=650,scrollbars=yes,resizable=yes");
-    }, 400);
-  };
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(shareText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      /* fallback: do nothing */
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -211,70 +163,6 @@ ${scoreLabel}`;
             </div>
           </div>
 
-          {/* ── Facebook Share Card ── */}
-          <div className="relative rounded-2xl border border-[var(--color-border)] bg-white/70 backdrop-blur-sm shadow-sm overflow-hidden">
-            {/* Left accent */}
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#1877F2] rounded-l-2xl" />
-
-            <div className="p-5 pl-6">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-[#1877F2]/10 flex items-center justify-center flex-shrink-0">
-                  <Share2 className="w-4 h-4 text-[#1877F2]" />
-                </div>
-                <div>
-                  <p className="font-semibold text-[var(--color-text)] text-sm leading-none mb-0.5">ফলাফল শেয়ার করুন</p>
-                  <p className="text-[11px] text-[var(--color-text-muted)]">আপনার বন্ধুদের সাথে এই ফলাফল শেয়ার করুন</p>
-                </div>
-              </div>
-
-              {/* Toast — shows after clicking FB share */}
-              {fbToast && (
-                <div className="mb-4 flex items-start gap-3 rounded-xl bg-emerald-50 border border-emerald-200 p-3.5 text-sm text-emerald-800">
-                  <ClipboardCheck className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold leading-snug mb-1">টেক্সট কপি হয়েছে! ✓</p>
-                    <p className="text-xs leading-relaxed text-emerald-700">
-                      Facebook খুলেছে — নতুন পোস্ট তৈরি করুন এবং
-                      <kbd className="mx-1 px-1.5 py-0.5 rounded bg-emerald-200 font-mono text-[11px]">Ctrl+V</kbd>
-                      চাপুন।
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Preview box */}
-              <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-alt)] p-4 mb-4 text-[var(--color-text-secondary)] whitespace-pre-line leading-relaxed font-mono text-xs">
-                {shareText}
-              </div>
-
-              {/* Action buttons */}
-              <div className="flex gap-3">
-                <button
-                  onClick={handleFacebookShare}
-                  className="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] active:bg-[#1464d8] text-white font-semibold text-sm transition-all shadow-sm hover:shadow-md"
-                >
-                  <FacebookIcon className="w-4 h-4" />
-                  ফেসবুকে শেয়ার করুন
-                </button>
-
-                <button
-                  onClick={handleCopy}
-                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-[var(--color-border)] bg-white hover:bg-[var(--color-bg-alt)] text-[var(--color-text-secondary)] font-medium text-sm transition-all"
-                  title="টেক্সট কপি করুন"
-                >
-                  {copied
-                    ? <><CheckIcon className="w-4 h-4 text-[var(--color-success)]" /> কপি হয়েছে</>
-                    : <><Copy className="w-4 h-4" /> কপি করুন</>
-                  }
-                </button>
-              </div>
-
-              <p className="text-[11px] text-[var(--color-text-muted)] mt-3 text-center">
-                ফেসবুক নিরাপত্তার কারণে স্বয়ংক্রিয়ভাবে টেক্সট বসাতে পারে না —
-                বোতাম চাপলে টেক্সট কপি হয়ে যাবে, শুধু পেস্ট করুন।
-              </p>
-            </div>
-          </div>
 
           {/* ── Detailed Review ── */}
           <div>
