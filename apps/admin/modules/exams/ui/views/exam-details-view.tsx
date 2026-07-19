@@ -103,13 +103,13 @@ function ExamDetailsContent({ examId }: { examId: string }) {
       {/* Students List */}
       <div>
         <h2 className="text-xl font-bold text-on-surface mb-4">Participating Students</h2>
-        {(!exam.attempts || exam.attempts.length === 0) ? (
+        {(!(exam as any).attempts || (exam as any).attempts.length === 0) ? (
           <div className="bg-surface-container-lowest rounded-2xl border border-outline/10 shadow-sm p-8 text-center text-on-surface-variant italic">
             No students have participated in this exam yet.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {exam.attempts.map((attempt: any) => (
+            {(exam as any).attempts.map((attempt: any) => (
               <div key={attempt.id} className="bg-surface-container-lowest rounded-2xl border border-outline/10 shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-4 gap-2">
                   <div className="font-semibold text-lg text-on-surface line-clamp-1">
