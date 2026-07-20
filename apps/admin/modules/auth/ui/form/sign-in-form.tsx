@@ -52,10 +52,7 @@ export const SignInForm = ({ isLoading, setIsLoading }: SignInProps) => {
         return;
       }
 
-      if (result.data?.user) {
-        toast.success("Signed in successfully!");
-        router.push("/");
-      }
+      router.push("/");
     } catch (error) {
       console.error("Error signing in:", error);
       toast.error("An unexpected error occurred. Please try again.");

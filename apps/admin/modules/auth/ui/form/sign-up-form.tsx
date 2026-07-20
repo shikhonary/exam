@@ -56,10 +56,7 @@ export const SignUpForm = ({ isLoading, setIsLoading }: SignUpProps) => {
         return;
       }
 
-      if (result.data?.user) {
-        toast.success("Account created successfully!");
-        router.push("/");
-      }
+      router.push("/");
     } catch (error) {
       console.error("Error signing up:", error);
       toast.error("An unexpected error occurred. Please try again.");
