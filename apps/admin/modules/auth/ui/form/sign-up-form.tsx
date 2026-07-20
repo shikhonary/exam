@@ -56,7 +56,7 @@ export const SignUpForm = ({ isLoading, setIsLoading }: SignUpProps) => {
         return;
       }
 
-      router.push("/");
+      window.location.href = "/";
     } catch (error) {
       console.error("Error signing up:", error);
       toast.error("An unexpected error occurred. Please try again.");

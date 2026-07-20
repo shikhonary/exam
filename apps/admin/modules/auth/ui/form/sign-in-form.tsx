@@ -52,7 +52,7 @@ export const SignInForm = ({ isLoading, setIsLoading }: SignInProps) => {
         return;
       }
 
-      router.push("/");
+      window.location.href = "/";
     } catch (error) {
       console.error("Error signing in:", error);
       toast.error("An unexpected error occurred. Please try again.");
