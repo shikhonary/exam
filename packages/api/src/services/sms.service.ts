@@ -1,3 +1,5 @@
+import { sendSms } from "@workspace/sms";
+
 // ---------------------------------------------------------------------------
 // SMS Service — Abstraction for sending OTP via SMS
 // ---------------------------------------------------------------------------
@@ -14,6 +16,21 @@ export class ConsoleSmsProvider implements SmsProvider {
   async send(phone: string, message: string): Promise<boolean> {
     console.log(`\n📱 [SMS → ${phone}] ${message}\n`);
     return true;
+  }
+}
+
+/**
+ * BD Bulk SMS provider implementation using @workspace/sms
+ */
+export class BDBulksmsProvider implements SmsProvider {
+  async send(phone: string, message: string): Promise<boolean> {
+    try {
+      await sendSms(phone, message);
+      return true;
+    } catch (error) {
+      console.error("SMS send failed:", error);
+      return false;
+    }
   }
 }
 
@@ -47,9 +64,13 @@ export class HttpSmsProvider implements SmsProvider {
 
 /**
  * Factory function to get the appropriate SMS provider.
- * Uses ConsoleSmsProvider in development, HttpSmsProvider in production.
+ * Uses BDBulksmsProvider if API key is provided, otherwise falls back to Console.
  */
 export function getSmsProvider(): SmsProvider {
+  if (process.env.BDBULKSMS_API_KEY) {
+    return new BDBulksmsProvider();
+  }
+  
   if (process.env.NODE_ENV === "production" && process.env.SMS_API_URL) {
     return new HttpSmsProvider(
       process.env.SMS_API_URL,

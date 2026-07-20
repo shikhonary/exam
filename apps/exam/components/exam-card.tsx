@@ -93,7 +93,14 @@ export function ExamCard({ exam, href, actionText }: ExamCardProps) {
             </div>
           )}
 
-          {exam.startDate && new Date(exam.startDate) > new Date() ? (
+          {exam.endDate && new Date(exam.endDate) < new Date() ? (
+            <button
+              disabled
+              className="btn-primary inline-flex w-full items-center justify-center opacity-50 cursor-not-allowed"
+            >
+              পরীক্ষা শেষ
+            </button>
+          ) : exam.startDate && new Date(exam.startDate) > new Date() ? (
             <button
               disabled
               className="btn-primary inline-flex w-full items-center justify-center opacity-50 cursor-not-allowed"

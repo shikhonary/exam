@@ -24,7 +24,10 @@ export default function HomePage() {
     setIsMounted(true);
     if (upcomingExam?.startDate) {
       const checkStatus = () => {
-        setIsOngoing(new Date(upcomingExam.startDate as any) <= new Date());
+        const now = new Date();
+        const start = new Date(upcomingExam.startDate as any);
+        const end = upcomingExam.endDate ? new Date(upcomingExam.endDate as any) : null;
+        setIsOngoing(start <= now && (!end || end > now));
       };
       checkStatus();
       const interval = setInterval(checkStatus, 1000);

@@ -340,6 +340,9 @@ importers:
       '@workspace/schema':
         specifier: workspace:*
         version: link:../schema
+      '@workspace/sms':
+        specifier: workspace:*
+        version: link:../sms
       '@workspace/utils':
         specifier: workspace:*
         version: link:../utils

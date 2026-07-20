@@ -27,7 +27,7 @@ export class ExamSessionService {
         });
       }
 
-      const code = "123456"; // Math.floor(100000 + Math.random() * 900000).toString();
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date();
       expiresAt.setMinutes(expiresAt.getMinutes() + 5);
 
@@ -105,7 +105,7 @@ export class ExamSessionService {
         where: { phone: input.mobile },
       });
 
-      const code = "123456"; // Math.floor(100000 + Math.random() * 900000).toString();
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date();
       expiresAt.setMinutes(expiresAt.getMinutes() + 5);
 

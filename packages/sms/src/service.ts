@@ -14,10 +14,16 @@ export async function sendSms(to: string, message: string) {
     greenwebsms.append('to', to);
     greenwebsms.append('message', message);
     
+    console.log(`[SMS DEBUG] Sending SMS to ${to}. Message length: ${message.length}`);
     const response = await axios.post('https://api.bdbulksms.net/api.php', greenwebsms);
+    console.log(`[SMS DEBUG] BDBulkSMS Response:`, response.data);
     return response.data;
-  } catch (error) {
-    console.error("Error sending SMS via BDBulksms:", error);
+  } catch (error: any) {
+    console.error("[SMS DEBUG] Error sending SMS via BDBulksms:", error.message);
+    if (error.response) {
+      console.error("[SMS DEBUG] Error Response Data:", error.response.data);
+      console.error("[SMS DEBUG] Error Response Status:", error.response.status);
+    }
     throw error;
   }
 }
