@@ -41,7 +41,6 @@ export type StudentMinAggregateOutputType = {
   studentId: string | null
   name: string | null
   email: string | null
-  academicClassId: string | null
   className: string | null
   batchId: string | null
   institute: string | null
@@ -76,7 +75,6 @@ export type StudentMaxAggregateOutputType = {
   studentId: string | null
   name: string | null
   email: string | null
-  academicClassId: string | null
   className: string | null
   batchId: string | null
   institute: string | null
@@ -111,7 +109,6 @@ export type StudentCountAggregateOutputType = {
   studentId: number
   name: number
   email: number
-  academicClassId: number
   className: number
   batchId: number
   institute: number
@@ -158,7 +155,6 @@ export type StudentMinAggregateInputType = {
   studentId?: true
   name?: true
   email?: true
-  academicClassId?: true
   className?: true
   batchId?: true
   institute?: true
@@ -193,7 +189,6 @@ export type StudentMaxAggregateInputType = {
   studentId?: true
   name?: true
   email?: true
-  academicClassId?: true
   className?: true
   batchId?: true
   institute?: true
@@ -228,7 +223,6 @@ export type StudentCountAggregateInputType = {
   studentId?: true
   name?: true
   email?: true
-  academicClassId?: true
   className?: true
   batchId?: true
   institute?: true
@@ -350,7 +344,6 @@ export type StudentGroupByOutputType = {
   studentId: string
   name: string
   email: string | null
-  academicClassId: string
   className: string
   batchId: string
   institute: string
@@ -408,7 +401,6 @@ export type StudentWhereInput = {
   studentId?: Prisma.StringFilter<"Student"> | string
   name?: Prisma.StringFilter<"Student"> | string
   email?: Prisma.StringNullableFilter<"Student"> | string | null
-  academicClassId?: Prisma.StringFilter<"Student"> | string
   className?: Prisma.StringFilter<"Student"> | string
   batchId?: Prisma.StringFilter<"Student"> | string
   institute?: Prisma.StringFilter<"Student"> | string
@@ -444,7 +436,6 @@ export type StudentOrderByWithRelationInput = {
   studentId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
   className?: Prisma.SortOrder
   batchId?: Prisma.SortOrder
   institute?: Prisma.SortOrder
@@ -483,7 +474,6 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   studentId?: Prisma.StringFilter<"Student"> | string
   name?: Prisma.StringFilter<"Student"> | string
   email?: Prisma.StringNullableFilter<"Student"> | string | null
-  academicClassId?: Prisma.StringFilter<"Student"> | string
   className?: Prisma.StringFilter<"Student"> | string
   batchId?: Prisma.StringFilter<"Student"> | string
   institute?: Prisma.StringFilter<"Student"> | string
@@ -519,7 +509,6 @@ export type StudentOrderByWithAggregationInput = {
   studentId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
   className?: Prisma.SortOrder
   batchId?: Prisma.SortOrder
   institute?: Prisma.SortOrder
@@ -562,7 +551,6 @@ export type StudentScalarWhereWithAggregatesInput = {
   studentId?: Prisma.StringWithAggregatesFilter<"Student"> | string
   name?: Prisma.StringWithAggregatesFilter<"Student"> | string
   email?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
-  academicClassId?: Prisma.StringWithAggregatesFilter<"Student"> | string
   className?: Prisma.StringWithAggregatesFilter<"Student"> | string
   batchId?: Prisma.StringWithAggregatesFilter<"Student"> | string
   institute?: Prisma.StringWithAggregatesFilter<"Student"> | string
@@ -597,7 +585,6 @@ export type StudentCreateInput = {
   studentId: string
   name: string
   email?: string | null
-  academicClassId: string
   className: string
   institute: string
   roll: string
@@ -632,7 +619,6 @@ export type StudentUncheckedCreateInput = {
   studentId: string
   name: string
   email?: string | null
-  academicClassId: string
   className: string
   batchId: string
   institute: string
@@ -667,7 +653,6 @@ export type StudentUpdateInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
   roll?: Prisma.StringFieldUpdateOperationsInput | string
@@ -702,7 +687,6 @@ export type StudentUncheckedUpdateInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   batchId?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
@@ -737,7 +721,6 @@ export type StudentCreateManyInput = {
   studentId: string
   name: string
   email?: string | null
-  academicClassId: string
   className: string
   batchId: string
   institute: string
@@ -772,7 +755,6 @@ export type StudentUpdateManyMutationInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
   roll?: Prisma.StringFieldUpdateOperationsInput | string
@@ -806,7 +788,6 @@ export type StudentUncheckedUpdateManyInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   batchId?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
@@ -851,7 +832,6 @@ export type StudentCountOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
   className?: Prisma.SortOrder
   batchId?: Prisma.SortOrder
   institute?: Prisma.SortOrder
@@ -891,7 +871,6 @@ export type StudentMaxOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
   className?: Prisma.SortOrder
   batchId?: Prisma.SortOrder
   institute?: Prisma.SortOrder
@@ -926,7 +905,6 @@ export type StudentMinOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
   className?: Prisma.SortOrder
   batchId?: Prisma.SortOrder
   institute?: Prisma.SortOrder
@@ -1024,7 +1002,6 @@ export type StudentCreateWithoutBatchInput = {
   studentId: string
   name: string
   email?: string | null
-  academicClassId: string
   className: string
   institute: string
   roll: string
@@ -1058,7 +1035,6 @@ export type StudentUncheckedCreateWithoutBatchInput = {
   studentId: string
   name: string
   email?: string | null
-  academicClassId: string
   className: string
   institute: string
   roll: string
@@ -1121,7 +1097,6 @@ export type StudentScalarWhereInput = {
   studentId?: Prisma.StringFilter<"Student"> | string
   name?: Prisma.StringFilter<"Student"> | string
   email?: Prisma.StringNullableFilter<"Student"> | string | null
-  academicClassId?: Prisma.StringFilter<"Student"> | string
   className?: Prisma.StringFilter<"Student"> | string
   batchId?: Prisma.StringFilter<"Student"> | string
   institute?: Prisma.StringFilter<"Student"> | string
@@ -1156,7 +1131,6 @@ export type StudentCreateManyBatchInput = {
   studentId: string
   name: string
   email?: string | null
-  academicClassId: string
   className: string
   institute: string
   roll: string
@@ -1190,7 +1164,6 @@ export type StudentUpdateWithoutBatchInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
   roll?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1224,7 +1197,6 @@ export type StudentUncheckedUpdateWithoutBatchInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
   roll?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1258,7 +1230,6 @@ export type StudentUncheckedUpdateManyWithoutBatchInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
   className?: Prisma.StringFieldUpdateOperationsInput | string
   institute?: Prisma.StringFieldUpdateOperationsInput | string
   roll?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1294,7 +1265,6 @@ export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   studentId?: boolean
   name?: boolean
   email?: boolean
-  academicClassId?: boolean
   className?: boolean
   batchId?: boolean
   institute?: boolean
@@ -1330,7 +1300,6 @@ export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   studentId?: boolean
   name?: boolean
   email?: boolean
-  academicClassId?: boolean
   className?: boolean
   batchId?: boolean
   institute?: boolean
@@ -1366,7 +1335,6 @@ export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   studentId?: boolean
   name?: boolean
   email?: boolean
-  academicClassId?: boolean
   className?: boolean
   batchId?: boolean
   institute?: boolean
@@ -1402,7 +1370,6 @@ export type StudentSelectScalar = {
   studentId?: boolean
   name?: boolean
   email?: boolean
-  academicClassId?: boolean
   className?: boolean
   batchId?: boolean
   institute?: boolean
@@ -1432,7 +1399,7 @@ export type StudentSelectScalar = {
   academicYear?: boolean
 }
 
-export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "name" | "email" | "academicClassId" | "className" | "batchId" | "institute" | "roll" | "group" | "shift" | "section" | "fatherName" | "motherName" | "dateOfBirth" | "gender" | "bloodGroup" | "nationality" | "religion" | "imageUrl" | "primaryPhone" | "secondaryPhone" | "presentAddress" | "permanentAddress" | "isActive" | "admissionFee" | "monthlyFee" | "createdAt" | "updatedAt" | "deletedAt" | "academicYearId" | "academicYear", ExtArgs["result"]["student"]>
+export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "name" | "email" | "className" | "batchId" | "institute" | "roll" | "group" | "shift" | "section" | "fatherName" | "motherName" | "dateOfBirth" | "gender" | "bloodGroup" | "nationality" | "religion" | "imageUrl" | "primaryPhone" | "secondaryPhone" | "presentAddress" | "permanentAddress" | "isActive" | "admissionFee" | "monthlyFee" | "createdAt" | "updatedAt" | "deletedAt" | "academicYearId" | "academicYear", ExtArgs["result"]["student"]>
 export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   batch?: boolean | Prisma.BatchDefaultArgs<ExtArgs>
 }
@@ -1453,7 +1420,6 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     studentId: string
     name: string
     email: string | null
-    academicClassId: string
     className: string
     batchId: string
     institute: string
@@ -1909,7 +1875,6 @@ export interface StudentFieldRefs {
   readonly studentId: Prisma.FieldRef<"Student", 'String'>
   readonly name: Prisma.FieldRef<"Student", 'String'>
   readonly email: Prisma.FieldRef<"Student", 'String'>
-  readonly academicClassId: Prisma.FieldRef<"Student", 'String'>
   readonly className: Prisma.FieldRef<"Student", 'String'>
   readonly batchId: Prisma.FieldRef<"Student", 'String'>
   readonly institute: Prisma.FieldRef<"Student", 'String'>

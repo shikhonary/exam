@@ -38,8 +38,6 @@ export type AdmissionFeeMinAggregateOutputType = {
   id: string | null
   academicYearId: string | null
   academicYear: string | null
-  academicClassId: string | null
-  className: string | null
   amount: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,8 +47,6 @@ export type AdmissionFeeMaxAggregateOutputType = {
   id: string | null
   academicYearId: string | null
   academicYear: string | null
-  academicClassId: string | null
-  className: string | null
   amount: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -60,8 +56,6 @@ export type AdmissionFeeCountAggregateOutputType = {
   id: number
   academicYearId: number
   academicYear: number
-  academicClassId: number
-  className: number
   amount: number
   createdAt: number
   updatedAt: number
@@ -81,8 +75,6 @@ export type AdmissionFeeMinAggregateInputType = {
   id?: true
   academicYearId?: true
   academicYear?: true
-  academicClassId?: true
-  className?: true
   amount?: true
   createdAt?: true
   updatedAt?: true
@@ -92,8 +84,6 @@ export type AdmissionFeeMaxAggregateInputType = {
   id?: true
   academicYearId?: true
   academicYear?: true
-  academicClassId?: true
-  className?: true
   amount?: true
   createdAt?: true
   updatedAt?: true
@@ -103,8 +93,6 @@ export type AdmissionFeeCountAggregateInputType = {
   id?: true
   academicYearId?: true
   academicYear?: true
-  academicClassId?: true
-  className?: true
   amount?: true
   createdAt?: true
   updatedAt?: true
@@ -201,8 +189,6 @@ export type AdmissionFeeGroupByOutputType = {
   id: string
   academicYearId: string
   academicYear: string
-  academicClassId: string
-  className: string
   amount: number
   createdAt: Date
   updatedAt: Date
@@ -235,8 +221,6 @@ export type AdmissionFeeWhereInput = {
   id?: Prisma.StringFilter<"AdmissionFee"> | string
   academicYearId?: Prisma.StringFilter<"AdmissionFee"> | string
   academicYear?: Prisma.StringFilter<"AdmissionFee"> | string
-  academicClassId?: Prisma.StringFilter<"AdmissionFee"> | string
-  className?: Prisma.StringFilter<"AdmissionFee"> | string
   amount?: Prisma.FloatFilter<"AdmissionFee"> | number
   createdAt?: Prisma.DateTimeFilter<"AdmissionFee"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AdmissionFee"> | Date | string
@@ -246,8 +230,6 @@ export type AdmissionFeeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   academicYearId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
-  className?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -260,8 +242,6 @@ export type AdmissionFeeWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AdmissionFeeWhereInput | Prisma.AdmissionFeeWhereInput[]
   academicYearId?: Prisma.StringFilter<"AdmissionFee"> | string
   academicYear?: Prisma.StringFilter<"AdmissionFee"> | string
-  academicClassId?: Prisma.StringFilter<"AdmissionFee"> | string
-  className?: Prisma.StringFilter<"AdmissionFee"> | string
   amount?: Prisma.FloatFilter<"AdmissionFee"> | number
   createdAt?: Prisma.DateTimeFilter<"AdmissionFee"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AdmissionFee"> | Date | string
@@ -271,8 +251,6 @@ export type AdmissionFeeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   academicYearId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
-  className?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -290,8 +268,6 @@ export type AdmissionFeeScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"AdmissionFee"> | string
   academicYearId?: Prisma.StringWithAggregatesFilter<"AdmissionFee"> | string
   academicYear?: Prisma.StringWithAggregatesFilter<"AdmissionFee"> | string
-  academicClassId?: Prisma.StringWithAggregatesFilter<"AdmissionFee"> | string
-  className?: Prisma.StringWithAggregatesFilter<"AdmissionFee"> | string
   amount?: Prisma.FloatWithAggregatesFilter<"AdmissionFee"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AdmissionFee"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AdmissionFee"> | Date | string
@@ -301,8 +277,6 @@ export type AdmissionFeeCreateInput = {
   id?: string
   academicYearId: string
   academicYear: string
-  academicClassId: string
-  className: string
   amount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -312,8 +286,6 @@ export type AdmissionFeeUncheckedCreateInput = {
   id?: string
   academicYearId: string
   academicYear: string
-  academicClassId: string
-  className: string
   amount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -323,8 +295,6 @@ export type AdmissionFeeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   academicYearId?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
-  className?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -334,8 +304,6 @@ export type AdmissionFeeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   academicYearId?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
-  className?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -345,8 +313,6 @@ export type AdmissionFeeCreateManyInput = {
   id?: string
   academicYearId: string
   academicYear: string
-  academicClassId: string
-  className: string
   amount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -356,8 +322,6 @@ export type AdmissionFeeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   academicYearId?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
-  className?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -367,8 +331,6 @@ export type AdmissionFeeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   academicYearId?: Prisma.StringFieldUpdateOperationsInput | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
-  academicClassId?: Prisma.StringFieldUpdateOperationsInput | string
-  className?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -378,8 +340,6 @@ export type AdmissionFeeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   academicYearId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
-  className?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -393,8 +353,6 @@ export type AdmissionFeeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   academicYearId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
-  className?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -404,8 +362,6 @@ export type AdmissionFeeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   academicYearId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
-  academicClassId?: Prisma.SortOrder
-  className?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -421,8 +377,6 @@ export type AdmissionFeeSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   academicYearId?: boolean
   academicYear?: boolean
-  academicClassId?: boolean
-  className?: boolean
   amount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -432,8 +386,6 @@ export type AdmissionFeeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   academicYearId?: boolean
   academicYear?: boolean
-  academicClassId?: boolean
-  className?: boolean
   amount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -443,8 +395,6 @@ export type AdmissionFeeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   academicYearId?: boolean
   academicYear?: boolean
-  academicClassId?: boolean
-  className?: boolean
   amount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -454,14 +404,12 @@ export type AdmissionFeeSelectScalar = {
   id?: boolean
   academicYearId?: boolean
   academicYear?: boolean
-  academicClassId?: boolean
-  className?: boolean
   amount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AdmissionFeeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "academicYearId" | "academicYear" | "academicClassId" | "className" | "amount" | "createdAt" | "updatedAt", ExtArgs["result"]["admissionFee"]>
+export type AdmissionFeeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "academicYearId" | "academicYear" | "amount" | "createdAt" | "updatedAt", ExtArgs["result"]["admissionFee"]>
 
 export type $AdmissionFeePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AdmissionFee"
@@ -470,8 +418,6 @@ export type $AdmissionFeePayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     academicYearId: string
     academicYear: string
-    academicClassId: string
-    className: string
     amount: number
     createdAt: Date
     updatedAt: Date
@@ -901,8 +847,6 @@ export interface AdmissionFeeFieldRefs {
   readonly id: Prisma.FieldRef<"AdmissionFee", 'String'>
   readonly academicYearId: Prisma.FieldRef<"AdmissionFee", 'String'>
   readonly academicYear: Prisma.FieldRef<"AdmissionFee", 'String'>
-  readonly academicClassId: Prisma.FieldRef<"AdmissionFee", 'String'>
-  readonly className: Prisma.FieldRef<"AdmissionFee", 'String'>
   readonly amount: Prisma.FieldRef<"AdmissionFee", 'Float'>
   readonly createdAt: Prisma.FieldRef<"AdmissionFee", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AdmissionFee", 'DateTime'>

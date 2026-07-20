@@ -44,8 +44,8 @@ export class ExamSessionService {
         },
       });
 
-      // const smsProvider = getSmsProvider();
-      // await smsProvider.send(input.mobile, `Your Shikhonary verification code is ${code}`);
+      const smsProvider = getSmsProvider();
+      await smsProvider.send(input.mobile, `আপনার ভেরিফিকেশন কোড হল ${code}`);
 
       return { studentId: student.id, otpSent: true };
     } catch (error) {
@@ -118,10 +118,7 @@ export class ExamSessionService {
       });
 
       const smsProvider = getSmsProvider();
-      await smsProvider.send(
-        input.mobile,
-        `Your Shikhonary verification code is ${code}`,
-      );
+      await smsProvider.send(input.mobile, `আপনার ভেরিফিকেশন কোড হল ${code}`);
 
       return { otpSent: true };
     } catch (error) {
@@ -248,7 +245,12 @@ export class ExamSessionService {
 
       const previousAnswers = (attempt as any).answers || [];
 
-      return { attemptId: attempt.id, questions, duration: remainingMinutes, previousAnswers };
+      return {
+        attemptId: attempt.id,
+        questions,
+        duration: remainingMinutes,
+        previousAnswers,
+      };
     } catch (error) {
       handlePrismaError(error);
     }
@@ -321,7 +323,7 @@ export class ExamSessionService {
         totalQuestionsCount > 0
           ? attempt.exam.totalMarks / totalQuestionsCount
           : 0;
-          
+
       const score = correctAnswers * marksPerQuestion;
 
       const updatedAttempt = await this.db.examAttempt.update({
@@ -376,20 +378,23 @@ export class ExamSessionService {
 
       // 2. Group by student and find the max score per exam
       // Structure: studentId -> { studentInfo, exams: { examId -> attempt } }
-      const studentMap = new Map<string, {
-        student: { name: string; studentId: string | null };
-        exams: Map<string, typeof allAttempts[0]>;
-      }>();
+      const studentMap = new Map<
+        string,
+        {
+          student: { name: string; studentId: string | null };
+          exams: Map<string, (typeof allAttempts)[0]>;
+        }
+      >();
 
       for (const attempt of allAttempts) {
         const sId = attempt.studentId;
         if (!studentMap.has(sId)) {
           studentMap.set(sId, { student: attempt.student, exams: new Map() });
         }
-        
+
         const studentData = studentMap.get(sId)!;
         const existingExamAttempt = studentData.exams.get(attempt.examId);
-        
+
         if (!existingExamAttempt) {
           studentData.exams.set(attempt.examId, attempt);
         } else {
@@ -397,8 +402,12 @@ export class ExamSessionService {
           if (attempt.score > existingExamAttempt.score) {
             studentData.exams.set(attempt.examId, attempt);
           } else if (attempt.score === existingExamAttempt.score) {
-            const currentDuration = new Date(existingExamAttempt.endTime!).getTime() - new Date(existingExamAttempt.startTime).getTime();
-            const newDuration = new Date(attempt.endTime!).getTime() - new Date(attempt.startTime).getTime();
+            const currentDuration =
+              new Date(existingExamAttempt.endTime!).getTime() -
+              new Date(existingExamAttempt.startTime).getTime();
+            const newDuration =
+              new Date(attempt.endTime!).getTime() -
+              new Date(attempt.startTime).getTime();
             if (newDuration < currentDuration) {
               studentData.exams.set(attempt.examId, attempt);
             }
@@ -407,27 +416,31 @@ export class ExamSessionService {
       }
 
       // 3. Aggregate data for each student
-      const aggregatedList = Array.from(studentMap.entries()).map(([sId, data]) => {
-        let totalScore = 0;
-        let totalTimeMs = 0;
-        const examsTaken = data.exams.size;
+      const aggregatedList = Array.from(studentMap.entries()).map(
+        ([sId, data]) => {
+          let totalScore = 0;
+          let totalTimeMs = 0;
+          const examsTaken = data.exams.size;
 
-        for (const attempt of data.exams.values()) {
-          totalScore += attempt.score;
-          totalTimeMs += new Date(attempt.endTime!).getTime() - new Date(attempt.startTime).getTime();
-        }
+          for (const attempt of data.exams.values()) {
+            totalScore += attempt.score;
+            totalTimeMs +=
+              new Date(attempt.endTime!).getTime() -
+              new Date(attempt.startTime).getTime();
+          }
 
-        return {
-          id: sId, // using student id as the unique key
-          student: data.student,
-          score: totalScore,
-          examsTaken: examsTaken,
-          totalTimeMs: totalTimeMs,
-          // create mock startTime and endTime to reuse existing formatTime logic
-          startTime: new Date(0),
-          endTime: new Date(totalTimeMs)
-        };
-      });
+          return {
+            id: sId, // using student id as the unique key
+            student: data.student,
+            score: totalScore,
+            examsTaken: examsTaken,
+            totalTimeMs: totalTimeMs,
+            // create mock startTime and endTime to reuse existing formatTime logic
+            startTime: new Date(0),
+            endTime: new Date(totalTimeMs),
+          };
+        },
+      );
 
       // 4. Sort globally: Score DESC, Time ASC
       aggregatedList.sort((a, b) => {
@@ -443,7 +456,12 @@ export class ExamSessionService {
       const endIndex = startIndex + limitNum;
       const paginatedItems = aggregatedList.slice(startIndex, endIndex);
 
-      return createPaginatedResponse(paginatedItems as any, total, pageNum, limitNum);
+      return createPaginatedResponse(
+        paginatedItems as any,
+        total,
+        pageNum,
+        limitNum,
+      );
     } catch (error) {
       handlePrismaError(error);
     }

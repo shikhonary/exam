@@ -107,7 +107,6 @@ export const BatchScalarFieldEnum = {
   name: 'name',
   academicYearId: 'academicYearId',
   academicYear: 'academicYear',
-  academicClassId: 'academicClassId',
   className: 'className',
   capacity: 'capacity',
   isActive: 'isActive',
@@ -123,7 +122,6 @@ export const StudentScalarFieldEnum = {
   studentId: 'studentId',
   name: 'name',
   email: 'email',
-  academicClassId: 'academicClassId',
   className: 'className',
   batchId: 'batchId',
   institute: 'institute',
@@ -855,8 +853,6 @@ export const AdmissionFeeScalarFieldEnum = {
   id: 'id',
   academicYearId: 'academicYearId',
   academicYear: 'academicYear',
-  academicClassId: 'academicClassId',
-  className: 'className',
   amount: 'amount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -869,8 +865,6 @@ export const MonthlyFeeScalarFieldEnum = {
   id: 'id',
   academicYearId: 'academicYearId',
   academicYear: 'academicYear',
-  academicClassId: 'academicClassId',
-  className: 'className',
   amount: 'amount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

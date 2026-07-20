@@ -15,13 +15,13 @@ export function OtpModal({
   onSuccess: (data: any) => void;
   mobile: string;
 }) {
-  const [otp, setOtp] = useState("123456");
+  const [otp, setOtp] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
 
   useEffect(() => {
     if (isOpen) {
       setTimeLeft(120);
-      setOtp("123456");
+      setOtp("");
     }
   }, [isOpen]);
 
@@ -76,7 +76,7 @@ export function OtpModal({
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
           disabled={verifyMutation.isPending}
-          placeholder="123456"
+          placeholder="Enter OTP"
           className="input w-full mb-6 text-center text-2xl tracking-widest font-mono disabled:opacity-50 disabled:cursor-not-allowed"
         />
 
