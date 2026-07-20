@@ -10,6 +10,8 @@ import {
   UsersRound,
   ShieldAlert,
   User,
+  Check,
+  Calendar,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -42,10 +44,8 @@ interface UserListItem {
   email: string;
   role: string;
   isActive: boolean;
-  _count: {
-    tenants: number;
-    memberships: number;
-  };
+  emailVerified: boolean;
+  createdAt: string | Date;
 }
 
 const columns: Column<UserListItem>[] = [
@@ -61,6 +61,11 @@ const columns: Column<UserListItem>[] = [
           <span className="text-[11px] leading-none">
             {user.email}
           </span>
+          {user.emailVerified && (
+            <div className="flex items-center justify-center bg-blue-500 rounded-full w-3 h-3" title="Email Verified">
+              <Check className="w-2 h-2 text-white" />
+            </div>
+          )}
         </div>
       </div>
     ),
@@ -74,14 +79,14 @@ const columns: Column<UserListItem>[] = [
     ),
   },
   {
-    key: "memberships",
-    header: "Memberships",
+    key: "createdAt",
+    header: "Joined At",
     hideOnMobile: true,
     render: (user) => (
       <div className="flex items-center gap-2 bg-muted/30 w-fit px-2.5 py-1 rounded-lg border border-border/50">
-        <UsersRound className="w-3.5 h-3.5 text-primary" />
+        <Calendar className="w-3.5 h-3.5 text-primary" />
         <p className="text-[11px] font-bold text-foreground leading-none">
-          {user._count.memberships}
+          {new Date(user.createdAt).toLocaleDateString()}
         </p>
       </div>
     ),
@@ -198,10 +203,10 @@ export function UserList({
                         </td>
                       )
                     }
-                    if (column.key === 'memberships') {
+                    if (column.key === 'createdAt') {
                       return (
                         <td key={String(column.key)} className="px-4 py-4 align-middle hidden md:table-cell">
-                           <Skeleton className="h-6 w-12 bg-surface-container rounded-lg" />
+                           <Skeleton className="h-6 w-24 bg-surface-container rounded-lg" />
                         </td>
                       )
                     }

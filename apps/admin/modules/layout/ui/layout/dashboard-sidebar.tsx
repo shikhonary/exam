@@ -36,6 +36,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
+import Image from "next/image";
 
 interface NavItem {
   title: string;
@@ -126,12 +127,18 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
       <div className="flex-shrink-0 flex items-center justify-between px-6 py-5 border-b border-border/40 bg-card/60 backdrop-blur-md">
         <Link href="/admin" className="flex items-center gap-3 group">
           <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0 shadow-glow transition-transform group-hover:scale-105">
-            <GraduationCap className="w-6 h-6 text-primary-foreground" />
+            <Image
+              src="/logo.jpg"
+              alt="Logo"
+              width={500}
+              height={500}
+              className="w-full h-full object-cover"
+            />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
               <span className="font-display text-lg font-bold text-foreground leading-none">
-                Shikhonary
+                Basic
               </span>
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
                 Admin Portal
