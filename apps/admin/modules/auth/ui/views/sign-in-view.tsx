@@ -20,7 +20,7 @@ export const SignInView = () => {
               </span>
             </div>
             <span className="font-display text-2xl font-bold text-foreground">
-              Shikhonary
+              Basic Education Care
             </span>
           </Link>
 

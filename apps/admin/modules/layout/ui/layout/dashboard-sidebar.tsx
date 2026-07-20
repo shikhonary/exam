@@ -37,6 +37,7 @@ import { cn } from "@workspace/ui/lib/utils";
 
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import Image from "next/image";
+import { authClient } from "@workspace/auth/client";
 
 interface NavItem {
   title: string;
@@ -67,7 +68,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   const user = { email: "user@example.com" }; // Placeholder
 
   const handleLogout = async () => {
-    router.push("/auth");
+    await authClient.signOut();
+    router.push("/auth/sign-in");
   };
 
   // Collect all sidebar URLs to determine the best match for highlighting

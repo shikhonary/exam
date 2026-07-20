@@ -16,11 +16,11 @@ export const SignUpView = () => {
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
               <span className="font-display text-xl text-primary-foreground font-bold">
-                S
+                B
               </span>
             </div>
             <span className="font-display text-2xl font-bold text-foreground">
-              Shikhonary
+              Basic Education Care
             </span>
           </Link>
 
