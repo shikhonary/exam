@@ -11,3 +11,4 @@ export * from "./hooks/use-exam-session";
 export * from "./filters/client";
 export * from "./filters/schema";
 export * from "./hooks/use-user";
+export * from "./hooks/use-dashboard";

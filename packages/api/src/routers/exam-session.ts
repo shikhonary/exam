@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type TRPCRouterRecord } from "@trpc/server";
+import { type TRPCRouterRecord, TRPCError } from "@trpc/server";
 import { createTRPCRouter, publicProcedure } from "../trpc/index";
 import { ExamSessionService } from "../services/exam-session.service";
 import { baseListInputSchema } from "../shared/filters";
@@ -12,6 +12,7 @@ import {
   submitExamSchema,
   leaderboardInputSchema,
 } from "@workspace/schema";
+import { AiService } from "../services/ai.service";
 
 export const examSessionRouter = createTRPCRouter({
   registerStudent: publicProcedure
@@ -90,6 +91,41 @@ export const examSessionRouter = createTRPCRouter({
       const service = new ExamSessionService(ctx.db);
       const data = await service.getAttemptResult(input.attemptId);
       return { success: true, data };
+    }),
+
+  getAiFeedback: publicProcedure
+    .input(z.object({ attemptId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const service = new ExamSessionService(ctx.db);
+      const aiService = new AiService();
+      
+      const attemptResult = await service.getAttemptResult(input.attemptId);
+      
+      if (!attemptResult) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Attempt not found" });
+      }
+
+      if (attemptResult.aiFeedback) {
+        return { success: true, data: attemptResult.aiFeedback };
+      }
+      
+      const aiFeedback = await aiService.generateExamFeedback({
+        studentName: attemptResult.student.name,
+        examTitle: attemptResult.exam.title,
+        score: attemptResult.score,
+        totalMarks: attemptResult.exam.totalMarks,
+        correctCount: attemptResult.correctAnswers,
+        wrongCount: attemptResult.wrongAnswers,
+        totalQuestions: attemptResult.answers.length,
+      });
+
+      // Save to database
+      await ctx.db.examAttempt.update({
+        where: { id: input.attemptId },
+        data: { aiFeedback },
+      });
+
+      return { success: true, data: aiFeedback };
     }),
 
   getLeaderboard: publicProcedure

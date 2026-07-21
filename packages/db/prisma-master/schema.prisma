@@ -161,6 +161,8 @@ model ExamAttempt {
 
     answers AnswerHistory[]
 
+    aiFeedback String? @db.Text
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 

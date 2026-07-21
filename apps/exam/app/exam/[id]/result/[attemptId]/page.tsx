@@ -6,7 +6,7 @@ import { useAttemptResult } from "@workspace/api-client";
 import { MCQQuestion } from "../../../../../components/mcq-question";
 import {
   Loader2, ArrowLeft, Trophy, XCircle, CheckCircle,
-  HelpCircle, BookOpen,
+  HelpCircle, BookOpen, Sparkles
 } from "lucide-react";
 
 
@@ -159,6 +159,26 @@ export default function ResultPage({
                 </div>
                 <p className="text-[10px] uppercase tracking-widest text-[var(--color-danger)] font-semibold mb-0.5">ভুল</p>
                 <p className="text-2xl font-bold text-[var(--color-danger)] tabular-nums">{attempt.wrongAnswers}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── AI Insights Card ── */}
+          <div className="relative rounded-2xl border border-indigo-200 bg-indigo-50/50 backdrop-blur-sm shadow-sm p-6 overflow-hidden opacity-80">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 shrink-0 rounded-xl bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-600 shadow-inner">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-[var(--color-text)] mb-2 flex items-center gap-2">
+                  এআই মতামত (AI Insights)
+                </h3>
+                <p className="text-sm font-medium text-indigo-600 bg-indigo-100/50 inline-block px-3 py-1 rounded-full border border-indigo-200/50">
+                  খুব শীঘ্রই আসছে... (Coming Soon)
+                </p>
+                <p className="text-xs text-[var(--color-text-secondary)] mt-2">
+                  এই বৈশিষ্ট্যটি বর্তমানে ডেভেলপমেন্ট পর্যায়ে রয়েছে।
+                </p>
               </div>
             </div>
           </div>

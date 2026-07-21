@@ -48,6 +48,7 @@ export type ExamAttemptMinAggregateOutputType = {
   startTime: Date | null
   endTime: Date | null
   status: string | null
+  aiFeedback: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +63,7 @@ export type ExamAttemptMaxAggregateOutputType = {
   startTime: Date | null
   endTime: Date | null
   status: string | null
+  aiFeedback: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -76,6 +78,7 @@ export type ExamAttemptCountAggregateOutputType = {
   startTime: number
   endTime: number
   status: number
+  aiFeedback: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -104,6 +107,7 @@ export type ExamAttemptMinAggregateInputType = {
   startTime?: true
   endTime?: true
   status?: true
+  aiFeedback?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +122,7 @@ export type ExamAttemptMaxAggregateInputType = {
   startTime?: true
   endTime?: true
   status?: true
+  aiFeedback?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -132,6 +137,7 @@ export type ExamAttemptCountAggregateInputType = {
   startTime?: true
   endTime?: true
   status?: true
+  aiFeedback?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -233,6 +239,7 @@ export type ExamAttemptGroupByOutputType = {
   startTime: Date
   endTime: Date | null
   status: string
+  aiFeedback: string | null
   createdAt: Date
   updatedAt: Date
   _count: ExamAttemptCountAggregateOutputType | null
@@ -270,6 +277,7 @@ export type ExamAttemptWhereInput = {
   startTime?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   endTime?: Prisma.DateTimeNullableFilter<"ExamAttempt"> | Date | string | null
   status?: Prisma.StringFilter<"ExamAttempt"> | string
+  aiFeedback?: Prisma.StringNullableFilter<"ExamAttempt"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   exam?: Prisma.XOR<Prisma.ExamScalarRelationFilter, Prisma.ExamWhereInput>
@@ -287,6 +295,7 @@ export type ExamAttemptOrderByWithRelationInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  aiFeedback?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   exam?: Prisma.ExamOrderByWithRelationInput
@@ -307,6 +316,7 @@ export type ExamAttemptWhereUniqueInput = Prisma.AtLeast<{
   startTime?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   endTime?: Prisma.DateTimeNullableFilter<"ExamAttempt"> | Date | string | null
   status?: Prisma.StringFilter<"ExamAttempt"> | string
+  aiFeedback?: Prisma.StringNullableFilter<"ExamAttempt"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   exam?: Prisma.XOR<Prisma.ExamScalarRelationFilter, Prisma.ExamWhereInput>
@@ -324,6 +334,7 @@ export type ExamAttemptOrderByWithAggregationInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  aiFeedback?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ExamAttemptCountOrderByAggregateInput
@@ -346,6 +357,7 @@ export type ExamAttemptScalarWhereWithAggregatesInput = {
   startTime?: Prisma.DateTimeWithAggregatesFilter<"ExamAttempt"> | Date | string
   endTime?: Prisma.DateTimeNullableWithAggregatesFilter<"ExamAttempt"> | Date | string | null
   status?: Prisma.StringWithAggregatesFilter<"ExamAttempt"> | string
+  aiFeedback?: Prisma.StringNullableWithAggregatesFilter<"ExamAttempt"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ExamAttempt"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ExamAttempt"> | Date | string
 }
@@ -358,6 +370,7 @@ export type ExamAttemptCreateInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   exam: Prisma.ExamCreateNestedOneWithoutAttemptsInput
@@ -375,6 +388,7 @@ export type ExamAttemptUncheckedCreateInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.AnswerHistoryUncheckedCreateNestedManyWithoutAttemptInput
@@ -388,6 +402,7 @@ export type ExamAttemptUpdateInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exam?: Prisma.ExamUpdateOneRequiredWithoutAttemptsNestedInput
@@ -405,6 +420,7 @@ export type ExamAttemptUncheckedUpdateInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.AnswerHistoryUncheckedUpdateManyWithoutAttemptNestedInput
@@ -420,6 +436,7 @@ export type ExamAttemptCreateManyInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -432,6 +449,7 @@ export type ExamAttemptUpdateManyMutationInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -446,6 +464,7 @@ export type ExamAttemptUncheckedUpdateManyInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -470,6 +489,7 @@ export type ExamAttemptCountOrderByAggregateInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  aiFeedback?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -490,6 +510,7 @@ export type ExamAttemptMaxOrderByAggregateInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  aiFeedback?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -504,6 +525,7 @@ export type ExamAttemptMinOrderByAggregateInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  aiFeedback?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -633,6 +655,7 @@ export type ExamAttemptCreateWithoutStudentInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   exam: Prisma.ExamCreateNestedOneWithoutAttemptsInput
@@ -648,6 +671,7 @@ export type ExamAttemptUncheckedCreateWithoutStudentInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.AnswerHistoryUncheckedCreateNestedManyWithoutAttemptInput
@@ -692,6 +716,7 @@ export type ExamAttemptScalarWhereInput = {
   startTime?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   endTime?: Prisma.DateTimeNullableFilter<"ExamAttempt"> | Date | string | null
   status?: Prisma.StringFilter<"ExamAttempt"> | string
+  aiFeedback?: Prisma.StringNullableFilter<"ExamAttempt"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ExamAttempt"> | Date | string
 }
@@ -704,6 +729,7 @@ export type ExamAttemptCreateWithoutExamInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutExamAttemptsInput
@@ -719,6 +745,7 @@ export type ExamAttemptUncheckedCreateWithoutExamInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.AnswerHistoryUncheckedCreateNestedManyWithoutAttemptInput
@@ -758,6 +785,7 @@ export type ExamAttemptCreateWithoutAnswersInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   exam: Prisma.ExamCreateNestedOneWithoutAttemptsInput
@@ -774,6 +802,7 @@ export type ExamAttemptUncheckedCreateWithoutAnswersInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -802,6 +831,7 @@ export type ExamAttemptUpdateWithoutAnswersInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exam?: Prisma.ExamUpdateOneRequiredWithoutAttemptsNestedInput
@@ -818,6 +848,7 @@ export type ExamAttemptUncheckedUpdateWithoutAnswersInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -831,6 +862,7 @@ export type ExamAttemptCreateManyStudentInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -843,6 +875,7 @@ export type ExamAttemptUpdateWithoutStudentInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exam?: Prisma.ExamUpdateOneRequiredWithoutAttemptsNestedInput
@@ -858,6 +891,7 @@ export type ExamAttemptUncheckedUpdateWithoutStudentInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.AnswerHistoryUncheckedUpdateManyWithoutAttemptNestedInput
@@ -872,6 +906,7 @@ export type ExamAttemptUncheckedUpdateManyWithoutStudentInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -885,6 +920,7 @@ export type ExamAttemptCreateManyExamInput = {
   startTime?: Date | string
   endTime?: Date | string | null
   status?: string
+  aiFeedback?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -897,6 +933,7 @@ export type ExamAttemptUpdateWithoutExamInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutExamAttemptsNestedInput
@@ -912,6 +949,7 @@ export type ExamAttemptUncheckedUpdateWithoutExamInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.AnswerHistoryUncheckedUpdateManyWithoutAttemptNestedInput
@@ -926,6 +964,7 @@ export type ExamAttemptUncheckedUpdateManyWithoutExamInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  aiFeedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -971,6 +1010,7 @@ export type ExamAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   startTime?: boolean
   endTime?: boolean
   status?: boolean
+  aiFeedback?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   exam?: boolean | Prisma.ExamDefaultArgs<ExtArgs>
@@ -989,6 +1029,7 @@ export type ExamAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   startTime?: boolean
   endTime?: boolean
   status?: boolean
+  aiFeedback?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   exam?: boolean | Prisma.ExamDefaultArgs<ExtArgs>
@@ -1005,6 +1046,7 @@ export type ExamAttemptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   startTime?: boolean
   endTime?: boolean
   status?: boolean
+  aiFeedback?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   exam?: boolean | Prisma.ExamDefaultArgs<ExtArgs>
@@ -1021,11 +1063,12 @@ export type ExamAttemptSelectScalar = {
   startTime?: boolean
   endTime?: boolean
   status?: boolean
+  aiFeedback?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ExamAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "examId" | "studentId" | "score" | "correctAnswers" | "wrongAnswers" | "startTime" | "endTime" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["examAttempt"]>
+export type ExamAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "examId" | "studentId" | "score" | "correctAnswers" | "wrongAnswers" | "startTime" | "endTime" | "status" | "aiFeedback" | "createdAt" | "updatedAt", ExtArgs["result"]["examAttempt"]>
 export type ExamAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   exam?: boolean | Prisma.ExamDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -1058,6 +1101,7 @@ export type $ExamAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
     startTime: Date
     endTime: Date | null
     status: string
+    aiFeedback: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["examAttempt"]>
@@ -1495,6 +1539,7 @@ export interface ExamAttemptFieldRefs {
   readonly startTime: Prisma.FieldRef<"ExamAttempt", 'DateTime'>
   readonly endTime: Prisma.FieldRef<"ExamAttempt", 'DateTime'>
   readonly status: Prisma.FieldRef<"ExamAttempt", 'String'>
+  readonly aiFeedback: Prisma.FieldRef<"ExamAttempt", 'String'>
   readonly createdAt: Prisma.FieldRef<"ExamAttempt", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ExamAttempt", 'DateTime'>
 }

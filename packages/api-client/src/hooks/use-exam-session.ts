@@ -92,3 +92,14 @@ export function useAttemptResult(attemptId: string) {
     enabled: !!attemptId,
   });
 }
+
+export function useAiFeedback(attemptId: string) {
+  const trpc = useTRPC();
+  return useQuery({
+    ...trpc.examSession.getAiFeedback.queryOptions({ attemptId }),
+    select: (data) => data?.data,
+    enabled: !!attemptId,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+  });
+}

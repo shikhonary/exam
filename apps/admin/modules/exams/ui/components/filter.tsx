@@ -118,11 +118,11 @@ export const Filter = ({ isLoading }: FilterProps) => {
 
   return (
     <div className="bg-white overflow-hidden border-b border-outline/5">
-      <div className="bg-white p-4 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-4">
         {/* Filter elements container */}
-        <div className="flex flex-wrap items-center gap-4 flex-1">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full">
           {/* Search Bar */}
-          <div className="relative flex-grow min-w-[200px] max-w-[320px]">
+          <div className="relative w-full sm:flex-grow sm:max-w-[320px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant/40" />
             <Input
               className="w-full bg-surface-container-low py-2.5 pl-10 pr-4 rounded-[12px] border-none focus:ring-2 focus:ring-primary/60 text-sm text-on-surface placeholder:text-on-surface-variant/40 h-10 transition-all font-bold"
@@ -133,80 +133,82 @@ export const Filter = ({ isLoading }: FilterProps) => {
             />
           </div>
 
-          {/* Subject Filter */}
-          <div className="w-full sm:w-48">
-            <Select
-              value={filters.subject === null ? "all" : String(filters.subject)}
-              onValueChange={(val) =>
-                handleFilterSubjectChange(val === "all" ? null : val)
-              }
-              disabled={isLoading}
-            >
-              <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
-                <div className="flex items-center gap-2 text-left overflow-hidden">
-                  <Book size={14} className="text-primary/60 flex-shrink-0" />
-                  <SelectValue placeholder="All Subjects" />
-                </div>
-              </SelectTrigger>
-              <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
-                <SelectItem value="all" className="font-bold">
-                  All Subjects
-                </SelectItem>
-                {subjects.map((option) => (
-                  <SelectItem key={option.value} value={option.value} className="font-bold">
-                    {option.labelEn} - {option.labelBn}
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 sm:gap-4 w-full sm:w-auto sm:flex-1">
+            {/* Subject Filter */}
+            <div className="col-span-2 sm:col-span-1 sm:w-48">
+              <Select
+                value={filters.subject === null ? "all" : String(filters.subject)}
+                onValueChange={(val) =>
+                  handleFilterSubjectChange(val === "all" ? null : val)
+                }
+                disabled={isLoading}
+              >
+                <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
+                  <div className="flex items-center gap-2 text-left overflow-hidden">
+                    <Book size={14} className="text-primary/60 flex-shrink-0" />
+                    <SelectValue placeholder="All Subjects" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
+                  <SelectItem value="all" className="font-bold">
+                    All Subjects
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+                  {subjects.map((option) => (
+                    <SelectItem key={option.value} value={option.value} className="font-bold">
+                      {option.labelEn} - {option.labelBn}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Status Filter */}
-          <div className="w-full sm:w-40">
-            <Select
-              value={filters.status === null ? "all" : String(filters.status)}
-              onValueChange={(val) =>
-                handleFilterStatusChange(val === "all" ? null : val)
-              }
-              disabled={isLoading}
-            >
-              <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
-                <div className="flex items-center gap-2 text-left overflow-hidden">
-                  <Activity size={14} className="text-primary/60 flex-shrink-0" />
-                  <SelectValue placeholder="All Status" />
-                </div>
-              </SelectTrigger>
-              <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
-                <SelectItem value="all" className="font-bold">
-                  All Status
-                </SelectItem>
-                <SelectItem value="Draft" className="font-bold">Draft</SelectItem>
-                <SelectItem value="Published" className="font-bold">Published</SelectItem>
-                <SelectItem value="Completed" className="font-bold">Completed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            {/* Status Filter */}
+            <div className="col-span-1 sm:w-40">
+              <Select
+                value={filters.status === null ? "all" : String(filters.status)}
+                onValueChange={(val) =>
+                  handleFilterStatusChange(val === "all" ? null : val)
+                }
+                disabled={isLoading}
+              >
+                <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
+                  <div className="flex items-center gap-2 text-left overflow-hidden">
+                    <Activity size={14} className="text-primary/60 flex-shrink-0" />
+                    <SelectValue placeholder="All Status" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
+                  <SelectItem value="all" className="font-bold">
+                    All Status
+                  </SelectItem>
+                  <SelectItem value="Draft" className="font-bold">Draft</SelectItem>
+                  <SelectItem value="Published" className="font-bold">Published</SelectItem>
+                  <SelectItem value="Completed" className="font-bold">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Sort Filter */}
-          <div className="w-full sm:w-48">
-            <Select
-              value={currentSort || "createdAt-desc"}
-              onValueChange={(v) => handleSortChange(v)}
-              disabled={isLoading}
-            >
-              <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
-                <div className="flex items-center gap-2 text-left overflow-hidden">
-                  <ArrowUpDown size={14} className="text-primary/60 flex-shrink-0" />
-                  <SelectValue placeholder="Sort" />
-                </div>
-              </SelectTrigger>
-              <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
-                <SelectItem value="createdAt-desc" className="font-bold">Newest First</SelectItem>
-                <SelectItem value="createdAt-asc" className="font-bold">Oldest First</SelectItem>
-                <SelectItem value="title-asc" className="font-bold">Title (A-Z)</SelectItem>
-                <SelectItem value="title-desc" className="font-bold">Title (Z-A)</SelectItem>
-              </SelectContent>
-            </Select>
+            {/* Sort Filter */}
+            <div className="col-span-1 sm:w-48">
+              <Select
+                value={currentSort || "createdAt-desc"}
+                onValueChange={(v) => handleSortChange(v)}
+                disabled={isLoading}
+              >
+                <SelectTrigger className="h-10 bg-surface-container-low border-none rounded-[12px] px-4 text-sm font-bold text-on-surface focus:ring-2 focus:ring-primary/60">
+                  <div className="flex items-center gap-2 text-left overflow-hidden">
+                    <ArrowUpDown size={14} className="text-primary/60 flex-shrink-0" />
+                    <SelectValue placeholder="Sort" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent className="rounded-xl border-outline/10 shadow-ambient">
+                  <SelectItem value="createdAt-desc" className="font-bold">Newest First</SelectItem>
+                  <SelectItem value="createdAt-asc" className="font-bold">Oldest First</SelectItem>
+                  <SelectItem value="title-asc" className="font-bold">Title (A-Z)</SelectItem>
+                  <SelectItem value="title-desc" className="font-bold">Title (Z-A)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </div>

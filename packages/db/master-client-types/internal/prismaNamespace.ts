@@ -1393,6 +1393,7 @@ export const ExamAttemptScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   status: 'status',
+  aiFeedback: 'aiFeedback',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

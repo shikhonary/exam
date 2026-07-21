@@ -87,7 +87,8 @@ export function StudentTable({
   if (isLoading && students.length === 0) {
     return (
       <div className="relative flex-grow border-t border-surface-container animate-in fade-in duration-500">
-        <div className="overflow-x-auto">
+        {/* Desktop Table Skeleton */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-surface-container-low/50">
@@ -133,6 +134,25 @@ export function StudentTable({
             </tbody>
           </table>
         </div>
+
+        {/* Mobile Card Skeleton */}
+        <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="bg-surface-container-low/50 rounded-2xl p-4 border border-outline/5 flex flex-col gap-4">
+              <div className="flex justify-between items-start">
+                <div className="flex flex-col gap-2">
+                  <Skeleton className="h-5 w-40 bg-surface-container" />
+                  <Skeleton className="h-3 w-24 bg-surface-container" />
+                </div>
+                <Skeleton className="w-8 h-8 rounded-xl bg-surface-container" />
+              </div>
+              <div className="grid grid-cols-2 gap-3 mt-2">
+                <Skeleton className="h-10 w-full bg-surface-container rounded-lg" />
+                <Skeleton className="h-10 w-full bg-surface-container rounded-lg" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -154,7 +174,8 @@ export function StudentTable({
 
   return (
     <div className="relative flex-grow border-t border-surface-container animate-in fade-in duration-500">
-      <div className="overflow-x-auto">
+      {/* Desktop Table View */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-surface-container-low/50">
@@ -235,6 +256,99 @@ export function StudentTable({
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
+        {students.map((item, index) => (
+          <div
+            key={item.id}
+            style={{ animationDelay: `${index * 50}ms` }}
+            className="bg-surface-container-lowest hover:bg-surface-container-low/50 transition-colors rounded-2xl p-5 border border-outline/10 shadow-sm flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-4"
+          >
+            <div className="flex justify-between items-start gap-4">
+              <div>
+                <h3 className="font-bold text-foreground text-base tracking-tight leading-tight line-clamp-2">
+                  {item.name}
+                </h3>
+                <p className="font-medium text-muted-foreground text-xs mt-1.5">
+                  ID: {item.studentId || "-"}
+                </p>
+              </div>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 -mr-2 hover:bg-primary/10 hover:text-primary rounded-xl transition-all flex-shrink-0"
+                    disabled={isLoading}
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-52 bg-card/90 backdrop-blur-xl border border-border/50 shadow-2xl z-50 rounded-2xl p-2 animate-in fade-in zoom-in-95 duration-200"
+                >
+                  <DropdownMenuItem
+                    className="cursor-pointer rounded-xl font-bold text-sm gap-2.5 p-2.5 transition-colors focus:bg-primary/10 focus:text-primary"
+                    asChild
+                  >
+                    <Link href={`/students/${item.id}/edit`}>
+                      <Edit className="h-4 w-4" />
+                      <span>Edit Details</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="bg-border/50 my-1.5" />
+
+                  <DropdownMenuItem
+                    className="cursor-pointer text-destructive focus:text-destructive rounded-xl font-bold text-sm gap-2.5 p-2.5 transition-colors focus:bg-destructive/10"
+                    onClick={() => onDelete(item.id, item.name)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    <span>Delete Student</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-outline/5">
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground/70">
+                  Mobile
+                </span>
+                <span className="text-sm font-medium text-foreground">
+                  {item.mobile || "-"}
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground/70">
+                  Joined At
+                </span>
+                <span className="text-sm font-medium text-foreground">
+                  {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+            </div>
+
+            <Button
+              asChild
+              variant="outline"
+              className="w-full mt-1 font-bold rounded-xl border-outline/10 text-primary hover:bg-primary/5 transition-colors"
+            >
+              <Link href={`/students/${item.id}`}>
+                View Details
+              </Link>
+            </Button>
+          </div>
+        ))}
       </div>
     </div>
   );
